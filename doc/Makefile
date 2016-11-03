@@ -7,6 +7,9 @@ latex:
 test:
 	sphinx-build -b doctest . build
 
+test-noninteractive:
+	sphinx-build -b doctest . build *.rst demos/inference/inference.rst
+
 clean:
 	rm -rf build
 

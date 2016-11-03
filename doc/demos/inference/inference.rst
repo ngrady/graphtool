@@ -509,9 +509,9 @@ example, for the American football network above, we have:
 .. testoutput:: model-selection
    :options: +NORMALIZE_WHITESPACE
 
-   Non-degree-corrected DL:	 1751.86962605
-   Degree-corrected DL:	 1787.64676873
-   ln Λ:			 -35.7771426724
+   Non-degree-corrected DL:	 1749.51938237
+   Degree-corrected DL:	 1780.57671694
+   ln Λ:			 -31.0573345685
 
 Hence, with a posterior odds ratio of :math:`\Lambda \sim e^{-36} \sim
 10^{-16}` in favor of the non-degree-corrected model, it seems like the
@@ -1069,7 +1069,7 @@ evidence efficiently, as we show below, using
 .. testoutput:: model-evidence
 
    Model evidence for deg_corr = True: -575.864972067 (mean field), -802.39062289 (Bethe)
-   Model evidence for deg_corr = False: -580.293548926 (mean field), -747.567093161 (Bethe)
+   Model evidence for deg_corr = False: -584.307313493 (mean field), -707.827204203 (Bethe)
 
 If we consider the more accurate approximation, the outcome shows a
 preference for the non-degree-corrected model.
@@ -1133,8 +1133,8 @@ approach for the same network, using the nested model.
 
 .. testoutput:: model-evidence
 
-   Model evidence for deg_corr = True: -358.493559653 (mean field), -649.40897099 (Bethe)
-   Model evidence for deg_corr = False: -372.104532802 (mean field), -561.973406506 (Bethe)
+   Model evidence for deg_corr = True: -346.618790006 (mean field), -601.313781849 (Bethe)
+   Model evidence for deg_corr = False: -374.614350884 (mean field), -563.256840699 (Bethe)
 
 The results are similar: If we consider the most accurate approximation,
 the non-degree-corrected model possesses the largest evidence. Note also
