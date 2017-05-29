@@ -299,7 +299,7 @@ def graphviz_draw(g, pos=None, size=(15, 15), pin=False, layout=None,
 
         Kamada-Kawai force-directed layout of a Price network with 1500
         nodes. The vertex size and color indicate the degree, and the edge color
-        corresponds to the edge betweeness centrality
+        corresponds to the edge betweenness centrality
 
     References
     ----------
