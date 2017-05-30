@@ -1679,8 +1679,8 @@ class Graph(object):
 
     def __deepcopy__(self, memo):
         g = self.copy()
-        for k, prop in [x for x in g.properties
-                        if x[1].value_type == "python::object"]:
+        for k, prop in (x for x in g.properties
+                        if x[1] in ("python::object", "object")):
             g.properties[k] = copy.deepcopy(prop)
 
     def __repr__(self):
