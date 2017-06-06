@@ -1986,30 +1986,30 @@ class Graph(object):
                 return
             vs = numpy.sort(vs)[::-1]
             vmax = vs[0]
-            if vs[0] > back:
-                raise ValueError("Vertex index %d is invalid" % vs[0])
         else:
             vmax = int(vertex)
 
+        if vmax > back:
+            raise ValueError("Vertex index %d is invalid" % vmax)
+
         # move / shift all known property maps
-        if vmax != back:
-            if not is_iter:
-                vs = numpy.asarray((vertex,), dtype="int64")
-            vfilt = self.get_vertex_filter()[0]
-            if vfilt is not None:
-                vfiltptr = vfilt.data_ptr()
-            else:
-                vfiltptr = None
-            for pmap_ in self.__known_properties.values():
-                pmap = pmap_()
-                if (pmap is not None and
-                    pmap.key_type() == "v" and
-                    pmap.is_writable() and
-                    pmap.data_ptr() != vfiltptr):
-                    if fast:
-                        self.__graph.move_vertex_property(_prop("v", self, pmap), vs)
-                    else:
-                        self.__graph.shift_vertex_property(_prop("v", self, pmap), vs)
+        if not is_iter:
+            vs = numpy.asarray((vertex,), dtype="int64")
+        vfilt = self.get_vertex_filter()[0]
+        if vfilt is not None:
+            vfiltptr = vfilt.data_ptr()
+        else:
+            vfiltptr = None
+        for pmap_ in self.__known_properties.values():
+            pmap = pmap_()
+            if (pmap is not None and
+                pmap.key_type() == "v" and
+                pmap.is_writable() and
+                pmap.data_ptr() != vfiltptr):
+                if fast:
+                    self.__graph.move_vertex_property(_prop("v", self, pmap), vs)
+                else:
+                    self.__graph.shift_vertex_property(_prop("v", self, pmap), vs)
 
         if is_iter:
             libcore.remove_vertex_array(self.__graph, vs, fast)
