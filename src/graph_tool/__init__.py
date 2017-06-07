@@ -1984,15 +1984,18 @@ class Graph(object):
                 vs = numpy.asarray([int(v) for v in vertex], dtype="int64")
             if len(vs) == 0:
                 return
-            vs = numpy.sort(vs)[::-1]
-            vmax = vs[0]
-            if vs[0] > back:
-                raise ValueError("Vertex index %d is invalid" % vs[0])
+            vs = numpy.unique(vs)[::-1]
+            vmax, vmin = vs[0], vs[-1]
         else:
             vmax = int(vertex)
 
+        if vmax > back:
+            raise ValueError("Vertex index %d is invalid" % vmax)
+
+        pmaps_need_update = vmax-vmin >= len(vs) if is_iter else vmax != back
+
         # move / shift all known property maps
-        if vmax != back:
+        if pmaps_need_update:
             if not is_iter:
                 vs = numpy.asarray((vertex,), dtype="int64")
             vfilt = self.get_vertex_filter()[0]
