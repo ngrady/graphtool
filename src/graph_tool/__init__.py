@@ -2077,8 +2077,9 @@ class Graph(object):
         if ``edge_list`` is a :class:`~numpy.ndarray`, or arbitrary python
         objects if it is not.
 
-        If given, ``eprops`` specifies edge property maps that will be filled
-        with the remaining values at each row, if there are more than two.
+        If given, ``eprops`` specifies an Iterable containing edge property
+        maps that will be filled with the remaining values at each row, if
+        there are more than two.
 
         """
         if eprops is None:
