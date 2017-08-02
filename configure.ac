@@ -140,7 +140,7 @@ AC_ARG_WITH([python-module-path],
 AC_SUBST(MOD_DIR)
 
 dnl boost
-AX_BOOST_BASE([[1.55.0]])
+AX_BOOST_BASE([[1.60.0]])
 AX_BOOST_PYTHON
 if test "$BOOST_PYTHON_LIB" = ""; then
    AC_MSG_ERROR([No usable boost::python found])
