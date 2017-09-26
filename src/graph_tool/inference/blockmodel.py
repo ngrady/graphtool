@@ -1270,7 +1270,7 @@ class BlockState(object):
     def sample_vertex_move(self, v, c=1., d=.1):
         r"""Sample block membership proposal of vertex ``v`` according to real-valued
         sampling parameters ``c`` and ``d``: For :math:`c\to 0` the blocks are sampled
-        according to the local neighbourhood and their connections; for
+        according to the local neighborhood and their connections; for
         :math:`c\to\infty` the blocks are sampled randomly. With a probability
         ``d``, a new (empty) group is sampled.
         """
@@ -1407,7 +1407,7 @@ class BlockState(object):
             Inverse temperature.
         c : ``float`` (optional, default: ``1.``)
             Sampling parameter ``c`` for move proposals: For :math:`c\to 0` the
-            blocks are sampled according to the local neighbourhood of a given
+            blocks are sampled according to the local neighborhood of a given
             node and their block connections; for :math:`c\to\infty` the blocks
             are sampled randomly. Note that only for :math:`c > 0` the MCMC is
             guaranteed to be ergodic.
@@ -1533,7 +1533,7 @@ class BlockState(object):
             Inverse temperature.
         c : ``float`` (optional, default: ``1.``)
             Sampling parameter ``c`` for move proposals: For :math:`c\to 0` the
-            blocks are sampled according to the local neighbourhood of a given
+            blocks are sampled according to the local neighborhood of a given
             node and their block connections; for :math:`c\to\infty` the blocks
             are sampled randomly. Note that only for :math:`c > 0` the MCMC is
             guaranteed to be ergodic.

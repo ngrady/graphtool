@@ -269,26 +269,26 @@ def vertex_similarity(g, sim_type="jaccard", vertex_pairs=None, self_loops=True,
     ``sim_type == "dice"``
 
        The Sørensen–Dice similarity [sorensen-dice]_ is twice the number of
-       common neighbours between two vertices divided by the sum of their
+       common neighbors between two vertices divided by the sum of their
        degrees.
 
     ``sim_type == "jaccard"``
 
-       The Jaccard similarity [jaccard]_ is the number of common neighbours
-       between two vertices divided by the size of the set of all neighbours to
+       The Jaccard similarity [jaccard]_ is the number of common neighbors
+       between two vertices divided by the size of the set of all neighbors to
        both vertices.
 
     ``sim_type == "inv-log-weight"``
 
        The inverse log weighted similarity [adamic-friends-2003]_ is the sum of
-       the weights of common neighbours between two vertices, where the weights
+       the weights of common neighbors between two vertices, where the weights
        are computed as :math:`1/\log(k)`, with :math:`k` being the degree of the
        vertex.
 
 
-    For directed graphs, only out-neighbours are considered in the above
+    For directed graphs, only out-neighbors are considered in the above
     algorthms (for "inv-log-weight", the in-degrees are used to compute the
-    weights). To use the in-neighbours instead, a :class:`~graph_tool.GraphView`
+    weights). To use the in-neighbors instead, a :class:`~graph_tool.GraphView`
     should be used to reverse the graph, e.g. ``vertex_similarity(GraphView(g,
     reversed=True))``.
 
@@ -615,7 +615,7 @@ def mark_subgraph(g, sub, vmap, vmask=None, emask=None):
     for v in sub.vertices():
         w = g.vertex(vmap[v])
         vmask[w] = True
-        us = set([g.vertex(vmap[x]) for x in v.out_neighbours()])
+        us = set([g.vertex(vmap[x]) for x in v.out_neighbors()])
 
         for ew in w.out_edges():
             if ew.target() in us:

@@ -105,8 +105,8 @@ struct Merge
             size_t s;
             if (!random)
             {
-                size_t t = _state.random_neighbour(v, rng);
-                s = _state.random_neighbour(t, rng);
+                size_t t = _state.random_neighbor(v, rng);
+                s = _state.random_neighbor(t, rng);
             }
             else
             {

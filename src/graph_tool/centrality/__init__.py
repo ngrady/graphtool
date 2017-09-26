@@ -109,7 +109,7 @@ def pagerank(g, damping=0.85, pers=None, weight=None, prop=None, epsilon=1e-6,
         PR(v) = \frac{1-d}{N} + d \sum_{u \in \Gamma^{-}(v)}
                 \frac{PR (u)}{d^{+}(u)}
 
-    where :math:`\Gamma^{-}(v)` are the in-neighbours of v, :math:`d^{+}(w)` is
+    where :math:`\Gamma^{-}(v)` are the in-neighbors of v, :math:`d^{+}(w)` is
     the out-degree of w, and d is a damping factor.
 
     If a personalization property :math:`p(v)` is given, the definition becomes:
@@ -1076,7 +1076,7 @@ def trust_transitivity(g, trust_map, source=None, target=None, vprop=None):
        w_G(i\to j) = \prod_{e\in i\to j} c_e.
 
     The algorithm measures the transitive trust by finding the paths with
-    maximum weight, using Dijkstra's algorithm, to all in-neighbours of a given
+    maximum weight, using Dijkstra's algorithm, to all in-neighbors of a given
     target. This search needs to be performed repeatedly for every target, since
     it needs to be removed from the graph first. For each given source, the
     resulting complexity is therefore :math:`O(V^2\log V)` for all targets, and

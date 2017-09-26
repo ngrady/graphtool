@@ -90,7 +90,7 @@ libgraph_tool_inference_la_include_HEADERS = \
     overlap/graph_blockmodel_overlap_vacate.hh \
     overlap/graph_blockmodel_overlap_partition.hh \
     support/cache.hh \
-    support/graph_neighbour_sampler.hh \
+    support/graph_neighbor_sampler.hh \
     support/graph_state.hh \
     support/int_part.hh \
     support/parallel_rng.hh \

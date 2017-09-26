@@ -99,7 +99,7 @@ def local_clustering(g, prop=None, undirected=True):
     .. math::
        N_i = \{v_j : e_{ij} \in E\}
 
-    is the set of out-neighbours of vertex :math:`i`. For undirected graphs the
+    is the set of out-neighbors of vertex :math:`i`. For undirected graphs the
     value of :math:`c_i` is normalized as
 
     .. math::
@@ -240,7 +240,7 @@ def extended_clustering(g, props=None, max_depth=3, undirected=False):
     .. math::
        N_i = \{v_j : e_{ij} \in E\}
 
-    is the set of out-neighbours of :math:`i`. According to the above
+    is the set of out-neighbors of :math:`i`. According to the above
     definition, we have that the traditional local clustering coefficient is
     recovered for :math:`d=1`, i.e., :math:`c^1_i = c_i`.
 

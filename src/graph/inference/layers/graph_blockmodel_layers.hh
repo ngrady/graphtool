@@ -930,9 +930,9 @@ struct Layers
             BaseState::clear_egroups();
         }
 
-        void rebuild_neighbour_sampler()
+        void rebuild_neighbor_sampler()
         {
-            BaseState::rebuild_neighbour_sampler();
+            BaseState::rebuild_neighbor_sampler();
         }
 
         void sync_emat()

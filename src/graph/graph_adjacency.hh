@@ -107,17 +107,17 @@ adjacent_vertices(Vertex v, const adj_list<Vertex>& g);
 template <class Vertex>
 std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
-out_neighbours(Vertex v, const adj_list<Vertex>& g);
+out_neighbors(Vertex v, const adj_list<Vertex>& g);
 
 template <class Vertex>
 std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
-in_neighbours(Vertex v, const adj_list<Vertex>& g);
+in_neighbors(Vertex v, const adj_list<Vertex>& g);
 
 template <class Vertex>
 std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
-all_neighbours(Vertex v, const adj_list<Vertex>& g);
+all_neighbors(Vertex v, const adj_list<Vertex>& g);
 
 template <class Vertex>
 size_t num_vertices(const adj_list<Vertex>& g);
@@ -554,13 +554,13 @@ private:
     adjacent_vertices<>(Vertex v, const adj_list<Vertex>& g);
 
     friend std::pair<adjacency_iterator, adjacency_iterator>
-    out_neighbours<>(Vertex v, const adj_list<Vertex>& g);
+    out_neighbors<>(Vertex v, const adj_list<Vertex>& g);
 
     friend std::pair<adjacency_iterator, adjacency_iterator>
-    in_neighbours<>(Vertex v, const adj_list<Vertex>& g);
+    in_neighbors<>(Vertex v, const adj_list<Vertex>& g);
 
     friend std::pair<adjacency_iterator, adjacency_iterator>
-    all_neighbours<>(Vertex v, const adj_list<Vertex>& g);
+    all_neighbors<>(Vertex v, const adj_list<Vertex>& g);
 
     friend size_t num_vertices<>(const adj_list<Vertex>& g);
 
@@ -826,7 +826,7 @@ template <class Vertex>
 inline __attribute__((always_inline)) __attribute__((flatten))
 std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
-out_neighbours(Vertex v, const adj_list<Vertex>& g)
+out_neighbors(Vertex v, const adj_list<Vertex>& g)
 {
     typedef typename adj_list<Vertex>::adjacency_iterator ai_t;
     const auto& pes = g._edges[v];
@@ -839,7 +839,7 @@ template <class Vertex>
 inline __attribute__((always_inline)) __attribute__((flatten))
 std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
-in_neighbours(Vertex v, const adj_list<Vertex>& g)
+in_neighbors(Vertex v, const adj_list<Vertex>& g)
 {
     typedef typename adj_list<Vertex>::adjacency_iterator ai_t;
     const auto& pes = g._edges[v];
@@ -852,7 +852,7 @@ template <class Vertex>
 inline __attribute__((always_inline)) __attribute__((flatten))
 std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
-all_neighbours(Vertex v, const adj_list<Vertex>& g)
+all_neighbors(Vertex v, const adj_list<Vertex>& g)
 {
     typedef typename adj_list<Vertex>::adjacency_iterator ai_t;
     const auto& pes = g._edges[v];
@@ -866,7 +866,7 @@ std::pair<typename adj_list<Vertex>::adjacency_iterator,
           typename adj_list<Vertex>::adjacency_iterator>
 adjacent_vertices(Vertex v, const adj_list<Vertex>& g)
 {
-    return out_neighbours(v, g);
+    return out_neighbors(v, g);
 }
 
 

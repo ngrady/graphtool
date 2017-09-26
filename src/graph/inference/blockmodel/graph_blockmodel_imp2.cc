@@ -53,8 +53,8 @@ void export_sbm_state()
                  &state_t::virtual_move;
              size_t (state_t::*sample_block)(size_t, double, double, rng_t&) =
                  &state_t::sample_block;
-             size_t (state_t::*random_neighbour)(size_t, rng_t&) =
-                 &state_t::random_neighbour;
+             size_t (state_t::*random_neighbor)(size_t, rng_t&) =
+                 &state_t::random_neighbor;
              double (state_t::*get_move_prob)(size_t, size_t, size_t, double,
                                               double, bool) =
                  &state_t::get_move_prob;
@@ -74,7 +74,7 @@ void export_sbm_state()
                  .def("virtual_move", virtual_move)
                  .def("merge_vertices", merge_vertices)
                  .def("sample_block", sample_block)
-                 .def("sample_neighbour", random_neighbour)
+                 .def("sample_neighbor", random_neighbor)
                  .def("entropy", &state_t::entropy)
                  .def("get_partition_dl", &state_t::get_partition_dl)
                  .def("get_deg_dl", &state_t::get_deg_dl)
@@ -95,8 +95,8 @@ void export_sbm_state()
                       &state_t::get_B_E_D)
                  .def("clear_egroups",
                       &state_t::clear_egroups)
-                 .def("rebuild_neighbour_sampler",
-                      &state_t::rebuild_neighbour_sampler)
+                 .def("rebuild_neighbor_sampler",
+                      &state_t::rebuild_neighbor_sampler)
                  .def("sync_emat",
                       &state_t::sync_emat);
          });

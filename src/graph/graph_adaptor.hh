@@ -242,39 +242,39 @@ all_edges(typename graph_traits<undirected_adaptor<Graph>>::vertex_descriptor u,
 }
 
 //==============================================================================
-// out_neighbours(u, g)
+// out_neighbors(u, g)
 //==============================================================================
 template <class Graph>
 inline  __attribute__((always_inline)) __attribute__((flatten))
 auto
-out_neighbours(typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
+out_neighbors(typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
                const undirected_adaptor<Graph>& g)
 {
-    return all_neighbours(u, g.original_graph());
+    return all_neighbors(u, g.original_graph());
 }
 
 //==============================================================================
-// in_neighbours(u, g)
+// in_neighbors(u, g)
 //==============================================================================
 template <class Graph>
 inline  __attribute__((always_inline)) __attribute__((flatten))
 auto
-in_neighbours(typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
+in_neighbors(typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
               const undirected_adaptor<Graph>& g)
 {
-    return out_neighbours(u, g);
+    return out_neighbors(u, g);
 }
 
 //==============================================================================
-// all_neighbours(u, g)
+// all_neighbors(u, g)
 //==============================================================================
 template <class Graph>
 inline  __attribute__((always_inline)) __attribute__((flatten))
 auto
-all_neighbours(typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
+all_neighbors(typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
                const undirected_adaptor<Graph>& g)
 {
-    return out_neighbours(u, g);
+    return out_neighbors(u, g);
 }
 
 //==============================================================================
@@ -287,7 +287,7 @@ adjacent_vertices
     (typename graph_traits<undirected_adaptor<Graph> >::vertex_descriptor u,
      const undirected_adaptor<Graph>& g)
 {
-    return out_neighbours(u, g);
+    return out_neighbors(u, g);
 }
 
 //==============================================================================

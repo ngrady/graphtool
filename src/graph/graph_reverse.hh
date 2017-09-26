@@ -206,28 +206,28 @@ all_edges(const typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
 template <class BidirectionalGraph, class GRef>
 inline std::pair<typename reversed_graph<BidirectionalGraph,GRef>::adjacency_iterator,
                  typename reversed_graph<BidirectionalGraph,GRef>::adjacency_iterator>
-out_neighbours(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
+out_neighbors(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
                const reversed_graph<BidirectionalGraph,GRef>& g)
 {
-    return in_neighbours(u, g._g);
+    return in_neighbors(u, g._g);
 }
 
 template <class BidirectionalGraph, class GRef>
 inline std::pair<typename reversed_graph<BidirectionalGraph,GRef>::in_adjacency_iterator,
                  typename reversed_graph<BidirectionalGraph,GRef>::in_adjacency_iterator>
-in_neighbours(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
+in_neighbors(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
               const reversed_graph<BidirectionalGraph,GRef>& g)
 {
-    return out_neighbours(u, g._g);
+    return out_neighbors(u, g._g);
 }
 
 template <class BidirectionalGraph, class GRef>
 inline std::pair<typename reversed_graph<BidirectionalGraph,GRef>::adjacency_iterator,
                  typename reversed_graph<BidirectionalGraph,GRef>::adjacency_iterator>
-all_neighbours(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
+all_neighbors(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
                const reversed_graph<BidirectionalGraph,GRef>& g)
 {
-    return all_neighbours(u, g._g);
+    return all_neighbors(u, g._g);
 }
 
 template <class BidirectionalGraph, class GRef>
@@ -236,7 +236,7 @@ inline std::pair<typename reversed_graph<BidirectionalGraph,GRef>::adjacency_ite
 adjacent_vertices(typename graph_traits<BidirectionalGraph>::vertex_descriptor u,
                   const reversed_graph<BidirectionalGraph,GRef>& g)
 {
-    return out_neighbours(u, g);
+    return out_neighbors(u, g);
 }
 
 

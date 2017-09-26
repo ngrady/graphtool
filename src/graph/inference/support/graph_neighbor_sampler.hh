@@ -15,27 +15,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef GRAPH_NEIGHBOUR_SAMPLER_HH
-#define GRAPH_NEIGHBOUR_SAMPLER_HH
+#ifndef GRAPH_NEIGHBOR_SAMPLER_HH
+#define GRAPH_NEIGHBOR_SAMPLER_HH
 
 #include "config.h"
 
 #include "graph_tool.hh"
 
-// Sample neighbours efficiently
+// Sample neighbors efficiently
 // =============================
 
 namespace graph_tool
 {
 
 template <class Graph, class Weighted, class Dynamic>
-class NeighbourSampler
+class NeighborSampler
 {
 public:
     typedef typename boost::graph_traits<Graph>::vertex_descriptor vertex_t;
 
     template <class Eprop>
-    NeighbourSampler(Graph& g, Eprop& eweight, bool self_loops=false)
+    NeighborSampler(Graph& g, Eprop& eweight, bool self_loops=false)
         : _sampler(get(vertex_index_t(), g), num_vertices(g)),
           _sampler_pos(get(vertex_index_t(), g), num_vertices(g)),
           _eindex(get(edge_index_t(), g))
@@ -215,4 +215,4 @@ private:
 
 }
 
-#endif // GRAPH_NEIGHBOUR_SAMPLER_HH
+#endif // GRAPH_NEIGHBOR_SAMPLER_HH

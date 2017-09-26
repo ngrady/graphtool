@@ -33,8 +33,8 @@ namespace graph_tool
 using namespace std;
 using namespace boost;
 
-// get degrees pairs from source and of neighbours
-class GetNeighboursPairs
+// get degrees pairs from source and of neighbors
+class GetNeighborsPairs
 {
 public:
 

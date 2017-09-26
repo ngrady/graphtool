@@ -2112,7 +2112,7 @@ def get_bip_hierachy_pos(state, aspect=1., node_weight=None):
             state = state.copy(clabel=clabel)
             bc = state.propagate_clabel(len(state.levels) - 2)
 
-        ps = list(root.out_neighbours())
+        ps = list(root.out_neighbors())
         t.clear_vertex(root)
 
         p1 = t.add_vertex()
@@ -2132,14 +2132,14 @@ def get_bip_hierachy_pos(state, aspect=1., node_weight=None):
             break
         if v.out_degree() == 0:
             w[v] = 1 if node_weight is None else node_weight[v]
-        parent, = v.in_neighbours()
+        parent, = v.in_neighbors()
         w[parent] += w[v]
 
     pos = t.new_vertex_property("vector<double>")
 
     pos[root] = (0., 0.)
 
-    p1, p2 = root.out_neighbours()
+    p1, p2 = root.out_neighbors()
 
     if ((w[p1] == w[p2] and p1.out_degree() > p2.out_degree()) or
         w[p1] > w[p2]):
@@ -2155,7 +2155,7 @@ def get_bip_hierachy_pos(state, aspect=1., node_weight=None):
             nroots = []
             for r in roots:
                 cw = pos[r][1] - w[r] / (2. * w[p])
-                for v in sorted(r.out_neighbours(), key=lambda a: order[a]):
+                for v in sorted(r.out_neighbors(), key=lambda a: order[a]):
                     pos[v] = (0, 0)
                     if i == 0:
                         pos[v][0] = pos[r][0] - 1 / L * .5 * aspect

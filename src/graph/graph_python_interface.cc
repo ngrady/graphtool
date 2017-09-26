@@ -417,7 +417,7 @@ python::object get_in_edge_list(GraphInterface& gi, size_t v)
     return wrap_vector_owned(elist);
 }
 
-python::object get_out_neighbours_list(GraphInterface& gi, size_t v)
+python::object get_out_neighbors_list(GraphInterface& gi, size_t v)
 {
     std::vector<size_t> vlist;
     run_action<>()(gi,
@@ -427,13 +427,13 @@ python::object get_out_neighbours_list(GraphInterface& gi, size_t v)
                            throw ValueException("invalid vertex: " +
                                                 lexical_cast<string>(v));
                        vlist.reserve(out_degree(v, g));
-                       for (auto u: out_neighbours_range(v, g))
+                       for (auto u: out_neighbors_range(v, g))
                            vlist.push_back(u);
                    })();
     return wrap_vector_owned(vlist);
 }
 
-python::object get_in_neighbours_list(GraphInterface& gi, size_t v)
+python::object get_in_neighbors_list(GraphInterface& gi, size_t v)
 {
     std::vector<size_t> vlist;
     run_action<>()(gi,
@@ -443,7 +443,7 @@ python::object get_in_neighbours_list(GraphInterface& gi, size_t v)
                            throw ValueException("invalid vertex: " +
                                                 lexical_cast<string>(v));
                        vlist.reserve(in_degree(v, g));
-                       for (auto u: in_neighbours_range(v, g))
+                       for (auto u: in_neighbors_range(v, g))
                            vlist.push_back(u);
                    })();
     return wrap_vector_owned(vlist);
@@ -728,8 +728,8 @@ void export_python_interface()
     def("get_edge_list", get_edge_list);
     def("get_out_edge_list", get_out_edge_list);
     def("get_in_edge_list", get_in_edge_list);
-    def("get_out_neighbours_list", get_out_neighbours_list);
-    def("get_in_neighbours_list", get_in_neighbours_list);
+    def("get_out_neighbors_list", get_out_neighbors_list);
+    def("get_in_neighbors_list", get_in_neighbors_list);
     def("get_degree_list", get_degree_list);
 
     def("get_vertex_index", get_vertex_index);

@@ -113,7 +113,7 @@ public:
           _eweight(uncheck(__aeweight, typename std::add_pointer<eweight_t>::type())),
           _degs(uncheck(__adegs, typename std::add_pointer<degs_t>::type())),
           _emat(_bg, rng),
-          _neighbour_sampler(_g, _eweight),
+          _neighbor_sampler(_g, _eweight),
           _m_entries(num_vertices(_bg))
     {
         _empty_blocks.clear();
@@ -196,7 +196,7 @@ public:
           _degs(uncheck(__adegs, typename std::add_pointer<degs_t>::type())),
           _emat(other._emat),
           _egroups_enabled(other._egroups_enabled),
-          _neighbour_sampler(other._neighbour_sampler),
+          _neighbor_sampler(other._neighbor_sampler),
           _m_entries(num_vertices(_bg))
     {
         if (other.is_partition_stats_enabled())
@@ -1896,9 +1896,9 @@ public:
                                rng);
         }
 
-        if (!std::isinf(c) && !_neighbour_sampler.empty(v))
+        if (!std::isinf(c) && !_neighbor_sampler.empty(v))
         {
-            auto u = _neighbour_sampler.sample(v, rng);
+            auto u = _neighbor_sampler.sample(v, rng);
             size_t t = _b[u];
             double p_rand = 0;
             if (c > 0)
@@ -1932,11 +1932,11 @@ public:
         return sample_block<rng_t>(v, c, d, rng);
     }
 
-    size_t random_neighbour(size_t v, rng_t& rng)
+    size_t random_neighbor(size_t v, rng_t& rng)
     {
-        if (_neighbour_sampler.empty(v))
+        if (_neighbor_sampler.empty(v))
             return v;
-        return _neighbour_sampler.sample(v, rng);
+        return _neighbor_sampler.sample(v, rng);
     }
 
     // Computes the move proposal probability
@@ -2389,9 +2389,9 @@ public:
         _egroups.clear();
     }
 
-    void rebuild_neighbour_sampler()
+    void rebuild_neighbor_sampler()
     {
-        _neighbour_sampler = neighbour_sampler_t(_g, _eweight);
+        _neighbor_sampler = neighbor_sampler_t(_g, _eweight);
     }
 
     void sync_emat()
@@ -2533,10 +2533,10 @@ public:
     EGroups<g_t, is_weighted_t> _egroups;
     bool _egroups_enabled = true;
 
-    typedef NeighbourSampler<g_t, is_weighted_t, boost::mpl::false_>
-        neighbour_sampler_t;
+    typedef NeighborSampler<g_t, is_weighted_t, boost::mpl::false_>
+        neighbor_sampler_t;
 
-    neighbour_sampler_t _neighbour_sampler;
+    neighbor_sampler_t _neighbor_sampler;
     std::vector<partition_stats_t> _partition_stats;
     std::vector<size_t> _bmap;
 

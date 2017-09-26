@@ -4,7 +4,7 @@ graph-tool -- an efficient python module for analysis of graphs
 graph-tool is an efficient python module for manipulation and
 statistical analysis of graphs. It contains several general graph
 measurements, data structures and algorithms, such as vertex and edge
-properties, online graph filtering, nearest neighbour statistics,
+properties, online graph filtering, nearest neighbor statistics,
 clustering, interactive graph layout, random graph generation, detection
 of community structure, and more.
 

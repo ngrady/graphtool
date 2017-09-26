@@ -156,7 +156,7 @@ struct do_propagate_pos_mivs
             }
 
             if (count == 0)
-                throw ValueException("invalid MIVS! Vertex has no neighbours "
+                throw ValueException("invalid MIVS! Vertex has no neighbors "
                                      "belonging to the set!");
 
             if (count == 1)

@@ -50,7 +50,7 @@ void kcore_decomposition(Graph& g, CoreMap core_map)
     }
 
     // Proceed from smallest bin to largest. For each vertex in bin, check
-    // the neighbours; if any of them have a larger remaining degree, reduce
+    // the neighbors; if any of them have a larger remaining degree, reduce
     // it by one, and put it in the correct bin.
     for (size_t k = 0; k < bins.size(); ++k)
     {
@@ -60,7 +60,7 @@ void kcore_decomposition(Graph& g, CoreMap core_map)
             auto v = bins_k.back();
             bins_k.pop_back();
             core_map[v] = k;
-            for (auto u : all_neighbours_range(v, g))
+            for (auto u : all_neighbors_range(v, g))
             {
                 auto& ku = deg[u];
                 if (ku > deg[v])

@@ -32,7 +32,7 @@ Summary
    scalar_assortativity
    corr_hist
    combined_corr_hist
-   avg_neighbour_corr
+   avg_neighbor_corr
    avg_combined_corr
 
 Contents
@@ -48,7 +48,8 @@ from .. import _degree, _prop
 from numpy import *
 
 __all__ = ["assortativity", "scalar_assortativity", "corr_hist",
-           "combined_corr_hist", "avg_neighbour_corr", "avg_combined_corr"]
+           "combined_corr_hist", "avg_neighbor_corr", "avg_neighbour_corr",
+           "avg_combined_corr"]
 
 
 def assortativity(g, deg):
@@ -74,7 +75,7 @@ def assortativity(g, deg):
     scalar_assortativity: scalar assortativity coefficient
     corr_hist: vertex-vertex correlation histogram
     combined_corr_hist: combined single-vertex correlation histogram
-    avg_neighbour_corr: average nearest-neighbour correlation
+    avg_neighbor_corr: average nearest-neighbor correlation
     avg_combined_corr: average combined single-vertex correlation
 
     Notes
@@ -139,7 +140,7 @@ def scalar_assortativity(g, deg):
     scalar_assortativity: scalar assortativity coefficient
     corr_hist: vertex-vertex correlation histogram
     combined_corr_hist: combined single-vertex correlation histogram
-    avg_neighbour_corr: average nearest-neighbour correlation
+    avg_neighbor_corr: average nearest-neighbor correlation
     avg_combined_corr: average combined single-vertex correlation
 
     Notes
@@ -223,13 +224,13 @@ def corr_hist(g, deg_source, deg_target, bins=[[0, 1], [0, 1]], weight=None,
     scalar_assortativity: scalar assortativity coefficient
     corr_hist: vertex-vertex correlation histogram
     combined_corr_hist: combined single-vertex correlation histogram
-    avg_neighbour_corr: average nearest-neighbour correlation
+    avg_neighbor_corr: average nearest-neighbor correlation
     avg_combined_corr: average combined single-vertex correlation
 
     Notes
     -----
     The correlation histogram counts, for every vertex with degree (or scalar
-    property) 'source_deg', the number of out-neighbours with degree (or scalar
+    property) 'source_deg', the number of out-neighbors with degree (or scalar
     property) 'target_deg'.
 
     If enabled during compilation, this algorithm runs in parallel.
@@ -330,7 +331,7 @@ def combined_corr_hist(g, deg1, deg2, bins=[[0, 1], [0, 1]], float_count=True):
     scalar_assortativity: scalar assortativity coefficient
     corr_hist: vertex-vertex correlation histogram
     combined_corr_hist: combined single-vertex correlation histogram
-    avg_neighbour_corr: average nearest-neighbour correlation
+    avg_neighbor_corr: average nearest-neighbor correlation
     avg_combined_corr: average combined single-vertex correlation
 
     Examples
@@ -386,9 +387,9 @@ def combined_corr_hist(g, deg1, deg2, bins=[[0, 1], [0, 1]], float_count=True):
             [ret[1][0], ret[1][1]]]
 
 
-def avg_neighbour_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
+def avg_neighbor_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
     r"""
-    Obtain the average neighbour-neighbour correlation for the given graph.
+    Obtain the average neighbor-neighbor correlation for the given graph.
 
     Parameters
     ----------
@@ -424,28 +425,28 @@ def avg_neighbour_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
     scalar_assortativity: scalar assortativity coefficient
     corr_hist: vertex-vertex correlation histogram
     combined_corr_hist: combined single-vertex correlation histogram
-    avg_neighbour_corr: average nearest-neighbour correlation
+    avg_neighbor_corr: average nearest-neighbor correlation
     avg_combined_corr: average combined single-vertex correlation
 
     Notes
     -----
     The average correlation is the average, for every vertex with degree (or
     scalar property) 'source_deg', the of the 'target_deg' degree (or
-    scalar property) of its neighbours.
+    scalar property) of its neighbors.
 
     If enabled during compilation, this algorithm runs in parallel.
 
     Examples
     --------
 
-    .. testsetup:: avg_neighbour_corr
+    .. testsetup:: avg_neighbor_corr
 
        from pylab import *
        np.random.seed(42)
        gt.seed_rng(42)
 
 
-    .. doctest:: avg_neighbour_corr
+    .. doctest:: avg_neighbor_corr
 
        >>> def sample_k(max):
        ...     accept = False
@@ -458,7 +459,7 @@ def avg_neighbour_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
        ...                     model="probabilistic-configuration",
        ...                     edge_probs=lambda i, j: (sin(i / pi) * sin(j / pi) + 1) / 2,
        ...                     directed=False, n_iter=100)
-       >>> h = gt.avg_neighbour_corr(g, "out", "out")
+       >>> h = gt.avg_neighbor_corr(g, "out", "out")
        >>> clf()
        >>> xlabel("Source out-degree")
        <...>
@@ -468,7 +469,7 @@ def avg_neighbour_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
        <...>
        >>> savefig("avg_corr.svg")
 
-    .. testcode:: avg_neighbour_corr
+    .. testcode:: avg_neighbor_corr
        :hide:
 
        savefig("avg_corr.pdf")
@@ -485,6 +486,7 @@ def avg_neighbour_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
                                  [float(x) for x in bins])
     return [ret[0], ret[1], ret[2][0]]
 
+avg_neighbour_corr = avg_neighbor_corr
 
 def avg_combined_corr(g, deg1, deg2, bins=[0, 1]):
     r"""
@@ -523,7 +525,7 @@ def avg_combined_corr(g, deg1, deg2, bins=[0, 1]):
     scalar_assortativity: scalar assortativity coefficient
     corr_hist: vertex-vertex correlation histogram
     combined_corr_hist: combined single-vertex correlation histogram
-    avg_neighbour_corr: average nearest-neighbour correlation
+    avg_neighbor_corr: average nearest-neighbor correlation
     avg_combined_corr: average combined single-vertex correlation
 
     Examples

@@ -60,7 +60,7 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
     // extension and subgraph stack
     std::vector<std::vector<vertex_t>> ext_stack(1);
     std::vector<std::vector<vertex_t>> sub_stack(1);
-    std::vector<std::vector<vertex_t>> sub_neighbours_stack(1);
+    std::vector<std::vector<vertex_t>> sub_neighbors_stack(1);
 
     sub_stack[0].push_back(v);
     for (auto e : out_edges_range(v, g))
@@ -69,7 +69,7 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
         if (u > v && !has_val(ext_stack[0], u))
         {
             insert_sorted(ext_stack[0], u);
-            insert_sorted(sub_neighbours_stack[0],u);
+            insert_sorted(sub_neighbors_stack[0],u);
         }
     }
 
@@ -77,7 +77,7 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
     {
         std::vector<vertex_t>& ext = ext_stack.back();
         std::vector<vertex_t>& sub = sub_stack.back();
-        std::vector<vertex_t>& sub_neighbours = sub_neighbours_stack.back();
+        std::vector<vertex_t>& sub_neighbors = sub_neighbors_stack.back();
 
         if (sub.size() == n)
         {
@@ -86,7 +86,7 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
             subgraphs.push_back(sub);
             sub_stack.pop_back();
             ext_stack.pop_back();
-            sub_neighbours_stack.pop_back();
+            sub_neighbors_stack.pop_back();
             continue;
         }
 
@@ -95,14 +95,14 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
             // no where else to go
             ext_stack.pop_back();
             sub_stack.pop_back();
-            sub_neighbours_stack.pop_back();
+            sub_neighbors_stack.pop_back();
             continue;
         }
         else
         {
             // extend subgraph
             std::vector<vertex_t> new_ext, new_sub = sub,
-                new_sub_neighbours = sub_neighbours;
+                new_sub_neighbors = sub_neighbors;
 
             // remove w from ext
             vertex_t w = ext.back();
@@ -118,9 +118,9 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
                 vertex_t u = target(e, g);
                 if (u > v)
                 {
-                    if (!has_val(sub_neighbours, u))
+                    if (!has_val(sub_neighbors, u))
                         insert_sorted(new_ext, u);
-                    insert_sorted(new_sub_neighbours, u);
+                    insert_sorted(new_sub_neighbors, u);
                 }
             }
 
@@ -128,7 +128,7 @@ void get_subgraphs(Graph& g, typename boost::graph_traits<Graph>::vertex_descrip
 
             ext_stack.push_back(new_ext);
             sub_stack.push_back(new_sub);
-            sub_neighbours_stack.push_back(new_sub_neighbours);
+            sub_neighbors_stack.push_back(new_sub_neighbors);
         }
     }
 }

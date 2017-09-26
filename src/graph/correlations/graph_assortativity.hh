@@ -52,7 +52,7 @@ struct get_assortativity_coefficient
              [&](auto v)
              {
                  val_t k1 = deg(v, g);
-                 for (auto w : out_neighbours_range(v, g))
+                 for (auto w : out_neighbors_range(v, g))
                  {
                      val_t k2 = deg(w, g);
                      if (k1 == k2)
@@ -88,7 +88,7 @@ struct get_assortativity_coefficient
              [&](auto v)
              {
                  val_t k1 = deg(v, g);
-                 for (auto w : out_neighbours_range(v, g))
+                 for (auto w : out_neighbors_range(v, g))
                  {
                      val_t k2 = deg(w, g);
                      double tl2 = (t2 * (n_edges * n_edges)
@@ -128,7 +128,7 @@ struct get_scalar_assortativity_coefficient
              [&](auto v)
              {
                  double k1 = double(deg(v, g));
-                 for (auto u : out_neighbours_range(v, g))
+                 for (auto u : out_neighbors_range(v, g))
                  {
                      auto k2 = deg(u, g);
                      a += k1;
@@ -166,7 +166,7 @@ struct get_scalar_assortativity_coefficient
                  double al = (a * n_edges - k1) / (n_edges - one);
                  double dal = sqrt((da - k1 * k1) / (n_edges - one) - al * al);
 
-                 for (auto u : out_neighbours_range(v, g))
+                 for (auto u : out_neighbors_range(v, g))
                  {
                      double k2 = deg(u, g);
                      double bl = (b * n_edges - k2 * one) / (n_edges - one);

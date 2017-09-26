@@ -36,7 +36,7 @@ void graph_avg_corr_imp1(GraphInterface& g, boost::python::object& avg,
 {
     typedef DynamicPropertyMapWrap<long double, GraphInterface::edge_t>
         wrapped_weight_t;
-    run_action<>()(g, get_avg_correlation<GetNeighboursPairs>
+    run_action<>()(g, get_avg_correlation<GetNeighborsPairs>
                    (avg, dev, bins, ret_bins),
                    scalar_selectors(), scalar_selectors(),
                    boost::mpl::vector<wrapped_weight_t>())

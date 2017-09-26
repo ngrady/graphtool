@@ -567,7 +567,7 @@ class GraphWidget(Gtk.DrawingArea):
         cr.restore()
 
         if self.picked is not None or self.picked is not False:
-            # draw immediate neighbourhood
+            # draw immediate neighborhood
             if self.selected.fa.sum() == 1:
                 vprops = dict(**self.vprops)
                 vprops["halo"] = self.highlight

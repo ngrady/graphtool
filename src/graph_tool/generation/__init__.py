@@ -270,19 +270,19 @@ def random_graph(N, deg_sampler, directed=True,
 
     >>> figure(figsize=(6,3))
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "in", "in")
+    >>> corr = gt.avg_neighbor_corr(g, "in", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...         label=r"$\left<\text{in}\right>$ vs in")
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "in", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "in", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...         label=r"$\left<\text{out}\right>$ vs in")
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "out", "in")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{in}\right>$ vs out")
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "out", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{out}\right>$ vs out")
     <...>
@@ -305,7 +305,7 @@ def random_graph(N, deg_sampler, directed=True,
     .. figure:: deg-corr-dir.*
         :align: center
 
-        Average nearest neighbour correlations.
+        Average nearest neighbor correlations.
 
 
     **Stochastic blockmodels**
@@ -682,19 +682,19 @@ def random_rewire(g, model="configuration", n_iter=1, edge_sweep=True,
     >>> g = gt.random_graph(30000, lambda: sample_k(20), model="probabilistic-configuration",
     ...                     edge_probs=lambda i, j: exp(abs(i-j)), directed=False,
     ...                     n_iter=100)
-    >>> corr = gt.avg_neighbour_corr(g, "out", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-", label="Original")
     <...>
     >>> ret = gt.random_rewire(g, "constrained-configuration")
-    >>> corr = gt.avg_neighbour_corr(g, "out", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="*", label="Correlated")
     <...>
     >>> ret = gt.random_rewire(g)
-    >>> corr = gt.avg_neighbour_corr(g, "out", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-", label="Uncorrelated")
     <...>
     >>> ret = gt.random_rewire(g, "erdos")
-    >>> corr = gt.avg_neighbour_corr(g, "out", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-", label=r"Erd\H{o}s")
     <...>
     >>> xlabel("$k$")
@@ -731,29 +731,29 @@ def random_rewire(g, model="configuration", n_iter=1, edge_sweep=True,
     ...                     n_iter=100)
     >>> figure(figsize=(6,3))
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "in", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "in", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{o}\right>$ vs i")
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "out", "in")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{i}\right>$ vs o")
     <...>
     >>> ret = gt.random_rewire(g, "constrained-configuration")
-    >>> corr = gt.avg_neighbour_corr(g, "in", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "in", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{o}\right>$ vs i, corr.")
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "out", "in")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{i}\right>$ vs o, corr.")
     <...>
     >>> ret = gt.random_rewire(g, "configuration")
-    >>> corr = gt.avg_neighbour_corr(g, "in", "out")
+    >>> corr = gt.avg_neighbor_corr(g, "in", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{o}\right>$ vs i, uncorr.")
     <...>
-    >>> corr = gt.avg_neighbour_corr(g, "out", "in")
+    >>> corr = gt.avg_neighbor_corr(g, "out", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{i}\right>$ vs o, uncorr.")
     <...>
@@ -1511,7 +1511,7 @@ def circular_graph(N, k=1, self_loops=False, directed=False):
     N : ``int``
         Number of vertices.
     k : ``int`` (optional, default: ``True``)
-        Number of nearest neighbours to be connected.
+        Number of nearest neighbors to be connected.
     self_loops : bool (optional, default: ``False``)
         If ``True``, self-loops are included.
     directed : bool (optional, default: ``False``)

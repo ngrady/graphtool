@@ -715,7 +715,7 @@ class NestedBlockState(object):
             self.levels[l]._state.sync_emat()
             if l > 0:
                 self.levels[l]._state.clear_egroups()
-                self.levels[l]._state.rebuild_neighbour_sampler()
+                self.levels[l]._state.rebuild_neighbor_sampler()
 
                 # edge filters may become de-synchronized at upper layers
                 filt = self.levels[l].g.get_edge_filter()

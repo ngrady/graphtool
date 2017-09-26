@@ -71,7 +71,7 @@ get_vertex_correlation_histogram(GraphInterface& gi,
 
     try
     {
-        run_action<>()(gi, get_correlation_histogram<GetNeighboursPairs>
+        run_action<>()(gi, get_correlation_histogram<GetNeighborsPairs>
                        (hist, bins, ret_bins),
                        scalar_selectors(), scalar_selectors(),
                        boost::mpl::vector<cweight_map_t>())

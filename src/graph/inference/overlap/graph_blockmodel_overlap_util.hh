@@ -49,8 +49,8 @@ public:
     overlap_stats_t(Graph& g, vmap_t b, vvmap_t half_edges, vimap_t node_index,
                     size_t B)
         : _half_edges(half_edges), _node_index(node_index),
-          _out_neighbours(num_vertices(g), _null),
-          _in_neighbours(num_vertices(g), _null)
+          _out_neighbors(num_vertices(g), _null),
+          _in_neighbors(num_vertices(g), _null)
     {
         _block_nodes.resize(B);
 
@@ -69,9 +69,9 @@ public:
             k.second += kout;
 
             for (auto e : out_edges_range(v, g))
-                _out_neighbours[v] = target(e, g);
+                _out_neighbors[v] = target(e, g);
             for (auto e : in_edges_range(v, g))
-                _in_neighbours[v] = source(e, g);
+                _in_neighbors[v] = source(e, g);
         }
 
         // parallel edges
@@ -84,7 +84,7 @@ public:
             gt_hash_map<size_t, vector<size_t>> out_us;
             for (auto u : he)
             {
-                auto w = _out_neighbours[u];
+                auto w = _out_neighbors[u];
                 if (w == _null)
                     continue;
                 if (!is_directed::apply<Graph>::type::value && size_t(node_index[w]) < i)
@@ -100,7 +100,7 @@ public:
                     auto& h = _parallel_bundles.back();
                     for (auto u : uc.second)
                     {
-                        auto w = _out_neighbours[u];
+                        auto w = _out_neighbors[u];
                         assert(w != _null);
                         _mi[u] = _mi[w] = _parallel_bundles.size() - 1;
                         size_t r = b[u];
@@ -118,8 +118,8 @@ public:
     void add_half_edge(size_t v, size_t v_r, VProp& b, Graph&)
     {
         size_t u = _node_index[v];
-        size_t kin = (_in_neighbours[v] != _null);
-        size_t kout = (_out_neighbours[v] != _null);
+        size_t kin = (_in_neighbors[v] != _null);
+        size_t kout = (_out_neighbors[v] != _null);
         assert(kin + kout == 1);
         auto& k = _block_nodes[v_r][u];
         k.first += kin;
@@ -129,10 +129,10 @@ public:
         if (m != -1)
         {
             size_t r, s;
-            auto u = _out_neighbours[v];
+            auto u = _out_neighbors[v];
             if (u == _null)
             {
-                u = _in_neighbours[v];
+                u = _in_neighbors[v];
                 r = b[u];
                 s = v_r;
             }
@@ -152,8 +152,8 @@ public:
     void remove_half_edge(size_t v, size_t v_r, VProp& b, Graph&)
     {
         size_t u = _node_index[v];
-        size_t kin = (_in_neighbours[v] != _null);
-        size_t kout = (_out_neighbours[v] != _null);
+        size_t kin = (_in_neighbors[v] != _null);
+        size_t kout = (_out_neighbors[v] != _null);
         assert(kin + kout == 1);
         auto& k = _block_nodes[v_r][u];
         k.first -= kin;
@@ -166,10 +166,10 @@ public:
         if (m != -1)
         {
             size_t r, s;
-            auto u = _out_neighbours[v];
+            auto u = _out_neighbors[v];
             if (u == _null)
             {
-                u = _in_neighbours[v];
+                u = _in_neighbors[v];
                 r = b[u];
                 s = v_r;
             }
@@ -200,9 +200,9 @@ public:
         size_t nr = _block_nodes[r].size();
         size_t u = _node_index[v];
         size_t kin = (in_deg + out_deg) > 0 ?
-            in_deg : (_in_neighbours[v] != _null);
+            in_deg : (_in_neighbors[v] != _null);
         size_t kout = (in_deg + out_deg) > 0 ?
-            out_deg : (_out_neighbours[v] != _null);
+            out_deg : (_out_neighbors[v] != _null);
         const auto iter = _block_nodes[r].find(u);
         const auto& deg = iter->second;
         if (deg.first == kin && deg.second == kout)
@@ -262,10 +262,10 @@ public:
             return 0;
 
         size_t r, s, nr, ns;
-        size_t u = _out_neighbours[v];
+        size_t u = _out_neighbors[v];
         if (u == _null)
         {
-            u = _in_neighbours[v];
+            u = _in_neighbors[v];
             r = b[u];
             s = v_r;
             nr = r;
@@ -324,8 +324,8 @@ public:
     size_t get_node(size_t v) const { return _node_index[v]; }
     const vector<int64_t>& get_half_edges(size_t v) const { return _half_edges[v]; }
 
-    auto get_out_neighbour(size_t v) const { return _out_neighbours[v]; }
-    auto get_in_neighbour(size_t v) const { return _in_neighbours[v]; }
+    auto get_out_neighbor(size_t v) const { return _out_neighbors[v]; }
+    auto get_in_neighbor(size_t v) const { return _in_neighbors[v]; }
 
 
     typedef gt_hash_map<std::tuple<size_t, size_t, bool>, int> phist_t;
@@ -352,8 +352,8 @@ private:
 
     vector<node_map_t> _block_nodes; // nodes (and degrees) in each block
 
-    vector<size_t> _out_neighbours;
-    vector<size_t> _in_neighbours;
+    vector<size_t> _out_neighbors;
+    vector<size_t> _in_neighbors;
 
 
     vector<int> _mi;
@@ -476,9 +476,9 @@ struct is_loop_overlap
 
     bool operator()(size_t v) const
     {
-        auto u = _overlap_stats.get_out_neighbour(v);
+        auto u = _overlap_stats.get_out_neighbor(v);
         if (u == _overlap_stats._null)
-             u = _overlap_stats.get_in_neighbour(v);
+             u = _overlap_stats.get_in_neighbor(v);
         return _overlap_stats.get_node(v) == _overlap_stats.get_node(u);
     }
 };

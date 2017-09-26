@@ -80,7 +80,7 @@ struct bfs_max_depth_watcher
 template<class Graph, class Vertex, class Targets, class DirectedCategory>
 void collect_targets(Vertex v, Graph& g, Targets& t, DirectedCategory)
 {
-    for (auto u : in_neighbours_range(v, g))
+    for (auto u : in_neighbors_range(v, g))
     {
         if (u == v) // no self-loops
             continue;
@@ -93,7 +93,7 @@ void collect_targets(Vertex v, Graph& g, Targets& t, DirectedCategory)
 template<class Graph, class Vertex, class Targets>
 void collect_targets(Vertex v, Graph& g, Targets& t, undirected_tag)
 {
-    for (auto u : out_neighbours_range(v, g))
+    for (auto u : out_neighbors_range(v, g))
     {
         if (u == v) // no self-loops
             continue;
@@ -123,11 +123,11 @@ struct get_extended_clustering
                  fg_t fg(g, keep_all(), filter_t(v));
 
                  typedef DescriptorHash<IndexMap> hasher_t;
-                 typedef gt_hash_set<vertex_t,hasher_t> neighbour_set_t;
-                 neighbour_set_t neighbours(0, hasher_t(vertex_index));
-                 neighbour_set_t targets(0, hasher_t(vertex_index));
+                 typedef gt_hash_set<vertex_t,hasher_t> neighbor_set_t;
+                 neighbor_set_t neighbors(0, hasher_t(vertex_index));
+                 neighbor_set_t targets(0, hasher_t(vertex_index));
 
-                 // collect targets, neighbours and calculate normalization factor
+                 // collect targets, neighbors and calculate normalization factor
                  collect_targets(v, g, targets,
                                  typename graph_traits<Graph>::directed_category());
                  size_t k_in = targets.size(), k_out, k_inter=0, z;
@@ -135,19 +135,19 @@ struct get_extended_clustering
                  {
                      if (u == v) // no self-loops
                          continue;
-                     if (neighbours.find(u) != neighbours.end()) // avoid parallel
+                     if (neighbors.find(u) != neighbors.end()) // avoid parallel
                          continue;                               // edges
 
-                     neighbours.insert(u);
+                     neighbors.insert(u);
                      if (targets.find(u) != targets.end())
                          ++k_inter;
                  }
 
-                 k_out = neighbours.size();
+                 k_out = neighbors.size();
                  z = (k_in * k_out) - k_inter;
 
                  // And now we setup and start the BFS bonanza
-                 for (auto u : neighbours)
+                 for (auto u : neighbors)
                  {
                      typedef gt_hash_map<vertex_t,size_t,
                                          DescriptorHash<IndexMap> > dmap_t;
@@ -164,9 +164,9 @@ struct get_extended_clustering
                      try
                      {
                          distance_map[u] = 0;
-                         neighbour_set_t specific_targets = targets;
+                         neighbor_set_t specific_targets = targets;
                          specific_targets.erase(u);
-                         bfs_max_depth_watcher<neighbour_set_t,
+                         bfs_max_depth_watcher<neighbor_set_t,
                                                InitializedPropertyMap<dmap_t> >
                              watcher(specific_targets, cmaps.size(),
                                      distance_map);

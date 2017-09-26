@@ -1131,7 +1131,7 @@ def map_property_values(src_prop, tgt_prop, map_func):
 
 def infect_vertex_property(g, prop, vals=None):
     """Propagate the `prop` values of vertices with value `val` to all their
-    out-neighbours.
+    out-neighbors.
 
     Parameters
     ----------
@@ -1875,30 +1875,34 @@ class Graph(object):
         E = edges.shape[0] // 3
         return numpy.reshape(edges, (E, 3))
 
-    def get_out_neighbours(self, v):
-        """Return a :class:`numpy.ndarray` containing the out-neighbours of vertex
+    def get_out_neighbors(self, v):
+        """Return a :class:`numpy.ndarray` containing the out-neighbors of vertex
         ``v``.
 
         Examples
         --------
         >>> g = gt.collection.data["pgp-strong-2009"]
-        >>> g.get_out_neighbours(66)
+        >>> g.get_out_neighbors(66)
         array([   63, 20369, 13980,  8687, 38674], dtype=uint64)
 
         """
-        return libcore.get_out_neighbours_list(self.__graph, int(v))
+        return libcore.get_out_neighbors_list(self.__graph, int(v))
 
-    def get_in_neighbours(self, v):
-        """Return a :class:`numpy.ndarray` containing the in-neighbours of vertex ``v``.
+    get_out_neighbours = get_out_neighbors
+
+    def get_in_neighbors(self, v):
+        """Return a :class:`numpy.ndarray` containing the in-neighbors of vertex ``v``.
 
         Examples
         --------
         >>> g = gt.collection.data["pgp-strong-2009"]
-        >>> g.get_in_neighbours(66)
+        >>> g.get_in_neighbors(66)
         array([ 8687, 20369, 38674], dtype=uint64)
 
         """
-        return libcore.get_in_neighbours_list(self.__graph, int(v))
+        return libcore.get_in_neighbors_list(self.__graph, int(v))
+
+    get_in_neighbours = get_in_neighbors
 
     def get_out_degrees(self, vs, eweight=None):
         """Return a :class:`numpy.ndarray` containing the out-degrees of vertex list
@@ -3174,13 +3178,13 @@ def value_types():
 # =====================
 from .libgraph_tool_core import Vertex, Edge, VertexBase, EdgeBase
 
-def _out_neighbours(self):
-    """Return an iterator over the out-neighbours."""
+def _out_neighbors(self):
+    """Return an iterator over the out-neighbors."""
     for e in self.out_edges():
         yield e.target()
 
-def _in_neighbours(self):
-    """Return an iterator over the in-neighbours."""
+def _in_neighbors(self):
+    """Return an iterator over the in-neighbors."""
     for e in self.in_edges():
         yield e.source()
 
@@ -3191,11 +3195,11 @@ def _all_edges(self):
     for e in self.in_edges():
         yield e
 
-def _all_neighbours(self):
-    """Return an iterator over all neighbours (both in or out)."""
-    for v in self.out_neighbours():
+def _all_neighbors(self):
+    """Return an iterator over all neighbors (both in or out)."""
+    for v in self.out_neighbors():
         yield v
-    for v in self.in_neighbours():
+    for v in self.in_neighbors():
         yield v
 
 def _in_degree(self, weight=None):
@@ -3275,10 +3279,12 @@ if sys.version_info < (3,):
 
 for Vertex in libcore.get_vlist():
     Vertex.__doc__ = _vertex_doc
-    Vertex.out_neighbours = _out_neighbours
-    Vertex.in_neighbours = _in_neighbours
+    Vertex.out_neighbors = _out_neighbors
+    Vertex.out_neighbours = _out_neighbors
+    Vertex.in_neighbors = _in_neighbors
     Vertex.all_edges = _all_edges
-    Vertex.all_neighbours = _all_neighbours
+    Vertex.all_neighbors = _all_neighbors
+    Vertex.all_neighbours = _all_neighbors
     Vertex.in_degree = _in_degree
     Vertex.out_degree = _out_degree
     try:
@@ -3338,10 +3344,13 @@ Edge = EdgeBase
 Edge.__name__ = "Edge"
 
 VertexBase.__doc__ = Vertex.__doc__
-VertexBase.out_neighbours = Vertex.out_neighbours
-VertexBase.in_neighbours = Vertex.in_neighbours
+VertexBase.out_neighbors = Vertex.out_neighbors
+VertexBase.out_neighbours = Vertex.out_neighbors
+VertexBase.in_neighbors = Vertex.in_neighbors
+VertexBase.in_neighbours = Vertex.in_neighbors
 VertexBase.all_edges = Vertex.all_edges
-VertexBase.all_neighbours = Vertex.all_neighbours
+VertexBase.all_neighbors = Vertex.all_neighbors
+VertexBase.all_neighbours = Vertex.all_neighbors
 VertexBase.in_degree = Vertex.in_degree
 VertexBase.out_degree = Vertex.out_degree
 VertexBase.is_valid = Vertex.is_valid

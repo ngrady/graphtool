@@ -37,7 +37,7 @@ void graph_correlations_imp1(GraphInterface& g, boost::python::object& hist,
 {
     typedef DynamicPropertyMapWrap<long double, GraphInterface::edge_t>
         wrapped_weight_t;
-    run_action<>()(g, get_correlation_histogram<GetNeighboursPairs>
+    run_action<>()(g, get_correlation_histogram<GetNeighborsPairs>
                    (hist, bins, ret_bins),
                    scalar_selectors(), scalar_selectors(),
                    boost::mpl::vector<wrapped_weight_t>())

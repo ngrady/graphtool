@@ -161,7 +161,7 @@ public:
     template <bool Add, class MOP, class EOP>
     void modify_vertex(size_t v, size_t r, MOP&& mop, EOP&& eop)
     {
-        auto u = _overlap_stats.get_out_neighbour(v);
+        auto u = _overlap_stats.get_out_neighbor(v);
         if (u != _overlap_stats._null)
         {
             size_t s = (Add) ? r : _b[u];
@@ -206,7 +206,7 @@ public:
             //     _emat.remove_me(me, _bg);
         }
 
-        u = _overlap_stats.get_in_neighbour(v);
+        u = _overlap_stats.get_in_neighbor(v);
         if (u != _overlap_stats._null)
         {
             size_t s = (Add) ? r : _b[u];
@@ -929,9 +929,9 @@ public:
         {
             size_t w = get_lateral_half_edge(v, rng);
 
-            size_t u = _overlap_stats.get_out_neighbour(w);
+            size_t u = _overlap_stats.get_out_neighbor(w);
             if (u >= num_vertices(_g))
-                u = _overlap_stats.get_in_neighbour(w);
+                u = _overlap_stats.get_in_neighbor(w);
 
             size_t t = _b[u];
             double p_rand = 0;
@@ -973,13 +973,13 @@ public:
     }
 
     template <class RNG>
-    size_t random_neighbour(size_t v,  RNG& rng)
+    size_t random_neighbor(size_t v,  RNG& rng)
     {
         size_t w = get_lateral_half_edge(v, _overlap_stats, rng);
 
-        size_t u = _overlap_stats.get_out_neighbour(w);
+        size_t u = _overlap_stats.get_out_neighbor(w);
         if (u >= num_vertices(_g))
-            u = _overlap_stats.get_in_neighbour(w);
+            u = _overlap_stats.get_in_neighbor(w);
         return u;
     }
 
@@ -1342,7 +1342,7 @@ public:
         _egroups.clear();
     }
 
-    void rebuild_neighbour_sampler()
+    void rebuild_neighbor_sampler()
     {
     }
 

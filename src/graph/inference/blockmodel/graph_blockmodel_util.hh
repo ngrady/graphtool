@@ -26,7 +26,7 @@
 #include "graph_blockmodel_emat.hh"
 #include "graph_blockmodel_elist.hh"
 #include "graph_blockmodel_weights.hh"
-#include "../support/graph_neighbour_sampler.hh"
+#include "../support/graph_neighbor_sampler.hh"
 
 namespace graph_tool
 {
