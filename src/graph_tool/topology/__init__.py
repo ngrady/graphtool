@@ -1303,9 +1303,9 @@ def vertex_percolation(g, vertices):
     >>> plot(sizes2, label="Random")
     [...]
     >>> xlabel("Vertices remaining")
-    <...>
+    Text(...)
     >>> ylabel("Size of largest component")
-    <...>
+    Text(...)
     >>> legend(loc="lower right")
     <...>
     >>> savefig("vertex-percolation.svg")
@@ -1389,9 +1389,9 @@ def edge_percolation(g, edges):
     >>> plot(sizes2, label="Random")
     [...]
     >>> xlabel("Edges remaining")
-    <...>
+    Text(...)
     >>> ylabel("Size of largest component")
-    <...>
+    Text(...)
     >>> legend(loc="lower right")
     <...>
     >>> savefig("edge-percolation.svg")

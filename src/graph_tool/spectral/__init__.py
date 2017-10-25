@@ -114,9 +114,9 @@ def adjacency(g, weight=None, index=None):
     >>> scatter(real(ew), imag(ew), c=sqrt(abs(ew)), linewidths=0, alpha=0.6)
     <...>
     >>> xlabel(r"$\operatorname{Re}(\lambda)$")
-    <...>
+    Text(...)
     >>> ylabel(r"$\operatorname{Im}(\lambda)$")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> savefig("adjacency-spectrum.pdf")
 
@@ -239,9 +239,9 @@ def laplacian(g, deg="total", normalized=False, weight=None, index=None):
     >>> scatter(real(ew), imag(ew), c=sqrt(abs(ew)), linewidths=0, alpha=0.6)
     <...>
     >>> xlabel(r"$\operatorname{Re}(\lambda)$")
-    <...>
+    Text(...)
     >>> ylabel(r"$\operatorname{Im}(\lambda)$")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> savefig("laplacian-spectrum.pdf")
 
@@ -263,9 +263,9 @@ def laplacian(g, deg="total", normalized=False, weight=None, index=None):
     >>> scatter(real(ew), imag(ew), c=sqrt(abs(ew)), linewidths=0, alpha=0.6)
     <...>
     >>> xlabel(r"$\operatorname{Re}(\lambda)$")
-    <...>
+    Text(...)
     >>> ylabel(r"$\operatorname{Im}(\lambda)$")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> savefig("norm-laplacian-spectrum.pdf")
 
@@ -467,9 +467,9 @@ def transition(g, weight=None, index=None):
     >>> scatter(real(ew), imag(ew), c=sqrt(abs(ew)), linewidths=0, alpha=0.6)
     <...>
     >>> xlabel(r"$\operatorname{Re}(\lambda)$")
-    <...>
+    Text(...)
     >>> ylabel(r"$\operatorname{Im}(\lambda)$")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> savefig("transition-spectrum.pdf")
 
@@ -564,9 +564,9 @@ def modularity_matrix(g, weight=None, index=None):
     >>> scatter(real(ew), imag(ew), c=sqrt(abs(ew)), linewidths=0, alpha=0.6)
     <...>
     >>> xlabel(r"$\operatorname{Re}(\lambda)$")
-    <...>
+    Text(...)
     >>> ylabel(r"$\operatorname{Im}(\lambda)$")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> savefig("modularity-spectrum.pdf")
 

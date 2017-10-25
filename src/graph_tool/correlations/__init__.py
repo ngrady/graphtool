@@ -260,9 +260,9 @@ def corr_hist(g, deg_source, deg_target, bins=[[0, 1], [0, 1]], weight=None,
        >>> h = gt.corr_hist(g, "out", "out")
        >>> clf()
        >>> xlabel("Source out-degree")
-       <...>
+       Text(...)
        >>> ylabel("Target out-degree")
-       <...>
+       Text(...)
        >>> imshow(h[0].T, interpolation="nearest", origin="lower")
        <...>
        >>> colorbar()
@@ -357,9 +357,9 @@ def combined_corr_hist(g, deg1, deg2, bins=[[0, 1], [0, 1]], float_count=True):
        >>> h = gt.combined_corr_hist(g, "in", "out")
        >>> clf()
        >>> xlabel("In-degree")
-       <...>
+       Text(...)
        >>> ylabel("Out-degree")
-       <...>
+       Text(...)
        >>> imshow(h[0].T, interpolation="nearest", origin="lower")
        <...>
        >>> colorbar()
@@ -462,9 +462,9 @@ def avg_neighbor_corr(g, deg_source, deg_target, bins=[0, 1], weight=None):
        >>> h = gt.avg_neighbor_corr(g, "out", "out")
        >>> clf()
        >>> xlabel("Source out-degree")
-       <...>
+       Text(...)
        >>> ylabel("Target out-degree")
-       <...>
+       Text(...)
        >>> errorbar(h[2][:-1], h[0], yerr=h[1], fmt="o")
        <...>
        >>> savefig("avg_corr.svg")
@@ -552,9 +552,9 @@ def avg_combined_corr(g, deg1, deg2, bins=[0, 1]):
        >>> h = gt.avg_combined_corr(g, "in", "out")
        >>> clf()
        >>> xlabel("In-degree")
-       <...>
+       Text(...)
        >>> ylabel("Out-degree")
-       <...>
+       Text(...)
        >>> errorbar(h[2][:-1], h[0], yerr=h[1], fmt="o")
        <...>
        >>> savefig("combined_avg_corr.svg")

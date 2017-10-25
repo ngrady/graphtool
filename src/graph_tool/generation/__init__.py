@@ -225,15 +225,15 @@ def random_graph(N, deg_sampler, directed=True,
     >>> hist = gt.combined_corr_hist(g, "in", "out")
     >>>
     >>> figure()
-    <...>
+    ...
     >>> imshow(hist[0].T, interpolation="nearest", origin="lower")
-    <...>
+    ...
     >>> colorbar()
-    <...>
+    ...
     >>> xlabel("in-degree")
-    <...>
+    Text(...)
     >>> ylabel("out-degree")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> savefig("combined-deg-hist.svg")
 
@@ -269,19 +269,19 @@ def random_graph(N, deg_sampler, directed=True,
     Lets plot the average degree correlations to check.
 
     >>> figure(figsize=(6,3))
-    <...>
+    ...
     >>> corr = gt.avg_neighbor_corr(g, "in", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...         label=r"$\left<\text{in}\right>$ vs in")
-    <...>
+    ...
     >>> corr = gt.avg_neighbor_corr(g, "in", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...         label=r"$\left<\text{out}\right>$ vs in")
-    <...>
+    ...
     >>> corr = gt.avg_neighbor_corr(g, "out", "in")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{in}\right>$ vs out")
-    <...>
+    ...
     >>> corr = gt.avg_neighbor_corr(g, "out", "out")
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-",
     ...          label=r"$\left<\text{out}\right>$ vs out")
@@ -289,9 +289,9 @@ def random_graph(N, deg_sampler, directed=True,
     >>> legend(loc='center left', bbox_to_anchor=(1, 0.5))
     <...>
     >>> xlabel("Source degree")
-    <...>
+    Text(...)
     >>> ylabel("Average target degree")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> box = gca().get_position()
     >>> gca().set_position([box.x0, box.y0, box.width * 0.7, box.height])
@@ -700,9 +700,9 @@ def random_rewire(g, model="configuration", n_iter=1, edge_sweep=True,
     >>> errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt="o-", label=r"Erd\H{o}s")
     <...>
     >>> xlabel("$k$")
-    <...>
+    Text(...)
     >>> ylabel(r"$\left<k_{nn}\right>$")
-    <...>
+    Text(...)
     >>> legend(loc='center left', bbox_to_anchor=(1, 0.5))
     <...>
     >>> tight_layout()
@@ -762,9 +762,9 @@ def random_rewire(g, model="configuration", n_iter=1, edge_sweep=True,
     >>> legend(loc='center left', bbox_to_anchor=(1, 0.5))
     <...>
     >>> xlabel("Source degree")
-    <...>
+    Text(...)
     >>> ylabel("Average target degree")
-    <...>
+    Text(...)
     >>> tight_layout()
     >>> box = gca().get_position()
     >>> gca().set_position([box.x0, box.y0, box.width * 0.55, box.height])
