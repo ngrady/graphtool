@@ -349,8 +349,8 @@ def mcmc_multilevel(state, B, r=2, b_cache=None, anneal=False,
         mcmc_args["allow_new_group"] = False
     mcmc_equilibrate_args["mcmc_args"] = mcmc_args
 
-    while state.B > B:
-        B_next = max(min(int(round(state.B / r)), state.B - 1), B)
+    while state.get_nonempty_B() > B:
+        B_next = max(min(int(round(state.get_nonempty_B() / r)), state.get_nonempty_B() - 1), B)
 
         if b_cache is not None and B_next in b_cache:
             state = b_cache[B_next][1]
