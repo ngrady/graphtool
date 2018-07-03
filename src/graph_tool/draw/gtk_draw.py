@@ -1182,7 +1182,7 @@ _window_list = []
 
 def interactive_window(g, pos=None, vprops=None, eprops=None, vorder=None,
                        eorder=None, nodesfirst=False, geometry=(500, 400),
-                       update_layout=True, async=False, no_main=False, **kwargs):
+                       update_layout=True, async_=False, no_main=False, **kwargs):
     r"""
     Display an interactive GTK+ window containing the given graph.
 
@@ -1244,7 +1244,7 @@ def interactive_window(g, pos=None, vprops=None, eprops=None, vorder=None,
     win.show_all()
     _window_list.append(win)
     if not no_main:
-        if async:
+        if async_:
             # just a placeholder for a proper main loop integration with gtk3 when
             # ipython implements it
             import IPython.lib.inputhook
