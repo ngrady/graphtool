@@ -2018,7 +2018,7 @@ class Graph(object):
             raise ValueError("Vertex index %d is invalid" % vmax)
 
         # move / shift all known property maps
-        if (vmax-vmin >= len(vs) if is_iter else vmax != back):
+        if (vmax-vmin >= len(vs)-1 if is_iter else vmax != back):
             if not is_iter:
                 vs = numpy.asarray((vertex,), dtype="int64")
             vfilt = self.get_vertex_filter()[0]
