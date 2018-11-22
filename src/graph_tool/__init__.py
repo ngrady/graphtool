@@ -2957,7 +2957,7 @@ def load_graph_from_csv(file_name, directed=True, eprop_types=None,
     ----------
     file_name : ``str`` or file-like object
         File in :mod:``csv`` format, with edges given in each row.
-    directed : ``bool`` (optional, default: ``False``)
+    directed : ``bool`` (optional, default: ``True``)
         Whether or not the graph is directed.
     eprop_types : list of ``str`` (optional, default: ``None``)
         List of edge property types to be read from remaining columns (if this
