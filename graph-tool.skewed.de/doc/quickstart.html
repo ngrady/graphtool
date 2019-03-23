@@ -1,0 +1,1065 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quick start using graph-tool &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <link rel="next" title="The gt file format" href="../static/doc/gt_format.html" />
+    <link rel="prev" title="Welcome to graph-tool’s documentation!" href="../doc" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../static/doc/gt_format.html" title="The gt file format"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../doc" title="Welcome to graph-tool’s documentation!"
+             accesskey="P">previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quick-start-using-graph-tool">
+<h1>Quick start using <cite>graph-tool</cite><a class="headerlink" href="quickstart.html#quick-start-using-graph-tool" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#module-graph_tool" title="graph_tool"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graph_tool</span></code></a> module provides a <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> class
+and several algorithms that operate on it. The internals of this class,
+and of most algorithms, are written in C++ for performance, using the
+<a class="reference external" href="http://www.boost.org">Boost Graph Library</a>.</p>
+<p>The module must be of course imported before it can be used. The package is
+subdivided into several sub-modules. To import everything from all of them, one
+can do:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">graph_tool.all</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>In the following, it will always be assumed that the previous line was run.</p>
+<div class="section" id="creating-and-manipulating-graphs">
+<h2>Creating and manipulating graphs<a class="headerlink" href="quickstart.html#creating-and-manipulating-graphs" title="Permalink to this headline">¶</a></h2>
+<p>An empty graph can be created by instantiating a <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a>
+class:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>By default, newly created graphs are always directed. To construct undirected
+graphs, one must pass a value to the <code class="docutils literal notranslate"><span class="pre">directed</span></code> parameter:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ug</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A graph can always be switched <em>on-the-fly</em> from directed to undirected
+(and vice versa), with the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.set_directed" title="graph_tool.Graph.set_directed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_directed()</span></code></a>
+method. The “directedness” of the graph can be queried with the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.is_directed" title="graph_tool.Graph.is_directed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_directed()</span></code></a> method,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ug</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ug</span><span class="o">.</span><span class="n">set_directed</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ug</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="o">==</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>A graph can also be created by providing another graph, in which case
+the entire graph (and its internal property maps, see
+<a class="reference internal" href="quickstart.html#sec-property-maps"><span class="std std-ref">Property maps</span></a>) is copied:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g1</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ... construct g1 ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g2</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span>                 <span class="c1"># g1 and g2 are copies</span>
+</pre></div>
+</div>
+<p>Above, <code class="docutils literal notranslate"><span class="pre">g2</span></code> is a “deep” copy of <code class="docutils literal notranslate"><span class="pre">g1</span></code>, i.e. any modification of
+<code class="docutils literal notranslate"><span class="pre">g2</span></code> will not affect <code class="docutils literal notranslate"><span class="pre">g1</span></code>.</p>
+<p>Once a graph is created, it can be populated with vertices and edges. A
+vertex can be added with the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.add_vertex" title="graph_tool.Graph.add_vertex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_vertex()</span></code></a>
+method, which returns an instance of a <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex" title="graph_tool.Vertex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vertex</span></code></a>
+class, also called a <em>vertex descriptor</em>. For instance, the following
+code creates two vertices, and returns vertex descriptors stored in the
+variables <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code>.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v1</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v2</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Edges can be added in an analogous manner, by calling the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.add_edge" title="graph_tool.Graph.add_edge"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_edge()</span></code></a> method, which returns an edge
+descriptor (an instance of the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Edge" title="graph_tool.Edge"><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></a> class):</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above code creates a directed edge from <code class="docutils literal notranslate"><span class="pre">v1</span></code> to <code class="docutils literal notranslate"><span class="pre">v2</span></code>. We can
+visualize the graph we created so far with the
+<a class="reference internal" href="draw.html#graph_tool.draw.graph_draw" title="graph_tool.draw.graph_draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">graph_draw()</span></code></a> function.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vertex_text</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">,</span> <span class="n">vertex_font_size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;two-nodes.png&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id1">
+<img alt="_images/two-nodes.png" src="../static/doc/_images/two-nodes.png" />
+<p class="caption"><span class="caption-text">A simple directed graph with two vertices and one edge, created by
+the commands above.</span></p>
+</div>
+<p>With vertex and edge descriptors, one can examine and manipulate the
+graph in an arbitrary manner. For instance, in order to obtain the
+out-degree of a vertex, we can simply call the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex.out_degree" title="graph_tool.Vertex.out_degree"><code class="xref py py-meth docutils literal notranslate"><span class="pre">out_degree()</span></code></a> method:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">out_degree</span><span class="p">())</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Analogously, we could have used the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex.in_degree" title="graph_tool.Vertex.in_degree"><code class="xref py py-meth docutils literal notranslate"><span class="pre">in_degree()</span></code></a>
+method to query the in-degree.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For undirected graphs, the “out-degree” is synonym for degree, and
+in this case the in-degree of a vertex is always zero.</p>
+</div>
+<p>Edge descriptors have two useful methods, <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Edge.source" title="graph_tool.Edge.source"><code class="xref py py-meth docutils literal notranslate"><span class="pre">source()</span></code></a>
+and <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Edge.target" title="graph_tool.Edge.target"><code class="xref py py-meth docutils literal notranslate"><span class="pre">target()</span></code></a>, which return the source and target
+vertex of an edge, respectively.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">(),</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">())</span>
+<span class="go">0 1</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.add_vertex" title="graph_tool.Graph.add_vertex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_vertex()</span></code></a> method also accepts an optional
+parameter which specifies the number of vertices to create. If this
+value is greater than 1, it returns an iterator on the added vertex
+descriptors:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vlist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vlist</span><span class="p">)))</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+<p>Each vertex in a graph has an unique index, which is <em>always</em> between
+<span class="math">\(0\)</span> and <span class="math">\(N-1\)</span>, where <span class="math">\(N\)</span> is the number of
+vertices. This index can be obtained by using the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.vertex_index" title="graph_tool.Graph.vertex_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vertex_index</span></code></a> attribute of the graph (which is
+a <em>property map</em>, see <a class="reference internal" href="quickstart.html#sec-property-maps"><span class="std std-ref">Property maps</span></a>), or by converting the
+vertex descriptor to an <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+<span class="go">12</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="go">12</span>
+</pre></div>
+</div>
+<p>Edges and vertices can also be removed at any time with the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.remove_vertex" title="graph_tool.Graph.remove_vertex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_vertex()</span></code></a> and <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.remove_edge" title="graph_tool.Graph.remove_edge"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_edge()</span></code></a> methods,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>                               <span class="c1"># e no longer exists</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">remove_vertex</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>                <span class="c1"># the second vertex is also gone</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Removing a vertex is typically an <span class="math">\(O(N)\)</span> operation. The
+vertices are internally stored in a <a class="reference external" href="http://en.wikipedia.org/wiki/Vector_%28STL%29">STL vector</a>, so removing an
+element somewhere in the middle of the list requires the shifting of
+the rest of the list. Thus, fast <span class="math">\(O(1)\)</span> removals are only
+possible either if one can guarantee that only vertices in the end of
+the list are removed (the ones last added to the graph), or if the
+relative vertex ordering is invalidated. The latter behavior can be
+achieved by passing the option <code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">==</span> <span class="pre">True</span></code>, to
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.remove_vertex" title="graph_tool.Graph.remove_vertex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_vertex()</span></code></a>, which causes the vertex
+being deleted to be ‘swapped’ with the last vertex (i.e. with the
+largest index), which will in turn inherit the index of the vertex
+being deleted.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Because of the above, removing a vertex with an index smaller than
+<span class="math">\(N-1\)</span> will <strong>invalidate either the last</strong> (<code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">=</span> <span class="pre">True</span></code>)
+<strong>or all</strong> (<code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">=</span> <span class="pre">False</span></code>) <strong>descriptors pointing to vertices with
+higher index</strong>.</p>
+<p>As a consequence, if more than one vertex is to be removed at a given
+time, they should <strong>always</strong> be removed in decreasing index order:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># &#39;del_list&#39; is a list of vertex descriptors</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">del_list</span><span class="p">)):</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">remove_vertex</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively (and preferably), a list (or any iterable) may be
+passed directly as the <code class="docutils literal notranslate"><span class="pre">vertex</span></code> parameter of the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.remove_vertex" title="graph_tool.Graph.remove_vertex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_vertex()</span></code></a> function, and the above is
+performed internally (in C++).</p>
+<p class="last">Note that property map values (see <a class="reference internal" href="quickstart.html#sec-property-maps"><span class="std std-ref">Property maps</span></a>) are
+unaffected by the index changes due to vertex removal, as they are
+modified accordingly by the library.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Removing an edge is an <span class="math">\(O(k_{s} + k_{t})\)</span> operation, where
+<span class="math">\(k_{s}\)</span> is the out-degree of the source vertex, and
+<span class="math">\(k_{t}\)</span> is the in-degree of the target vertex. This can be made
+faster by setting <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.set_fast_edge_removal" title="graph_tool.Graph.set_fast_edge_removal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_fast_edge_removal()</span></code></a> to
+<cite>True</cite>, in which case it becomes <span class="math">\(O(1)\)</span>, at the expense of
+additional data of size <span class="math">\(O(E)\)</span>.</p>
+<p class="last">No edge descriptors are ever invalidated after edge removal, with the
+exception of the edge being removed.</p>
+</div>
+<p>Since vertices are uniquely identifiable by their indexes, there is no
+need to keep the vertex descriptor lying around to access them at a
+later point. If we know its index, we can obtain the descriptor of a
+vertex with a given index using the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.vertex" title="graph_tool.Graph.vertex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vertex()</span></code></a>
+method,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which takes an index, and returns a vertex descriptor. Edges cannot be
+directly obtained by its index, but if the source and target vertices of
+a given edge are known, it can be retrieved with the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.edge" title="graph_tool.Graph.edge"><code class="xref py py-meth docutils literal notranslate"><span class="pre">edge()</span></code></a> method</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Another way to obtain edge or vertex descriptors is to <em>iterate</em> through
+them, as described in section <a class="reference internal" href="quickstart.html#sec-iteration"><span class="std std-ref">Iterating over vertices and edges</span></a>. This is in fact the
+most useful way of obtaining vertex and edge descriptors.</p>
+<p>Like vertices, edges also have unique indexes, which are given by the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.edge_index" title="graph_tool.Graph.edge_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">edge_index</span></code></a> property:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">edge_index</span><span class="p">[</span><span class="n">e</span><span class="p">])</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Differently from vertices, edge indexes do not necessarily conform to
+any specific range. If no edges are ever removed, the indexes will be in
+the range <span class="math">\([0, E-1]\)</span>, where <span class="math">\(E\)</span> is the number of edges, and
+edges added earlier have lower indexes. However if an edge is removed,
+its index will be “vacant”, and the remaining indexes will be left
+unmodified, and thus will not all lie in the range <span class="math">\([0, E-1]\)</span>.  If
+a new edge is added, it will reuse old indexes, in an increasing order.</p>
+<div class="section" id="iterating-over-vertices-and-edges">
+<span id="sec-iteration"></span><h3>Iterating over vertices and edges<a class="headerlink" href="quickstart.html#iterating-over-vertices-and-edges" title="Permalink to this headline">¶</a></h3>
+<p>Algorithms must often iterate through vertices, edges, out-edges of a
+vertex, etc. The <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> and
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex" title="graph_tool.Vertex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vertex</span></code></a> classes provide different types of iterators
+for doing so. The iterators always point to edge or vertex descriptors.</p>
+<div class="section" id="iterating-over-all-vertices-or-edges">
+<h4>Iterating over all vertices or edges<a class="headerlink" href="quickstart.html#iterating-over-all-vertices-or-edges" title="Permalink to this headline">¶</a></h4>
+<p>In order to iterate through all the vertices or edges of a graph, the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.vertices" title="graph_tool.Graph.vertices"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vertices()</span></code></a> and <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.edges" title="graph_tool.Graph.edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">edges()</span></code></a>
+methods should be used:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">for v in g.vertices():</span>
+<span class="go">    print(v)</span>
+<span class="go">for e in g.edges():</span>
+<span class="go">    print(e)</span>
+</pre></div>
+</div>
+<p>The code above will print the vertices and edges of the graph in the order they
+are found.</p>
+</div>
+<div class="section" id="iterating-over-the-neighborhood-of-a-vertex">
+<h4>Iterating over the neighborhood of a vertex<a class="headerlink" href="quickstart.html#iterating-over-the-neighborhood-of-a-vertex" title="Permalink to this headline">¶</a></h4>
+<p>The out- and in-edges of a vertex, as well as the out- and in-neighbors can be
+iterated through with the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex.out_edges" title="graph_tool.Vertex.out_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">out_edges()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex.in_edges" title="graph_tool.Vertex.in_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">in_edges()</span></code></a>, <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex.out_neighbors" title="graph_tool.Vertex.out_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">out_neighbors()</span></code></a>
+and <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Vertex.in_neighbors" title="graph_tool.Vertex.in_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">in_neighbors()</span></code></a> methods, respectively.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">from itertools import izip</span>
+<span class="go">for v in g.vertices():</span>
+<span class="go">   for e in v.out_edges():</span>
+<span class="go">       print(e)</span>
+<span class="go">   for w in v.out_neighbors():</span>
+<span class="go">       print(w)</span>
+
+<span class="go">   # the edge and neighbors order always match</span>
+<span class="go">   for e, w in izip(v.out_edges(), v.out_neighbors()):</span>
+<span class="go">       assert e.target() == w</span>
+</pre></div>
+</div>
+<p>The code above will print the out-edges and out-neighbors of all
+vertices in the graph.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should never remove vertex or edge descriptors when iterating
+over them, since this invalidates the iterators. If you plan to
+remove vertices or edges during iteration, you must first store them
+somewhere (such as in a list) and remove them only after no iterator
+is being used. Removal during iteration will cause bad things to
+happen.</p>
+</div>
+</div>
+<div class="section" id="fast-iteration-over-vertices-and-edges">
+<h4>Fast iteration over vertices and edges<a class="headerlink" href="quickstart.html#fast-iteration-over-vertices-and-edges" title="Permalink to this headline">¶</a></h4>
+<p>While convenient, looping over the graph as described in the previous
+section is not the most efficient approach. This is because the loops
+are performed in pure Python, and hence it undermines the main feature
+of the library, which is the offloading of loops from Python to
+C++. Following the <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/index.html#module-numpy" title="(in NumPy v1.14)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code></a> philosophy, <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#module-graph_tool" title="graph_tool"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graph_tool</span></code></a> also
+provides an array-based interface that avoids loops in Python. This is
+done with the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_vertices" title="graph_tool.Graph.get_vertices"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_vertices()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_edges" title="graph_tool.Graph.get_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_edges()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_out_edges" title="graph_tool.Graph.get_out_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_out_edges()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_in_edges" title="graph_tool.Graph.get_in_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_in_edges()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_out_neighbors" title="graph_tool.Graph.get_out_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_out_neighbors()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_in_neighbors" title="graph_tool.Graph.get_in_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_in_neighbors()</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_out_degrees" title="graph_tool.Graph.get_out_degrees"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_out_degrees()</span></code></a> and
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.get_in_degrees" title="graph_tool.Graph.get_in_degrees"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_in_degrees()</span></code></a> methods, which return
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> instances instead of iterators.</p>
+<p>For example, using this interface we can get the out-degree of each node via:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_out_degrees</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">()))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[1 0 1 0 0 0 0 0 0 0 0 0]
+</pre></div>
+</div>
+<p>or the sum of the product of the in and out-degrees of the endpoints of
+each edge with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edges</span><span class="p">()</span>
+<span class="k">print</span><span class="p">((</span><span class="n">edges</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">edges</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>6
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="property-maps">
+<span id="sec-property-maps"></span><h2>Property maps<a class="headerlink" href="quickstart.html#property-maps" title="Permalink to this headline">¶</a></h2>
+<p>Property maps are a way of associating additional information to the
+vertices, edges or to the graph itself. There are thus three types of
+property maps: vertex, edge and graph. All of them are handled by the
+same class, <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>. Each created property map
+has an associated <em>value type</em>, which must be chosen from the predefined
+set:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type name</th>
+<th class="head">Alias</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">uint8_t</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">int16_t</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">short</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">int32_t</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">int64_t</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">double</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">float</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">string</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;bool&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;uint8_t&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;int16_t&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;short&gt;</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;int32_t&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;int&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;int64_t&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;long&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">vector&lt;long</span> <span class="pre">long&gt;</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;double&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;float&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;long</span> <span class="pre">double&gt;</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;string&gt;</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">python::object</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">object</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>New property maps can be created for a given graph by calling the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.new_vertex_property" title="graph_tool.Graph.new_vertex_property"><code class="xref py py-meth docutils literal notranslate"><span class="pre">new_vertex_property()</span></code></a>, <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.new_edge_property" title="graph_tool.Graph.new_edge_property"><code class="xref py py-meth docutils literal notranslate"><span class="pre">new_edge_property()</span></code></a>, or
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.new_graph_property" title="graph_tool.Graph.new_graph_property"><code class="xref py py-meth docutils literal notranslate"><span class="pre">new_graph_property()</span></code></a>, for each map type. The values are then
+accessed by vertex or edge descriptors, or the graph itself, as such:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">from itertools import izip</span>
+<span class="go">from numpy.random import randint</span>
+
+<span class="go">g = Graph()</span>
+<span class="go">g.add_vertex(100)</span>
+<span class="go"># insert some random links</span>
+<span class="go">for s,t in izip(randint(0, 100, 100), randint(0, 100, 100)):</span>
+<span class="go">    g.add_edge(g.vertex(s), g.vertex(t))</span>
+
+<span class="go">vprop_double = g.new_vertex_property(&quot;double&quot;)            # Double-precision floating point</span>
+<span class="go">vprop_double[g.vertex(10)] = 3.1416</span>
+
+<span class="go">vprop_vint = g.new_vertex_property(&quot;vector&lt;int&gt;&quot;)         # Vector of ints</span>
+<span class="go">vprop_vint[g.vertex(40)] = [1, 3, 42, 54]</span>
+
+<span class="go">eprop_dict = g.new_edge_property(&quot;object&quot;)                # Arbitrary python object.</span>
+<span class="go">eprop_dict[g.edges().next()] = {&quot;foo&quot;: &quot;bar&quot;, &quot;gnu&quot;: 42}  # In this case, a dict.</span>
+
+<span class="go">gprop_bool = g.new_graph_property(&quot;bool&quot;)                  # Boolean</span>
+<span class="go">gprop_bool[g] = True</span>
+</pre></div>
+</div>
+<p>Property maps with scalar value types can also be accessed as a
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, with the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap.get_array" title="graph_tool.PropertyMap.get_array"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_array()</span></code></a> method, or the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap.a" title="graph_tool.PropertyMap.a"><code class="xref py py-attr docutils literal notranslate"><span class="pre">a</span></code></a> attribute, i.e.,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">from numpy.random import random</span>
+
+<span class="go"># this assigns random values to the vertex properties</span>
+<span class="go">vprop_double.get_array()[:] = random(g.num_vertices())</span>
+
+<span class="go"># or more conveniently (this is equivalent to the above)</span>
+<span class="go">vprop_double.a = random(g.num_vertices())</span>
+</pre></div>
+</div>
+<div class="section" id="internal-property-maps">
+<span id="sec-internal-props"></span><h3>Internal property maps<a class="headerlink" href="quickstart.html#internal-property-maps" title="Permalink to this headline">¶</a></h3>
+<p>Any created property map can be made “internal” to the corresponding
+graph. This means that it will be copied and saved to a file together
+with the graph. Properties are internalized by including them in the
+graph’s dictionary-like attributes
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.vertex_properties" title="graph_tool.Graph.vertex_properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vertex_properties</span></code></a>,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.edge_properties" title="graph_tool.Graph.edge_properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">edge_properties</span></code></a> or
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.graph_properties" title="graph_tool.Graph.graph_properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">graph_properties</span></code></a> (or their aliases,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.vp" title="graph_tool.Graph.vp"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vp</span></code></a>, <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.ep" title="graph_tool.Graph.ep"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ep</span></code></a> or
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.gp" title="graph_tool.Graph.gp"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gp</span></code></a>, respectively). When inserted in the graph,
+the property maps must have an unique name (between those of the same
+type):</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;some name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eprop</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">list_properties</span><span class="p">()</span>
+<span class="go">some name      (edge)    (type: string)</span>
+</pre></div>
+</div>
+<p>Internal graph property maps behave slightly differently. Instead of
+returning the property map object, the value itself is returned from the
+dictionaries:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_graph_property</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gprop</span>   <span class="c1"># this sets the actual property map</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>      <span class="c1"># this sets its value</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">])</span>
+<span class="go">42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">g</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">]</span>       <span class="c1"># the property map entry is deleted from the dictionary</span>
+</pre></div>
+</div>
+<p>For convenience, the internal property maps can also be accessed via
+attributes:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">vprop</span>                        <span class="c1"># equivalent to g.vertex_properties[&quot;foo&quot;] = vprop</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="o">.</span><span class="n">foo</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+<span class="go">3.14</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="graph-i-o">
+<span id="sec-graph-io"></span><h2>Graph I/O<a class="headerlink" href="quickstart.html#graph-i-o" title="Permalink to this headline">¶</a></h2>
+<p>Graphs can be saved and loaded in four formats: <a class="reference external" href="http://graphml.graphdrawing.org/">graphml</a>, <a class="reference external" href="http://www.graphviz.org/doc/info/lang.html">dot</a>, <a class="reference external" href="http://www.fim.uni-passau.de/en/fim/faculty/chairs/theoretische-informatik/projects.html">gml</a>
+and a custom binary format <code class="docutils literal notranslate"><span class="pre">gt</span></code> (see <a class="reference internal" href="../static/doc/gt_format.html#sec-gt-format"><span class="std std-ref">The gt file format</span></a>).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The binary format <code class="docutils literal notranslate"><span class="pre">gt</span></code> and the text-based <code class="docutils literal notranslate"><span class="pre">graphml</span></code> are the
+preferred formats, since they are by far the most complete. Both
+these formats are equally complete, but the <code class="docutils literal notranslate"><span class="pre">gt</span></code> format is faster
+and requires less storage.</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">dot</span></code> and <code class="docutils literal notranslate"><span class="pre">gml</span></code> formats are fully supported, but since they
+contain no precise type information, all properties are read as
+strings (or also as double, in the case of <code class="docutils literal notranslate"><span class="pre">gml</span></code>), and must be
+converted by hand to the desired type. Therefore you should always
+use either <code class="docutils literal notranslate"><span class="pre">gt</span></code> or <code class="docutils literal notranslate"><span class="pre">graphml</span></code>, since they implement an exact
+bit-for-bit representation of all supported <a class="reference internal" href="quickstart.html#sec-property-maps"><span class="std std-ref">Property maps</span></a>
+types, except when interfacing with other software, or existing
+data, which uses <code class="docutils literal notranslate"><span class="pre">dot</span></code> or <code class="docutils literal notranslate"><span class="pre">gml</span></code>.</p>
+</div>
+<p>A graph can be saved or loaded to a file with the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.save" title="graph_tool.Graph.save"><code class="xref py py-attr docutils literal notranslate"><span class="pre">save</span></code></a>
+and <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.load" title="graph_tool.Graph.load"><code class="xref py py-attr docutils literal notranslate"><span class="pre">load</span></code></a> methods, which take either a file name or a
+file-like object. A graph can also be loaded from disc with the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.load_graph" title="graph_tool.load_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_graph()</span></code></a> function, as such:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">g = Graph()</span>
+<span class="go">#  ... fill the graph ...</span>
+<span class="go">g.save(&quot;my_graph.xml.gz&quot;)</span>
+<span class="go">g2 = load_graph(&quot;my_graph.xml.gz&quot;)</span>
+<span class="go"># g and g2 should be copies of each other</span>
+</pre></div>
+</div>
+<p>Graph classes can also be pickled with the <a class="reference external" href="https://docs.python.org/3/library/pickle.html#module-pickle" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pickle</span></code></a> module.</p>
+</div>
+<div class="section" id="an-example-building-a-price-network">
+<h2>An Example: Building a Price Network<a class="headerlink" href="quickstart.html#an-example-building-a-price-network" title="Permalink to this headline">¶</a></h2>
+<p>A Price network is the first known model of a “scale-free” graph,
+invented in 1976 by <a class="reference external" href="http://en.wikipedia.org/wiki/Derek_J._de_Solla_Price">de Solla Price</a>. It is defined
+dynamically, where at each time step a new vertex is added to the graph,
+and connected to an old vertex, with probability proportional to its
+in-degree. The following program implements this construction using
+<code class="docutils literal notranslate"><span class="pre">graph-tool</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note that it would be much faster just to use the
+<a class="reference internal" href="generation.html#graph_tool.generation.price_network" title="graph_tool.generation.price_network"><code class="xref py py-func docutils literal notranslate"><span class="pre">price_network()</span></code></a> function, which is
+implemented in C++, as opposed to the script below which is in pure
+python. The code below is merely a demonstration on how to use the
+library.</p>
+</div>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="c1"># We will need some things from several places</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pylab</span> <span class="k">import</span> <span class="o">*</span>  <span class="c1"># for plotting</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="o">*</span>  <span class="c1"># for random sampling</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># We need to import the graph_tool module itself</span>
+<span class="kn">from</span> <span class="nn">graph_tool.all</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># let&#39;s construct a Price network (the one that existed before Barabasi). It is</span>
+<span class="c1"># a directed network, with preferential attachment. The algorithm below is</span>
+<span class="c1"># very naive, and a bit slow, but quite simple.</span>
+
+<span class="c1"># We start with an empty, directed graph</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+
+<span class="c1"># We want also to keep the age information for each vertex and edge. For that</span>
+<span class="c1"># let&#39;s create some property maps</span>
+<span class="n">v_age</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+<span class="n">e_age</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+
+<span class="c1"># The final size of the network</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100000</span>
+
+<span class="c1"># We have to start with one vertex</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
+<span class="n">v_age</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># we will keep a list of the vertices. The number of times a vertex is in this</span>
+<span class="c1"># list will give the probability of it being selected.</span>
+<span class="n">vlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
+
+<span class="c1"># let&#39;s now add the new edges and vertices</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="c1"># create our new vertex</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
+    <span class="n">v_age</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="c1"># we need to sample a new vertex to be the target, based on its in-degree +</span>
+    <span class="c1"># 1. For that, we simply randomly sample it from vlist.</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vlist</span><span class="p">))</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">vlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># add edge</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="n">e_age</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="c1"># put v and target in the list</span>
+    <span class="n">vlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">vlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+<span class="c1"># now we have a graph!</span>
+
+<span class="c1"># let&#39;s do a random walk on the graph and print the age of the vertices we find,</span>
+<span class="c1"># just for fun.</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()))</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vertex:&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="s2">&quot;in-degree:&quot;</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">in_degree</span><span class="p">(),</span> <span class="s2">&quot;out-degree:&quot;</span><span class="p">,</span>
+          <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(),</span> <span class="s2">&quot;age:&quot;</span><span class="p">,</span> <span class="n">v_age</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nowhere else to go... We found the main hub!&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+
+    <span class="n">n_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">out_neighbors</span><span class="p">():</span>
+        <span class="n">n_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">n_list</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_list</span><span class="p">))]</span>
+
+<span class="c1"># let&#39;s save our graph for posterity. We want to save the age properties as</span>
+<span class="c1"># well... To do this, they must become &quot;internal&quot; properties:</span>
+
+<span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_age</span>
+<span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">e_age</span>
+
+<span class="c1"># now we can save it</span>
+<span class="n">g</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;price.xml.gz&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Let&#39;s plot its in-degree distribution</span>
+<span class="n">in_hist</span> <span class="o">=</span> <span class="n">vertex_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">in_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">in_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">err</span><span class="p">[</span><span class="n">err</span> <span class="o">&gt;=</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">err</span> <span class="o">&gt;=</span> <span class="n">y</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1e-2</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">errorbar</span><span class="p">(</span><span class="n">in_hist</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">err</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">)</span>
+<span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">)</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$k_</span><span class="si">{in}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$NP(k_</span><span class="si">{in}</span><span class="s2">)$&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;price-deg-dist.pdf&quot;</span><span class="p">)</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;price-deg-dist.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The following is what should happen when the program is run.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vertex: 36063 in-degree: 0 out-degree: 1 age: 36063
+vertex: 9075 in-degree: 4 out-degree: 1 age: 9075
+vertex: 5967 in-degree: 3 out-degree: 1 age: 5967
+vertex: 1113 in-degree: 7 out-degree: 1 age: 1113
+vertex: 25 in-degree: 84 out-degree: 1 age: 25
+vertex: 10 in-degree: 541 out-degree: 1 age: 10
+vertex: 5 in-degree: 140 out-degree: 1 age: 5
+vertex: 2 in-degree: 459 out-degree: 1 age: 2
+vertex: 1 in-degree: 520 out-degree: 1 age: 1
+vertex: 0 in-degree: 210 out-degree: 0 age: 0
+Nowhere else to go... We found the main hub!
+</pre></div>
+</div>
+<p>Below is the degree distribution, with <span class="math">\(10^5\)</span> nodes (in order to
+the asymptotic behavior to be even clearer, the number of vertices needs
+to be increased to something like <span class="math">\(10^6\)</span> or <span class="math">\(10^7\)</span>).</p>
+<div class="figure align-center" id="id2">
+<img alt="_images/price-deg-dist.svg" src="../static/doc/_images/price-deg-dist.svg" /><p class="caption"><span class="caption-text">In-degree distribution of a price network with <span class="math">\(10^5\)</span> nodes.</span></p>
+</div>
+<p>We can draw the graph to see some other features of its topology. For that we
+use the <a class="reference internal" href="draw.html#graph_tool.draw.graph_draw" title="graph_tool.draw.graph_draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">graph_draw()</span></code></a> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">load_graph</span><span class="p">(</span><span class="s2">&quot;price.xml.gz&quot;</span><span class="p">)</span>
+<span class="n">age</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">vertex_color</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+           <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">age</span><span class="p">,</span> <span class="n">vertex_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+           <span class="n">vcmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gist_heat_r</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;price.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id3">
+<img alt="_images/price.png" src="../static/doc/_images/price.png" />
+<p class="caption"><span class="caption-text">A Price network with <span class="math">\(10^5\)</span> nodes. The vertex colors represent
+the age of the vertex, from older (red) to newer (black).</span></p>
+</div>
+</div>
+<div class="section" id="graph-filtering">
+<span id="sec-graph-filtering"></span><h2>Graph filtering<a class="headerlink" href="quickstart.html#graph-filtering" title="Permalink to this headline">¶</a></h2>
+<p>One of the very nice features of <code class="docutils literal notranslate"><span class="pre">graph-tool</span></code> is the “on-the-fly” filtering of
+edges and/or vertices. Filtering means the temporary masking of vertices/edges,
+which are in fact not really removed, and can be easily recovered. Vertices or
+edges which are to be filtered should be marked with a
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> with value type <code class="docutils literal notranslate"><span class="pre">bool</span></code>, and then set with
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.set_vertex_filter" title="graph_tool.Graph.set_vertex_filter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_vertex_filter()</span></code></a> or
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.set_edge_filter" title="graph_tool.Graph.set_edge_filter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_edge_filter()</span></code></a> methods. By default, vertex or edges
+with value “1” are <cite>kept</cite> in the graphs, and those with value “0” are filtered
+out. This behaviour can be modified with the <code class="docutils literal notranslate"><span class="pre">inverted</span></code> parameter of the
+respective functions. All manipulation functions and algorithms will work as if
+the marked edges or vertices were removed from the graph, with minimum overhead.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is important to emphasize that the filtering functionality does not add
+any overhead when the graph is not being filtered. In this case, the
+algorithms run just as fast as if the filtering functionality didn’t exist.</p>
+</div>
+<p>Here is an example which obtains the minimum spanning tree of a graph,
+using the function <a class="reference internal" href="topology.html#graph_tool.topology.min_spanning_tree" title="graph_tool.topology.min_spanning_tree"><code class="xref py py-func docutils literal notranslate"><span class="pre">min_spanning_tree()</span></code></a> and
+edge filtering.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">triangulation</span><span class="p">(</span><span class="n">random</span><span class="p">((</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;delaunay&quot;</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">min_spanning_tree</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;min_tree.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">tree</span></code> property map has a bool type, with value “1” if the edge belongs to
+the tree, and “0” otherwise. Below is an image of the original graph, with the
+marked edges.</p>
+<div class="figure align-center" style="width: 400px">
+<img alt="_images/min_tree.svg" src="../static/doc/_images/min_tree.svg" /></div>
+<p>We can now filter out the edges which don’t belong to the minimum spanning tree.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="o">.</span><span class="n">set_edge_filter</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;min_tree_filtered.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is how the graph looks when filtered:</p>
+<div class="figure align-center" style="width: 400px">
+<img alt="_images/min_tree_filtered.svg" src="../static/doc/_images/min_tree_filtered.svg" /></div>
+<p>Everything should work transparently on the filtered graph, simply as if the
+masked edges were removed. For instance, the following code will calculate the
+<a class="reference internal" href="centrality.html#graph_tool.centrality.betweenness" title="graph_tool.centrality.betweenness"><code class="xref py py-func docutils literal notranslate"><span class="pre">betweenness()</span></code></a> centrality of the edges and vertices,
+and draws them as colors and line thickness in the graph.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bv</span><span class="p">,</span> <span class="n">be</span> <span class="o">=</span> <span class="n">betweenness</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">be</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="n">be</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">5</span>
+<span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">bv</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">be</span><span class="p">,</span>
+           <span class="n">output</span><span class="o">=</span><span class="s2">&quot;filtered-bt.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" style="width: 400px">
+<img alt="_images/filtered-bt.svg" src="../static/doc/_images/filtered-bt.svg" /></div>
+<p>The original graph can be recovered by setting the edge filter to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="o">.</span><span class="n">set_edge_filter</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">bv</span><span class="p">,</span> <span class="n">be</span> <span class="o">=</span> <span class="n">betweenness</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">be</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="n">be</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">5</span>
+<span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">bv</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">be</span><span class="p">,</span>
+           <span class="n">output</span><span class="o">=</span><span class="s2">&quot;nonfiltered-bt.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" style="width: 400px">
+<img alt="_images/nonfiltered-bt.svg" src="../static/doc/_images/nonfiltered-bt.svg" /></div>
+<p>Everything works in analogous fashion with vertex filtering.</p>
+<p>Additionally, the graph can also have its edges reversed with the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.set_reversed" title="graph_tool.Graph.set_reversed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_reversed()</span></code></a> method. This is also an <span class="math">\(O(1)\)</span>
+operation, which does not really modify the graph.</p>
+<p>As mentioned previously, the directedness of the graph can also be changed
+“on-the-fly” with the <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph.set_directed" title="graph_tool.Graph.set_directed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_directed()</span></code></a> method.</p>
+<div class="section" id="graph-views">
+<span id="sec-graph-views"></span><h3>Graph views<a class="headerlink" href="quickstart.html#graph-views" title="Permalink to this headline">¶</a></h3>
+<p>It is often desired to work with filtered and unfiltered graphs
+simultaneously, or to temporarily create a filtered version of graph for
+some specific task. For these purposes, graph-tool provides a
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> class, which represents a filtered “view”
+of a graph, and behaves as an independent graph object, which shares the
+underlying data with the original graph. Graph views are constructed by
+instantiating a <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> class, and passing a
+graph object which is supposed to be filtered, together with the desired
+filter parameters. For example, to create a directed view of the graph
+<code class="docutils literal notranslate"><span class="pre">g</span></code> constructed above, one should do:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ug</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ug</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Graph views also provide a much more direct and convenient approach to
+vertex/edge filtering: To construct a filtered minimum spanning tree
+like in the example above, one must only pass the filter property as the
+“efilt” parameter:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tv</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">efilt</span><span class="o">=</span><span class="n">tree</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this is an <span class="math">\(O(1)\)</span> operation, since it is equivalent (in
+speed) to setting the filter in graph <code class="docutils literal notranslate"><span class="pre">g</span></code> directly, but in this case
+the object <code class="docutils literal notranslate"><span class="pre">g</span></code> remains unmodified.</p>
+<p>Like above, the result should be the isolated minimum spanning tree:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bv</span><span class="p">,</span> <span class="n">be</span> <span class="o">=</span> <span class="n">betweenness</span><span class="p">(</span><span class="n">tv</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">be</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="n">be</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph_draw</span><span class="p">(</span><span class="n">tv</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">bv</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">be</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;mst-view.svg&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id4" style="width: 400px">
+<img alt="_images/mst-view.svg" src="../static/doc/_images/mst-view.svg" /><p class="caption"><span class="caption-text">A view of the Delaunay graph, isolating only the minimum spanning tree.</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> objects behave <em>exactly</em> like regular
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> objects. In fact,
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> is a subclass of
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a>. The only difference is that a
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> object shares its internal data with
+its parent <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> class. Therefore, if the
+original <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> object is modified, this
+modification will be reflected immediately in the
+<a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> object, and vice versa.</p>
+</div>
+<p>For even more convenience, one can supply a function as filter
+parameter, which takes a vertex or an edge as single parameter, and
+returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the vertex/edge should be kept and <code class="docutils literal notranslate"><span class="pre">False</span></code>
+otherwise. For instance, if we want to keep only the most “central”
+edges, we can do:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bv</span><span class="p">,</span> <span class="n">be</span> <span class="o">=</span> <span class="n">betweenness</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">efilt</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">be</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">be</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This creates a graph view <code class="docutils literal notranslate"><span class="pre">u</span></code> which contains only the edges of <code class="docutils literal notranslate"><span class="pre">g</span></code>
+which have a normalized betweenness centrality larger than half of the
+maximum value. Note that, differently from the case above, this is an
+<span class="math">\(O(E)\)</span> operation, where <span class="math">\(E\)</span> is the number of edges, since
+the supplied function must be called <span class="math">\(E\)</span> times to construct a
+filter property map. Thus, supplying a constructed filter map is always
+faster, but supplying a function can be more convenient.</p>
+<p>The graph view constructed above can be visualized as</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">be</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="n">be</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph_draw</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">bv</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;central-edges-view.svg&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id5" style="width: 400px">
+<img alt="_images/central-edges-view.svg" src="../static/doc/_images/central-edges-view.svg" /><p class="caption"><span class="caption-text">A view of the Delaunay graph, isolating only the edges with
+normalized betweenness centrality larger than 0.01.</span></p>
+</div>
+<div class="section" id="composing-graph-views">
+<h4>Composing graph views<a class="headerlink" href="quickstart.html#composing-graph-views" title="Permalink to this headline">¶</a></h4>
+<p>Since graph views are regular graphs, one can just as easily create
+graph views <cite>of graph views</cite>. This provides a convenient way of
+composing filters. For instance, in order to isolate the minimum
+spanning tree of all vertices of the example above which have a degree
+larger than four, one can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vfilt</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">min_spanning_tree</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">efilt</span><span class="o">=</span><span class="n">tree</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The resulting graph view can be visualized as</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_draw</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;composed-filter.svg&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id6" style="width: 400px">
+<img alt="_images/composed-filter.svg" src="../static/doc/_images/composed-filter.svg" /><p class="caption"><span class="caption-text">A composed view, obtained as the minimum spanning tree of all vertices
+in the graph which have a degree larger than four.</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../doc">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="quickstart.html#">Quick start using <cite>graph-tool</cite></a><ul>
+<li><a class="reference internal" href="quickstart.html#creating-and-manipulating-graphs">Creating and manipulating graphs</a><ul>
+<li><a class="reference internal" href="quickstart.html#iterating-over-vertices-and-edges">Iterating over vertices and edges</a><ul>
+<li><a class="reference internal" href="quickstart.html#iterating-over-all-vertices-or-edges">Iterating over all vertices or edges</a></li>
+<li><a class="reference internal" href="quickstart.html#iterating-over-the-neighborhood-of-a-vertex">Iterating over the neighborhood of a vertex</a></li>
+<li><a class="reference internal" href="quickstart.html#fast-iteration-over-vertices-and-edges">Fast iteration over vertices and edges</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="quickstart.html#property-maps">Property maps</a><ul>
+<li><a class="reference internal" href="quickstart.html#internal-property-maps">Internal property maps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="quickstart.html#graph-i-o">Graph I/O</a></li>
+<li><a class="reference internal" href="quickstart.html#an-example-building-a-price-network">An Example: Building a Price Network</a></li>
+<li><a class="reference internal" href="quickstart.html#graph-filtering">Graph filtering</a><ul>
+<li><a class="reference internal" href="quickstart.html#graph-views">Graph views</a><ul>
+<li><a class="reference internal" href="quickstart.html#composing-graph-views">Composing graph views</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../doc"
+                        title="previous chapter">Welcome to graph-tool’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../static/doc/gt_format.html"
+                        title="next chapter">The <code class="docutils literal notranslate"><span class="pre">gt</span></code> file format</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../static/doc/_sources/quickstart.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../static/doc/gt_format.html" title="The gt file format"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../doc" title="Welcome to graph-tool’s documentation!"
+             >previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

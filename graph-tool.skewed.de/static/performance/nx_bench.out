@@ -1,0 +1,191 @@
+Profiling shortest path
+=======================
+
+         7959403 function calls in 15.389 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.023    0.023   15.389   15.389 {built-in method exec}
+        1    0.170    0.170   15.366   15.366 <string>:1(<module>)
+      100    0.001    0.000   15.196    0.152 generic.py:143(shortest_path_length)
+      100    5.894    0.059   15.195    0.152 unweighted.py:23(single_source_shortest_path_length)
+  3979600    7.024    0.000    7.024    0.000 {method 'update' of 'dict' objects}
+  3979600    2.277    0.000    2.277    0.000 graph.py:378(__getitem__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling PageRank
+==================
+
+         48746493 function calls (48746463 primitive calls) in 39.509 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000   39.510   39.510 {built-in method exec}
+        1    0.021    0.021   39.510   39.510 <string>:1(<module>)
+       10    0.000    0.000   39.489    3.949 <string>:1(pagerank)
+    30/10    1.349    0.045   39.489    3.949 decorators.py:50(_not_implemented_for)
+       10    3.901    0.390   38.152    3.815 pagerank_alg.py:17(pagerank)
+       10    0.000    0.000   28.775    2.877 <string>:1(stochastic_graph)
+       10    1.745    0.174   28.761    2.876 stochastic.py:21(stochastic_graph)
+       10    0.001    0.000   15.495    1.549 digraph.py:242(__init__)
+       10    0.190    0.019   15.494    1.549 convert.py:50(to_networkx_graph)
+       10    0.000    0.000   15.076    1.508 convert.py:286(from_dict_of_dicts)
+       10   10.515    1.052   14.491    1.449 digraph.py:581(add_edges_from)
+       10    0.243    0.024    8.587    0.859 graph.py:1085(edges)
+  3014990    8.319    0.000    8.344    0.000 digraph.py:775(edges_iter)
+   397970    0.790    0.000    6.670    0.000 digraph.py:1080(out_degree)
+  1193890    1.034    0.000    5.627    0.000 digraph.py:989(out_degree_iter)
+       10    0.235    0.024    4.494    0.449 pagerank_alg.py:140(<listcomp>)
+   795940    0.836    0.000    3.969    0.000 {built-in method sum}
+   397960    0.087    0.000    3.374    0.000 {built-in method next}
+  6825880    2.024    0.000    3.133    0.000 digraph.py:1035(<genexpr>)
+ 12059920    2.032    0.000    2.032    0.000 {method 'get' of 'dict' objects}
+  3014990    1.781    0.000    1.814    0.000 convert.py:360(<genexpr>)
+  6029970    1.211    0.000    1.211    0.000 {method 'update' of 'dict' objects}
+       10    0.519    0.052    0.585    0.058 digraph.py:356(add_nodes_from)
+  3412940    0.556    0.000    0.556    0.000 graph.py:378(__getitem__)
+   397960    0.269    0.000    0.390    0.000 graph.py:1852(nbunch_iter)
+  3015010    0.377    0.000    0.377    0.000 {built-in method hasattr}
+   795920    0.228    0.000    0.228    0.000 digraph.py:1027(<genexpr>)
+   397970    0.158    0.000    0.227    0.000 convert.py:95(<genexpr>)
+       30    0.218    0.007    0.219    0.007 {built-in method fromkeys}
+       10    0.184    0.018    0.206    0.021 pagerank_alg.py:154(<listcomp>)
+   795930    0.184    0.000    0.184    0.000 graph.py:344(__contains__)
+3015010/3015000    0.174    0.000    0.174    0.000 {built-in method len}
+   795930    0.135    0.000    0.135    0.000 {method 'copy' of 'dict' objects}
+   795920    0.064    0.000    0.064    0.000 {method 'values' of 'dict' objects}
+   795960    0.057    0.000    0.057    0.000 {method 'items' of 'dict' objects}
+   397990    0.048    0.000    0.048    0.000 {built-in method iter}
+   397960    0.022    0.000    0.022    0.000 {built-in method abs}
+       30    0.000    0.000    0.000    0.000 graph.py:329(__iter__)
+       10    0.000    0.000    0.000    0.000 graph.py:671(number_of_nodes)
+       10    0.000    0.000    0.000    0.000 convert.py:34(_prep_create_using)
+       10    0.000    0.000    0.000    0.000 digraph.py:1120(clear)
+       10    0.000    0.000    0.000    0.000 graph.py:360(__len__)
+       80    0.000    0.000    0.000    0.000 digraph.py:1142(is_multigraph)
+       10    0.000    0.000    0.000    0.000 pagerank_alg.py:146(<genexpr>)
+       20    0.000    0.000    0.000    0.000 {built-in method isinstance}
+       40    0.000    0.000    0.000    0.000 {method 'clear' of 'dict' objects}
+       70    0.000    0.000    0.000    0.000 digraph.py:1147(is_directed)
+       10    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling k-core
+================
+
+         6611403 function calls in 7.354 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    7.354    7.354 {built-in method exec}
+        1    0.210    0.210    7.353    7.353 <string>:1(<module>)
+       10    3.035    0.303    7.143    0.714 core.py:27(core_number)
+   397970    2.008    0.000    2.801    0.000 core.py:91(<genexpr>)
+   397960    0.350    0.000    0.794    0.000 core.py:74(neighbors)
+       10    0.094    0.009    0.536    0.054 graph.py:1309(degree)
+   397970    0.206    0.000    0.442    0.000 digraph.py:889(degree_iter)
+  1832320    0.373    0.000    0.373    0.000 {method 'remove' of 'set' objects}
+   397960    0.188    0.000    0.223    0.000 digraph.py:752(predecessors_iter)
+   397970    0.194    0.000    0.194    0.000 digraph.py:925(<genexpr>)
+   397960    0.151    0.000    0.184    0.000 digraph.py:742(successors_iter)
+       10    0.182    0.018    0.182    0.018 {built-in method sorted}
+       10    0.000    0.000    0.126    0.013 graph.py:1671(number_of_selfloops)
+       10    0.000    0.000    0.126    0.013 graph.py:1627(selfloop_edges)
+       10    0.126    0.013    0.126    0.013 graph.py:1668(<listcomp>)
+   397970    0.090    0.000    0.090    0.000 core.py:88(<genexpr>)
+   795930    0.069    0.000    0.069    0.000 {built-in method iter}
+   795930    0.042    0.000    0.042    0.000 {built-in method len}
+   397960    0.036    0.000    0.036    0.000 {built-in method from_iterable}
+     3380    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+       10    0.000    0.000    0.000    0.000 graph.py:329(__iter__)
+       10    0.000    0.000    0.000    0.000 graph.py:344(__contains__)
+       10    0.000    0.000    0.000    0.000 digraph.py:1147(is_directed)
+       10    0.000    0.000    0.000    0.000 digraph.py:1142(is_multigraph)
+       20    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling minimum spanning tree
+===============================
+
+         19327643 function calls (19327623 primitive calls) in 20.948 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.004    0.004   20.948   20.948 {built-in method exec}
+        1    0.498    0.498   20.944   20.944 <string>:1(<module>)
+       10    0.412    0.041   20.446    2.045 mst.py:89(minimum_spanning_tree)
+       10    0.000    0.000   19.994    1.999 graph.py:257(__init__)
+       10    0.000    0.000   19.994    1.999 convert.py:50(to_networkx_graph)
+       10    0.000    0.000   19.993    1.999 convert.py:382(from_edgelist)
+       10    1.631    0.163   19.993    1.999 graph.py:802(add_edges_from)
+   397960    2.328    0.000   17.986    0.000 mst.py:24(minimum_spanning_edges)
+  4738900    5.248    0.000    5.695    0.000 union_find.py:40(__getitem__)
+       10    0.185    0.019    5.590    0.559 graph.py:1085(edges)
+  1971510    5.380    0.000    5.405    0.000 graph.py:1133(edges_iter)
+   397950    1.963    0.000    4.232    0.000 union_find.py:67(union)
+   397950    0.410    0.000    1.667    0.000 union_find.py:69(<listcomp>)
+       10    0.388    0.039    1.398    0.140 {built-in method sorted}
+  1971500    0.575    0.000    1.010    0.000 mst.py:79(<lambda>)
+   397950    0.426    0.000    0.602    0.000 {built-in method max}
+  2369450    0.511    0.000    0.511    0.000 {method 'get' of 'dict' objects}
+  3898440    0.447    0.000    0.447    0.000 {method 'append' of 'list' objects}
+   795910    0.258    0.000    0.258    0.000 {method 'update' of 'dict' objects}
+   795900    0.176    0.000    0.176    0.000 union_find.py:71(<lambda>)
+397990/397970    0.042    0.000    0.042    0.000 {built-in method len}
+   397970    0.040    0.000    0.040    0.000 {method 'copy' of 'dict' objects}
+   397970    0.026    0.000    0.026    0.000 {method 'items' of 'dict' objects}
+       60    0.000    0.000    0.000    0.000 {built-in method hasattr}
+       10    0.000    0.000    0.000    0.000 convert.py:34(_prep_create_using)
+       20    0.000    0.000    0.000    0.000 graph.py:360(__len__)
+       10    0.000    0.000    0.000    0.000 graph.py:1397(clear)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:2264(_handle_fromlist)
+       10    0.000    0.000    0.000    0.000 graph.py:329(__iter__)
+       30    0.000    0.000    0.000    0.000 {built-in method isinstance}
+       10    0.000    0.000    0.000    0.000 union_find.py:35(__init__)
+       10    0.000    0.000    0.000    0.000 {built-in method iter}
+       30    0.000    0.000    0.000    0.000 {method 'clear' of 'dict' objects}
+       10    0.000    0.000    0.000    0.000 graph.py:309(name)
+       10    0.000    0.000    0.000    0.000 graph.py:1448(is_directed)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling betweenness
+====================
+
+         21566906378 function calls (21566906376 primitive calls) in 55326.888 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.002    0.002 55326.888 55326.888 {built-in method exec}
+        1    0.102    0.102 55326.886 55326.886 <string>:1(<module>)
+    79592 27375.262    0.344 38534.223    0.484 betweenness.py:227(_single_source_shortest_path_basic)
+        1  891.099  891.099 32676.430 32676.430 betweenness.py:132(edge_betweenness_centrality)
+        1  962.712  962.712 22650.354 22650.354 betweenness.py:22(betweenness_centrality)
+    39796 10511.330    0.264 11035.319    0.277 betweenness.py:312(_accumulate_edges)
+6334886464 8293.126    0.000 8293.126    0.000 {method 'pop' of 'list' objects}
+    39796 3402.122    0.085 3903.056    0.098 betweenness.py:287(_accumulate_basic)
+3167443232 1406.935    0.000 1406.935    0.000 graph.py:378(__getitem__)
+12063638416 1264.845    0.000 1264.845    0.000 {method 'append' of 'list' objects}
+   159187 1218.446    0.008 1218.750    0.008 {built-in method fromkeys}
+   159189    0.460    0.000    0.619    0.000 graph.py:329(__iter__)
+   159189    0.159    0.000    0.159    0.000 {built-in method iter}
+        1    0.135    0.135    0.135    0.135 betweenness.py:348(_rescale_e)
+        1    0.022    0.022    0.107    0.107 graph.py:1085(edges)
+   301499    0.085    0.000    0.085    0.000 digraph.py:775(edges_iter)
+        1    0.029    0.029    0.029    0.029 {method 'update' of 'dict' objects}
+        1    0.010    0.010    0.010    0.010 betweenness.py:329(_rescale)
+      4/2    0.007    0.002    0.007    0.004 {built-in method len}
+        2    0.000    0.000    0.001    0.000 graph.py:360(__len__)
+        2    0.000    0.000    0.000    0.000 digraph.py:1147(is_directed)
+        1    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+

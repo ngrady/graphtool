@@ -1,0 +1,600 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.spectral - Spectral properties &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <link rel="next" title="graph_tool.stats - Miscellaneous statistics" href="stats.html" />
+    <link rel="prev" title="graph_tool.search - Search algorithms" href="search_module.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stats.html" title="graph_tool.stats - Miscellaneous statistics"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="search_module.html" title="graph_tool.search - Search algorithms"
+             accesskey="P">previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../static/doc/modules.html" >Module documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="https://graph-tool.skewed.de/static/doc/graph_tool.html" accesskey="U">graph_tool - efficient graph analysis and manipulation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-graph_tool.spectral"></span><div class="section" id="graph-tool-spectral-spectral-properties">
+<h1><code class="docutils literal notranslate"><span class="pre">graph_tool.spectral</span></code> - Spectral properties<a class="headerlink" href="spectral.html#graph-tool-spectral-spectral-properties" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="spectral.html#summary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="spectral.html#graph_tool.spectral.adjacency" title="graph_tool.spectral.adjacency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjacency</span></code></a></td>
+<td>Return the adjacency matrix of the graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="spectral.html#graph_tool.spectral.laplacian" title="graph_tool.spectral.laplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code></a></td>
+<td>Return the Laplacian matrix of the graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="spectral.html#graph_tool.spectral.incidence" title="graph_tool.spectral.incidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">incidence</span></code></a></td>
+<td>Return the incidence matrix of the graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="spectral.html#graph_tool.spectral.transition" title="graph_tool.spectral.transition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transition</span></code></a></td>
+<td>Return the transition matrix of the graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="spectral.html#graph_tool.spectral.modularity_matrix" title="graph_tool.spectral.modularity_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modularity_matrix</span></code></a></td>
+<td>Return the modularity matrix of the graph.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="spectral.html#contents" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="graph_tool.spectral.adjacency">
+<code class="descclassname">graph_tool.spectral.</code><code class="descname">adjacency</code><span class="sig-paren">(</span><em>g</em>, <em>weight=None</em>, <em>index=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/spectral.html#adjacency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="spectral.html#graph_tool.spectral.adjacency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the adjacency matrix of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>weight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: True)</p>
+<blockquote>
+<div><p>Edge property map with the edge weights.</p>
+</div></blockquote>
+<p><strong>index</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Vertex property map specifying the row/column indexes. If not provided, the
+internal vertex index is used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>a</strong> : <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+<blockquote class="last">
+<div><p>The (sparse) adjacency matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The adjacency matrix is defined as</p>
+<div class="math">
+\[\begin{split}a_{i,j} =
+\begin{cases}
+    1 &amp; \text{if } (j, i) \in E, \\
+    2 &amp; \text{if } i = j \text{ and } (i, i) \in E, \\
+    0 &amp; \text{otherwise},
+\end{cases}\end{split}\]</div>
+<p>where <span class="math">\(E\)</span> is the edge set.</p>
+<p>In the case of weighted edges, the entry values are multiplied by the weight
+of the respective edge.</p>
+<p>In the case of networks with parallel edges, the entries in the matrix
+become simply the edge multiplicities (or twice them for the diagonal).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For directed graphs the definition above means that the entry
+<span class="math">\(a_{i,j}\)</span> corresponds to the directed edge <span class="math">\(j\to
+i\)</span>. Although this is a typical definition in network and graph theory
+literature, many also use the transpose of this matrix.</p>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="wikipedia-adjacency262" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="spectral.html#id1">[wikipedia-adjacency262]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Adjacency_matrix">http://en.wikipedia.org/wiki/Adjacency_matrix</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;polblogs&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">adjacency</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ew</span><span class="p">,</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">imag</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ew</span><span class="p">)),</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Re}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Im}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;adjacency-spectrum.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id6">
+<img alt="_images/adjacency-spectrum.png" src="../static/doc/_images/adjacency-spectrum.png" />
+<p class="caption"><span class="caption-text">Adjacency matrix spectrum for the political blog network.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.spectral.laplacian">
+<code class="descclassname">graph_tool.spectral.</code><code class="descname">laplacian</code><span class="sig-paren">(</span><em>g</em>, <em>deg='total'</em>, <em>normalized=False</em>, <em>weight=None</em>, <em>index=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/spectral.html#laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="spectral.html#graph_tool.spectral.laplacian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Laplacian matrix of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>deg</strong> : str (optional, default: “total”)</p>
+<blockquote>
+<div><p>Degree to be used, in case of a directed graph.</p>
+</div></blockquote>
+<p><strong>normalized</strong> : bool (optional, default: False)</p>
+<blockquote>
+<div><p>Whether to compute the normalized Laplacian.</p>
+</div></blockquote>
+<p><strong>weight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: True)</p>
+<blockquote>
+<div><p>Edge property map with the edge weights.</p>
+</div></blockquote>
+<p><strong>index</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Vertex property map specifying the row/column indexes. If not provided, the
+internal vertex index is used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>l</strong> : <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+<blockquote class="last">
+<div><p>The (sparse) Laplacian matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The weighted Laplacian matrix is defined as</p>
+<div class="math">
+\[\begin{split}\ell_{ij} =
+\begin{cases}
+\Gamma(v_i) &amp; \text{if } i = j \\
+-w_{ij}     &amp; \text{if } i \neq j \text{ and } (j, i) \in E \\
+0           &amp; \text{otherwise}.
+\end{cases}\end{split}\]</div>
+<p>Where <span class="math">\(\Gamma(v_i)=\sum_j A_{ij}w_{ij}\)</span> is sum of the weights of the
+edges incident on vertex <span class="math">\(v_i\)</span>. The normalized version is</p>
+<div class="math">
+\[\begin{split}\ell_{ij} =
+\begin{cases}
+1         &amp; \text{ if } i = j \text{ and } \Gamma(v_i) \neq 0 \\
+-\frac{w_{ij}}{\sqrt{\Gamma(v_i)\Gamma(v_j)}} &amp; \text{ if } i \neq j \text{ and } (j, i) \in E \\
+0         &amp; \text{otherwise}.
+\end{cases}\end{split}\]</div>
+<p>In the case of unweighted edges, it is assumed <span class="math">\(w_{ij} = 1\)</span>.</p>
+<p>For directed graphs, it is assumed <span class="math">\(\Gamma(v_i)=\sum_j A_{ij}w_{ij} +
+\sum_j A_{ji}w_{ji}\)</span> if <code class="docutils literal notranslate"><span class="pre">deg==&quot;total&quot;</span></code>, <span class="math">\(\Gamma(v_i)=\sum_j A_{ji}w_{ji}\)</span>
+if <code class="docutils literal notranslate"><span class="pre">deg==&quot;out&quot;</span></code> or <span class="math">\(\Gamma(v_i)=\sum_j A_{ij}w_{ij}\)</span> <code class="docutils literal notranslate"><span class="pre">deg==&quot;in&quot;</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For directed graphs the definition above means that the entry
+<span class="math">\(\ell_{i,j}\)</span> corresponds to the directed edge <span class="math">\(j\to
+i\)</span>. Although this is a typical definition in network and graph theory
+literature, many also use the transpose of this matrix.</p>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="wikipedia-laplacian263" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="spectral.html#id2">[wikipedia-laplacian263]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Laplacian_matrix">http://en.wikipedia.org/wiki/Laplacian_matrix</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;polblogs&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ew</span><span class="p">,</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">imag</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ew</span><span class="p">)),</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Re}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Im}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;laplacian-spectrum.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id7">
+<img alt="_images/laplacian-spectrum.png" src="../static/doc/_images/laplacian-spectrum.png" />
+<p class="caption"><span class="caption-text">Laplacian matrix spectrum for the political blog network.</span></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">L</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ew</span><span class="p">,</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">imag</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ew</span><span class="p">)),</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Re}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Im}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;norm-laplacian-spectrum.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id8">
+<img alt="_images/norm-laplacian-spectrum.png" src="https://graph-tool.skewed.de/static/doc/_images/norm-laplacian-spectrum.png" />
+<p class="caption"><span class="caption-text">Normalized Laplacian matrix spectrum for the political blog network.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.spectral.incidence">
+<code class="descclassname">graph_tool.spectral.</code><code class="descname">incidence</code><span class="sig-paren">(</span><em>g</em>, <em>vindex=None</em>, <em>eindex=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/spectral.html#incidence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="spectral.html#graph_tool.spectral.incidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the incidence matrix of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>vindex</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Vertex property map specifying the row indexes. If not provided, the
+internal vertex index is used.</p>
+</div></blockquote>
+<p><strong>eindex</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Edge property map specifying the column indexes. If not provided, the
+internal edge index is used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>a</strong> : <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+<blockquote class="last">
+<div><p>The (sparse) incidence matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For undirected graphs, the incidence matrix is defined as</p>
+<div class="math">
+\[\begin{split}b_{i,j} =
+\begin{cases}
+    1 &amp; \text{if vertex } v_i \text{and edge } e_j \text{ are incident}, \\
+    0 &amp; \text{otherwise}
+\end{cases}\end{split}\]</div>
+<p>For directed graphs, the definition is</p>
+<div class="math">
+\[\begin{split}b_{i,j} =
+\begin{cases}
+    1 &amp; \text{if edge } e_j \text{ enters vertex } v_i, \\
+    -1 &amp; \text{if edge } e_j \text{ leaves vertex } v_i, \\
+    0 &amp; \text{otherwise}
+\end{cases}\end{split}\]</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="wikipedia-incidence264" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="spectral.html#id3">[wikipedia-incidence264]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Incidence_matrix">http://en.wikipedia.org/wiki/Incidence_matrix</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">incidence</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+<span class="go">[[-1. -1.  0. ...  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0. ...  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0. ...  0.  0.  0.]</span>
+<span class="go"> ...</span>
+<span class="go"> [ 0.  0. -1. ...  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0. ...  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0. ...  0.  0.  0.]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.spectral.transition">
+<code class="descclassname">graph_tool.spectral.</code><code class="descname">transition</code><span class="sig-paren">(</span><em>g</em>, <em>weight=None</em>, <em>index=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/spectral.html#transition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="spectral.html#graph_tool.spectral.transition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the transition matrix of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>weight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: True)</p>
+<blockquote>
+<div><p>Edge property map with the edge weights.</p>
+</div></blockquote>
+<p><strong>index</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Vertex property map specifying the row/column indexes. If not provided, the
+internal vertex index is used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>T</strong> : <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a></p>
+<blockquote class="last">
+<div><p>The (sparse) transition matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The transition matrix is defined as</p>
+<div class="math">
+\[T_{ij} = \frac{A_{ij}}{k_j}\]</div>
+<p>where <span class="math">\(k_i = \sum_j A_{ji}\)</span>, and <span class="math">\(A_{ij}\)</span> is the adjacency
+matrix.</p>
+<p>In the case of weighted edges, the values of the adjacency matrix are
+multiplied by the edge weights.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For directed graphs the definition above means that the entry
+<span class="math">\(T_{ij}\)</span> corresponds to the directed edge <span class="math">\(j\to
+i\)</span>. Although this is a typical definition in network and graph theory
+literature, many also use the transpose of this matrix.</p>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="wikipedia-transition265" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="spectral.html#id4">[wikipedia-transition265]</a></td><td><a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_matrix">https://en.wikipedia.org/wiki/Stochastic_matrix</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;polblogs&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ew</span><span class="p">,</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">imag</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ew</span><span class="p">)),</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Re}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Im}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;transition-spectrum.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id9">
+<img alt="_images/transition-spectrum.png" src="../static/doc/_images/transition-spectrum.png" />
+<p class="caption"><span class="caption-text">Transition matrix spectrum for the political blog network.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.spectral.modularity_matrix">
+<code class="descclassname">graph_tool.spectral.</code><code class="descname">modularity_matrix</code><span class="sig-paren">(</span><em>g</em>, <em>weight=None</em>, <em>index=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/spectral.html#modularity_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="spectral.html#graph_tool.spectral.modularity_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the modularity matrix of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>weight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: True)</p>
+<blockquote>
+<div><p>Edge property map with the edge weights.</p>
+</div></blockquote>
+<p><strong>index</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Vertex property map specifying the row/column indexes. If not provided, the
+internal vertex index is used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>B</strong> : <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.LinearOperator.html#scipy.sparse.linalg.LinearOperator" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a></p>
+<blockquote class="last">
+<div><p>The (sparse) modularity matrix, represented as a
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.LinearOperator.html#scipy.sparse.linalg.LinearOperator" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The modularity matrix is defined as</p>
+<div class="math">
+\[B_{ij} =  A_{ij} - \frac{k^+_i k^-_j}{2E}\]</div>
+<p>where <span class="math">\(k^+_i = \sum_j A_{ji}\)</span>, <span class="math">\(k^-_i = \sum_j A_{ij}\)</span>,
+<span class="math">\(2E=\sum_{ij}A_{ij}\)</span> and <span class="math">\(A_{ij}\)</span> is the adjacency matrix.</p>
+<p>In the case of weighted edges, the values of the adjacency matrix are
+multiplied by the edge weights.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="newman-modularity266" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="spectral.html#id5">[newman-modularity266]</a></td><td>M. E. J. Newman, M. Girvan, “Finding and evaluating
+community structure in networks”, Phys. Rev. E 69, 026113 (2004).
+<a class="reference external" href="https://dx.doi.org/10.1103/PhysRevE.69.026113">DOI: 10.1103/PhysRevE.69.026113</a> [<a class="reference external" href="https://sci-hub.tw/10.1103/PhysRevE.69.026113">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1103/PhysRevE.69.026113">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;polblogs&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">modularity_matrix</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># transform to a dense matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ew</span><span class="p">,</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">imag</span><span class="p">(</span><span class="n">ew</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ew</span><span class="p">)),</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Re}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\operatorname</span><span class="si">{Im}</span><span class="s2">(\lambda)$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;modularity-spectrum.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id10">
+<img alt="_images/modularity-spectrum.png" src="../static/doc/_images/modularity-spectrum.png" />
+<p class="caption"><span class="caption-text">Modularity matrix spectrum for the political blog network.</span></p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../doc">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="spectral.html#"><code class="docutils literal notranslate"><span class="pre">graph_tool.spectral</span></code> - Spectral properties</a><ul>
+<li><a class="reference internal" href="spectral.html#summary">Summary</a></li>
+<li><a class="reference internal" href="spectral.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="search_module.html"
+                        title="previous chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.search</span></code> - Search algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stats.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.stats</span></code> - Miscellaneous statistics</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../static/doc/_sources/spectral.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stats.html" title="graph_tool.stats - Miscellaneous statistics"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="search_module.html" title="graph_tool.search - Search algorithms"
+             >previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../static/doc/modules.html" >Module documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="https://graph-tool.skewed.de/static/doc/graph_tool.html" >graph_tool - efficient graph analysis and manipulation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

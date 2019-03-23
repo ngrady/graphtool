@@ -1,0 +1,555 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.stats &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.stats</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.stats`` - Miscellaneous statistics</span>
+<span class="sd">-----------------------------------------------</span>
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   vertex_hist</span>
+<span class="sd">   edge_hist</span>
+<span class="sd">   vertex_average</span>
+<span class="sd">   edge_average</span>
+<span class="sd">   label_parallel_edges</span>
+<span class="sd">   remove_parallel_edges</span>
+<span class="sd">   label_self_loops</span>
+<span class="sd">   remove_self_loops</span>
+<span class="sd">   remove_labeled_edges</span>
+<span class="sd">   distance_histogram</span>
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_stats&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">_get_rng</span><span class="p">,</span> <span class="n">GraphView</span><span class="p">,</span> <span class="n">PropertyMap</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;vertex_hist&quot;</span><span class="p">,</span> <span class="s2">&quot;edge_hist&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex_average&quot;</span><span class="p">,</span> <span class="s2">&quot;edge_average&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;label_parallel_edges&quot;</span><span class="p">,</span> <span class="s2">&quot;remove_parallel_edges&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;label_self_loops&quot;</span><span class="p">,</span> <span class="s2">&quot;remove_self_loops&quot;</span><span class="p">,</span> <span class="s2">&quot;remove_labeled_edges&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;distance_histogram&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="vertex_hist"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.vertex_hist">[docs]</a><span class="k">def</span> <span class="nf">vertex_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">float_count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the vertex histogram of the given degree type or property.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Degree or property to be used for the histogram. It can be either &quot;in&quot;,</span>
+<span class="sd">        &quot;out&quot; or &quot;total&quot;, for in-, out-, or total degree of the vertices. It can</span>
+<span class="sd">        also be a vertex property map.</span>
+<span class="sd">    bins : list of bins (optional, default: [0, 1])</span>
+<span class="sd">        List of bins to be used for the histogram. The values given represent</span>
+<span class="sd">        the edges of the bins (i.e. lower and upper bounds). If the list</span>
+<span class="sd">        contains two values, this will be used to automatically create an</span>
+<span class="sd">        appropriate bin range, with a constant width given by the second value,</span>
+<span class="sd">        and starting from the first value.</span>
+<span class="sd">    float_count : bool (optional, default: True)</span>
+<span class="sd">        If True, the counts in each histogram bin will be returned as floats. If</span>
+<span class="sd">        False, they will be returned as integers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    counts : :class:`~numpy.ndarray`</span>
+<span class="sd">        The bin counts.</span>
+<span class="sd">    bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        The bin edges.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    edge_hist: Edge histograms.</span>
+<span class="sd">    vertex_average: Average of vertex properties, degrees.</span>
+<span class="sd">    edge_average: Average of edge properties.</span>
+<span class="sd">    distance_histogram : Shortest-distance histogram.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm runs in :math:`O(|V|)` time.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy.random</span>
+<span class="sd">       numpy.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; from numpy.random import poisson</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (poisson(5), poisson(5)))</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.vertex_hist(g, &quot;out&quot;))</span>
+<span class="sd">    [array([  7.,  33.,  91., 145., 165., 164., 152., 115.,  62.,  29.,  28.,</span>
+<span class="sd">             6.,   1.,   1.,   0.,   1.]), array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16],</span>
+<span class="sd">          dtype=uint64)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">get_vertex_histogram</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">),</span>
+                               <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">float_count</span> <span class="k">else</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="edge_hist"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.edge_hist">[docs]</a><span class="k">def</span> <span class="nf">edge_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">float_count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the edge histogram of the given property.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    eprop : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property to be used for the histogram.</span>
+<span class="sd">    bins : list of bins (optional, default: [0, 1])</span>
+<span class="sd">        List of bins to be used for the histogram. The values given represent</span>
+<span class="sd">        the edges of the bins (i.e. lower and upper bounds). If the list</span>
+<span class="sd">        contains two values, this will be used to automatically create an</span>
+<span class="sd">        appropriate bin range, with a constant width given by the second value,</span>
+<span class="sd">        and starting from the first value.</span>
+<span class="sd">    float_count : bool (optional, default: True)</span>
+<span class="sd">        If True, the counts in each histogram bin will be returned as floats. If</span>
+<span class="sd">        False, they will be returned as integers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    counts : :class:`~numpy.ndarray`</span>
+<span class="sd">        The bin counts.</span>
+<span class="sd">    bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        The bin edges.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    vertex_hist : Vertex histograms.</span>
+<span class="sd">    vertex_average : Average of vertex properties, degrees.</span>
+<span class="sd">    edge_average : Average of edge properties.</span>
+<span class="sd">    distance_histogram : Shortest-distance histogram.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm runs in :math:`O(|E|)` time.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy.random</span>
+<span class="sd">       numpy.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; from numpy import arange</span>
+<span class="sd">    &gt;&gt;&gt; from numpy.random import random</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (5, 5))</span>
+<span class="sd">    &gt;&gt;&gt; eprop = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; eprop.get_array()[:] = random(g.num_edges())</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.edge_hist(g, eprop, linspace(0, 1, 11)))</span>
+<span class="sd">    [array([501., 441., 478., 480., 506., 494., 507., 535., 499., 559.]), array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. ])]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">get_edge_histogram</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">),</span>
+                             <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">float_count</span> <span class="k">else</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="vertex_average"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.vertex_average">[docs]</a><span class="k">def</span> <span class="nf">vertex_average</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the average of the given degree or vertex property.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Degree or property to be used for the histogram. It can be either &quot;in&quot;,</span>
+<span class="sd">        &quot;out&quot; or &quot;total&quot;, for in-, out-, or total degree of the vertices. It can</span>
+<span class="sd">        also be a vertex property map.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    average : float</span>
+<span class="sd">        The average of the given degree or property.</span>
+<span class="sd">    std : float</span>
+<span class="sd">        The standard deviation of the average.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    vertex_hist : Vertex histograms.</span>
+<span class="sd">    edge_hist : Edge histograms.</span>
+<span class="sd">    edge_average : Average of edge properties.</span>
+<span class="sd">    distance_histogram : Shortest-distance histogram.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm runs in :math:`O(|V|)` time.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy.random</span>
+<span class="sd">       numpy.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; from numpy.random import poisson</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (poisson(5), poisson(5)))</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.vertex_average(g, &quot;in&quot;))</span>
+<span class="sd">    (4.96, 0.0679882342762334)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;string&quot;</span> <span class="ow">in</span> <span class="n">deg</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot calculate average of property type: &quot;</span> <span class="o">+</span> <span class="n">deg</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">aa</span><span class="p">,</span> <span class="n">count</span>  <span class="o">=</span> <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">get_vertex_average</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">aa</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">aa</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">a</span> <span class="o">/=</span> <span class="n">count</span>
+    <span class="n">aa</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">aa</span> <span class="o">/</span> <span class="n">count</span> <span class="o">-</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">count</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">aa</span></div>
+
+
+<div class="viewcode-block" id="edge_average"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.edge_average">[docs]</a><span class="k">def</span> <span class="nf">edge_average</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the average of the given degree or vertex property.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    eprop : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property to be used for the histogram.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    average : float</span>
+<span class="sd">        The average of the given property.</span>
+<span class="sd">    std : float</span>
+<span class="sd">        The standard deviation of the average.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    vertex_hist : Vertex histograms.</span>
+<span class="sd">    edge_hist : Edge histograms.</span>
+<span class="sd">    vertex_average : Average of vertex degree, properties.</span>
+<span class="sd">    distance_histogram : Shortest-distance histogram.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm runs in :math:`O(|E|)` time.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy.random</span>
+<span class="sd">       numpy.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; from numpy import arange</span>
+<span class="sd">    &gt;&gt;&gt; from numpy.random import random</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (5, 5))</span>
+<span class="sd">    &gt;&gt;&gt; eprop = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; eprop.get_array()[:] = random(g.num_edges())</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.edge_average(g, eprop))</span>
+<span class="sd">    (0.49888156584192045, 0.004096739923418754)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;string&quot;</span> <span class="ow">in</span> <span class="n">eprop</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot calculate average of property type: &quot;</span> <span class="o">+</span> <span class="n">eprop</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">aa</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">get_edge_average</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">aa</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">aa</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">a</span> <span class="o">/=</span> <span class="n">count</span>
+    <span class="n">aa</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">aa</span> <span class="o">/</span> <span class="n">count</span> <span class="o">-</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">count</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">aa</span></div>
+
+
+<div class="viewcode-block" id="remove_labeled_edges"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.remove_labeled_edges">[docs]</a><span class="k">def</span> <span class="nf">remove_labeled_edges</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove every edge `e` such that `label[e] != 0`.&quot;&quot;&quot;</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">reversed</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">is_reversed</span><span class="p">(),</span>
+                  <span class="n">skip_properties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">remove_labeled_edges</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="label_parallel_edges"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.label_parallel_edges">[docs]</a><span class="k">def</span> <span class="nf">label_parallel_edges</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">mark_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eprop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Label edges which are parallel, i.e, have the same source and target</span>
+<span class="sd">    vertices. For each parallel edge set :math:`PE`, the labelling starts from 0</span>
+<span class="sd">    to :math:`|PE|-1`. If `mark_only==True`, all parallel edges are simply</span>
+<span class="sd">    marked with the value 1. If the `eprop` parameter is given (a</span>
+<span class="sd">    :class:`~graph_tool.PropertyMap`), the labelling is stored there.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">eprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mark_only</span><span class="p">:</span>
+            <span class="n">eprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;int32_t&quot;</span><span class="p">)</span>
+    <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">label_parallel_edges</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">),</span>
+                               <span class="n">mark_only</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">eprop</span></div>
+
+
+<div class="viewcode-block" id="remove_parallel_edges"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.remove_parallel_edges">[docs]</a><span class="k">def</span> <span class="nf">remove_parallel_edges</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove all parallel edges from the graph. Only one edge from each</span>
+<span class="sd">    parallel edge set is left.&quot;&quot;&quot;</span>
+    <span class="n">eprop</span> <span class="o">=</span> <span class="n">label_parallel_edges</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">remove_labeled_edges</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="label_self_loops"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.label_self_loops">[docs]</a><span class="k">def</span> <span class="nf">label_self_loops</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">mark_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eprop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Label edges which are self-loops, i.e, the source and target vertices are</span>
+<span class="sd">    the same. For each self-loop edge set :math:`SL`, the labelling starts from 0</span>
+<span class="sd">    to :math:`|SL|-1`. If `mark_only == True`, self-loops are labeled with 1</span>
+<span class="sd">    and others with 0. If the `eprop` parameter is given</span>
+<span class="sd">    (a :class:`~graph_tool.PropertyMap`), the labelling is stored there.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">eprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mark_only</span><span class="p">:</span>
+            <span class="n">eprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;int32_t&quot;</span><span class="p">)</span>
+    <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+          <span class="n">label_self_loops</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">),</span>
+                           <span class="n">mark_only</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">eprop</span></div>
+
+
+<div class="viewcode-block" id="remove_self_loops"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.remove_self_loops">[docs]</a><span class="k">def</span> <span class="nf">remove_self_loops</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove all self-loops edges from the graph.&quot;&quot;&quot;</span>
+    <span class="n">eprop</span> <span class="o">=</span> <span class="n">label_self_loops</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">remove_labeled_edges</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="distance_histogram"><a class="viewcode-back" href="../../../../doc/stats.html#graph_tool.stats.distance_histogram">[docs]</a><span class="k">def</span> <span class="nf">distance_histogram</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">float_count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the shortest-distance histogram for each vertex pair in the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap` (optional, default: None)</span>
+<span class="sd">        Edge weights.</span>
+<span class="sd">    bins : list of bins (optional, default: `[0, 1]`)</span>
+<span class="sd">        List of bins to be used for the histogram. The values given represent</span>
+<span class="sd">        the edges of the bins (i.e. lower and upper bounds). If the list</span>
+<span class="sd">        contains two values, this will be used to automatically create an</span>
+<span class="sd">        appropriate bin range, with a constant width given by the second value,</span>
+<span class="sd">        and starting from the first value.</span>
+<span class="sd">    samples : int (optional, default: `None`)</span>
+<span class="sd">        If supplied, the distances will be randomly sampled from a number of</span>
+<span class="sd">        source vertices given by this parameter. It `samples is None` (default),</span>
+<span class="sd">        all pairs are used.</span>
+<span class="sd">    float_count : bool (optional, default: `True`)</span>
+<span class="sd">        If True, the counts in each histogram bin will be returned as floats. If</span>
+<span class="sd">        False, they will be returned as integers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    counts : :class:`~numpy.ndarray`</span>
+<span class="sd">        The bin counts.</span>
+<span class="sd">    bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        The bin edges.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    vertex_hist : Vertex histograms.</span>
+<span class="sd">    edge_hist : Edge histograms.</span>
+<span class="sd">    vertex_average : Average of vertex degree, properties.</span>
+<span class="sd">    distance_histogram : Shortest-distance histogram.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm runs in :math:`O(V^2)` time, or :math:`O(V^2\log V)` if</span>
+<span class="sd">    `weight is not None`. If `samples` is supplied, the complexities are</span>
+<span class="sd">    :math:`O(\text{samples}\times V)`  and</span>
+<span class="sd">    :math:`O(\text{samples}\times V\log V)`, respectively.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy.random</span>
+<span class="sd">       numpy.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(100, lambda: (3, 3))</span>
+<span class="sd">    &gt;&gt;&gt; hist = gt.distance_histogram(g)</span>
+<span class="sd">    &gt;&gt;&gt; print(hist)</span>
+<span class="sd">    [array([   0.,  300.,  880., 2269., 3974., 2358.,  119.]), array([0, 1, 2, 3, 4, 5, 6, 7], dtype=uint64)]</span>
+<span class="sd">    &gt;&gt;&gt; hist = gt.distance_histogram(g, samples=10)</span>
+<span class="sd">    &gt;&gt;&gt; print(hist)</span>
+<span class="sd">    [array([  0.,  30.,  87., 223., 394., 239.,  17.]), array([0, 1, 2, 3, 4, 5, 6, 7], dtype=uint64)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+              <span class="n">sampled_distance_histogram</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                         <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                         <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">],</span>
+                                         <span class="n">samples</span><span class="p">,</span> <span class="n">_get_rng</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_stats</span><span class="o">.</span>\
+              <span class="n">distance_histogram</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">float_count</span> <span class="k">else</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

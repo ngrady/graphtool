@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head prefix="og: http://ogp.me/ns#">
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="object" property="og:type">
+<meta content="GitLab" property="og:site_name">
+<meta content="Issues · Tiago Peixoto / graph-tool" property="og:title">
+<meta content="graph-tool is an efficient Python module for manipulation and statistical analysis of graphs (a.k.a. networks). http://graph-tool.skewed.de/" property="og:description">
+<meta content="/uploads/-/system/project/avatar/2/graph-tool-logo-hi.png" property="og:image">
+<meta content="64" property="og:image:width">
+<meta content="64" property="og:image:height">
+<meta content="https://git.skewed.de/count0/graph-tool/issues" property="og:url">
+<meta content="summary" property="twitter:card">
+<meta content="Issues · Tiago Peixoto / graph-tool" property="twitter:title">
+<meta content="graph-tool is an efficient Python module for manipulation and statistical analysis of graphs (a.k.a. networks). http://graph-tool.skewed.de/" property="twitter:description">
+<meta content="/uploads/-/system/project/avatar/2/graph-tool-logo-hi.png" property="twitter:image">
+
+<title>Issues · Tiago Peixoto / graph-tool · GitLab</title>
+<meta content="graph-tool is an efficient Python module for manipulation and statistical analysis of graphs (a.k.a. networks). http://graph-tool.skewed.de/" name="description">
+<link rel="shortcut icon" type="image/png" href="https://git.skewed.de/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" id="favicon" data-original-href="/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" />
+<link rel="stylesheet" media="all" href="https://git.skewed.de/assets/application-93ceba0a6f1049ed0ddbcc042a4dd82bcd83b592b115e35d2662f6392f3b28b9.css" />
+<link rel="stylesheet" media="print" href="https://git.skewed.de/assets/print-c8ff536271f8974b8a9a5f75c0ca25d2b8c1dceb4cff3c01d1603862a0bdcbfc.css" />
+
+
+
+<script>
+//<![CDATA[
+window.gon={};gon.api_version="v4";gon.default_avatar_url="https://git.skewed.de/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";gon.max_file_size=10;gon.asset_host=null;gon.webpack_public_path="/assets/webpack/";gon.relative_url_root="";gon.shortcuts_path="/help/shortcuts";gon.user_color_scheme="white";gon.gitlab_url="https://git.skewed.de";gon.revision="b1268e9";gon.gitlab_logo="/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png";gon.sprite_icons="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg";gon.sprite_file_icons="/assets/file_icons-7262fc6897e02f1ceaf8de43dc33afa5e4f9a2067f4f68ef77dcc87946575e9e.svg";gon.emoji_sprites_css_path="/assets/emoji_sprites-289eccffb1183c188b630297431be837765d9ff4aed6130cf738586fb307c170.css";gon.test_env=false;gon.suggested_label_colors=["#0033CC","#428BCA","#44AD8E","#A8D695","#5CB85C","#69D100","#004E00","#34495E","#7F8C8D","#A295D6","#5843AD","#8E44AD","#FFECDB","#AD4363","#D10069","#CC0033","#FF0000","#D9534F","#D1D100","#F0AD4E","#AD8D43"];gon.first_day_of_week=0;
+//]]>
+</script>
+
+
+<script src="https://git.skewed.de/assets/webpack/runtime.55a13db1.bundle.js" defer="defer"></script>
+<script src="https://git.skewed.de/assets/webpack/main.7aef2bd8.chunk.js" defer="defer"></script>
+<script src="https://git.skewed.de/assets/webpack/commons~pages.groups~pages.groups.activity~pages.groups.boards~pages.groups.clusters.destroy~pages.g~99a59a9e.dd9cf9fb.chunk.js" defer="defer"></script>
+<script src="https://git.skewed.de/assets/webpack/commons~pages.admin.groups.show~pages.dashboard.todos.index~pages.groups.boards~pages.groups.group_m~e82670fe.3627a09f.chunk.js" defer="defer"></script>
+<script src="https://git.skewed.de/assets/webpack/pages.projects.issues.index.7defed5c.chunk.js" defer="defer"></script>
+
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="EtQV6CjVtVGcrttbPN03/9pkVBGX2yTQWfThQC7tnepUnu5HycM3QFkyfAmiVA7CFLYcJ2TYusW8Ph37wdheAQ==" />
+<meta content="origin-when-cross-origin" name="referrer">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+<meta content="#474D57" name="theme-color">
+<link rel="apple-touch-icon" type="image/x-icon" href="https://git.skewed.de/assets/touch-icon-iphone-5a9cee0e8a51212e70b90c87c12f382c428870c0ff67d1eb034d884b78d2dae7.png" />
+<link rel="apple-touch-icon" type="image/x-icon" href="https://git.skewed.de/assets/touch-icon-ipad-a6eec6aeb9da138e507593b464fdac213047e49d3093fc30e90d9a995df83ba3.png" sizes="76x76" />
+<link rel="apple-touch-icon" type="image/x-icon" href="https://git.skewed.de/assets/touch-icon-iphone-retina-72e2aadf86513a56e050e7f0f2355deaa19cc17ed97bbe5147847f2748e5a3e3.png" sizes="120x120" />
+<link rel="apple-touch-icon" type="image/x-icon" href="https://git.skewed.de/assets/touch-icon-ipad-retina-8ebe416f5313483d9c1bc772b5bbe03ecad52a54eba443e5215a22caed2a16a2.png" sizes="152x152" />
+<link color="rgb(226, 67, 41)" href="https://git.skewed.de/assets/logo-d36b5212042cebc89b96df4bf6ac24e43db316143e89926c0db839ff694d2de4.svg" rel="mask-icon">
+<meta content="/assets/msapplication-tile-1196ec67452f618d39cdd85e2e3a542f76574c071051ae7effbfde01710eb17d.png" name="msapplication-TileImage">
+<meta content="#30353E" name="msapplication-TileColor">
+<link rel="alternate" type="application/atom+xml" title="graph-tool issues" href="https://git.skewed.de/count0/graph-tool/issues.atom?state=opened" />
+
+
+
+</head>
+
+<body class="ui-dark  gl-browser-generic gl-platform-other" data-find-file="/count0/graph-tool/find_file/master" data-group="" data-page="projects:issues:index" data-project="graph-tool">
+
+<script>
+  gl = window.gl || {};
+  gl.client = {"isGeneric":true,"isOther":true};
+</script>
+
+
+<header class="navbar navbar-gitlab qa-navbar navbar-expand-sm js-navbar">
+<a class="sr-only gl-accessibility" href="issues#content-body" tabindex="1">Skip to content</a>
+<div class="container-fluid">
+<div class="header-content">
+<div class="title-container">
+<h1 class="title">
+<a title="Dashboard" id="logo" href="https://git.skewed.de/"><svg width="24" height="24" class="tanuki-logo" viewBox="0 0 36 36">
+  <path class="tanuki-shape tanuki-left-ear" fill="#e24329" d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"/>
+  <path class="tanuki-shape tanuki-right-ear" fill="#e24329" d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"/>
+  <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"/>
+  <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"/>
+  <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"/>
+  <path class="tanuki-shape tanuki-left-cheek" fill="#fca326" d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"/>
+  <path class="tanuki-shape tanuki-right-cheek" fill="#fca326" d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"/>
+</svg>
+
+<span class="logo-text d-none d-lg-block prepend-left-8">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 617 169"><path d="M315.26 2.97h-21.8l.1 162.5h88.3v-20.1h-66.5l-.1-142.4M465.89 136.95c-5.5 5.7-14.6 11.4-27 11.4-16.6 0-23.3-8.2-23.3-18.9 0-16.1 11.2-23.8 35-23.8 4.5 0 11.7.5 15.4 1.2v30.1h-.1m-22.6-98.5c-17.6 0-33.8 6.2-46.4 16.7l7.7 13.4c8.9-5.2 19.8-10.4 35.5-10.4 17.9 0 25.8 9.2 25.8 24.6v7.9c-3.5-.7-10.7-1.2-15.1-1.2-38.2 0-57.6 13.4-57.6 41.4 0 25.1 15.4 37.7 38.7 37.7 15.7 0 30.8-7.2 36-18.9l4 15.9h15.4v-83.2c-.1-26.3-11.5-43.9-44-43.9M557.63 149.1c-8.2 0-15.4-1-20.8-3.5V70.5c7.4-6.2 16.6-10.7 28.3-10.7 21.1 0 29.2 14.9 29.2 39 0 34.2-13.1 50.3-36.7 50.3m9.2-110.6c-19.5 0-30 13.3-30 13.3v-21l-.1-27.8h-21.3l.1 158.5c10.7 4.5 25.3 6.9 41.2 6.9 40.7 0 60.3-26 60.3-70.9-.1-35.5-18.2-59-50.2-59M77.9 20.6c19.3 0 31.8 6.4 39.9 12.9l9.4-16.3C114.5 6 97.3 0 78.9 0 32.5 0 0 28.3 0 85.4c0 59.8 35.1 83.1 75.2 83.1 20.1 0 37.2-4.7 48.4-9.4l-.5-63.9V75.1H63.6v20.1h38l.5 48.5c-5 2.5-13.6 4.5-25.3 4.5-32.2 0-53.8-20.3-53.8-63-.1-43.5 22.2-64.6 54.9-64.6M231.43 2.95h-21.3l.1 27.3v94.3c0 26.3 11.4 43.9 43.9 43.9 4.5 0 8.9-.4 13.1-1.2v-19.1c-3.1.5-6.4.7-9.9.7-17.9 0-25.8-9.2-25.8-24.6v-65h35.7v-17.8h-35.7l-.1-38.5M155.96 165.47h21.3v-124h-21.3v124M155.96 24.37h21.3V3.07h-21.3v21.3"/></svg>
+
+</span>
+</a></h1>
+<ul class="list-unstyled navbar-sub-nav">
+<li class="home"><a title="Projects" class="dashboard-shortcuts-projects" href="https://git.skewed.de/explore">Projects
+</a></li><li class=""><a title="Groups" class="dashboard-shortcuts-groups" href="https://git.skewed.de/explore/groups">Groups
+</a></li><li class=""><a title="Snippets" class="dashboard-shortcuts-snippets" href="https://git.skewed.de/explore/snippets">Snippets
+</a></li><li>
+<a title="About GitLab CE" href="https://git.skewed.de/help">Help</a>
+</li>
+</ul>
+
+</div>
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li class="nav-item d-none d-sm-none d-md-block m-auto">
+<div class="search search-form" data-track-event="activate_form_input" data-track-label="navbar_search">
+<form class="form-inline" action="https://git.skewed.de/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><div class="search-input-container">
+<div class="search-input-wrap">
+<div class="dropdown" data-url="/search/autocomplete">
+<input type="search" name="search" id="search" placeholder="Search or jump to…" class="search-input dropdown-menu-toggle no-outline js-search-dashboard-options" spellcheck="false" tabindex="1" autocomplete="off" data-issues-path="/dashboard/issues" data-mr-path="/dashboard/merge_requests" aria-label="Search or jump to…" />
+<button class="hidden js-dropdown-search-toggle" data-toggle="dropdown" type="button"></button>
+<div class="dropdown-menu dropdown-select">
+<div class="dropdown-content"><ul>
+<li class="dropdown-menu-empty-item">
+<a>
+Loading...
+</a>
+</li>
+</ul>
+</div><div class="dropdown-loading"><i aria-hidden="true" data-hidden="true" class="fa fa-spinner fa-spin"></i></div>
+</div>
+<svg class="s16 search-icon"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#search"></use></svg>
+<svg class="s16 clear-icon js-clear-input"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#close"></use></svg>
+</div>
+</div>
+</div>
+<input type="hidden" name="group_id" id="group_id" class="js-search-group-options" />
+<input type="hidden" name="project_id" id="search_project_id" value="2" class="js-search-project-options" data-project-path="graph-tool" data-name="graph-tool" data-issues-path="/count0/graph-tool/issues" data-mr-path="/count0/graph-tool/merge_requests" data-issues-disabled="false" />
+<input type="hidden" name="scope" id="scope" value="issues" />
+<input type="hidden" name="repository_ref" id="repository_ref" />
+
+<div class="search-autocomplete-opts hide" data-autocomplete-path="/search/autocomplete" data-autocomplete-project-id="2"></div>
+</form></div>
+
+</li>
+<li class="nav-item d-inline-block d-sm-none d-md-none">
+<a title="Search" aria-label="Search" data-toggle="tooltip" data-placement="bottom" data-container="body" href="https://git.skewed.de/search?project_id=2"><svg class="s16"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#search"></use></svg>
+</a></li>
+<li class="nav-item header-help dropdown">
+<a class="header-help-dropdown-toggle" data-toggle="dropdown" href="https://git.skewed.de/help"><svg class="s16"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#question"></use></svg>
+<svg class="caret-down"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#angle-down"></use></svg>
+</a><div class="dropdown-menu dropdown-menu-right">
+<ul>
+<li>
+<a href="https://git.skewed.de/help">Help</a>
+</li>
+<li class="divider"></li>
+<li>
+<a href="https://about.gitlab.com/submit-feedback">Submit feedback</a>
+</li>
+<li>
+<a target="_blank" class="text-nowrap" href="https://about.gitlab.com/contributing">Contribute to GitLab
+</a></li>
+
+</ul>
+
+</div>
+</li>
+<li class="nav-item">
+<div>
+<a class="btn btn-sign-in" href="https://git.skewed.de/users/sign_in?redirect_to_referer=yes">Sign in / Register</a>
+</div>
+</li>
+</ul>
+</div>
+<button class="navbar-toggler d-block d-sm-none" type="button">
+<span class="sr-only">Toggle navigation</span>
+<svg class="s12 more-icon js-navbar-toggle-right"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#ellipsis_h"></use></svg>
+<svg class="s12 close-icon js-navbar-toggle-left"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#close"></use></svg>
+</button>
+</div>
+</div>
+</header>
+
+<div class="layout-page page-with-contextual-sidebar">
+<div class="nav-sidebar">
+<div class="nav-sidebar-inner-scroll">
+<div class="context-header">
+<a title="graph-tool" href="git"><div class="avatar-container s40 project-avatar">
+<img alt="graph-tool" class="avatar s40 avatar-tile lazy" width="40" height="40" data-src="/uploads/-/system/project/avatar/2/graph-tool-logo-hi.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+</div>
+<div class="sidebar-context-title">
+graph-tool
+</div>
+</a></div>
+<ul class="sidebar-top-level-items">
+<li class="home"><a class="shortcuts-project" href="git"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#home"></use></svg>
+</div>
+<span class="nav-item-name">
+Project
+</span>
+</a><ul class="sidebar-sub-level-items">
+<li class="fly-out-top-item"><a href="git"><strong class="fly-out-top-item-name">
+Project
+</strong>
+</a></li><li class="divider fly-out-top-item"></li>
+<li class=""><a title="Project details" class="shortcuts-project" href="git"><span>Details</span>
+</a></li><li class=""><a title="Activity" class="shortcuts-project-activity qa-activity-link" href="https://git.skewed.de/count0/graph-tool/activity"><span>Activity</span>
+</a></li><li class=""><a title="Releases" class="shortcuts-project-releases" href="https://git.skewed.de/count0/graph-tool/releases"><span>Releases</span>
+</a></li>
+<li class=""><a title="Cycle Analytics" class="shortcuts-project-cycle-analytics" href="https://git.skewed.de/count0/graph-tool/cycle_analytics"><span>Cycle Analytics</span>
+</a></li></ul>
+</li><li class=""><a class="shortcuts-tree qa-project-menu-repo" href="https://git.skewed.de/count0/graph-tool/tree/master"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#doc-text"></use></svg>
+</div>
+<span class="nav-item-name">
+Repository
+</span>
+</a><ul class="sidebar-sub-level-items">
+<li class="fly-out-top-item"><a href="https://git.skewed.de/count0/graph-tool/tree/master"><strong class="fly-out-top-item-name">
+Repository
+</strong>
+</a></li><li class="divider fly-out-top-item"></li>
+<li class=""><a href="https://git.skewed.de/count0/graph-tool/tree/master">Files
+</a></li><li class=""><a href="https://git.skewed.de/count0/graph-tool/commits/master">Commits
+</a></li><li class=""><a class="qa-branches-link" href="https://git.skewed.de/count0/graph-tool/branches">Branches
+</a></li><li class=""><a href="https://git.skewed.de/count0/graph-tool/tags">Tags
+</a></li><li class=""><a href="https://git.skewed.de/count0/graph-tool/graphs/master">Contributors
+</a></li><li class=""><a href="https://git.skewed.de/count0/graph-tool/network/master">Graph
+</a></li><li class=""><a href="https://git.skewed.de/count0/graph-tool/compare?from=master&amp;to=master">Compare
+</a></li><li class=""><a href="https://git.skewed.de/count0/graph-tool/graphs/master/charts">Charts
+</a></li>
+</ul>
+</li><li class="active"><a class="shortcuts-issues qa-issues-item" href="https://git.skewed.de/count0/graph-tool/issues"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#issues"></use></svg>
+</div>
+<span class="nav-item-name">
+Issues
+</span>
+<span class="badge badge-pill count issue_counter">
+54
+</span>
+</a><ul class="sidebar-sub-level-items">
+<li class="fly-out-top-item active"><a href="https://git.skewed.de/count0/graph-tool/issues"><strong class="fly-out-top-item-name">
+Issues
+</strong>
+<span class="badge badge-pill count issue_counter fly-out-badge">
+54
+</span>
+</a></li><li class="divider fly-out-top-item"></li>
+<li class="active"><a title="Issues" href="https://git.skewed.de/count0/graph-tool/issues"><span>
+List
+</span>
+</a></li><li class=""><a title="Board" href="https://git.skewed.de/count0/graph-tool/boards"><span>
+Board
+</span>
+</a></li><li class=""><a title="Labels" class="qa-labels-link" href="https://git.skewed.de/count0/graph-tool/labels"><span>
+Labels
+</span>
+</a></li>
+<li class=""><a title="Milestones" class="qa-milestones-link" href="https://git.skewed.de/count0/graph-tool/milestones"><span>
+Milestones
+</span>
+</a></li></ul>
+</li><li class=""><a class="shortcuts-merge_requests qa-merge-requests-link" href="https://git.skewed.de/count0/graph-tool/merge_requests"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#git-merge"></use></svg>
+</div>
+<span class="nav-item-name">
+Merge Requests
+</span>
+<span class="badge badge-pill count merge_counter js-merge-counter">
+2
+</span>
+</a><ul class="sidebar-sub-level-items is-fly-out-only">
+<li class="fly-out-top-item"><a href="https://git.skewed.de/count0/graph-tool/merge_requests"><strong class="fly-out-top-item-name">
+Merge Requests
+</strong>
+<span class="badge badge-pill count merge_counter js-merge-counter fly-out-badge">
+2
+</span>
+</a></li></ul>
+</li><li class=""><a class="shortcuts-pipelines qa-link-pipelines" href="https://git.skewed.de/count0/graph-tool/pipelines"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#rocket"></use></svg>
+</div>
+<span class="nav-item-name">
+CI / CD
+</span>
+</a><ul class="sidebar-sub-level-items">
+<li class="fly-out-top-item"><a href="https://git.skewed.de/count0/graph-tool/pipelines"><strong class="fly-out-top-item-name">
+CI / CD
+</strong>
+</a></li><li class="divider fly-out-top-item"></li>
+<li class=""><a title="Pipelines" class="shortcuts-pipelines" href="https://git.skewed.de/count0/graph-tool/pipelines"><span>
+Pipelines
+</span>
+</a></li><li class=""><a title="Jobs" class="shortcuts-builds" href="https://git.skewed.de/count0/graph-tool/-/jobs"><span>
+Jobs
+</span>
+</a></li><li class=""><a title="Schedules" class="shortcuts-builds" href="https://git.skewed.de/count0/graph-tool/pipeline_schedules"><span>
+Schedules
+</span>
+</a></li><li class=""><a title="Charts" class="shortcuts-pipelines-charts" href="https://git.skewed.de/count0/graph-tool/pipelines/charts"><span>
+Charts
+</span>
+</a></li></ul>
+</li><li class=""><a class="shortcuts-wiki qa-wiki-link" href="https://git.skewed.de/count0/graph-tool/wikis/home"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#book"></use></svg>
+</div>
+<span class="nav-item-name">
+Wiki
+</span>
+</a><ul class="sidebar-sub-level-items is-fly-out-only">
+<li class="fly-out-top-item"><a href="https://git.skewed.de/count0/graph-tool/wikis/home"><strong class="fly-out-top-item-name">
+Wiki
+</strong>
+</a></li></ul>
+</li><li class=""><a class="shortcuts-snippets" href="https://git.skewed.de/count0/graph-tool/snippets"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#snippet"></use></svg>
+</div>
+<span class="nav-item-name">
+Snippets
+</span>
+</a><ul class="sidebar-sub-level-items is-fly-out-only">
+<li class="fly-out-top-item"><a href="https://git.skewed.de/count0/graph-tool/snippets"><strong class="fly-out-top-item-name">
+Snippets
+</strong>
+</a></li></ul>
+</li><li class=""><a title="Members" class="shortcuts-tree" href="https://git.skewed.de/count0/graph-tool/settings/members"><div class="nav-icon-container">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#users"></use></svg>
+</div>
+<span class="nav-item-name">
+Members
+</span>
+</a><ul class="sidebar-sub-level-items is-fly-out-only">
+<li class="fly-out-top-item"><a href="https://git.skewed.de/count0/graph-tool/project_members"><strong class="fly-out-top-item-name">
+Members
+</strong>
+</a></li></ul>
+</li><a class="toggle-sidebar-button js-toggle-sidebar" role="button" title="Toggle sidebar" type="button">
+<svg class="icon-angle-double-left"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#angle-double-left"></use></svg>
+<svg class="icon-angle-double-right"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#angle-double-right"></use></svg>
+<span class="collapse-text">Collapse sidebar</span>
+</a>
+<button name="button" type="button" class="close-nav-button"><svg class="s16"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#close"></use></svg>
+<span class="collapse-text">Close sidebar</span>
+</button>
+<li class="hidden">
+<a title="Activity" class="shortcuts-project-activity" href="https://git.skewed.de/count0/graph-tool/activity"><span>
+Activity
+</span>
+</a></li>
+<li class="hidden">
+<a title="Network" class="shortcuts-network" href="https://git.skewed.de/count0/graph-tool/network/master">Graph
+</a></li>
+<li class="hidden">
+<a title="Charts" class="shortcuts-repository-charts" href="https://git.skewed.de/count0/graph-tool/graphs/master/charts">Charts
+</a></li>
+<li class="hidden">
+<a class="shortcuts-new-issue" href="https://git.skewed.de/count0/graph-tool/issues/new">Create a new issue
+</a></li>
+<li class="hidden">
+<a title="Jobs" class="shortcuts-builds" href="https://git.skewed.de/count0/graph-tool/-/jobs">Jobs
+</a></li>
+<li class="hidden">
+<a title="Commits" class="shortcuts-commits" href="https://git.skewed.de/count0/graph-tool/commits/master">Commits
+</a></li>
+<li class="hidden">
+<a title="Issue Boards" class="shortcuts-issue-boards" href="https://git.skewed.de/count0/graph-tool/boards">Issue Boards</a>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="content-wrapper">
+
+<div class="mobile-overlay"></div>
+<div class="alert-wrapper">
+
+
+
+
+<nav class="breadcrumbs container-fluid container-limited" role="navigation">
+<div class="breadcrumbs-container">
+<button name="button" type="button" class="toggle-mobile-nav"><span class="sr-only">Open sidebar</span>
+<i aria-hidden="true" data-hidden="true" class="fa fa-bars"></i>
+</button><div class="breadcrumbs-links js-title-container">
+<ul class="list-unstyled breadcrumbs-list js-breadcrumbs-list">
+<li><a href="https://git.skewed.de/count0">Tiago Peixoto</a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#angle-right"></use></svg></li> <li><a href="git"><img alt="graph-tool" class="avatar-tile lazy" width="15" height="15" data-src="/uploads/-/system/project/avatar/2/graph-tool-logo-hi.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /><span class="breadcrumb-item-text js-breadcrumb-item-text">graph-tool</span></a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#angle-right"></use></svg></li>
+
+<li>
+<h2 class="breadcrumbs-sub-title"><a href="https://git.skewed.de/count0/graph-tool/issues">Issues</a></h2>
+</li>
+</ul>
+</div>
+
+</div>
+</nav>
+
+<div class="flash-container flash-container-page">
+</div>
+
+<div class="d-flex"></div>
+</div>
+<div class=" ">
+<div class="content" id="content-body">
+<div class="container-fluid container-limited">
+<div class="top-area">
+<ul class="nav-links issues-state-filters mobile-separator nav nav-tabs"><li class="active">
+<a id="state-opened" title="Filter by issues that are currently opened." data-state="opened" href="https://git.skewed.de/count0/graph-tool/issues?state=opened"><span>Open</span> <span class="badge badge-pill">54</span>
+</a></li><li class="">
+<a id="state-closed" title="Filter by issues that are currently closed." data-state="closed" href="https://git.skewed.de/count0/graph-tool/issues?state=closed"><span>Closed</span> <span class="badge badge-pill">479</span>
+</a></li><li class="">
+<a id="state-all" title="Show all issues." data-state="all" href="https://git.skewed.de/count0/graph-tool/issues?state=all"><span>All</span> <span class="badge badge-pill">533</span>
+</a></li>
+</ul>
+
+<div class="nav-controls issues-nav-controls">
+<a class="btn has-tooltip" data-container="body" title="Subscribe to RSS feed" href="https://git.skewed.de/count0/graph-tool/issues.atom?state=opened"><i aria-hidden="true" data-hidden="true" class="fa fa-rss"></i>
+</a><a class="btn has-tooltip" data-container="body" title="Subscribe to calendar" href="https://git.skewed.de/count0/graph-tool/issues.ics?due_date=next_month_and_previous_two_weeks&amp;sort=closest_future_date&amp;state=opened"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M15 5v7a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h1V2a1 1 0 1 1 2 0v1h4V2a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2zM3 6v6a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6H3zm2 2h2a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2z" fill="#000" fill-rule="evenodd"/></svg>
+</a>
+<div class="btn-group append-right-10"></div>
+<a class="btn btn-success" title="New issue" id="new_issue_link" href="https://git.skewed.de/count0/graph-tool/issues/new?issue%5Bassignee_id%5D=&amp;issue%5Bmilestone_id%5D=">New issue</a>
+</div>
+
+
+</div>
+<div class="issues-filters">
+<div class="filtered-search-block issues-details-filters row-content-block second-block" v-pre="false">
+<form class="filter-form js-filter-form" action="https://git.skewed.de/count0/graph-tool/issues?" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><div class="issues-other-filters filtered-search-wrapper">
+<div class="filtered-search-box">
+<div class="dropdown filtered-search-history-dropdown-wrapper"><button class="dropdown-menu-toggle filtered-search-history-dropdown-toggle-button" type="button" data-toggle="dropdown"><span class="dropdown-toggle-text "><svg xmlns="http://www.w3.org/2000/svg" width="1792" height="1792" viewBox="0 0 1792 1792"><path d="M1664 896q0 156-61 298t-164 245-245 164-298 61q-172 0-327-72.5T305 1387q-7-10-6.5-22.5t8.5-20.5l137-138q10-9 25-9 16 2 23 12 73 95 179 147t225 52q104 0 198.5-40.5T1258 1258t109.5-163.5T1408 896t-40.5-198.5T1258 534t-163.5-109.5T896 384q-98 0-188 35.5T548 521l137 138q31 30 14 69-17 40-59 40H192q-26 0-45-19t-19-45V256q0-42 40-59 39-17 69 14l130 129q107-101 244.5-156.5T896 128q156 0 298 61t245 164 164 245 61 298zm-640-288v448q0 14-9 23t-23 9H672q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224V608q0-14 9-23t23-9h64q14 0 23 9t9 23z"/></svg>
+</span><i aria-hidden="true" data-hidden="true" class="fa fa-chevron-down"></i></button><div class="dropdown-menu dropdown-select filtered-search-history-dropdown"><div class="dropdown-title"><span>Recent searches</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i aria-hidden="true" data-hidden="true" class="fa fa-times dropdown-menu-close-icon"></i></button></div><div class="dropdown-content filtered-search-history-dropdown-content"><div class="js-filtered-search-history-dropdown" data-full-path="count0/graph-tool"></div>
+</div><div class="dropdown-loading"><i aria-hidden="true" data-hidden="true" class="fa fa-spinner fa-spin"></i></div></div></div><div class="filtered-search-box-input-container droplab-dropdown">
+<div class="scroll-container">
+<ul class="tokens-container list-unstyled">
+<li class="input-token">
+<input autocomplete="off" class="form-control filtered-search" data-base-endpoint="/count0/graph-tool" data-project-id="2" data-username-params="[]" id="filtered-search-issues" placeholder="Search or filter results...">
+</li>
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu hint-dropdown" id="js-dropdown-hint">
+<ul data-dropdown>
+<li class="filter-dropdown-item" data-action="submit">
+<button class="btn btn-link" type="button">
+<svg><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#search"></use></svg>
+<span>
+Press Enter or click to search
+</span>
+</button>
+</li>
+</ul>
+<ul class="filter-dropdown" data-dropdown data-dynamic>
+<li class="filter-dropdown-item">
+<button class="btn btn-link" type="button">
+<svg>
+<use xlink:href="{{icon}}"></use>
+</svg>
+<span class="js-filter-hint">
+{{hint}}
+</span>
+<span class="js-filter-tag dropdown-light-content">
+{{tag}}
+</span>
+</button>
+</li>
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu" id="js-dropdown-author">
+<ul class="filter-dropdown" data-dropdown data-dynamic>
+<li class="filter-dropdown-item">
+<button class="btn btn-link dropdown-user" type="button">
+<div class="avatar-container s40">
+<img alt="{{name}}&#39;s avatar" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{avatar_url}}" class="avatar s40 lazy" title="{{name}}" />
+</div>
+<div class="dropdown-user-details">
+<span>
+{{name}}
+</span>
+<span class="dropdown-light-content">
+@{{username}}
+</span>
+</div>
+</button>
+</li>
+
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu" id="js-dropdown-assignee">
+<ul data-dropdown>
+<li class="filter-dropdown-item" data-value="None">
+<button class="btn btn-link" type="button">
+None
+</button>
+</li>
+<li class="filter-dropdown-item" data-value="Any">
+<button class="btn btn-link" type="button">
+Any
+</button>
+</li>
+<li class="divider droplab-item-ignore"></li>
+</ul>
+<ul class="filter-dropdown" data-dropdown data-dynamic>
+<li class="filter-dropdown-item">
+<button class="btn btn-link dropdown-user" type="button">
+<div class="avatar-container s40">
+<img alt="{{name}}&#39;s avatar" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{avatar_url}}" class="avatar s40 lazy" title="{{name}}" />
+</div>
+<div class="dropdown-user-details">
+<span>
+{{name}}
+</span>
+<span class="dropdown-light-content">
+@{{username}}
+</span>
+</div>
+</button>
+</li>
+
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu" id="js-dropdown-milestone">
+<ul data-dropdown>
+<li class="filter-dropdown-item" data-value="None">
+<button class="btn btn-link" type="button">
+None
+</button>
+</li>
+<li class="filter-dropdown-item" data-value="Any">
+<button class="btn btn-link" type="button">
+Any
+</button>
+</li>
+<li class="filter-dropdown-item" data-value="Upcoming">
+<button class="btn btn-link" type="button">
+Upcoming
+</button>
+</li>
+<li class="filter-dropdown-item" data-value="Started">
+<button class="btn btn-link" type="button">
+Started
+</button>
+</li>
+<li class="divider droplab-item-ignore"></li>
+</ul>
+<ul class="filter-dropdown" data-dropdown data-dynamic>
+<li class="filter-dropdown-item">
+<button class="btn btn-link js-data-value" type="button">
+{{title}}
+</button>
+</li>
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu" id="js-dropdown-label">
+<ul data-dropdown>
+<li class="filter-dropdown-item" data-value="None">
+<button class="btn btn-link" type="button">
+None
+</button>
+</li>
+<li class="filter-dropdown-item" data-value="Any">
+<button class="btn btn-link" type="button">
+Any
+</button>
+</li>
+<li class="divider droplab-item-ignore"></li>
+</ul>
+<ul class="filter-dropdown" data-dropdown data-dynamic>
+<li class="filter-dropdown-item">
+<button class="btn btn-link" type="button">
+<span class="dropdown-label-box" style="background: {{color}}"></span>
+<span class="label-title js-data-value">
+{{title}}
+</span>
+</button>
+</li>
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu" id="js-dropdown-my-reaction">
+<ul data-dropdown>
+<li class="filter-dropdown-item" data-value="None">
+<button class="btn btn-link" type="button">
+None
+</button>
+</li>
+<li class="filter-dropdown-item" data-value="Any">
+<button class="btn btn-link" type="button">
+Any
+</button>
+</li>
+<li class="divider droplab-item-ignore"></li>
+</ul>
+<ul class="filter-dropdown" data-dropdown data-dynamic>
+<li class="filter-dropdown-item">
+<button class="btn btn-link" type="button">
+<gl-emoji></gl-emoji>
+<span class="js-data-value prepend-left-10">
+{{name}}
+</span>
+</button>
+</li>
+</ul>
+</div>
+<div class="filtered-search-input-dropdown-menu dropdown-menu" id="js-dropdown-wip">
+<ul class="filter-dropdown" data-dropdown>
+<li class="filter-dropdown-item" data-capitalize data-value="yes">
+<button class="btn btn-link" type="button">
+Yes
+</button>
+</li>
+<li class="filter-dropdown-item" data-capitalize data-value="no">
+<button class="btn btn-link" type="button">
+No
+</button>
+</li>
+</ul>
+</div>
+
+</div>
+<button class="clear-search hidden" type="button">
+<i aria-hidden="true" data-hidden="true" class="fa fa-times"></i>
+</button>
+</div>
+<div class="filter-dropdown-container">
+<div class="dropdown inline prepend-left-10 issue-sort-dropdown">
+<div class="btn-group" role="group">
+<div class="btn-group" role="group">
+<button class="btn btn-default dropdown-toggle" data-display="static" data-toggle="dropdown" type="button">
+Created date
+<i aria-hidden="true" data-hidden="true" class="fa fa-chevron-down"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-right dropdown-menu-selectable dropdown-menu-sort">
+<li>
+<a class="" href="https://git.skewed.de/count0/graph-tool/issues?sort=priority">Priority</a>
+<a class="is-active" href="https://git.skewed.de/count0/graph-tool/issues?sort=created_date">Created date</a>
+<a class="" href="https://git.skewed.de/count0/graph-tool/issues?sort=updated_desc">Last updated</a>
+<a class="" href="https://git.skewed.de/count0/graph-tool/issues?sort=milestone">Milestone due date</a>
+<a class="" href="https://git.skewed.de/count0/graph-tool/issues?sort=due_date">Due date</a>
+<a class="" href="https://git.skewed.de/count0/graph-tool/issues?sort=popularity">Popularity</a>
+<a class="" href="https://git.skewed.de/count0/graph-tool/issues?sort=label_priority">Label priority</a>
+
+</li>
+</ul>
+</div>
+<a type="button" class="btn btn-default has-tooltip reverse-sort-btn qa-reverse-sort" title="Sort direction" href="https://git.skewed.de/count0/graph-tool/issues?sort=created_asc"><svg class="s16"><use xlink:href="/assets/icons-24aaa921aa9e411162e6913688816c79861d0de4bee876cf6fc4c794be34ee91.svg#sort-highest"></use></svg></a>
+</div>
+</div>
+
+</div>
+</div>
+</form></div>
+</div>
+
+<div class="issues-holder">
+<ul class="content-list issues-list issuable-list">
+<li class="issue" data-id="742" data-labels="[]" id="issue_742" url="/count0/graph-tool/issues/572">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/572">Unmet dependencies during installation on Debian buster</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#572
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Mar 22, 2019 2:01pm" datetime="2019-03-22T14:01:08Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 22, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1901" data-username="luenge" data-name="luenge" href="https://git.skewed.de/luenge"><span class="author">luenge</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/572#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Mar 22, 2019 2:02pm" datetime="2019-03-22T14:02:02Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 22, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="740" data-labels="[]" id="issue_740" url="/count0/graph-tool/issues/571">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/571">vertex name when exporting to graphml</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#571
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Mar 15, 2019 4:03am" datetime="2019-03-15T04:03:57Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 15, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1858" data-username="mdeff" data-name="Michaël Defferrard" href="https://git.skewed.de/mdeff"><span class="author">Michaël Defferrard</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/571#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Mar 15, 2019 4:03am" datetime="2019-03-15T04:03:57Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 15, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="739" data-labels="[]" id="issue_739" url="/count0/graph-tool/issues/570">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/570">floating point values in graphml</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#570
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Mar 14, 2019 7:15pm" datetime="2019-03-14T19:15:07Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 14, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1858" data-username="mdeff" data-name="Michaël Defferrard" href="https://git.skewed.de/mdeff"><span class="author">Michaël Defferrard</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/570#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+1
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Mar 14, 2019 10:00pm" datetime="2019-03-14T22:00:26Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 14, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="738" data-labels="[]" id="issue_738" url="/count0/graph-tool/issues/569">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/569">Directed graph katz() and eigenvector() centrality</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#569
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Mar 5, 2019 8:19pm" datetime="2019-03-05T20:19:40Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 05, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="862" data-username="jumbi77" data-name="jumbi77" href="https://git.skewed.de/jumbi77"><span class="author">jumbi77</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/569#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Mar 6, 2019 9:35am" datetime="2019-03-06T09:35:47Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Mar 06, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="735" data-labels="[]" id="issue_735" url="/count0/graph-tool/issues/567">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/567">undefined symbol: PycairoContext_FromContext</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#567
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Feb 18, 2019 2:17pm" datetime="2019-02-18T14:17:49Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Feb 18, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1779" data-username="alealv" data-name="Alejandro Gastón Alvarez" href="https://git.skewed.de/alealv"><span class="author">Alejandro Gastón Alvarez</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/567#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Feb 18, 2019 2:18pm" datetime="2019-02-18T14:18:13Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Feb 18, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="728" data-labels="[]" id="issue_728" url="/count0/graph-tool/issues/557">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/557">Build from Dockerfile fails on not finding boost_regex libraries</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#557
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Feb 1, 2019 2:19pm" datetime="2019-02-01T14:19:03Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Feb 01, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1723" data-username="shlomi-anchi" data-name="shlomi-anchi" href="https://git.skewed.de/shlomi-anchi"><span class="author">shlomi-anchi</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/557#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Feb 1, 2019 2:19pm" datetime="2019-02-01T14:19:03Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Feb 01, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="727" data-labels="[]" id="issue_727" url="/count0/graph-tool/issues/556">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/556">Build from Dockerfile fails on missing patch command</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#556
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Feb 1, 2019 1:48pm" datetime="2019-02-01T13:48:18Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Feb 01, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1723" data-username="shlomi-anchi" data-name="shlomi-anchi" href="https://git.skewed.de/shlomi-anchi"><span class="author">shlomi-anchi</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/556#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Feb 1, 2019 2:19pm" datetime="2019-02-01T14:19:04Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Feb 01, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="726" data-labels="[]" id="issue_726" url="/count0/graph-tool/issues/555">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/555">Missing library paths for custom Boost builds</a>
+</span>
+<span class="task-status d-none d-sm-inline-block">
+&nbsp;
+10 of 10 tasks completed
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#555
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Jan 29, 2019 11:23pm" datetime="2019-01-29T23:23:00Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 29, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1717" data-username="jaafar" data-name="Jeff Trull" href="https://git.skewed.de/jaafar"><span class="author">Jeff Trull</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/555#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+1
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Jan 29, 2019 11:24pm" datetime="2019-01-29T23:24:04Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 29, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="725" data-labels="[]" id="issue_725" url="/count0/graph-tool/issues/554">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/554">Please support simultaneous custom Boost and CGAL</a>
+</span>
+<span class="task-status d-none d-sm-inline-block">
+&nbsp;
+8 of 10 tasks completed
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#554
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Jan 29, 2019 9:23pm" datetime="2019-01-29T21:23:33Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 29, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1717" data-username="jaafar" data-name="Jeff Trull" href="https://git.skewed.de/jaafar"><span class="author">Jeff Trull</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-upvotes d-none d-sm-block has-tooltip" title="Upvotes">
+<i aria-hidden="true" data-hidden="true" class="fa fa-thumbs-up"></i>
+1
+</li>
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/554#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+4
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Jan 29, 2019 11:24pm" datetime="2019-01-29T23:24:05Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 29, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="722" data-labels="[]" id="issue_722" url="/count0/graph-tool/issues/551">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/551">Wrong condition in gtk_draw</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#551
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Jan 16, 2019 12:36pm" datetime="2019-01-16T12:36:31Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 16, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1653" data-username="timokau" data-name="Timo Kaufmann" href="https://git.skewed.de/timokau"><span class="author">Timo Kaufmann</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/551#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Jan 16, 2019 12:36pm" datetime="2019-01-16T12:36:31Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 16, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="720" data-labels="[]" id="issue_720" url="/count0/graph-tool/issues/550">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/550">AttributeError: &#39;OverlapBlockState&#39; object has no attribute &#39;recs&#39;</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#550
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Jan 14, 2019 1:39am" datetime="2019-01-14T01:39:41Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 14, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1662" data-username="haluk" data-name="Haluk Dogan" href="https://git.skewed.de/haluk"><span class="author">Haluk Dogan</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/550#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Jan 14, 2019 1:40am" datetime="2019-01-14T01:40:20Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 14, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="719" data-labels="[]" id="issue_719" url="/count0/graph-tool/issues/549">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/549">Multiline text</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#549
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Jan 11, 2019 4:52pm" datetime="2019-01-11T16:52:12Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 11, 2019</time>
+by <a class="author-link js-user-link  " data-user-id="1653" data-username="timokau" data-name="Timo Kaufmann" href="https://git.skewed.de/timokau"><span class="author">Timo Kaufmann</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/549#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Jan 11, 2019 4:52pm" datetime="2019-01-11T16:52:12Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 11, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="710" data-labels="[]" id="issue_710" url="/count0/graph-tool/issues/547">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/547">getargspec is deprecated</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#547
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Dec 18, 2018 2:04am" datetime="2018-12-18T02:04:02Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 18, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="1578" data-username="jnothman" data-name="Joel Nothman" href="https://git.skewed.de/jnothman"><span class="author">Joel Nothman</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/547#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+4
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Jan 10, 2019 9:57am" datetime="2019-01-10T09:57:45Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Jan 10, 2019</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="709" data-labels="[]" id="issue_709" url="/count0/graph-tool/issues/546">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/546">entropy differs after copying nested blockmodel state</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#546
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Dec 18, 2018 2:01am" datetime="2018-12-18T02:01:52Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 18, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="1578" data-username="jnothman" data-name="Joel Nothman" href="https://git.skewed.de/jnothman"><span class="author">Joel Nothman</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/546#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+2
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Dec 18, 2018 11:03am" datetime="2018-12-18T11:03:22Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 18, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="707" data-labels="[]" id="issue_707" url="/count0/graph-tool/issues/545">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/545">Largest eigenvalue differ from true value</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#545
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Dec 12, 2018 12:13pm" datetime="2018-12-12T12:13:40Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 12, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="1560" data-username="Holminer" data-name="Holminer" href="https://git.skewed.de/Holminer"><span class="author">Holminer</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/545#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Dec 12, 2018 12:13pm" datetime="2018-12-12T12:13:40Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 12, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="702" data-labels="[]" id="issue_702" url="/count0/graph-tool/issues/544">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/544">Kernel died while using mcmc_equilibrate</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#544
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Dec 4, 2018 5:09am" datetime="2018-12-04T05:09:16Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 04, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="901" data-username="ashuein" data-name="ashutosh pandey" href="https://git.skewed.de/ashuein"><span class="author">ashutosh pandey</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/544#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Dec 4, 2018 5:09am" datetime="2018-12-04T05:09:16Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Dec 04, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="670" data-labels="[]" id="issue_670" url="/count0/graph-tool/issues/516">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/516">multiaxes layouts not working</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#516
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Nov 21, 2018 1:05pm" datetime="2018-11-21T13:05:21Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Nov 21, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="368" data-username="wweir827" data-name="William Weir" href="https://git.skewed.de/wweir827"><span class="author">William Weir</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/516#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+2
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Nov 21, 2018 1:18pm" datetime="2018-11-21T13:18:36Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Nov 21, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="669" data-labels="[]" id="issue_669" url="/count0/graph-tool/issues/515">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/515">Graph.save() not working with GraphView and filtered Graphs</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#515
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Nov 21, 2018 10:12am" datetime="2018-11-21T10:12:49Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Nov 21, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="1407" data-username="AljoschaP" data-name="Aljoscha Pörtner" href="https://git.skewed.de/AljoschaP"><span class="author">Aljoscha Pörtner</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/515#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+1
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Nov 21, 2018 12:04pm" datetime="2018-11-21T12:04:38Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Nov 21, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="660" data-labels="[]" id="issue_660" url="/count0/graph-tool/issues/512">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/512">Request: update ppa for bionic</a>
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#512
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Oct 28, 2018 1:43pm" datetime="2018-10-28T13:43:58Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Oct 28, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="1250" data-username="step21" data-name="FI" href="https://git.skewed.de/step21"><span class="author">FI</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip no-comments" title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/512#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+0
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Oct 28, 2018 1:43pm" datetime="2018-10-28T13:43:58Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Oct 28, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li class="issue" data-id="657" data-labels="[]" id="issue_657" url="/count0/graph-tool/issues/511">
+<div class="issue-box">
+<div class="issuable-info-container">
+<div class="issuable-main-info">
+<div class="issue-title title">
+<span class="issue-title-text">
+<a href="https://git.skewed.de/count0/graph-tool/issues/511">Compile error: scoped_lock is ambiguous</a>
+</span>
+<span class="task-status d-none d-sm-inline-block">
+&nbsp;
+9 of 11 tasks completed
+</span>
+</div>
+<div class="issuable-info">
+<span class="issuable-reference">
+#511
+</span>
+<span class="issuable-authored d-none d-sm-inline-block">
+&middot;
+opened <time class="js-timeago" title="Oct 16, 2018 4:42pm" datetime="2018-10-16T16:42:17Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Oct 16, 2018</time>
+by <a class="author-link js-user-link  " data-user-id="1204" data-username="fhk" data-name="Fabion Kauker" href="https://git.skewed.de/fhk"><span class="author">Fabion Kauker</span></a>
+</span>
+</div>
+</div>
+<div class="issuable-meta">
+<ul class="controls">
+<li class="issuable-comments d-none d-sm-block">
+<a class="has-tooltip " title="Comments" href="https://git.skewed.de/count0/graph-tool/issues/511#notes"><i aria-hidden="true" data-hidden="true" class="fa fa-comments"></i>
+2
+</a></li>
+
+</ul>
+<div class="float-right issuable-updated-at d-none d-sm-inline-block">
+<span>updated <time class="js-timeago issue_update_ago" title="Oct 16, 2018 6:35pm" datetime="2018-10-16T18:35:22Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Oct 16, 2018</time></span>
+</div>
+</div>
+</div>
+</div>
+</li>
+
+</ul>
+<div class="gl-pagination prepend-top-default">
+<ul class="pagination justify-content-center">
+<li class="disabled js-previous-button page-item">
+<a rel="prev" class="page-link" href="issues#">Prev</a>
+</li>
+
+<li class="active js-pagination-page page-item">
+<a class="page-link" href="https://git.skewed.de/count0/graph-tool/issues?state=opened">1</a>
+</li>
+
+<li class="d-none d-md-block js-pagination-page page-item sibling">
+<a rel="next" class="page-link" href="https://git.skewed.de/count0/graph-tool/issues?page=2&amp;state=opened">2</a>
+</li>
+
+<li class="d-none d-md-block js-pagination-page page-item">
+<a class="page-link" href="https://git.skewed.de/count0/graph-tool/issues?page=3&amp;state=opened">3</a>
+</li>
+
+<li class="js-next-button page-item">
+<a rel="next" class="page-link" href="https://git.skewed.de/count0/graph-tool/issues?page=2&amp;state=opened">Next</a>
+</li>
+
+
+</ul>
+</div>
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+</body>
+</html>
+

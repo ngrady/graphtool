@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with matplotlib (http://matplotlib.org/) -->
+<svg height="216pt" version="1.1" viewBox="0 0 288 216" width="288pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+*{stroke-linecap:butt;stroke-linejoin:round;}
+  </style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 216 
+L 288 216 
+L 288 0 
+L 0 0 
+z
+" style="fill:#ffffff;"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 68.4 172.8 
+L 230.4 172.8 
+L 230.4 10.8 
+L 68.4 10.8 
+z
+" style="fill:#ffffff;"/>
+   </g>
+   <g clip-path="url(#pf952bd9bea)">
+    <image height="162" id="image7c3a5db2b4" transform="scale(1 -1)translate(0 -162)" width="162" x="68.4" xlink:href="data:image/png;base64,
+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" y="-10.8"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path d="M 0 0 
+L 0 3.5 
+" id="m9b6664e658" style="stroke:#000000;stroke-width:0.8;"/>
+      </defs>
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="70.37561" xlink:href="#m9b6664e658" y="172.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- $0$ -->
+      <defs>
+       <path d="M 26.296875 69 
+C 10.796875 69 2.90625 56.6875 2.90625 32.4375 
+C 2.90625 20.71875 5 10.609375 8.5 5.703125 
+C 12 0.796875 17.59375 -2 23.796875 -2 
+C 38.90625 -2 46.5 11 46.5 36.640625 
+C 46.5 58.578125 40 69 26.296875 69 
+z
+M 24.5 65.484375 
+C 34.203125 65.484375 38.09375 55.671875 38.09375 31.640625 
+C 38.09375 10.3125 34.296875 1.5 25.09375 1.5 
+C 15.40625 1.5 11.296875 11.609375 11.296875 36.046875 
+C 11.296875 57.1875 15 65.484375 24.5 65.484375 
+z
+" id="URW_Palladio_L_Roman-48"/>
+      </defs>
+      <g transform="translate(67.386818 188.353876)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="149.4" xlink:href="#m9b6664e658" y="172.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- $20$ -->
+      <defs>
+       <path d="M 1.59375 2.59375 
+L 1.59375 0 
+C 20.296875 0 20.296875 0 23.90625 0 
+C 27.5 0.296875 27.5 0.296875 46.796875 0 
+C 46.59375 2.09375 46.59375 3.09375 46.59375 4.484375 
+C 46.59375 5.78125 46.59375 6.78125 46.796875 8.96875 
+C 35.296875 8.46875 30.703125 8.375 12.203125 7.96875 
+L 30.40625 27.203125 
+C 40.09375 37.46875 43.09375 42.953125 43.09375 50.4375 
+C 43.09375 61.890625 35.296875 69 22.59375 69 
+C 15.40625 69 10.5 66.984375 5.59375 61.984375 
+L 3.90625 48.4375 
+L 6.796875 48.4375 
+L 8.09375 53.03125 
+C 9.703125 58.796875 13.296875 61.296875 20 61.296875 
+C 28.59375 61.296875 34.09375 55.90625 34.09375 47.4375 
+C 34.09375 39.96875 29.90625 32.59375 18.59375 20.625 
+z
+" id="URW_Palladio_L_Roman-50"/>
+      </defs>
+      <g transform="translate(143.422416 188.353876)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-50"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="228.42439" xlink:href="#m9b6664e658" y="172.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- $40$ -->
+      <defs>
+       <path d="M 28 18 
+L 28 10.6875 
+C 28 4.84375 26.90625 3.484375 22 3.28125 
+L 15.796875 3 
+L 15.796875 0 
+C 29.09375 0 29.09375 0 31.5 0 
+C 33.90625 0.296875 33.90625 0.296875 47.203125 0 
+L 47.203125 3 
+L 42.40625 3.28125 
+C 37.5 3.578125 36.40625 4.84375 36.40625 10.6875 
+L 36.40625 18 
+C 42.296875 18 44.40625 17.890625 47.203125 17.609375 
+L 47.203125 24.6875 
+C 42.5 24.296875 40.59375 24.296875 39.09375 24.390625 
+L 38.796875 24.390625 
+L 36.40625 24.390625 
+L 36.40625 38.203125 
+C 36.40625 55.875 36.59375 64.40625 37.09375 68.484375 
+L 35.90625 69 
+L 28.5 66.296875 
+L 0.203125 20.296875 
+L 1.296875 18 
+z
+M 28 24.390625 
+L 6.5 24.390625 
+L 28 59.34375 
+z
+" id="URW_Palladio_L_Roman-52"/>
+      </defs>
+      <g transform="translate(222.446806 188.353876)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-52"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_4">
+     <!-- In-degree -->
+     <defs>
+      <path d="M 21.59375 56.765625 
+C 21.59375 64.609375 22.09375 65.390625 26.703125 65.6875 
+L 31.5 65.984375 
+L 31.5 69 
+C 24.203125 68.6875 22 68.6875 16.796875 68.6875 
+C 11.796875 68.6875 9.40625 68.796875 2.203125 69 
+L 2.203125 65.984375 
+L 7 65.6875 
+C 11.59375 65.390625 12.09375 64.609375 12.09375 56.765625 
+L 12.09375 12.21875 
+C 12.09375 4.375 11.59375 3.59375 7 3.296875 
+L 2.203125 3 
+L 2.203125 0 
+C 8.09375 -0.109375 11.59375 0 16.796875 0 
+C 22 0.296875 25.59375 0.1875 31.5 0 
+L 31.5 3 
+L 26.703125 3.296875 
+C 22.09375 3.59375 21.59375 4.390625 21.59375 12.296875 
+z
+" id="URW_Palladio_L_Roman-73"/>
+      <path d="M 41 0 
+C 47.09375 0 47.203125 0 48.90625 0 
+C 50.296875 0.296875 50.296875 0.296875 57.203125 0 
+L 57.203125 3 
+L 53.09375 3.296875 
+C 49.703125 3.484375 49.40625 4.09375 49.40625 10.46875 
+L 49.40625 29.71875 
+C 49.40625 41.390625 43.90625 47.09375 32.703125 47.09375 
+C 29 47.09375 26.90625 46.390625 24.796875 44.59375 
+L 17.203125 38 
+L 17.203125 46.6875 
+L 16.296875 47 
+C 11.203125 44.890625 6 43.5 0.703125 42.90625 
+L 0.703125 40.125 
+L 4.40625 40.125 
+C 8.40625 40.125 8.796875 39.421875 8.796875 32.859375 
+L 8.796875 10.453125 
+C 8.796875 4.1875 8.5 3.484375 5.09375 3.296875 
+L 0.59375 3 
+L 0.59375 0 
+C 7.40625 -0.109375 10.09375 0 13 0 
+C 15.90625 0.296875 18.59375 0.1875 25.40625 0 
+L 25.40625 3 
+L 20.90625 3.296875 
+C 17.5 3.484375 17.203125 4.1875 17.203125 10.46875 
+L 17.203125 31.609375 
+C 17.203125 36.109375 23.796875 41 29.90625 41 
+C 36.59375 41 41 36 41 28.328125 
+z
+" id="URW_Palladio_L_Roman-110"/>
+      <path d="M 28.203125 21.796875 
+L 31.203125 28.484375 
+L 30.703125 29 
+L 4.40625 29 
+L 1.703125 22.296875 
+L 2.203125 21.796875 
+z
+" id="URW_Palladio_L_Roman-45"/>
+      <path d="M 41.203125 43.796875 
+C 35.59375 46.1875 32.796875 47 29.296875 47 
+C 26.59375 47 24.203125 46.390625 21.703125 45.09375 
+L 12.90625 40.5 
+C 7.203125 37.5 3.5 30.21875 3.5 21.75 
+C 3.5 13.765625 6.203125 7.1875 11.09375 3.1875 
+C 14.5 0.296875 19.203125 -1 25.703125 -1 
+C 27.703125 -1 30 -0.609375 30.5 -0.203125 
+L 41.59375 9.078125 
+L 41.09375 0 
+C 46 -0.109375 47.59375 0 48.796875 0 
+C 49.59375 0 51 0 53.09375 -0.109375 
+C 53.796875 0.09375 55.796875 0.09375 57.90625 0 
+L 57.90625 3 
+L 53.296875 3.296875 
+C 49.90625 3.5 49.59375 4.1875 49.59375 10.5 
+L 49.59375 72.09375 
+L 48.703125 72.890625 
+C 44.296875 71.203125 41 70.390625 33.09375 69.203125 
+L 33.09375 66.390625 
+L 38.703125 66.390625 
+C 40.5 66.390625 41.203125 65.296875 41.203125 62.296875 
+z
+M 41.203125 22.25 
+C 41.203125 15.765625 41 14.765625 39.703125 12.46875 
+C 36.90625 7.78125 32 4.6875 27.296875 4.6875 
+C 18.5 4.6875 12.203125 13.171875 12.203125 25.03125 
+C 12.203125 35.90625 17.59375 42.296875 26.59375 42.296875 
+C 30.40625 42.296875 34.40625 41 37.90625 38.59375 
+C 40 37.203125 41.203125 35.90625 41.203125 35.109375 
+z
+" id="URW_Palladio_L_Roman-100"/>
+      <path d="M 43.703125 6.984375 
+L 42.40625 7.984375 
+C 36 4.1875 33.703125 3.296875 29.40625 3.296875 
+C 22.90625 3.296875 17.5 6.1875 14.703125 11.09375 
+C 12.796875 14.390625 12.09375 17.1875 11.90625 23 
+L 26.5 23 
+C 33.40625 23 37.703125 23.296875 44.59375 24.390625 
+C 44.703125 25.796875 44.796875 26.6875 44.796875 27.90625 
+C 44.796875 39.46875 37.40625 47 26.203125 47 
+C 22.5 47 18.203125 45.6875 14.09375 43.296875 
+C 5.90625 38.5625 2.59375 32.328125 2.59375 21.890625 
+C 2.59375 15.59375 4.09375 10.1875 6.796875 6.390625 
+C 10.796875 1.09375 17.5 -2 25 -2 
+C 28.703125 -2 32.40625 -1.203125 36.5 0.59375 
+C 39.203125 1.6875 41.296875 3 41.703125 3.59375 
+z
+M 35.90625 26.6875 
+C 30.703125 26.5 28.296875 26.390625 24.703125 26.390625 
+C 20.09375 26.390625 17.5 26.5 12.09375 27 
+C 12.09375 31.71875 12.5 33.9375 13.796875 36.546875 
+C 15.90625 40.984375 20.203125 43.6875 25 43.6875 
+C 28.296875 43.6875 30.90625 42.390625 32.703125 39.671875 
+C 34.90625 36.34375 35.59375 33.4375 35.90625 26.6875 
+z
+" id="URW_Palladio_L_Roman-101"/>
+      <path d="M 51.90625 38.3125 
+L 54.40625 42.390625 
+L 54 43.59375 
+L 39.796875 43.1875 
+C 36.09375 46.1875 32.5 47.390625 27.59375 47.390625 
+C 23.203125 47.390625 18.09375 46 14 43.59375 
+C 8.40625 40.40625 5.5 35.53125 5.5 29.453125 
+C 5.5 22.078125 10.09375 16.984375 17.5 16.1875 
+L 9.59375 9.96875 
+C 8.59375 8.4375 8.09375 7.109375 8.09375 5.59375 
+C 8.09375 2.796875 9.90625 1.1875 14.703125 -0.203125 
+L 6 -4.921875 
+C 4.59375 -5.734375 3.203125 -9.4375 3.203125 -12.5625 
+C 3.203125 -21.6875 12.09375 -28 24.796875 -28 
+C 39.90625 -28 51.796875 -18.484375 51.796875 -6.234375 
+C 51.796875 1 47 6 40 6 
+L 24 6 
+C 18.796875 6 16.40625 7.21875 16.40625 9.96875 
+C 16.40625 11.296875 17.203125 12.421875 19.796875 14.671875 
+C 20.40625 15.1875 20.59375 15.390625 21 15.796875 
+C 22 15.6875 22.59375 15.59375 23.40625 15.59375 
+C 27.703125 15.59375 33 17.484375 37.09375 20.390625 
+C 41.59375 23.671875 43.796875 27.65625 43.796875 32.9375 
+C 43.796875 34.921875 43.5 36.21875 42.703125 38.3125 
+z
+M 24 44 
+C 30.796875 44 35.40625 38.40625 35.40625 29.953125 
+C 35.40625 23.46875 31.203125 19 25.09375 19 
+C 18.40625 19 13.90625 24.171875 13.90625 31.84375 
+C 13.90625 39.515625 17.59375 44 24 44 
+z
+M 28.703125 -1 
+C 40 -1 43.90625 -3.3125 43.90625 -9.84375 
+C 43.90625 -18.484375 36 -24.90625 25.5 -24.90625 
+C 16.796875 -24.90625 10.796875 -19.78125 10.796875 -12.359375 
+C 10.796875 -7.84375 13.40625 -3.71875 17.40625 -2.015625 
+C 19 -1.203125 21.796875 -1 28.703125 -1 
+z
+" id="URW_Palladio_L_Roman-103"/>
+      <path d="M 2.296875 40.296875 
+L 6 40.296875 
+C 10 40.296875 10.40625 39.59375 10.40625 33 
+L 10.40625 10.5 
+C 10.40625 4.1875 10.09375 3.5 6.703125 3.296875 
+L 2.09375 3 
+L 2.09375 0 
+C 9.296875 -0.109375 11.90625 0 14.40625 0 
+C 16.40625 0.296875 16.40625 0.296875 28.703125 0 
+L 28.703125 3 
+L 23.5 3.296875 
+C 19 3.59375 18.796875 3.890625 18.796875 10.453125 
+L 18.796875 27.546875 
+C 18.796875 33.515625 22.796875 38.484375 27.703125 38.484375 
+C 30.703125 38.484375 32.796875 37.09375 34.40625 33.921875 
+L 36.5 33.921875 
+L 37.40625 45.890625 
+C 36.296875 46.59375 34.5 47 32.703125 47 
+C 29.703125 47 26.5 45.390625 24.40625 42.890625 
+L 18.796875 36.3125 
+L 18.796875 46.59375 
+L 17.90625 47 
+C 12.796875 44.890625 7.59375 43.484375 2.296875 42.890625 
+z
+" id="URW_Palladio_L_Roman-114"/>
+     </defs>
+     <g transform="translate(119.879993 205.704689)scale(0.14 -0.14)">
+      <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-73"/>
+      <use transform="translate(33.574079 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-110"/>
+      <use transform="translate(91.55614 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-45"/>
+      <use transform="translate(124.731369 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-100"/>
+      <use transform="translate(185.603 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-101"/>
+      <use transform="translate(233.323295 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-103"/>
+      <use transform="translate(288.714972 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-114"/>
+      <use transform="translate(326.274289 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-101"/>
+      <use transform="translate(373.994585 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-101"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_4">
+      <defs>
+       <path d="M 0 0 
+L -3.5 0 
+" id="mfaf26babd9" style="stroke:#000000;stroke-width:0.8;"/>
+      </defs>
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="68.4" xlink:href="#mfaf26babd9" y="170.82439"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- $0$ -->
+      <g transform="translate(55.422416 175.101328)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_5">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="68.4" xlink:href="#mfaf26babd9" y="131.312195"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- $10$ -->
+      <defs>
+       <path d="M 6.703125 55.796875 
+L 7.703125 55.796875 
+L 20.59375 61.59375 
+C 20.703125 61.703125 20.796875 61.703125 20.90625 61.703125 
+C 21.5 61.703125 21.703125 60.796875 21.703125 58.390625 
+L 21.703125 9.890625 
+C 21.703125 4.6875 20.59375 3.59375 15.203125 3.296875 
+L 9.59375 3 
+L 9.59375 0 
+C 25 0 25 0 26.09375 0 
+C 27.40625 0 29.59375 0 33 -0.109375 
+C 34.203125 0.09375 37.703125 0.09375 41.796875 0 
+L 41.796875 3 
+L 36.59375 3.296875 
+C 31.09375 3.578125 30.09375 4.671875 30.09375 9.8125 
+L 30.09375 68.484375 
+L 28.703125 69 
+C 22.203125 65.609375 15.09375 62.640625 6 59.484375 
+z
+" id="URW_Palladio_L_Roman-49"/>
+      </defs>
+      <g transform="translate(49.444832 135.589133)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-49"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_6">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="68.4" xlink:href="#mfaf26babd9" y="91.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- $20$ -->
+      <g transform="translate(49.444832 96.076938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-50"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_7">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="68.4" xlink:href="#mfaf26babd9" y="52.287805"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- $30$ -->
+      <defs>
+       <path d="M 4.296875 49.9375 
+L 7.40625 49.9375 
+L 9.203125 55.515625 
+C 10.296875 58.90625 16.59375 62.296875 21.796875 62.296875 
+C 28.296875 62.296875 33.59375 57.015625 33.59375 50.734375 
+C 33.59375 43.265625 27.703125 37 20.59375 37 
+C 19.796875 37 18.703125 37.09375 17.40625 37.1875 
+L 15.90625 37.296875 
+L 14.703125 31.984375 
+L 15.40625 31.375 
+C 19.203125 33.09375 21.09375 33.59375 23.796875 33.59375 
+C 32.09375 33.59375 36.90625 28.25 36.90625 19.09375 
+C 36.90625 8.828125 30.796875 2.09375 21.5 2.09375 
+C 16.90625 2.09375 12.796875 3.609375 9.796875 6.421875 
+C 7.40625 8.640625 6.09375 10.953125 4.203125 16.375 
+L 1.5 15.375 
+C 3.59375 9.234375 4.40625 5.609375 5 0.59375 
+C 10.296875 -1.203125 14.703125 -2 18.40625 -2 
+C 26.40625 -2 35.59375 2.5 41.09375 9.234375 
+C 44.5 13.359375 46.203125 17.796875 46.203125 22.515625 
+C 46.203125 27.34375 44.203125 31.578125 40.59375 34.09375 
+C 38.09375 35.890625 35.796875 36.6875 30.796875 37.59375 
+C 38.796875 43.765625 41.796875 48.34375 41.796875 54.21875 
+C 41.796875 63.09375 34.40625 69 23.296875 69 
+C 16.5 69 12 67.09375 7.203125 62.296875 
+z
+" id="URW_Palladio_L_Roman-51"/>
+      </defs>
+      <g transform="translate(49.444832 56.564743)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-51"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_8">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="68.4" xlink:href="#mfaf26babd9" y="12.77561"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <!-- $40$ -->
+      <g transform="translate(49.444832 17.052548)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-52"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_10">
+     <!-- Out-degree -->
+     <defs>
+      <path d="M 40.203125 71 
+C 17.40625 71 2.203125 56.171875 2.203125 34.140625 
+C 2.203125 13.109375 16.796875 -2 37 -2 
+C 59.40625 -2 76.40625 14.71875 76.40625 36.75 
+C 76.40625 57.78125 62.40625 71 40.203125 71 
+z
+M 38.5 66.796875 
+C 55.59375 66.796875 65.703125 54.578125 65.703125 33.75 
+C 65.703125 13.90625 56.5 2.1875 41 2.1875 
+C 24.203125 2.1875 12.90625 16.421875 12.90625 37.84375 
+C 12.90625 56.375 22.09375 66.796875 38.5 66.796875 
+z
+" id="URW_Palladio_L_Roman-79"/>
+      <path d="M 50.296875 46.59375 
+L 49.40625 47 
+C 44.296875 44.890625 39.09375 43.5 33.796875 42.890625 
+L 33.796875 40.109375 
+L 37.5 40.109375 
+C 41.5 40.109375 41.90625 39.40625 41.90625 32.828125 
+L 41.90625 16.5625 
+C 41.90625 14.375 40.5 11.578125 38.203125 9.28125 
+C 35.40625 6.484375 32.203125 5.09375 28.296875 5.09375 
+C 24.796875 5.09375 22 6.1875 20.40625 8.078125 
+C 19 9.6875 18.296875 12.765625 18.296875 17.15625 
+L 18.296875 46.59375 
+L 17.40625 47 
+C 12.296875 44.890625 7.09375 43.5 1.796875 42.890625 
+L 1.796875 40.109375 
+L 5.5 40.109375 
+C 9.5 40.109375 9.90625 39.40625 9.90625 32.828125 
+L 9.90625 16.0625 
+C 9.90625 9.078125 10.5 5.984375 12.296875 3.5 
+C 14.5 0.5 18.296875 -1 24 -1 
+C 28.5 -0.90625 32.5 0.5 35.203125 3 
+L 41.90625 9.1875 
+C 41.90625 6.296875 41.796875 4.6875 41.5 0 
+C 48.203125 0 48.296875 0 49.796875 0 
+C 51.203125 0.296875 51.203125 0.296875 58.09375 0 
+L 58.09375 3 
+L 54 3.296875 
+C 50.59375 3.5 50.296875 4.09375 50.296875 10.5 
+z
+" id="URW_Palladio_L_Roman-117"/>
+      <path d="M 9.796875 38.390625 
+L 9.796875 9.59375 
+C 9.796875 2.1875 13.09375 -1 20.796875 -1 
+C 23.09375 -1 25.5 -0.5 26.09375 0.1875 
+L 30.90625 5.5 
+L 29.59375 7.1875 
+C 27.09375 5.796875 25.59375 5.296875 23.703125 5.296875 
+C 19.796875 5.296875 18.203125 7.296875 18.203125 12.1875 
+L 18.203125 38.390625 
+L 31 38.390625 
+L 31.90625 43.796875 
+L 18.203125 43.1875 
+L 18.203125 47 
+C 18.203125 51.203125 18.5 54.796875 19.296875 61.203125 
+L 18.09375 62.296875 
+C 15.703125 60.796875 12.703125 59.5 9.59375 58.5 
+C 9.90625 55.5 10 53.59375 10 50.59375 
+L 10 43.59375 
+L 2.203125 40.09375 
+L 2.203125 38 
+z
+" id="URW_Palladio_L_Roman-116"/>
+     </defs>
+     <g transform="translate(41.51166 126.871074)rotate(-90)scale(0.14 -0.14)">
+      <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-79"/>
+      <use transform="translate(78.306281 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-117"/>
+      <use transform="translate(138.380016 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-116"/>
+      <use transform="translate(170.857104 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-45"/>
+      <use transform="translate(204.032334 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-100"/>
+      <use transform="translate(264.903964 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-101"/>
+      <use transform="translate(312.624259 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-103"/>
+      <use transform="translate(368.015936 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-114"/>
+      <use transform="translate(405.575254 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-101"/>
+      <use transform="translate(453.295549 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-101"/>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 68.4 172.8 
+L 68.4 10.8 
+" style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 230.4 172.8 
+L 230.4 10.8 
+" style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 68.4 172.8 
+L 230.4 172.8 
+" style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 68.4 10.8 
+L 230.4 10.8 
+" style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_7">
+    <path clip-path="url(#pf553351180)" d="M 241.2 172.8 
+L 241.2 172.167188 
+L 241.2 11.432813 
+L 241.2 10.8 
+L 249.3 10.8 
+L 249.3 11.432813 
+L 249.3 172.167188 
+L 249.3 172.8 
+z
+" style="fill:#ffffff;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.01;"/>
+   </g>
+   <image height="162" id="image6c2cc7f5c5" transform="scale(1 -1)translate(0 -162)" width="7.92" x="241.2" xlink:href="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAAsAAADhCAYAAAAec0/CAAAABHNCSVQICAgIfAhkiAAAAMRJREFUaIHtl8sKw0AMxLzt9nHp//9tnGuP6wEvk6CexaAKQ5Lxi8hY/M3nKhkR81GBS8smGq+2ZdLJy6STl2+frq+zibOJBulkmHQyTLo9Gn0PINLJGqSTNUinaoysfDxGQXpGwaMI92kUQts4m2iQTl4mnbxMuj0apc4mziYapJNh0snL77bl26czeQCZ/EHSGS6TTlweeVQ+eMf69IyYwH/wx0PjivDXQ+OKMFcnw1zdHpgTlWFOVIa5Og0embn8xngCS7sQX1ovrn0AAAAASUVORK5CYII=" y="-10.8"/>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_6">
+     <g id="line2d_9">
+      <defs>
+       <path d="M 0 0 
+L 3.5 0 
+" id="mcc326dd5a8" style="stroke:#000000;stroke-width:0.8;"/>
+      </defs>
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="172.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- $0.0$ -->
+      <defs>
+       <path d="M 12.40625 10.59375 
+C 9.40625 10.59375 6.703125 7.796875 6.703125 4.796875 
+C 6.703125 1.796875 9.40625 -1 12.296875 -1 
+C 15.5 -1 18.296875 1.6875 18.296875 4.796875 
+C 18.296875 7.796875 15.5 10.59375 12.40625 10.59375 
+z
+" id="URW_Palladio_L_Roman-46"/>
+      </defs>
+      <g transform="translate(256.3 177.076938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(74.719801 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_10">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="152.55"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <!-- $2.5$ -->
+      <defs>
+       <path d="M 12.703125 60.796875 
+C 25.59375 60.390625 31.203125 60.296875 43.203125 60.296875 
+L 43.703125 60.796875 
+C 43.5 62.59375 43.5 63.390625 43.5 64.6875 
+C 43.5 66.09375 43.5 66.890625 43.703125 68.6875 
+L 43.203125 69.1875 
+C 35.703125 68.796875 31.203125 68.6875 25.796875 68.6875 
+C 20.296875 68.6875 15.90625 68.796875 8.40625 69.1875 
+L 7.90625 68.6875 
+C 8 62.59375 8.09375 58.1875 8.09375 55 
+C 8.09375 46.5 7.796875 36.875 7.5 32.4375 
+L 9.5 31.84375 
+C 14.203125 36.578125 16.90625 38 21.796875 38 
+C 31.40625 38 37.40625 31.125 37.40625 20.234375 
+C 37.40625 9.046875 31 2.5 20.09375 2.5 
+C 14.703125 2.5 9.703125 4.3125 8.296875 6.921875 
+L 3.703125 15.203125 
+L 1.296875 13.78125 
+C 3.59375 8.03125 4.796875 4.8125 6.203125 0.390625 
+C 9 -1.109375 13 -2 17.296875 -2 
+C 24 -2 31.09375 0.890625 36.59375 5.71875 
+C 42.703125 11.171875 45.90625 18.015625 45.90625 25.484375 
+C 45.90625 36.875 37.796875 44.890625 26.40625 44.890625 
+C 21.59375 44.890625 18 43.59375 11.796875 39.890625 
+z
+" id="URW_Palladio_L_Roman-53"/>
+      </defs>
+      <g transform="translate(256.3 156.826938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-50"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(74.719801 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_11">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="132.3"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <!-- $5.0$ -->
+      <g transform="translate(256.3 136.576938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-53"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(74.719801 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_12">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="112.05"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <!-- $7.5$ -->
+      <defs>
+       <path d="M 5.59375 1.296875 
+L 6.5 0 
+C 10.40625 0 10.40625 0 11.09375 0 
+C 11.796875 0.296875 11.796875 0.296875 15.703125 0 
+C 19.90625 10.9375 24.796875 21.390625 31.40625 33.453125 
+L 49.703125 66.484375 
+L 49.703125 69.5 
+C 38.90625 69.09375 35.40625 69 27.296875 69 
+C 20 69 15.09375 69.09375 5.40625 69.5 
+L 4.40625 69 
+C 4.703125 59.484375 4.703125 59.484375 4.703125 58.484375 
+C 4.703125 57.375 4.703125 57.375 4.40625 48.234375 
+L 7.40625 48.234375 
+L 8.09375 53.859375 
+C 8.90625 60.09375 9.59375 60.890625 14.203125 60.890625 
+L 40.90625 60.890625 
+C 36.90625 52.65625 33.796875 46.8125 30 40.6875 
+z
+" id="URW_Palladio_L_Roman-55"/>
+      </defs>
+      <g transform="translate(256.3 116.326938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-55"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(74.719801 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_10">
+     <g id="line2d_13">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="91.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <!-- $10.0$ -->
+      <g transform="translate(256.3 96.076938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-49"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+       <use transform="translate(99.626401 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(124.533001 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_14">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="71.55"/>
+      </g>
+     </g>
+     <g id="text_16">
+      <!-- $12.5$ -->
+      <g transform="translate(256.3 75.826938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-49"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-50"/>
+       <use transform="translate(99.626401 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(124.533001 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_15">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="51.3"/>
+      </g>
+     </g>
+     <g id="text_17">
+      <!-- $15.0$ -->
+      <g transform="translate(256.3 55.576938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-49"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-53"/>
+       <use transform="translate(99.626401 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(124.533001 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_13">
+     <g id="line2d_16">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="31.05"/>
+      </g>
+     </g>
+     <g id="text_18">
+      <!-- $17.5$ -->
+      <g transform="translate(256.3 35.326938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-49"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-55"/>
+       <use transform="translate(99.626401 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(124.533001 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_14">
+     <g id="line2d_17">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="249.3" xlink:href="#mcc326dd5a8" y="10.8"/>
+      </g>
+     </g>
+     <g id="text_19">
+      <!-- $20.0$ -->
+      <g transform="translate(256.3 15.076938)scale(0.12 -0.12)">
+       <use transform="scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-50"/>
+       <use transform="translate(49.8132 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+       <use transform="translate(99.626401 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-46"/>
+       <use transform="translate(124.533001 0)scale(0.996264)" xlink:href="#URW_Palladio_L_Roman-48"/>
+      </g>
+     </g>
+    </g>
+   </g>
+   <g id="patch_8">
+    <path d="M 241.2 172.8 
+L 241.2 172.167188 
+L 241.2 11.432813 
+L 241.2 10.8 
+L 249.3 10.8 
+L 249.3 11.432813 
+L 249.3 172.167188 
+L 249.3 172.8 
+z
+" style="fill:none;stroke:#000000;stroke-linejoin:miter;stroke-width:0.8;"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf952bd9bea">
+   <rect height="162" width="162" x="68.4" y="10.8"/>
+  </clipPath>
+  <clipPath id="pf553351180">
+   <rect height="162" width="8.1" x="241.2" y="10.8"/>
+  </clipPath>
+ </defs>
+</svg>

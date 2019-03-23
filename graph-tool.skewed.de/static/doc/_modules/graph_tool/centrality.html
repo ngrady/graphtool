@@ -1,0 +1,1290 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.centrality &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.centrality</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.centrality`` - Centrality measures</span>
+<span class="sd">-----------------------------------------------</span>
+
+<span class="sd">This module includes centrality-related algorithms.</span>
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   pagerank</span>
+<span class="sd">   betweenness</span>
+<span class="sd">   central_point_dominance</span>
+<span class="sd">   closeness</span>
+<span class="sd">   eigenvector</span>
+<span class="sd">   katz</span>
+<span class="sd">   hits</span>
+<span class="sd">   eigentrust</span>
+<span class="sd">   trust_transitivity</span>
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_centrality&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">ungroup_vector_property</span><span class="p">,</span> <span class="n">Vector_size_t</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">topology</span> <span class="kn">import</span> <span class="nn">shortest_distance</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">numpy.linalg</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pagerank&quot;</span><span class="p">,</span> <span class="s2">&quot;betweenness&quot;</span><span class="p">,</span> <span class="s2">&quot;central_point_dominance&quot;</span><span class="p">,</span> <span class="s2">&quot;closeness&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;eigentrust&quot;</span><span class="p">,</span> <span class="s2">&quot;eigenvector&quot;</span><span class="p">,</span> <span class="s2">&quot;katz&quot;</span><span class="p">,</span> <span class="s2">&quot;hits&quot;</span><span class="p">,</span> <span class="s2">&quot;trust_transitivity&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="pagerank"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.pagerank">[docs]</a><span class="k">def</span> <span class="nf">pagerank</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">pers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+             <span class="n">max_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ret_iter</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the PageRank of each vertex.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    damping : float, optional (default: 0.85)</span>
+<span class="sd">        Damping factor.</span>
+<span class="sd">    pers : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Personalization vector. If omitted, a constant value of :math:`1/N`</span>
+<span class="sd">        will be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Edge weights. If omitted, a constant value of 1 will be used.</span>
+<span class="sd">    prop : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Vertex property map to store the PageRank values. If supplied, it will</span>
+<span class="sd">        be used uninitialized.</span>
+<span class="sd">    epsilon : float, optional (default: 1e-6)</span>
+<span class="sd">        Convergence condition. The iteration will stop if the total delta of all</span>
+<span class="sd">        vertices are below this value.</span>
+<span class="sd">    max_iter : int, optional (default: None)</span>
+<span class="sd">        If supplied, this will limit the total number of iterations.</span>
+<span class="sd">    ret_iter : bool, optional (default: False)</span>
+<span class="sd">        If true, the total number of iterations is also returned.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pagerank : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map containing the PageRank values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+<span class="sd">    eigentrust: eigentrust centrality</span>
+<span class="sd">    eigenvector: eigenvector centrality</span>
+<span class="sd">    hits: hubs and authority centralities</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The value of PageRank [pagerank-wikipedia]_ of vertex v, :math:`PR(v)`, is</span>
+<span class="sd">    given iteratively by the relation:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        PR(v) = \frac{1-d}{N} + d \sum_{u \in \Gamma^{-}(v)}</span>
+<span class="sd">                \frac{PR (u)}{d^{+}(u)}</span>
+
+<span class="sd">    where :math:`\Gamma^{-}(v)` are the in-neighbors of v, :math:`d^{+}(w)` is</span>
+<span class="sd">    the out-degree of w, and d is a damping factor.</span>
+
+<span class="sd">    If a personalization property :math:`p(v)` is given, the definition becomes:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        PR(v) = (1-d)p(v) + d \sum_{u \in \Gamma^{-}(v)}</span>
+<span class="sd">                \frac{PR (u)}{d^{+}(u)}</span>
+
+<span class="sd">    If edge weights are also given, the equation is then generalized to:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        PR(v) = (1-d)p(v) + d \sum_{u \in \Gamma^{-}(v)}</span>
+<span class="sd">                \frac{PR (u) w_{u\to v}}{d^{+}(u)}</span>
+
+<span class="sd">    where :math:`d^{+}(u)=\sum_{y}A_{u,y}w_{u\to y}` is redefined to be the sum</span>
+<span class="sd">    of the weights of the out-going edges from u.</span>
+
+<span class="sd">    The implemented algorithm progressively iterates the above equations, until</span>
+<span class="sd">    it no longer changes, according to the parameter epsilon. It has a</span>
+<span class="sd">    topology-dependent running time.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: pagerank</span>
+
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: pagerank</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; pr = gt.pagerank(g)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=pr,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(pr, mi=5, ma=15),</span>
+<span class="sd">       ...               vorder=pr, vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               output=&quot;polblogs_pr.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: pagerank</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=pr,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(pr, mi=5, ma=15),</span>
+<span class="sd">                     vorder=pr, vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     output=&quot;polblogs_pr.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_pr.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       PageRank values of the a political blogs network of [adamic-polblogs]_.</span>
+
+<span class="sd">    Now with a personalization vector, and edge weights:</span>
+
+<span class="sd">    .. doctest:: pagerank</span>
+
+<span class="sd">       &gt;&gt;&gt; d = g.degree_property_map(&quot;total&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; periphery = d.a &lt;= 2</span>
+<span class="sd">       &gt;&gt;&gt; p = g.new_vertex_property(&quot;double&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; p.a[periphery] = 100</span>
+<span class="sd">       &gt;&gt;&gt; pr = gt.pagerank(g, pers=p)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=pr,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(pr, mi=5, ma=15),</span>
+<span class="sd">       ...               vorder=pr, vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               output=&quot;polblogs_pr_pers.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: pagerank</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=pr,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(pr, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=pr, output=&quot;polblogs_pr_pers.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_pr_pers.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Personalized PageRank values of the a political blogs network of</span>
+<span class="sd">       [adamic-polblogs]_, where vertices with very low degree are given</span>
+<span class="sd">       artificially high scores.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [pagerank-wikipedia] http://en.wikipedia.org/wiki/Pagerank</span>
+<span class="sd">    .. [lawrence-pagerank-1998] P. Lawrence, B. Sergey, M. Rajeev, W. Terry,</span>
+<span class="sd">       &quot;The pagerank citation ranking: Bringing order to the web&quot;, Technical</span>
+<span class="sd">       report, Stanford University, 1998</span>
+<span class="sd">    .. [Langville-survey-2005] A. N. Langville, C. D. Meyer, &quot;A Survey of</span>
+<span class="sd">       Eigenvector Methods for Web Information Retrieval&quot;, SIAM Review, vol. 47,</span>
+<span class="sd">       no. 1, pp. 135-161, 2005, :DOI:`10.1137/S0036144503424786`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">max_iter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">fa</span><span class="p">)</span>
+        <span class="n">prop</span><span class="o">.</span><span class="n">fa</span> <span class="o">=</span> <span class="n">pers</span><span class="o">.</span><span class="n">fa</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span> <span class="k">if</span> <span class="n">pers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+    <span class="n">ic</span> <span class="o">=</span> <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+            <span class="n">get_pagerank</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">),</span>
+                         <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pers</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                         <span class="n">damping</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret_iter</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">prop</span><span class="p">,</span> <span class="n">ic</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">prop</span></div>
+
+
+<div class="viewcode-block" id="betweenness"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.betweenness">[docs]</a><span class="k">def</span> <span class="nf">betweenness</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pivots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate the betweenness centrality for each vertex and edge.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    pivots : list or :class:`~numpy.ndarray`, optional (default: None)</span>
+<span class="sd">        If provided, the betweenness will be estimated using the vertices in</span>
+<span class="sd">        this list as pivots. If the list contains all nodes (the default) the</span>
+<span class="sd">        algorithm will be exact, and if the vertices are randomly chosen the</span>
+<span class="sd">        result will be an unbiased estimator.</span>
+<span class="sd">    vprop : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Vertex property map to store the vertex betweenness values.</span>
+<span class="sd">    eprop : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Edge property map to store the edge betweenness values.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Edge property map corresponding to the weight value of each edge.</span>
+<span class="sd">    norm : bool, optional (default: True)</span>
+<span class="sd">        Whether or not the betweenness values should be normalized.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertex_betweenness : A vertex property map with the vertex betweenness values.</span>
+<span class="sd">    edge_betweenness : An edge property map with the edge betweenness values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    central_point_dominance: central point dominance of the graph</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+<span class="sd">    eigentrust: eigentrust centrality</span>
+<span class="sd">    eigenvector: eigenvector centrality</span>
+<span class="sd">    hits: hubs and authority centralities</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Betweenness centrality of a vertex :math:`C_B(v)` is defined as,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        C_B(v)= \sum_{s \neq v \neq t \in V \atop s \neq t}</span>
+<span class="sd">                \frac{\sigma_{st}(v)}{\sigma_{st}}</span>
+
+<span class="sd">    where :math:`\sigma_{st}` is the number of shortest paths from s to t, and</span>
+<span class="sd">    :math:`\sigma_{st}(v)` is the number of shortest paths from s to t that pass</span>
+<span class="sd">    through a vertex :math:`v`. This may be normalised by dividing through the</span>
+<span class="sd">    number of pairs of vertices not including v, which is :math:`(n-1)(n-2)/2`,</span>
+<span class="sd">    for undirected graphs, or :math:`(n-1)(n-2)` for directed ones.</span>
+
+<span class="sd">    The algorithm used here is defined in [brandes-faster-2001]_, and has a</span>
+<span class="sd">    complexity of :math:`O(VE)` for unweighted graphs and :math:`O(VE +</span>
+<span class="sd">    V(V+E)\log V)` for weighted graphs. The space complexity is :math:`O(VE)`.</span>
+
+<span class="sd">    If the ``pivots`` parameter is given, the complexity will be instead</span>
+<span class="sd">    :math:`O(PE)` for unweighted graphs and :math:`O(PE + P(V+E)\log V)` for</span>
+<span class="sd">    weighted graphs, where :math:`P` is the number of pivot vertices.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: betweenness</span>
+
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: betweenness</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; vp, ep = gt.betweenness(g)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=vp,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(vp, mi=5, ma=15),</span>
+<span class="sd">       ...               edge_pen_width=gt.prop_to_size(ep, mi=0.5, ma=5),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=vp, output=&quot;polblogs_betweenness.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: betweenness</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=vp,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(vp, mi=5, ma=15),</span>
+<span class="sd">                     edge_pen_width=gt.prop_to_size(ep, mi=0.5, ma=5),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=vp, output=&quot;polblogs_betweenness.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_betweenness.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Betweenness values of the a political blogs network of [adamic-polblogs]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [betweenness-wikipedia] http://en.wikipedia.org/wiki/Centrality#Betweenness_centrality</span>
+<span class="sd">    .. [brandes-faster-2001] U. Brandes, &quot;A faster algorithm for betweenness</span>
+<span class="sd">       centrality&quot;, Journal of Mathematical Sociology, 2001, :doi:`10.1080/0022250X.2001.9990249`</span>
+<span class="sd">    .. [brandes-centrality-2007] U. Brandes, C. Pich, &quot;Centrality estimation in</span>
+<span class="sd">       large networks&quot;, Int. J. Bifurcation Chaos 17, 2303 (2007).</span>
+<span class="sd">       :DOI:`10.1142/S0218127407018403`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">vprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">eprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">eprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">weight</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="n">eprop</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+        <span class="n">nw</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">eprop</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">nw</span><span class="p">)</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">nw</span>
+    <span class="k">if</span> <span class="n">pivots</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pivots</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pivots</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint64&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pivots</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">()</span>
+    <span class="n">vpivots</span> <span class="o">=</span> <span class="n">Vector_size_t</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pivots</span><span class="p">))</span>
+    <span class="n">vpivots</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">pivots</span>
+    <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+            <span class="n">get_betweenness</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">vpivots</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                            <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eprop</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">),</span> <span class="n">norm</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vprop</span><span class="p">,</span> <span class="n">eprop</span></div>
+
+<div class="viewcode-block" id="closeness"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.closeness">[docs]</a><span class="k">def</span> <span class="nf">closeness</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">harmonic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the closeness centrality for each vertex.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`, optional (default: None)</span>
+<span class="sd">        Edge property map corresponding to the weight value of each edge.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex`, optional (default: ``None``)</span>
+<span class="sd">        If specified, the centrality is computed for this vertex alone.</span>
+<span class="sd">    vprop : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map to store the vertex centrality values.</span>
+<span class="sd">    norm : bool, optional (default: ``True``)</span>
+<span class="sd">        Whether or not the centrality values should be normalized.</span>
+<span class="sd">    harmonic : bool, optional (default: ``False``)</span>
+<span class="sd">        If true, the sum of the inverse of the distances will be computed,</span>
+<span class="sd">        instead of the inverse of the sum.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertex_closeness : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the vertex closeness values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    central_point_dominance: central point dominance of the graph</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+<span class="sd">    eigentrust: eigentrust centrality</span>
+<span class="sd">    eigenvector: eigenvector centrality</span>
+<span class="sd">    hits: hubs and authority centralities</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The closeness centrality of a vertex :math:`i` is defined as,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        c_i = \frac{1}{\sum_j d_{ij}}</span>
+
+<span class="sd">    where :math:`d_{ij}` is the (possibly directed and/or weighted) distance</span>
+<span class="sd">    from :math:`i` to :math:`j`. In case there is no path between the two</span>
+<span class="sd">    vertices, here the distance is taken to be zero.</span>
+
+<span class="sd">    If ``harmonic == True``, the definition becomes</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        c_i = \sum_j\frac{1}{d_{ij}},</span>
+
+<span class="sd">    but now, in case there is no path between the two vertices, we take</span>
+<span class="sd">    :math:`d_{ij} \to\infty` such that :math:`1/d_{ij}=0`.</span>
+
+<span class="sd">    If ``norm == True``, the values of :math:`c_i` are normalized by</span>
+<span class="sd">    :math:`n_i-1` where :math:`n_i` is the size of the (out-) component of</span>
+<span class="sd">    :math:`i`. If ``harmonic == True``, they are instead simply normalized by</span>
+<span class="sd">    :math:`V-1`.</span>
+
+<span class="sd">    The algorithm complexity of :math:`O(V(V + E))` for unweighted graphs and</span>
+<span class="sd">    :math:`O(V(V+E) \log V)` for weighted graphs. If the option ``source`` is</span>
+<span class="sd">    specified, this drops to :math:`O(V + E)` and :math:`O((V+E)\log V)`</span>
+<span class="sd">    respectively.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: closeness</span>
+
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: closeness</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; c = gt.closeness(g)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=c,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(c, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=c, output=&quot;polblogs_closeness.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: closeness</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=c,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(c, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=c, output=&quot;polblogs_closeness.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_closeness.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Closeness values of the a political blogs network of [adamic-polblogs]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [closeness-wikipedia] https://en.wikipedia.org/wiki/Closeness_centrality</span>
+<span class="sd">    .. [opsahl-node-2010] Opsahl, T., Agneessens, F., Skvoretz, J., &quot;Node</span>
+<span class="sd">       centrality in weighted networks: Generalizing degree and shortest</span>
+<span class="sd">       paths&quot;. Social Networks 32, 245-251, 2010 :DOI:`10.1016/j.socnet.2010.03.006`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">vprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+        <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+            <span class="n">closeness</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                      <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">),</span> <span class="n">harmonic</span><span class="p">,</span> <span class="n">norm</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vprop</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">max_dist</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">shortest_distance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
+                                 <span class="n">max_dist</span><span class="o">=</span><span class="n">max_dist</span><span class="p">)</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">fa</span><span class="p">[(</span><span class="n">dist</span><span class="o">.</span><span class="n">fa</span> <span class="o">&lt;</span> <span class="n">max_dist</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">fa</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">harmonic</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">dists</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">/=</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">dists</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">*=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="central_point_dominance"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.central_point_dominance">[docs]</a><span class="k">def</span> <span class="nf">central_point_dominance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">betweenness</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the central point dominance of the graph, given the betweenness</span>
+<span class="sd">    centrality of each vertex.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    betweenness : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Vertex property map with the betweenness centrality values. The values</span>
+<span class="sd">        must be normalized.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cp : float</span>
+<span class="sd">        The central point dominance.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Let :math:`v^*` be the vertex with the largest relative betweenness</span>
+<span class="sd">    centrality; then, the central point dominance [freeman-set-1977]_ is defined</span>
+<span class="sd">    as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        C&#39;_B = \frac{1}{|V|-1} \sum_{v} C_B(v^*) - C_B(v)</span>
+
+<span class="sd">    where :math:`C_B(v)` is the normalized betweenness centrality of vertex</span>
+<span class="sd">    v. The value of :math:`C_B` lies in the range [0,1].</span>
+
+<span class="sd">    The algorithm has a complexity of :math:`O(V)`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">    &gt;&gt;&gt; vp, ep = gt.betweenness(g)</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.central_point_dominance(g, vp))</span>
+<span class="sd">    0.11610685614...</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [freeman-set-1977] Linton C. Freeman, &quot;A Set of Measures of Centrality</span>
+<span class="sd">       Based on Betweenness&quot;, Sociometry, Vol. 40, No. 1,  pp. 35-41, 1977,</span>
+<span class="sd">       `http://www.jstor.org/stable/3033543 &lt;http://www.jstor.org/stable/3033543&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+           <span class="n">get_central_point_dominance</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                       <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">betweenness</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="eigenvector"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.eigenvector">[docs]</a><span class="k">def</span> <span class="nf">eigenvector</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the eigenvector centrality of each vertex in the graph, as well as</span>
+<span class="sd">    the largest eigenvalue.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        Edge property map with the edge weights.</span>
+<span class="sd">    vprop : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map where the values of eigenvector must be stored. If</span>
+<span class="sd">        provided, it will be used uninitialized.</span>
+<span class="sd">    epsilon : float, optional (default: ``1e-6``)</span>
+<span class="sd">        Convergence condition. The iteration will stop if the total delta of all</span>
+<span class="sd">        vertices are below this value.</span>
+<span class="sd">    max_iter : int, optional (default: ``None``)</span>
+<span class="sd">        If supplied, this will limit the total number of iterations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    eigenvalue : float</span>
+<span class="sd">        The largest eigenvalue of the (weighted) adjacency matrix.</span>
+<span class="sd">    eigenvector : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map containing the eigenvector values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+<span class="sd">    hits: hubs and authority centralities</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The eigenvector centrality :math:`\mathbf{x}` is the eigenvector of the</span>
+<span class="sd">    (weighted) adjacency matrix with the largest eigenvalue :math:`\lambda`,</span>
+<span class="sd">    i.e. it is the solution of</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathbf{A}\mathbf{x} = \lambda\mathbf{x},</span>
+
+
+<span class="sd">    where :math:`\mathbf{A}` is the (weighted) adjacency matrix and</span>
+<span class="sd">    :math:`\lambda` is the largest eigenvalue.</span>
+
+<span class="sd">    The algorithm uses the power method which has a topology-dependent complexity of</span>
+<span class="sd">    :math:`O\left(N\times\frac{-\log\epsilon}{\log|\lambda_1/\lambda_2|}\right)`,</span>
+<span class="sd">    where :math:`N` is the number of vertices, :math:`\epsilon` is the ``epsilon``</span>
+<span class="sd">    parameter, and :math:`\lambda_1` and :math:`\lambda_2` are the largest and</span>
+<span class="sd">    second largest eigenvalues of the (weighted) adjacency matrix, respectively.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: eigenvector</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: eigenvector</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; w = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; w.a = np.random.random(len(w.a)) * 42</span>
+<span class="sd">       &gt;&gt;&gt; ee, x = gt.eigenvector(g, w)</span>
+<span class="sd">       &gt;&gt;&gt; print(ee)</span>
+<span class="sd">       724.302745922...</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=x,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(x, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=x, output=&quot;polblogs_eigenvector.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: eigenvector</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=x,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(x, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=x, output=&quot;polblogs_eigenvector.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_eigenvector.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Eigenvector values of the a political blogs network of</span>
+<span class="sd">       [adamic-polblogs]_, with random weights attributed to the edges.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [eigenvector-centrality] http://en.wikipedia.org/wiki/Centrality#Eigenvector_centrality</span>
+<span class="sd">    .. [power-method] http://en.wikipedia.org/wiki/Power_iteration</span>
+<span class="sd">    .. [langville-survey-2005] A. N. Langville, C. D. Meyer, &quot;A Survey of</span>
+<span class="sd">       Eigenvector Methods for Web Information Retrieval&quot;, SIAM Review, vol. 47,</span>
+<span class="sd">       no. 1, pp. 135-161, 2005, :DOI:`10.1137/S0036144503424786`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">vprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+        <span class="n">vprop</span><span class="o">.</span><span class="n">fa</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">max_iter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+         <span class="n">get_eigenvector</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                         <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">),</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ee</span><span class="p">,</span> <span class="n">vprop</span></div>
+
+
+<div class="viewcode-block" id="katz"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.katz">[docs]</a><span class="k">def</span> <span class="nf">katz</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+         <span class="n">max_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the Katz centrality of each vertex in the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        Edge property map with the edge weights.</span>
+<span class="sd">    alpha : float, optional (default: ``0.01``)</span>
+<span class="sd">        Free parameter :math:`\alpha`. This must be smaller than the inverse of</span>
+<span class="sd">        the largest eigenvalue of the adjacency matrix.</span>
+<span class="sd">    beta : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map where the local personalization values. If not</span>
+<span class="sd">        provided, the global value of 1 will be used.</span>
+<span class="sd">    vprop : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map where the values of eigenvector must be stored. If</span>
+<span class="sd">        provided, it will be used uninitialized.</span>
+<span class="sd">    epsilon : float, optional (default: ``1e-6``)</span>
+<span class="sd">        Convergence condition. The iteration will stop if the total delta of all</span>
+<span class="sd">        vertices are below this value.</span>
+<span class="sd">    max_iter : int, optional (default: ``None``)</span>
+<span class="sd">        If supplied, this will limit the total number of iterations.</span>
+<span class="sd">    norm : bool, optional (default: ``True``)</span>
+<span class="sd">        Whether or not the centrality values should be normalized.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    centrality : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map containing the Katz centrality values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+<span class="sd">    eigenvector: eigenvector centrality</span>
+<span class="sd">    hits: hubs and authority centralities</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The Katz centrality :math:`\mathbf{x}` is the solution of the nonhomogeneous</span>
+<span class="sd">    linear system</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathbf{x} = \alpha\mathbf{A}\mathbf{x} + \mathbf{\beta},</span>
+
+
+<span class="sd">    where :math:`\mathbf{A}` is the (weighted) adjacency matrix and</span>
+<span class="sd">    :math:`\mathbf{\beta}` is the personalization vector (if not supplied,</span>
+<span class="sd">    :math:`\mathbf{\beta} = \mathbf{1}` is assumed).</span>
+
+<span class="sd">    The algorithm uses successive iterations of the equation above, which has a</span>
+<span class="sd">    topology-dependent convergence complexity.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup:: katz</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: katz</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; w = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; w.a = np.random.random(len(w.a))</span>
+<span class="sd">       &gt;&gt;&gt; x = gt.katz(g, weight=w)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=x,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(x, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=x, output=&quot;polblogs_katz.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: katz</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=x,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(x, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=x, output=&quot;polblogs_katz.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_katz.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Katz centrality values of the a political blogs network of</span>
+<span class="sd">       [adamic-polblogs]_, with random weights attributed to the edges.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [katz-centrality] http://en.wikipedia.org/wiki/Katz_centrality</span>
+<span class="sd">    .. [katz-new] L. Katz, &quot;A new status index derived from sociometric analysis&quot;,</span>
+<span class="sd">       Psychometrika 18, Number 1, 39-43, 1953, :DOI:`10.1007/BF02289026`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">vprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_iter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+         <span class="n">get_katz</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">),</span>
+                  <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">beta</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+        <span class="n">vprop</span><span class="o">.</span><span class="n">fa</span> <span class="o">=</span> <span class="n">vprop</span><span class="o">.</span><span class="n">fa</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vprop</span><span class="o">.</span><span class="n">fa</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vprop</span></div>
+
+
+<div class="viewcode-block" id="hits"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.hits">[docs]</a><span class="k">def</span> <span class="nf">hits</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the authority and hub centralities of each vertex in the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        Edge property map with the edge weights.</span>
+<span class="sd">    xprop : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map where the authority centrality must be stored.</span>
+<span class="sd">    yprop : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map where the hub centrality must be stored.</span>
+<span class="sd">    epsilon : float, optional (default: ``1e-6``)</span>
+<span class="sd">        Convergence condition. The iteration will stop if the total delta of all</span>
+<span class="sd">        vertices are below this value.</span>
+<span class="sd">    max_iter : int, optional (default: ``None``)</span>
+<span class="sd">        If supplied, this will limit the total number of iterations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    eig : `float`</span>
+<span class="sd">        The largest eigenvalue of the cocitation matrix.</span>
+<span class="sd">    x : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map containing the authority centrality values.</span>
+<span class="sd">    y : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map containing the hub centrality values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+<span class="sd">    eigenvector: eigenvector centrality</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The Hyperlink-Induced Topic Search (HITS) centrality assigns hub</span>
+<span class="sd">    (:math:`\mathbf{y}`) and authority (:math:`\mathbf{x}`) centralities to the</span>
+<span class="sd">    vertices, following:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{align}</span>
+<span class="sd">            \mathbf{x} &amp;= \alpha\mathbf{A}\mathbf{y} \\</span>
+<span class="sd">            \mathbf{y} &amp;= \beta\mathbf{A}^T\mathbf{x}</span>
+<span class="sd">        \end{align}</span>
+
+
+<span class="sd">    where :math:`\mathbf{A}` is the (weighted) adjacency matrix and</span>
+<span class="sd">    :math:`\lambda = 1/(\alpha\beta)` is the largest eigenvalue of the</span>
+<span class="sd">    cocitation matrix, :math:`\mathbf{A}\mathbf{A}^T`. (Without loss of</span>
+<span class="sd">    generality, we set :math:`\beta=1` in the algorithm.)</span>
+
+<span class="sd">    The algorithm uses the power method which has a topology-dependent complexity of</span>
+<span class="sd">    :math:`O\left(N\times\frac{-\log\epsilon}{\log|\lambda_1/\lambda_2|}\right)`,</span>
+<span class="sd">    where :math:`N` is the number of vertices, :math:`\epsilon` is the ``epsilon``</span>
+<span class="sd">    parameter, and :math:`\lambda_1` and :math:`\lambda_2` are the largest and</span>
+<span class="sd">    second largest eigenvalues of the (weighted) cocitation matrix, respectively.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: hits</span>
+
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: hits</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; ee, x, y = gt.hits(g)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=x,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(x, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=x, output=&quot;polblogs_hits_auths.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=y,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(y, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=y, output=&quot;polblogs_hits_hubs.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: hits</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=x,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(x, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=x, output=&quot;polblogs_hits_auths.png&quot;)</span>
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=y,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(y, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=y, output=&quot;polblogs_hits_hubs.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_hits_auths.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       HITS authority values of the a political blogs network of</span>
+<span class="sd">       [adamic-polblogs]_.</span>
+
+<span class="sd">    .. figure:: polblogs_hits_hubs.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       HITS hub values of the a political blogs network of [adamic-polblogs]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [hits-algorithm] http://en.wikipedia.org/wiki/HITS_algorithm</span>
+<span class="sd">    .. [kleinberg-authoritative] J. Kleinberg, &quot;Authoritative sources in a</span>
+<span class="sd">       hyperlinked environment&quot;, Journal of the ACM 46 (5): 604-632, 1999,</span>
+<span class="sd">       :DOI:`10.1145/324133.324140`.</span>
+<span class="sd">    .. [power-method] http://en.wikipedia.org/wiki/Power_iteration</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">xprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">yprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">yprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_iter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+         <span class="n">get_hits</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">xprop</span><span class="p">),</span>
+                  <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">yprop</span><span class="p">),</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">l</span><span class="p">,</span> <span class="n">xprop</span><span class="p">,</span> <span class="n">yprop</span></div>
+
+
+<div class="viewcode-block" id="eigentrust"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.eigentrust">[docs]</a><span class="k">def</span> <span class="nf">eigentrust</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">trust_map</span><span class="p">,</span> <span class="n">vprop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+               <span class="n">ret_iter</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the eigentrust centrality of each vertex in the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    trust_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the values of trust associated with each</span>
+<span class="sd">        edge. The values must lie in the range [0,1].</span>
+<span class="sd">    vprop : :class:`~graph_tool.PropertyMap`, optional (default: ``None``)</span>
+<span class="sd">        Vertex property map where the values of eigentrust must be stored.</span>
+<span class="sd">    norm : bool, optional (default:  ``False``)</span>
+<span class="sd">        Norm eigentrust values so that the total sum equals 1.</span>
+<span class="sd">    epsilon : float, optional (default: ``1e-6``)</span>
+<span class="sd">        Convergence condition. The iteration will stop if the total delta of all</span>
+<span class="sd">        vertices are below this value.</span>
+<span class="sd">    max_iter : int, optional (default: ``None``)</span>
+<span class="sd">        If supplied, this will limit the total number of iterations.</span>
+<span class="sd">    ret_iter : bool, optional (default: ``False``)</span>
+<span class="sd">        If true, the total number of iterations is also returned.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    eigentrust : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map containing the eigentrust values.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+<span class="sd">    trust_transitivity: pervasive trust transitivity</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The eigentrust [kamvar-eigentrust-2003]_ values :math:`t_i` correspond the</span>
+<span class="sd">    following limit</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathbf{t} = \lim_{n\to\infty} \left(C^T\right)^n \mathbf{c}</span>
+
+<span class="sd">    where :math:`c_i = 1/|V|` and the elements of the matrix :math:`C` are the</span>
+<span class="sd">    normalized trust values:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        c_{ij} = \frac{\max(s_{ij},0)}{\sum_{j} \max(s_{ij}, 0)}</span>
+
+<span class="sd">    The algorithm has a topology-dependent complexity.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: eigentrust</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: eigentrust</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; w = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; w.a = np.random.random(len(w.a)) * 42</span>
+<span class="sd">       &gt;&gt;&gt; t = gt.eigentrust(g, w)</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=t,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(t, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=t, output=&quot;polblogs_eigentrust.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: eigentrust</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=t,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(t, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=t, output=&quot;polblogs_eigentrust.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_eigentrust.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Eigentrust values of the a political blogs network of</span>
+<span class="sd">       [adamic-polblogs]_, with random weights attributed to the edges.</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [kamvar-eigentrust-2003] S. D. Kamvar, M. T. Schlosser, H. Garcia-Molina</span>
+<span class="sd">       &quot;The eigentrust algorithm for reputation management in p2p networks&quot;,</span>
+<span class="sd">       Proceedings of the 12th international conference on World Wide Web,</span>
+<span class="sd">       Pages: 640 - 651, 2003, :doi:`10.1145/775152.775242`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">vprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+           <span class="n">get_eigentrust</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">trust_map</span><span class="p">),</span>
+                          <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">),</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+        <span class="n">vprop</span><span class="o">.</span><span class="n">get_array</span><span class="p">()[:]</span> <span class="o">/=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">vprop</span><span class="o">.</span><span class="n">get_array</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">ret_iter</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vprop</span><span class="p">,</span> <span class="n">i</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vprop</span></div>
+
+
+<div class="viewcode-block" id="trust_transitivity"><a class="viewcode-back" href="../../../../doc/centrality.html#graph_tool.centrality.trust_transitivity">[docs]</a><span class="k">def</span> <span class="nf">trust_transitivity</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">trust_map</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vprop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the pervasive trust transitivity between chosen (or all) vertices</span>
+<span class="sd">    in the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    trust_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the values of trust associated with each</span>
+<span class="sd">        edge. The values must lie in the range [0,1].</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: None)</span>
+<span class="sd">        Source vertex. All trust values are computed relative to this vertex.</span>
+<span class="sd">        If left unspecified, the trust values for all sources are computed.</span>
+<span class="sd">    target : :class:`~graph_tool.Vertex` (optional, default: None)</span>
+<span class="sd">        The only target for which the trust value will be calculated. If left</span>
+<span class="sd">        unspecified, the trust values for all targets are computed.</span>
+<span class="sd">    vprop : :class:`~graph_tool.PropertyMap` (optional, default: None)</span>
+<span class="sd">        A vertex property map where the values of transitive trust must be</span>
+<span class="sd">        stored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    trust_transitivity : :class:`~graph_tool.PropertyMap` or float</span>
+<span class="sd">        A vertex vector property map containing, for each source vertex, a</span>
+<span class="sd">        vector with the trust values for the other vertices. If only one of</span>
+<span class="sd">        `source` or `target` is specified, this will be a single-valued vertex</span>
+<span class="sd">        property map containing the trust vector from/to the source/target</span>
+<span class="sd">        vertex to/from the rest of the network. If both `source` and `target`</span>
+<span class="sd">        are specified, the result is a single float, with the corresponding</span>
+<span class="sd">        trust value for the target.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    eigentrust: eigentrust centrality</span>
+<span class="sd">    betweenness: betweenness centrality</span>
+<span class="sd">    pagerank: PageRank centrality</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The pervasive trust transitivity between vertices i and j is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        t_{ij} = \frac{\sum_m A_{m,j} w^2_{G\setminus\{j\}}(i\to m)c_{m,j}}</span>
+<span class="sd">                 {\sum_m A_{m,j} w_{G\setminus\{j\}}(i\to m)}</span>
+
+<span class="sd">    where :math:`A_{ij}` is the adjacency matrix, :math:`c_{ij}` is the direct</span>
+<span class="sd">    trust from i to j, and :math:`w_G(i\to j)` is the weight of the path with</span>
+<span class="sd">    maximum weight from i to j, computed as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       w_G(i\to j) = \prod_{e\in i\to j} c_e.</span>
+
+<span class="sd">    The algorithm measures the transitive trust by finding the paths with</span>
+<span class="sd">    maximum weight, using Dijkstra&#39;s algorithm, to all in-neighbors of a given</span>
+<span class="sd">    target. This search needs to be performed repeatedly for every target, since</span>
+<span class="sd">    it needs to be removed from the graph first. For each given source, the</span>
+<span class="sd">    resulting complexity is therefore :math:`O(V^2\log V)` for all targets, and</span>
+<span class="sd">    :math:`O(V\log V)` for a single target. For a given target, the complexity</span>
+<span class="sd">    for obtaining the trust from all given sources is :math:`O(kV\log V)`, where</span>
+<span class="sd">    :math:`k` is the in-degree of the target. Thus, the complexity for obtaining</span>
+<span class="sd">    the complete trust matrix is :math:`O(EV\log V)`, where :math:`E` is the</span>
+<span class="sd">    number of edges in the network.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup:: trust_transitivity</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       import matplotlib</span>
+
+<span class="sd">    .. doctest:: trust_transitivity</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.Graph(g, prune=True)</span>
+<span class="sd">       &gt;&gt;&gt; w = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; w.a = np.random.random(len(w.a))</span>
+<span class="sd">       &gt;&gt;&gt; g.vp[&quot;label&quot;][g.vertex(42)]</span>
+<span class="sd">       &#39;blogforamerica.com&#39;</span>
+<span class="sd">       &gt;&gt;&gt; t = gt.trust_transitivity(g, w, source=g.vertex(42))</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=t,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(t, mi=5, ma=15),</span>
+<span class="sd">       ...               vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">       ...               vorder=t, output=&quot;polblogs_trust_transitivity.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcode:: trust_transitivity</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=t,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(t, mi=5, ma=15),</span>
+<span class="sd">                     vcmap=matplotlib.cm.gist_heat,</span>
+<span class="sd">                     vorder=t, output=&quot;polblogs_trust_transitivity.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: polblogs_trust_transitivity.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Trust transitivity values from source vertex 42 of the a political blogs</span>
+<span class="sd">       network of [adamic-polblogs]_, with random weights attributed to the</span>
+<span class="sd">       edges.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [richters-trust-2010] Oliver Richters and Tiago P. Peixoto, &quot;Trust</span>
+<span class="sd">       Transitivity in Social Networks,&quot; PLoS ONE 6, no. 4:</span>
+<span class="sd">       e1838 (2011), :doi:`10.1371/journal.pone.0018384`</span>
+<span class="sd">    .. [adamic-polblogs] L. A. Adamic and N. Glance, &quot;The political blogosphere</span>
+<span class="sd">       and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">       Weblogging Ecosystem (2005). :DOI:`10.1145/1134271.1134277`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">vprop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vprop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;vector&lt;double&gt;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+
+    <span class="n">libgraph_tool_centrality</span><span class="o">.</span>\
+            <span class="n">get_trust_transitivity</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span>
+                                   <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">trust_map</span><span class="p">),</span>
+                                   <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">source</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">vprop</span> <span class="o">=</span> <span class="n">ungroup_vector_property</span><span class="p">(</span><span class="n">vprop</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">source</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vprop</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">vprop</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

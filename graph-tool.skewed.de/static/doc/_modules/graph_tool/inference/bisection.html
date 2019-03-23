@@ -1,0 +1,328 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.inference.bisection &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.inference.bisection</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">numpy.random</span>
+<span class="kn">import</span> <span class="nn">bisect</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">mcmc</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">fibo</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">phi</span> <span class="o">**</span> <span class="n">n</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">fibo_n_floor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="n">log</span><span class="p">(</span><span class="n">phi</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_mid</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">random</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">random</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">fibo_n_floor</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">b</span> <span class="o">-</span> <span class="n">fibo</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">cleanup_cache</span><span class="p">(</span><span class="n">b_cache</span><span class="p">,</span> <span class="n">B_min</span><span class="p">,</span> <span class="n">B_max</span><span class="p">):</span>
+    <span class="n">best_B</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">min_dl</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">for</span> <span class="n">Bi</span> <span class="ow">in</span> <span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">Bi</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_dl</span><span class="p">:</span>
+            <span class="n">min_dl</span> <span class="o">=</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">Bi</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">best_B</span> <span class="o">=</span> <span class="n">Bi</span>
+
+    <span class="n">del_Bs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">Bi</span> <span class="ow">in</span> <span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Bi</span> <span class="o">&lt;</span> <span class="n">B_min</span> <span class="ow">or</span> <span class="n">Bi</span> <span class="o">&gt;</span> <span class="n">B_max</span><span class="p">)</span> <span class="ow">and</span> <span class="n">Bi</span> <span class="o">!=</span> <span class="n">best_B</span><span class="p">:</span>
+            <span class="n">del_Bs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Bi</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">Bi</span> <span class="ow">in</span> <span class="n">del_Bs</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">Bi</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_ent</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">mcmc_multilevel_args</span><span class="p">):</span>
+    <span class="n">mcmc_equilibrate_args</span> <span class="o">=</span> <span class="n">mcmc_multilevel_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mcmc_equilibrate_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">mcmc_args</span> <span class="o">=</span> <span class="n">mcmc_equilibrate_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mcmc_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">entropy_args</span> <span class="o">=</span> <span class="n">mcmc_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">entropy_args</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">S</span>
+
+<span class="k">def</span> <span class="nf">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">b_cache</span><span class="p">,</span> <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">b_cache</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">B</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Bs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">B_prev</span> <span class="o">=</span> <span class="n">Bs</span><span class="p">[</span><span class="n">bisect</span><span class="o">.</span><span class="n">bisect</span><span class="p">(</span><span class="n">Bs</span><span class="p">,</span> <span class="n">B</span><span class="p">)]</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">B_prev</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">mcmc_multilevel</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                            <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                                   <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span>
+                                   <span class="n">verbose</span><span class="o">=</span><span class="n">verbose_push</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span>
+                                                        <span class="p">(</span><span class="s2">&quot;B: </span><span class="si">%d</span><span class="s2"> &lt;- </span><span class="si">%d</span><span class="s2">    &quot;</span> <span class="o">%</span>
+                                                         <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">B_prev</span><span class="p">)))))</span>
+    <span class="n">dl</span> <span class="o">=</span> <span class="n">get_ent</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">mcmc_multilevel_args</span><span class="p">)</span>
+    <span class="n">b_cache</span><span class="p">[</span><span class="n">B</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dl</span>
+
+<div class="viewcode-block" id="bisection_minimize"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.bisection.bisection_minimize">[docs]</a><span class="k">def</span> <span class="nf">bisection_minimize</span><span class="p">(</span><span class="n">init_states</span><span class="p">,</span> <span class="n">random_bisection</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Find the best order (number of groups) given an initial set of states by</span>
+<span class="sd">    performing a one-dimension minimization, using a Fibonacci (or golden</span>
+<span class="sd">    section) search.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    init_states : Any state class (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        List with two or more states that will be used to bracket the search.</span>
+<span class="sd">    random_bisection : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the bisection will be done randomly in the interval,</span>
+<span class="sd">        instead of using the golden rule.</span>
+<span class="sd">    mcmc_multilevel_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_multilevel`.</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    min_state : Any state class (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        State with minimal entropy in the interval.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This function calls :func:`~graph_tool.inference.mcmc.mcmc_multilevel` to</span>
+<span class="sd">    reduce the order of a given state, and uses the value of</span>
+<span class="sd">    ``state.entropy(**args)`` for the minimization, with ``args`` obtained from</span>
+<span class="sd">    ``mcmc_multilevel_args``.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [golden-section-search] &quot;Golden section search&quot;,</span>
+<span class="sd">       https://en.wikipedia.org/wiki/Golden_section_search</span>
+<span class="sd">    .. [peixoto-efficient-2014] Tiago P. Peixoto, &quot;Efficient Monte Carlo and</span>
+<span class="sd">       greedy heuristic for the inference of stochastic block models&quot;, Phys.</span>
+<span class="sd">       Rev. E 89, 012804 (2014), :doi:`10.1103/PhysRevE.89.012804`,</span>
+<span class="sd">       :arxiv:`1310.4378`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">b_cache</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">init_states</span><span class="p">:</span>
+        <span class="n">b_cache</span><span class="p">[</span><span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()]</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_ent</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">mcmc_multilevel_args</span><span class="p">),</span>
+                                           <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="n">max_B</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">min_B</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">mid_B</span> <span class="o">=</span> <span class="n">get_mid</span><span class="p">(</span><span class="n">min_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">,</span> <span class="n">random</span><span class="o">=</span><span class="n">random_bisection</span><span class="p">)</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">b_cache</span><span class="o">=</span><span class="n">b_cache</span><span class="p">,</span>
+                  <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                                            <span class="n">b_cache</span><span class="o">=</span><span class="n">b_cache</span><span class="p">),</span>
+                  <span class="n">verbose</span><span class="o">=</span><span class="n">verbose_push</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)))</span>
+
+    <span class="c1"># Initial bracketing</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">f_max</span> <span class="o">=</span> <span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">max_B</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">f_mid</span> <span class="o">=</span> <span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">mid_B</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">f_min</span> <span class="o">=</span> <span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">min_B</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;Current bracket:&quot;</span><span class="p">,</span>
+                  <span class="p">(</span><span class="n">min_B</span><span class="p">,</span> <span class="n">mid_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">),</span> <span class="p">(</span><span class="n">f_min</span><span class="p">,</span> <span class="n">f_mid</span><span class="p">,</span> <span class="n">f_max</span><span class="p">))</span>
+
+        <span class="n">cleanup_cache</span><span class="p">(</span><span class="n">b_cache</span><span class="p">,</span> <span class="n">min_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">f_mid</span> <span class="o">&gt;</span> <span class="n">f_min</span> <span class="ow">or</span> <span class="n">f_mid</span> <span class="o">&gt;</span> <span class="n">f_max</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f_min</span> <span class="o">&lt;</span> <span class="n">f_max</span><span class="p">:</span>
+                <span class="n">max_B</span> <span class="o">=</span> <span class="n">mid_B</span>
+                <span class="n">mid_B</span> <span class="o">=</span> <span class="n">get_mid</span><span class="p">(</span><span class="n">min_B</span><span class="p">,</span> <span class="n">mid_B</span><span class="p">,</span> <span class="n">random_bisection</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">min_B</span> <span class="o">=</span> <span class="n">mid_B</span>
+                <span class="n">mid_B</span> <span class="o">=</span> <span class="n">get_mid</span><span class="p">(</span><span class="n">mid_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">,</span> <span class="n">random_bisection</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">max_B</span> <span class="o">-</span> <span class="n">mid_B</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="c1"># Fibonacci search</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">max_B</span> <span class="o">-</span> <span class="n">mid_B</span> <span class="o">&gt;</span> <span class="n">mid_B</span> <span class="o">-</span> <span class="n">min_B</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">get_mid</span><span class="p">(</span><span class="n">mid_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">,</span> <span class="n">random_bisection</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">get_mid</span><span class="p">(</span><span class="n">min_B</span><span class="p">,</span> <span class="n">mid_B</span><span class="p">,</span> <span class="n">random_bisection</span><span class="p">)</span>
+
+        <span class="n">f_x</span> <span class="o">=</span> <span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">f_mid</span> <span class="o">=</span> <span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">mid_B</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;Current bracket:&quot;</span><span class="p">,</span>
+                  <span class="p">(</span><span class="n">min_B</span><span class="p">,</span> <span class="n">mid_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">),</span> <span class="p">(</span><span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">min_B</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">f_mid</span><span class="p">,</span>
+                                          <span class="n">get_state_dl</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">max_B</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;Bisect at B = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
+                  <span class="s2">&quot;with S = </span><span class="si">%.16g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f_x</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">max_B</span> <span class="o">-</span> <span class="n">mid_B</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">min_dl</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">best_B</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">Bi</span> <span class="ow">in</span> <span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">Bi</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_dl</span><span class="p">:</span>
+                    <span class="n">min_dl</span> <span class="o">=</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">Bi</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">best_B</span> <span class="o">=</span> <span class="n">Bi</span>
+            <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span>
+                      <span class="s2">&quot;Best result: B = </span><span class="si">%d</span><span class="s2">, S = </span><span class="si">%.16g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">best_B</span><span class="p">,</span> <span class="n">min_dl</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">best_B</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">f_x</span> <span class="o">&lt;</span> <span class="n">f_mid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">max_B</span> <span class="o">-</span> <span class="n">mid_B</span> <span class="o">&gt;</span> <span class="n">mid_B</span> <span class="o">-</span> <span class="n">min_B</span><span class="p">:</span>
+                <span class="n">min_B</span> <span class="o">=</span> <span class="n">mid_B</span>
+                <span class="n">mid_B</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">max_B</span> <span class="o">=</span> <span class="n">mid_B</span>
+                <span class="n">mid_B</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">max_B</span> <span class="o">-</span> <span class="n">mid_B</span> <span class="o">&gt;</span> <span class="n">mid_B</span> <span class="o">-</span> <span class="n">min_B</span><span class="p">:</span>
+                <span class="n">max_B</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">min_B</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">cleanup_cache</span><span class="p">(</span><span class="n">b_cache</span><span class="p">,</span> <span class="n">min_B</span><span class="p">,</span> <span class="n">max_B</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,454 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.collection &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.collection</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;``graph_tool.collection`` - Dataset collection</span>
+<span class="sd">----------------------------------------------</span>
+
+<span class="sd">This module contains an assortment of useful networks.</span>
+
+<span class="sd">.. data:: data</span>
+
+<span class="sd">    Dictionary containing :class:`~graph_tool.Graph` objects, indexed by the</span>
+<span class="sd">    name of the graph. This is a &quot;lazy&quot; dictionary, i.e. it only loads the</span>
+<span class="sd">    graphs from disk when the items are accessed for the first time.  The</span>
+<span class="sd">    description for each graph is given in the :data:`descriptions` dictionary,</span>
+<span class="sd">    or alternatively in the ``&quot;description&quot;`` graph property which accompanies</span>
+<span class="sd">    each graph object.</span>
+
+
+<span class="sd">.. data:: konect_data</span>
+
+<span class="sd">    Dictionary containing :class:`~graph_tool.Graph` objects, indexed by the</span>
+<span class="sd">    name of the graph, fetched from the `Koblenz Network Collection</span>
+<span class="sd">    &lt;http://konect.cc/&gt;`_. See the website for a list of available data. The key</span>
+<span class="sd">    of the dictionary must correspond to the name of the file minus the</span>
+<span class="sd">    ``.tar.bz2`` part.  This is a &quot;lazy&quot; dictionary, i.e. it only downloads the</span>
+<span class="sd">    graphs from the web when the items are accessed for the first time.</span>
+
+<span class="sd">Examples</span>
+<span class="sd">========</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.collection.data[&quot;karate&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; print(g)</span>
+<span class="sd">    &lt;Graph object, undirected, with 34 vertices and 78 edges at 0x...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; print(g.gp.readme)</span>
+<span class="sd">    The file karate.gml contains the network of friendships between the 34</span>
+<span class="sd">    members of a karate club at a US university, as described by Wayne Zachary</span>
+<span class="sd">    in 1977.  If you use these data in your work, please cite W. W. Zachary, An</span>
+<span class="sd">    information flow model for conflict and fission in small groups, Journal of</span>
+<span class="sd">    Anthropological Research 33, 452-473 (1977).</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+
+
+<span class="sd">.. data:: descriptions</span>
+
+<span class="sd">    Dictionary with a short description and source information on each graph.</span>
+
+<span class="sd">    A summary, with some extra information, is available in the following table.</span>
+
+<span class="sd">    .. table::</span>
+
+<span class="sd">        ===================  ===========  ===========  ========  ================================================</span>
+<span class="sd">        Name                 N            E            Directed  Description</span>
+<span class="sd">        ===================  ===========  ===========  ========  ================================================</span>
+<span class="sd">        adjnoun              112          425          False     Word adjacencies: adjacency network of common</span>
+<span class="sd">                                                                 adjectives and nouns in the novel David</span>
+<span class="sd">                                                                 Copperfield by Charles Dickens. Please cite M.</span>
+<span class="sd">                                                                 E. J. Newman, Phys. Rev. E 74, 036104 (2006).</span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        as-22july06          22963        48436        False     Internet: a symmetrized snapshot of the</span>
+<span class="sd">                                                                 structure of the Internet at the level of</span>
+<span class="sd">                                                                 autonomous systems, reconstructed from BGP</span>
+<span class="sd">                                                                 tables posted by the `University of Oregon Route</span>
+<span class="sd">                                                                 Views Project &lt;http://routeviews.org/&gt;`_. This</span>
+<span class="sd">                                                                 snapshot was created by Mark Newman from data</span>
+<span class="sd">                                                                 for July 22, 2006 and is not previously</span>
+<span class="sd">                                                                 published. Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        astro-ph             16706        121251       False     Astrophysics collaborations: weighted network of</span>
+<span class="sd">                                                                 coauthorships between scientists posting</span>
+<span class="sd">                                                                 preprints on the Astrophysics E-Print Archive</span>
+<span class="sd">                                                                 between Jan 1, 1995 and December 31, 1999.</span>
+<span class="sd">                                                                 Please cite M. E. J. Newman, Proc. Natl. Acad.</span>
+<span class="sd">                                                                 Sci. USA 98, 404-409 (2001). Retrieved from</span>
+<span class="sd">                                                                 `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        celegansneural       297          2359         True      Neural network: A directed, weighted network</span>
+<span class="sd">                                                                 representing the neural network of C. Elegans.</span>
+<span class="sd">                                                                 Data compiled by D. Watts and S. Strogatz and</span>
+<span class="sd">                                                                 made available on the web `here</span>
+<span class="sd">                                                                 &lt;http://cdg.columbia.edu/cdg/datasets&gt;`__. Please</span>
+<span class="sd">                                                                 cite D. J. Watts and S. H. Strogatz, Nature 393,</span>
+<span class="sd">                                                                 440-442 (1998). Original experimental data taken</span>
+<span class="sd">                                                                 from J. G. White, E. Southgate, J. N. Thompson,</span>
+<span class="sd">                                                                 and S. Brenner, Phil. Trans. R. Soc. London 314,</span>
+<span class="sd">                                                                 1-340 (1986). Retrieved from `Mark Newman&#39;s</span>
+<span class="sd">                                                                 website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        cond-mat             16726        47594        False     Condensed matter collaborations 1999: weighted</span>
+<span class="sd">                                                                 network of coauthorships between scientists</span>
+<span class="sd">                                                                 posting preprints on the Condensed Matter</span>
+<span class="sd">                                                                 E-Print Archive between Jan 1, 1995 and December</span>
+<span class="sd">                                                                 31, 1999. Please cite M. E. J. Newman, The</span>
+<span class="sd">                                                                 structure of scientific collaboration networks,</span>
+<span class="sd">                                                                 Proc. Natl. Acad. Sci. USA 98, 404-409 (2001).</span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        cond-mat-2003        31163        120029       False     Condensed matter collaborations 2003: updated</span>
+<span class="sd">                                                                 network of coauthorships between scientists</span>
+<span class="sd">                                                                 posting preprints on the Condensed Matter</span>
+<span class="sd">                                                                 E-Print Archive. This version includes all</span>
+<span class="sd">                                                                 preprints posted between Jan 1, 1995 and June</span>
+<span class="sd">                                                                 30, 2003. The largest component of this network,</span>
+<span class="sd">                                                                 which contains 27519 scientists, has been used</span>
+<span class="sd">                                                                 by several authors as a test-bed for</span>
+<span class="sd">                                                                 community-finding algorithms for large networks;</span>
+<span class="sd">                                                                 see for example J. Duch and A. Arenas, Phys.</span>
+<span class="sd">                                                                 Rev. E 72, 027104 (2005). These data can be</span>
+<span class="sd">                                                                 cited as M. E. J. Newman, Proc. Natl. Acad. Sci.</span>
+<span class="sd">                                                                 USA 98, 404-409 (2001). Retrieved from `Mark</span>
+<span class="sd">                                                                 Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        cond-mat-2005        40421        175693       False     Condensed matter collaborations 2005: updated</span>
+<span class="sd">                                                                 network of coauthorships between scientists</span>
+<span class="sd">                                                                 posting preprints on the Condensed Matter</span>
+<span class="sd">                                                                 E-Print Archive. This version includes all</span>
+<span class="sd">                                                                 preprints posted between Jan 1, 1995 and March</span>
+<span class="sd">                                                                 31, 2005. Please cite M. E. J. Newman, Proc.</span>
+<span class="sd">                                                                 Natl. Acad. Sci. USA 98, 404-409 (2001).</span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        dolphins             62           159          False     Dolphin social network: an undirected social</span>
+<span class="sd">                                                                 network of frequent associations between 62</span>
+<span class="sd">                                                                 dolphins in a community living off Doubtful</span>
+<span class="sd">                                                                 Sound, New Zealand. Please cite D. Lusseau, K.</span>
+<span class="sd">                                                                 Schneider, O. J. Boisseau, P. Haase, E. Slooten,</span>
+<span class="sd">                                                                 and S. M. Dawson, Behavioral Ecology and</span>
+<span class="sd">                                                                 Sociobiology 54, 396-405 (2003). Retrieved from</span>
+<span class="sd">                                                                 `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        email-Enron          36692        367662       False     Enron email communication network covers all the</span>
+<span class="sd">                                                                 email communication within a dataset of around</span>
+<span class="sd">                                                                 half million emails. This data was originally</span>
+<span class="sd">                                                                 made public, and posted to the web, by the</span>
+<span class="sd">                                                                 Federal Energy Regulatory Commission during its</span>
+<span class="sd">                                                                 investigation. Nodes of the network are email</span>
+<span class="sd">                                                                 addresses and if an address i sent at least one</span>
+<span class="sd">                                                                 email to address j, the graph contains an</span>
+<span class="sd">                                                                 undirected edge from i to j. Note that non-Enron</span>
+<span class="sd">                                                                 email addresses act as sinks and sources in the</span>
+<span class="sd">                                                                 network as we only observe their communication</span>
+<span class="sd">                                                                 with the Enron email addresses. The Enron email</span>
+<span class="sd">                                                                 data was `originally released</span>
+<span class="sd">                                                                 &lt;http://www.cs.cmu.edu/~enron/&gt;`_ by William</span>
+<span class="sd">                                                                 Cohen at CMU. This version was retrieved from</span>
+<span class="sd">                                                                 the SNAP database at</span>
+<span class="sd">                                                                 http://snap.stanford.edu/data/email-Enron.html.</span>
+<span class="sd">                                                                 Please cite: J. Leskovec, K. Lang, A. Dasgupta,</span>
+<span class="sd">                                                                 M. Mahoney. Community Structure in Large</span>
+<span class="sd">                                                                 Networks: Natural Cluster Sizes and the Absence</span>
+<span class="sd">                                                                 of Large Well-Defined Clusters. Internet</span>
+<span class="sd">                                                                 Mathematics 6(1) 29--123, 2009,  B. Klimmt, Y.</span>
+<span class="sd">                                                                 Yang. Introducing the Enron corpus. CEAS</span>
+<span class="sd">                                                                 conference, 2004.</span>
+<span class="sd">        football             115          615          False     American College football: network of American</span>
+<span class="sd">                                                                 football games between Division IA colleges</span>
+<span class="sd">                                                                 during regular season Fall 2000. Please cite M.</span>
+<span class="sd">                                                                 Girvan and M. E. J. Newman, Proc. Natl. Acad.</span>
+<span class="sd">                                                                 Sci. USA 99, 7821-7826 (2002), and T.S. Evans,</span>
+<span class="sd">                                                                 &quot;Clique Graphs and Overlapping Communities&quot;,</span>
+<span class="sd">                                                                 J.Stat.Mech. (2010) P12037 [arXiv:1009.0638]. </span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_,</span>
+<span class="sd">                                                                 with corrections by T. S. Evans, available </span>
+<span class="sd">                                                                 `here &lt;http://figshare.com/articles/American_College_Football_Network_Files/93179&gt;`__.</span>
+<span class="sd">        hep-th               8361         15751        False     High-energy theory collaborations: weighted</span>
+<span class="sd">                                                                 network of coauthorships between scientists</span>
+<span class="sd">                                                                 posting preprints on the High-Energy Theory</span>
+<span class="sd">                                                                 E-Print Archive between Jan 1, 1995 and December</span>
+<span class="sd">                                                                 31, 1999. Please cite M. E. J. Newman, Proc.</span>
+<span class="sd">                                                                 Natl. Acad. Sci. USA 98, 404-409 (2001).</span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        karate               34           78           False     Zachary&#39;s karate club: social network of</span>
+<span class="sd">                                                                 friendships between 34 members of a karate club</span>
+<span class="sd">                                                                 at a US university in the 1970s. Please cite W.</span>
+<span class="sd">                                                                 W. Zachary, An information flow model for</span>
+<span class="sd">                                                                 conflict and fission in small groups, Journal of</span>
+<span class="sd">                                                                 Anthropological Research 33, 452-473 (1977).</span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        lesmis               77           254          False     Les Miserables: coappearance network of</span>
+<span class="sd">                                                                 characters in the novel Les Miserables. Please</span>
+<span class="sd">                                                                 cite D. E. Knuth, The Stanford GraphBase: A</span>
+<span class="sd">                                                                 Platform for Combinatorial Computing,</span>
+<span class="sd">                                                                 Addison-Wesley, Reading, MA (1993). Retrieved</span>
+<span class="sd">                                                                 from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        netscience           1589         2742         False     Coauthorships in network science: coauthorship</span>
+<span class="sd">                                                                 network of scientists working on network theory</span>
+<span class="sd">                                                                 and experiment, as compiled by M. Newman in May</span>
+<span class="sd">                                                                 2006. A figure depicting the largest component</span>
+<span class="sd">                                                                 of this network can be found `here</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/centrality/&gt;`__.</span>
+<span class="sd">                                                                 These data can be cited as M. E. J. Newman,</span>
+<span class="sd">                                                                 Phys. Rev. E 74, 036104 (2006). Retrieved from</span>
+<span class="sd">                                                                 `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        pgp-strong-2009      39796        301498       True      Strongly connected component of the PGP web of</span>
+<span class="sd">                                                                 trust circa November 2009. The full data is</span>
+<span class="sd">                                                                 available at http://key-server.de/dump/. Please</span>
+<span class="sd">                                                                 cite: Richters O, Peixoto TP (2011) Trust</span>
+<span class="sd">                                                                 Transitivity in Social Networks. PLoS ONE 6(4):</span>
+<span class="sd">                                                                 e18384. :doi:`10.1371/journal.pone.0018384`.</span>
+<span class="sd">        polblogs             1490         19090        True      Political blogs: A directed network of</span>
+<span class="sd">                                                                 hyperlinks between weblogs on US politics,</span>
+<span class="sd">                                                                 recorded in 2005 by Adamic and Glance. Please</span>
+<span class="sd">                                                                 cite L. A. Adamic and N. Glance, &quot;The political</span>
+<span class="sd">                                                                 blogosphere and the 2004 US Election&quot;, in</span>
+<span class="sd">                                                                 Proceedings of the WWW-2005 Workshop on the</span>
+<span class="sd">                                                                 Weblogging Ecosystem (2005). Retrieved from</span>
+<span class="sd">                                                                 `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        polbooks             105          441          False     Books about US politics: A network of books</span>
+<span class="sd">                                                                 about US politics published around the time of</span>
+<span class="sd">                                                                 the 2004 presidential election and sold by the</span>
+<span class="sd">                                                                 online bookseller Amazon.com. Edges between</span>
+<span class="sd">                                                                 books represent frequent copurchasing of books</span>
+<span class="sd">                                                                 by the same buyers. The network was compiled by</span>
+<span class="sd">                                                                 V. Krebs and is unpublished, but can found on</span>
+<span class="sd">                                                                 Krebs&#39; `web site &lt;http://www.orgnet.com/&gt;`_.</span>
+<span class="sd">                                                                 Retrieved from `Mark Newman&#39;s website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        power                4941         6594         False     Power grid: An undirected, unweighted network</span>
+<span class="sd">                                                                 representing the topology of the Western States</span>
+<span class="sd">                                                                 Power Grid of the United States. Data compiled</span>
+<span class="sd">                                                                 by D. Watts and S. Strogatz and made available</span>
+<span class="sd">                                                                 on the web `here</span>
+<span class="sd">                                                                 &lt;http://cdg.columbia.edu/cdg/datasets&gt;`__. Please</span>
+<span class="sd">                                                                 cite D. J. Watts and S. H. Strogatz, Nature 393,</span>
+<span class="sd">                                                                 440-442 (1998). Retrieved from `Mark Newman&#39;s</span>
+<span class="sd">                                                                 website</span>
+<span class="sd">                                                                 &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.</span>
+<span class="sd">        serengeti-foodweb    161          592          True      Plant and mammal food web from the Serengeti</span>
+<span class="sd">                                                                 savanna ecosystem in Tanzania. Please cite:</span>
+<span class="sd">                                                                 Baskerville EB, Dobson AP, Bedford T, Allesina</span>
+<span class="sd">                                                                 S, Anderson TM, et al. (2011) Spatial Guilds in</span>
+<span class="sd">                                                                 the Serengeti Food Web Revealed by a Bayesian</span>
+<span class="sd">                                                                 Group Model. PLoS Comput Biol 7(12): e1002321.</span>
+<span class="sd">                                                                 :doi:`10.1371/journal.pcbi.1002321`</span>
+<span class="sd">        ===================  ===========  ===========  ========  ================================================</span>
+
+
+<span class="sd">Contents</span>
+<span class="sd">========</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">load_graph</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;descriptions&quot;</span><span class="p">,</span> <span class="s2">&quot;get_data_path&quot;</span><span class="p">,</span> <span class="s2">&quot;konect_data&quot;</span><span class="p">]</span>
+
+<span class="n">base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+
+<span class="n">descriptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;adjnoun&#39;</span><span class="p">:</span> <span class="s2">&quot;Word adjacencies: adjacency network of common adjectives and nouns in the novel David Copperfield by Charles Dickens. Please cite M. E. J. Newman, Phys. Rev. E 74, 036104 (2006). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;as-22july06&#39;</span><span class="p">:</span> <span class="s2">&quot;Internet: a symmetrized snapshot of the structure of the Internet at the level of autonomous systems, reconstructed from BGP tables posted by the `University of Oregon Route Views Project &lt;http://routeviews.org/&gt;`_. This snapshot was created by Mark Newman from data for July 22, 2006 and is not previously published. Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;astro-ph&#39;</span><span class="p">:</span> <span class="s2">&quot;Astrophysics collaborations: weighted network of coauthorships between scientists posting preprints on the Astrophysics E-Print Archive between Jan 1, 1995 and December 31, 1999. Please cite M. E. J. Newman, Proc. Natl. Acad. Sci. USA 98, 404-409 (2001). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;celegansneural&#39;</span><span class="p">:</span> <span class="s2">&quot;Neural network: A directed, weighted network representing the neural network of C. Elegans. Data compiled by D. Watts and S. Strogatz and made available on the web `here &lt;http://cdg.columbia.edu/cdg/datasets&gt;`_. Please cite D. J. Watts and S. H. Strogatz, Nature 393, 440-442 (1998). Original experimental data taken from J. G. White, E. Southgate, J. N. Thompson, and S. Brenner, Phil. Trans. R. Soc. London 314, 1-340 (1986). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;cond-mat&#39;</span><span class="p">:</span> <span class="s2">&quot;Condensed matter collaborations 1999: weighted network of coauthorships between scientists posting preprints on the Condensed Matter E-Print Archive between Jan 1, 1995 and December 31, 1999. Please cite M. E. J. Newman, The structure of scientific collaboration networks, Proc. Natl. Acad. Sci. USA 98, 404-409 (2001). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;cond-mat-2003&#39;</span><span class="p">:</span> <span class="s2">&quot;Condensed matter collaborations 2003: updated network of coauthorships between scientists posting preprints on the Condensed Matter E-Print Archive. This version includes all preprints posted between Jan 1, 1995 and June 30, 2003. The largest component of this network, which contains 27519 scientists, has been used by several authors as a test-bed for community-finding algorithms for large networks; see for example J. Duch and A. Arenas, Phys. Rev. E 72, 027104 (2005). These data can be cited as M. E. J. Newman, Proc. Natl. Acad. Sci. USA 98, 404-409 (2001). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;cond-mat-2005&#39;</span><span class="p">:</span> <span class="s2">&quot;Condensed matter collaborations 2005: updated network of coauthorships between scientists posting preprints on the Condensed Matter E-Print Archive. This version includes all preprints posted between Jan 1, 1995 and March 31, 2005. Please cite M. E. J. Newman, Proc. Natl. Acad. Sci. USA 98, 404-409 (2001). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;dolphins&#39;</span><span class="p">:</span> <span class="s2">&quot;Dolphin social network: an undirected social network of frequent associations between 62 dolphins in a community living off Doubtful Sound, New Zealand. Please cite D. Lusseau, K. Schneider, O. J. Boisseau, P. Haase, E. Slooten, and S. M. Dawson, Behavioral Ecology and Sociobiology 54, 396-405 (2003). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;email-Enron&#39;</span><span class="p">:</span> <span class="s1">&#39;Enron email communication network covers all the email communication within a dataset of around half million emails. This data was originally made public, and posted to the web, by the Federal Energy Regulatory Commission during its investigation. Nodes of the network are email addresses and if an address i sent at least one email to address j, the graph contains an undirected edge from i to j. Note that non-Enron email addresses act as sinks and sources in the network as we only observe their communication with the Enron email addresses. The Enron email data was `originally released &lt;http://www.cs.cmu.edu/~enron/&gt;`_ by William Cohen at CMU. This version was retrieved from the SNAP database at http://snap.stanford.edu/data/email-Enron.html. Please cite: J. Leskovec, K. Lang, A. Dasgupta, M. Mahoney. Community Structure in Large Networks: Natural Cluster Sizes and the Absence of Large Well-Defined Clusters. Internet Mathematics 6(1) 29--123, 2009,  B. Klimmt, Y. Yang. Introducing the Enron corpus. CEAS conference, 2004.&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;football&#39;</span><span class="p">:</span> <span class="s2">&quot;American College football: network of American football games between Division IA colleges during regular season Fall 2000. Please cite M. Girvan and M. E. J. Newman, Proc. Natl. Acad. Sci. USA 99, 7821-7826 (2002). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;hep-th&#39;</span><span class="p">:</span> <span class="s2">&quot;High-energy theory collaborations: weighted network of coauthorships between scientists posting preprints on the High-Energy Theory E-Print Archive between Jan 1, 1995 and December 31, 1999. Please cite M. E. J. Newman, Proc. Natl. Acad. Sci. USA 98, 404-409 (2001). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;karate&#39;</span><span class="p">:</span> <span class="s2">&quot;Zachary&#39;s karate club: social network of friendships between 34 members of a karate club at a US university in the 1970s. Please cite W. W. Zachary, An information flow model for conflict and fission in small groups, Journal of Anthropological Research 33, 452-473 (1977). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;lesmis&#39;</span><span class="p">:</span> <span class="s2">&quot;Les Miserables: coappearance network of characters in the novel Les Miserables. Please cite D. E. Knuth, The Stanford GraphBase: A Platform for Combinatorial Computing, Addison-Wesley, Reading, MA (1993). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;netscience&#39;</span><span class="p">:</span> <span class="s2">&quot;Coauthorships in network science: coauthorship network of scientists working on network theory and experiment, as compiled by M. Newman in May 2006. A figure depicting the largest component of this network can be found `here &lt;http://www-personal.umich.edu/~mejn/centrality/&gt;`_. These data can be cited as M. E. J. Newman, Phys. Rev. E 74, 036104 (2006). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;pgp-strong-2009&#39;</span><span class="p">:</span> <span class="s1">&#39;Strongly connected component of the PGP web of trust circa November 2009. The full data is available at http://key-server.de/dump/. Please cite: Richters O, Peixoto TP (2011) Trust Transitivity in Social Networks. PLoS ONE 6(4): e18384. :doi:`10.1371/journal.pone.0018384`.&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;polblogs&#39;</span><span class="p">:</span> <span class="s1">&#39;Political blogs: A directed network of hyperlinks between weblogs on US politics, recorded in 2005 by Adamic and Glance. Please cite L. A. Adamic and N. Glance, &quot;The political blogosphere and the 2004 US Election&quot;, in Proceedings of the WWW-2005 Workshop on the Weblogging Ecosystem (2005). Retrieved from `Mark Newman</span><span class="se">\&#39;</span><span class="s1">s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;polbooks&#39;</span><span class="p">:</span> <span class="s2">&quot;Books about US politics: A network of books about US politics published around the time of the 2004 presidential election and sold by the online bookseller Amazon.com. Edges between books represent frequent copurchasing of books by the same buyers. The network was compiled by V. Krebs and is unpublished, but can found on Krebs&#39; `web site &lt;http://www.orgnet.com/&gt;`_. Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;power&#39;</span><span class="p">:</span> <span class="s2">&quot;Power grid: An undirected, unweighted network representing the topology of the Western States Power Grid of the United States. Data compiled by D. Watts and S. Strogatz and made available on the web `here &lt;http://cdg.columbia.edu/cdg/datasets&gt;`_. Please cite D. J. Watts and S. H. Strogatz, Nature 393, 440-442 (1998). Retrieved from `Mark Newman&#39;s website &lt;http://www-personal.umich.edu/~mejn/netdata/&gt;`_.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;serengeti-foodweb&#39;</span><span class="p">:</span> <span class="s1">&#39;Plant and mammal food web from the Serengeti savanna ecosystem in Tanzania. Please cite: Baskerville EB, Dobson AP, Bedford T, Allesina S, Anderson TM, et al. (2011) Spatial Guilds in the Serengeti Food Web Revealed by a Bayesian Group Model. PLoS Comput Biol 7(12): e1002321. :doi:`10.1371/journal.pcbi.1002321`&#39;</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="get_data_path"><a class="viewcode-back" href="https://graph-tool.skewed.de/static/doc/collection.html#graph_tool.collection.get_data_path">[docs]</a><span class="k">def</span> <span class="nf">get_data_path</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the full path of the corresponding dataset.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">base_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.gt.gz&quot;</span></div>
+
+<span class="k">class</span> <span class="nc">LazyDataDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">get_data_path</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">load_graph</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">g</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">descriptions</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>  <span class="c1"># force loading of lazy items</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">LazyDataDict</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">_update_descriptions</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">descriptions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">gp</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_print_table</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;===================  ===========  ===========  ========  ================================================&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name                 N            E            Directed  Description&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;===================  ===========  ===========  ========  ================================================&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">k</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">())</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span>
+                         <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">num_edges</span><span class="p">())</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span>
+                         <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">())</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">))),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">descriptions</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="mi">48</span><span class="p">,</span> <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">break_on_hyphens</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">57</span> <span class="o">+</span> <span class="n">line</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;===================  ===========  ===========  ========  ================================================&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">konect</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,611 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.flow &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.flow</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.flow`` - Maximum flow algorithms</span>
+<span class="sd">---------------------------------------------</span>
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   edmonds_karp_max_flow</span>
+<span class="sd">   push_relabel_max_flow</span>
+<span class="sd">   boykov_kolmogorov_max_flow</span>
+<span class="sd">   min_st_cut</span>
+<span class="sd">   min_cut</span>
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+
+<span class="sd">The following network will be used as an example throughout the documentation.</span>
+
+<span class="sd">.. testcode::</span>
+
+<span class="sd">    from numpy.random import seed, random</span>
+<span class="sd">    from scipy.linalg import norm</span>
+<span class="sd">    gt.seed_rng(42)</span>
+<span class="sd">    seed(42)</span>
+<span class="sd">    points = random((400, 2))</span>
+<span class="sd">    points[0] = [0, 0]</span>
+<span class="sd">    points[1] = [1, 1]</span>
+<span class="sd">    g, pos = gt.triangulation(points, type=&quot;delaunay&quot;)</span>
+<span class="sd">    g.set_directed(True)</span>
+<span class="sd">    edges = list(g.edges())</span>
+<span class="sd">    # reciprocate edges</span>
+<span class="sd">    for e in edges:</span>
+<span class="sd">       g.add_edge(e.target(), e.source())</span>
+<span class="sd">    # The capacity will be defined as the inverse euclidean distance</span>
+<span class="sd">    cap = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    for e in g.edges():</span>
+<span class="sd">        cap[e] = min(1.0 / norm(pos[e.target()].a - pos[e.source()].a), 10)</span>
+<span class="sd">    g.edge_properties[&quot;cap&quot;] = cap</span>
+<span class="sd">    g.vertex_properties[&quot;pos&quot;] = pos</span>
+<span class="sd">    g.save(&quot;flow-example.xml.gz&quot;)</span>
+<span class="sd">    gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(cap, mi=0, ma=3, power=1),</span>
+<span class="sd">                  output=&quot;flow-example.pdf&quot;)</span>
+
+<span class="sd">.. testcode::</span>
+<span class="sd">   :hide:</span>
+
+<span class="sd">   gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(cap, mi=0, ma=3, power=1), output=&quot;flow-example.png&quot;)</span>
+
+<span class="sd">.. figure:: flow-example.*</span>
+<span class="sd">    :align: center</span>
+
+<span class="sd">    Example network used in the documentation below. The edge capacities are</span>
+<span class="sd">    represented by the edge width.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_flow&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">_check_prop_scalar</span><span class="p">,</span> <span class="n">_check_prop_writable</span><span class="p">,</span> <span class="n">GraphView</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;edmonds_karp_max_flow&quot;</span><span class="p">,</span> <span class="s2">&quot;push_relabel_max_flow&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;boykov_kolmogorov_max_flow&quot;</span><span class="p">,</span> <span class="s2">&quot;min_st_cut&quot;</span><span class="p">,</span> <span class="s2">&quot;min_cut&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="edmonds_karp_max_flow"><a class="viewcode-back" href="../../../../doc/flow.html#graph_tool.flow.edmonds_karp_max_flow">[docs]</a><span class="k">def</span> <span class="nf">edmonds_karp_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate maximum flow on the graph with the Edmonds-Karp algorithm.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : Vertex</span>
+<span class="sd">        The source vertex.</span>
+<span class="sd">    target : Vertex</span>
+<span class="sd">        The target (or &quot;sink&quot;) vertex.</span>
+<span class="sd">    capacity : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the edge capacities.</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap` (optional, default: none)</span>
+<span class="sd">        Edge property map where the residuals should be stored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the residual capacities (capacity - flow).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm is due to [edmonds-theoretical-1972]_, though we are using the</span>
+<span class="sd">    variation called the &quot;labeling algorithm&quot; described in</span>
+<span class="sd">    [ravindra-network-1993]_.</span>
+
+<span class="sd">    This algorithm provides a very simple and easy to implement solution to the</span>
+<span class="sd">    maximum flow problem. However, there are several reasons why this algorithm</span>
+<span class="sd">    is not as good as the push_relabel_max_flow() or the</span>
+<span class="sd">    boykov_kolmogorov_max_flow() algorithm.</span>
+
+<span class="sd">    - In the non-integer capacity case, the time complexity is :math:`O(VE^2)`</span>
+<span class="sd">      which is worse than the time complexity of the push-relabel algorithm</span>
+<span class="sd">      :math:`O(V^2E^{1/2})` for all but the sparsest of graphs.</span>
+
+<span class="sd">    - In the integer capacity case, if the capacity bound U is very large then</span>
+<span class="sd">      the algorithm will take a long time.</span>
+
+<span class="sd">    The time complexity is :math:`O(VE^2)` in the general case or :math:`O(VEU)`</span>
+<span class="sd">    if capacity values are integers bounded by some constant :math:`U`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.load_graph(&quot;flow-example.xml.gz&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cap = g.edge_properties[&quot;cap&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; src, tgt = g.vertex(0), g.vertex(1)</span>
+<span class="sd">    &gt;&gt;&gt; res = gt.edmonds_karp_max_flow(g, src, tgt, cap)</span>
+<span class="sd">    &gt;&gt;&gt; res.a = cap.a - res.a  # the actual flow</span>
+<span class="sd">    &gt;&gt;&gt; max_flow = sum(res[e] for e in tgt.in_edges())</span>
+<span class="sd">    &gt;&gt;&gt; print(max_flow)</span>
+<span class="sd">    44.8905957841...</span>
+<span class="sd">    &gt;&gt;&gt; pos = g.vertex_properties[&quot;pos&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(res, mi=0, ma=5, power=1), output=&quot;example-edmonds-karp.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(res, mi=0, ma=5, power=1), output=&quot;example-edmonds-karp.png&quot;)</span>
+
+<span class="sd">    .. figure:: example-edmonds-karp.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Edge flows obtained with the Edmonds-Karp algorithm. The source and</span>
+<span class="sd">        target are on the upper left and lower right corners, respectively. The</span>
+<span class="sd">        edge flows are represented by the edge width.</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [boost-edmonds-karp] http://www.boost.org/libs/graph/doc/edmonds_karp_max_flow.html</span>
+<span class="sd">    .. [edmonds-theoretical-1972] Jack Edmonds and Richard M. Karp, &quot;Theoretical</span>
+<span class="sd">       improvements in the algorithmic efficiency for network flow problems.</span>
+<span class="sd">       Journal of the ACM&quot;, 19:248-264, 1972 :doi:`10.1145/321694.321699`</span>
+<span class="sd">    .. [ravindra-network-1993] Ravindra K. Ahuja and Thomas L. Magnanti and</span>
+<span class="sd">       James B. Orlin,&quot;Network Flows: Theory, Algorithms, and Applications&quot;.</span>
+<span class="sd">       Prentice Hall, 1993.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">residual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">capacity</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="s2">&quot;residual&quot;</span><span class="p">)</span>
+    <span class="n">_check_prop_writable</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="s2">&quot;residual&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The graph provided must be directed!&quot;</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_flow</span><span class="o">.</span>\
+               <span class="n">edmonds_karp_max_flow</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">capacity</span><span class="p">),</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">residual</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">residual</span></div>
+
+
+<div class="viewcode-block" id="push_relabel_max_flow"><a class="viewcode-back" href="../../../../doc/flow.html#graph_tool.flow.push_relabel_max_flow">[docs]</a><span class="k">def</span> <span class="nf">push_relabel_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate maximum flow on the graph with the push-relabel algorithm.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : Vertex</span>
+<span class="sd">        The source vertex.</span>
+<span class="sd">    target : Vertex</span>
+<span class="sd">        The target (or &quot;sink&quot;) vertex.</span>
+<span class="sd">    capacity : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the edge capacities.</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap` (optional, default: none)</span>
+<span class="sd">        Edge property map where the residuals should be stored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the residual capacities (capacity - flow).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm is defined in [goldberg-new-1985]_. The complexity is</span>
+<span class="sd">    :math:`O(V^3)`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.load_graph(&quot;flow-example.xml.gz&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cap = g.edge_properties[&quot;cap&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; src, tgt = g.vertex(0), g.vertex(1)</span>
+<span class="sd">    &gt;&gt;&gt; res = gt.push_relabel_max_flow(g, src, tgt, cap)</span>
+<span class="sd">    &gt;&gt;&gt; res.a = cap.a - res.a  # the actual flow</span>
+<span class="sd">    &gt;&gt;&gt; max_flow = sum(res[e] for e in tgt.in_edges())</span>
+<span class="sd">    &gt;&gt;&gt; print(max_flow)</span>
+<span class="sd">    44.8905957841...</span>
+<span class="sd">    &gt;&gt;&gt; pos = g.vertex_properties[&quot;pos&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(res, mi=0, ma=5, power=1), output=&quot;example-push-relabel.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(res, mi=0, ma=5, power=1), output=&quot;example-push-relabel.png&quot;)</span>
+
+<span class="sd">    .. figure:: example-push-relabel.*</span>
+<span class="sd">        :align: center</span>
+
+
+<span class="sd">        Edge flows obtained with the push-relabel algorithm. The source and</span>
+<span class="sd">        target are on the upper left and lower right corners, respectively. The</span>
+<span class="sd">        edge flows are represented by the edge width.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [boost-push-relabel] http://www.boost.org/libs/graph/doc/push_relabel_max_flow.html</span>
+<span class="sd">    .. [goldberg-new-1985] A. V. Goldberg, &quot;A New Max-Flow Algorithm&quot;,  MIT</span>
+<span class="sd">       Tehnical report MIT/LCS/TM-291, 1985.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">residual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">capacity</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="s2">&quot;residual&quot;</span><span class="p">)</span>
+    <span class="n">_check_prop_writable</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="s2">&quot;residual&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The graph provided must be directed!&quot;</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_flow</span><span class="o">.</span>\
+               <span class="n">push_relabel_max_flow</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">capacity</span><span class="p">),</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">residual</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">residual</span></div>
+
+
+<div class="viewcode-block" id="boykov_kolmogorov_max_flow"><a class="viewcode-back" href="../../../../doc/flow.html#graph_tool.flow.boykov_kolmogorov_max_flow">[docs]</a><span class="k">def</span> <span class="nf">boykov_kolmogorov_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate maximum flow on the graph with the Boykov-Kolmogorov algorithm.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : Vertex</span>
+<span class="sd">        The source vertex.</span>
+<span class="sd">    target : Vertex</span>
+<span class="sd">        The target (or &quot;sink&quot;) vertex.</span>
+<span class="sd">    capacity : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the edge capacities.</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap` (optional, default: none)</span>
+<span class="sd">        Edge property map where the residuals should be stored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the residual capacities (capacity - flow).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The algorithm is defined in [kolmogorov-graph-2003]_ and</span>
+<span class="sd">    [boykov-experimental-2004]_. The worst case complexity is</span>
+<span class="sd">    :math:`O(EV^2|C|)`, where :math:`|C|` is the minimum cut (but typically</span>
+<span class="sd">    performs much better).</span>
+
+<span class="sd">    For a more detailed description, see [boost-kolmogorov]_.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.load_graph(&quot;flow-example.xml.gz&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cap = g.edge_properties[&quot;cap&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; src, tgt = g.vertex(0), g.vertex(1)</span>
+<span class="sd">    &gt;&gt;&gt; res = gt.boykov_kolmogorov_max_flow(g, src, tgt, cap)</span>
+<span class="sd">    &gt;&gt;&gt; res.a = cap.a - res.a  # the actual flow</span>
+<span class="sd">    &gt;&gt;&gt; max_flow = sum(res[e] for e in tgt.in_edges())</span>
+<span class="sd">    &gt;&gt;&gt; print(max_flow)</span>
+<span class="sd">    44.8905957841...</span>
+<span class="sd">    &gt;&gt;&gt; pos = g.vertex_properties[&quot;pos&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(res, mi=0, ma=3, power=1), output=&quot;example-kolmogorov.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(res, mi=0, ma=3, power=1), output=&quot;example-kolmogorov.png&quot;)</span>
+
+<span class="sd">    .. figure:: example-kolmogorov.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Edge flows obtained with the Boykov-Kolmogorov algorithm. The source and</span>
+<span class="sd">        target are on the upper left and lower right corners, respectively. The</span>
+<span class="sd">        edge flows are represented by the edge width.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [boost-kolmogorov] http://www.boost.org/libs/graph/doc/boykov_kolmogorov_max_flow.html</span>
+<span class="sd">    .. [kolmogorov-graph-2003] Vladimir Kolmogorov, &quot;Graph Based Algorithms for</span>
+<span class="sd">       Scene Reconstruction from Two or More Views&quot;, PhD thesis, Cornell</span>
+<span class="sd">       University, September 2003.</span>
+<span class="sd">    .. [boykov-experimental-2004] Yuri Boykov and Vladimir Kolmogorov, &quot;An</span>
+<span class="sd">       Experimental Comparison of Min-Cut/Max-Flow Algorithms for Energy</span>
+<span class="sd">       Minimization in Vision&quot;, IEEE Transactions on Pattern Analysis and</span>
+<span class="sd">       Machine Intelligence, vol. 26, no. 9, pp. 1124-1137, Sept. 2004.</span>
+<span class="sd">       :doi:`10.1109/TPAMI.2004.60`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">residual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">capacity</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="s2">&quot;residual&quot;</span><span class="p">)</span>
+    <span class="n">_check_prop_writable</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="s2">&quot;residual&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The graph provided must be directed!&quot;</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_flow</span><span class="o">.</span>\
+               <span class="n">kolmogorov_max_flow</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+                                   <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">capacity</span><span class="p">),</span>
+                                   <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">residual</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">residual</span></div>
+
+<div class="viewcode-block" id="min_st_cut"><a class="viewcode-back" href="../../../../doc/flow.html#graph_tool.flow.min_st_cut">[docs]</a><span class="k">def</span> <span class="nf">min_st_cut</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">residual</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the minimum source-target cut, given the residual capacity of the edges.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : Vertex</span>
+<span class="sd">        The source vertex.</span>
+<span class="sd">    capacity : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the edge capacities.</span>
+<span class="sd">    residual : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the residual capacities (capacity - flow).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    partition : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Boolean-valued vertex property map with the cut partition. Vertices with</span>
+<span class="sd">        value `True` belong to the source side of the cut.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The source-side of the cut set is obtained by following all vertices which</span>
+<span class="sd">    are reachable from the source in the residual graph (i.e. via edges</span>
+<span class="sd">    with nonzero residual capacity, and reversed edges with nonzero flow).</span>
+
+<span class="sd">    This algorithm runs in :math:`O(V+E)` time.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.load_graph(&quot;mincut-st-example.xml.gz&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cap = g.edge_properties[&quot;weight&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; src, tgt = g.vertex(0), g.vertex(7)</span>
+<span class="sd">    &gt;&gt;&gt; res = gt.boykov_kolmogorov_max_flow(g, src, tgt, cap)</span>
+<span class="sd">    &gt;&gt;&gt; part = gt.min_st_cut(g, src, cap, res)</span>
+<span class="sd">    &gt;&gt;&gt; mc = sum([cap[e] - res[e] for e in g.edges() if part[e.source()] != part[e.target()]])</span>
+<span class="sd">    &gt;&gt;&gt; print(mc)</span>
+<span class="sd">    3</span>
+<span class="sd">    &gt;&gt;&gt; pos = g.vertex_properties[&quot;pos&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; res.a = cap.a - res.a  # the actual flow</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(cap, mi=3, ma=10, power=1),</span>
+<span class="sd">    ...               edge_text=res, vertex_fill_color=part, vertex_text=g.vertex_index,</span>
+<span class="sd">    ...               vertex_font_size=18, edge_font_size=18, output=&quot;example-min-st-cut.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(cap, mi=3, ma=10, power=1),</span>
+<span class="sd">                     edge_text=res, vertex_fill_color=part, vertex_text=g.vertex_index,</span>
+<span class="sd">                     vertex_font_size=18, edge_font_size=18, output=&quot;example-min-st-cut.png&quot;)</span>
+
+<span class="sd">    .. figure:: example-min-st-cut.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Edge flows obtained with the Boykov-Kolmogorov algorithm. The source and</span>
+<span class="sd">        target are labeled ``0`` and ``7``, respectively. The edge capacities are</span>
+<span class="sd">        represented by the edge width, and the maximum flow by the edge labels.</span>
+<span class="sd">        Vertices of the same color are on the same side the minimum cut.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [max-flow-min-cut] http://en.wikipedia.org/wiki/Max-flow_min-cut_theorem</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The graph provided must be directed!&quot;</span><span class="p">)</span>
+    <span class="n">augment</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+    <span class="n">libgraph_tool_flow</span><span class="o">.</span><span class="n">residual_graph</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                      <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">capacity</span><span class="p">),</span>
+                                      <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">residual</span><span class="p">),</span>
+                                      <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">augment</span><span class="p">))</span>
+    <span class="n">em</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+    <span class="n">em</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">residual</span><span class="o">.</span><span class="n">a</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">em</span><span class="o">.</span><span class="n">a</span><span class="p">)]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">augment</span><span class="o">.</span><span class="n">a</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">efilt</span><span class="o">=</span><span class="n">em</span><span class="p">)</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">label_out_component</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">own_property</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+    <span class="c1"># cleanup augmented edges</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">efilt</span><span class="o">=</span><span class="n">augment</span><span class="p">)</span>
+    <span class="n">u</span><span class="o">.</span><span class="n">clear_edges</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">part</span></div>
+
+
+<div class="viewcode-block" id="min_cut"><a class="viewcode-back" href="../../../../doc/flow.html#graph_tool.flow.min_cut">[docs]</a><span class="k">def</span> <span class="nf">min_cut</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the minimum cut of an undirected graph, given the weight of the edges.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with the edge weights.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    min_cut : float</span>
+<span class="sd">        The value of the minimum cut.</span>
+<span class="sd">    partition : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Boolean-valued vertex property map with the cut partition.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm is defined in [stoer_simple_1997]_.</span>
+
+<span class="sd">    The time complexity is :math:`O(VE + V^2 \log V)`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.load_graph(&quot;mincut-example.xml.gz&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; weight = g.edge_properties[&quot;weight&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; mc, part = gt.min_cut(g, weight)</span>
+<span class="sd">    &gt;&gt;&gt; print(mc)</span>
+<span class="sd">    4.0</span>
+<span class="sd">    &gt;&gt;&gt; pos = g.vertex_properties[&quot;pos&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, edge_pen_width=weight, vertex_fill_color=part,</span>
+<span class="sd">    ...               output=&quot;example-min-cut.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, edge_pen_width=gt.prop_to_size(weight, mi=2, ma=8), vertex_fill_color=part,</span>
+<span class="sd">                     output=&quot;example-min-cut.png&quot;)</span>
+
+<span class="sd">    .. figure:: example-min-cut.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Vertices of the same color are on the same side of a minimum cut. The</span>
+<span class="sd">        edge weights are represented by the edge width.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [stoer_simple_1997] Stoer, Mechthild and Frank Wagner, &quot;A simple min-cut</span>
+<span class="sd">       algorithm&quot;. Journal of the ACM 44 (4), 585-591, 1997. :doi:`10.1145/263867.263872`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The graph provided must be undirected!&quot;</span><span class="p">)</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+
+    <span class="n">mc</span> <span class="o">=</span> <span class="n">libgraph_tool_flow</span><span class="o">.</span><span class="n">min_cut</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">part</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">mc</span><span class="p">,</span> <span class="n">part</span></div>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">topology</span> <span class="kn">import</span> <span class="nn">label_out_component</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

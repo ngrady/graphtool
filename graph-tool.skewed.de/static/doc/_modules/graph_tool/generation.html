@@ -1,0 +1,2176 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.generation &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.generation</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.s</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.generation`` - Random graph generation</span>
+<span class="sd">---------------------------------------------------</span>
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   random_graph</span>
+<span class="sd">   random_rewire</span>
+<span class="sd">   generate_sbm</span>
+<span class="sd">   predecessor_tree</span>
+<span class="sd">   line_graph</span>
+<span class="sd">   graph_union</span>
+<span class="sd">   triangulation</span>
+<span class="sd">   lattice</span>
+<span class="sd">   geometric_graph</span>
+<span class="sd">   price_network</span>
+<span class="sd">   complete_graph</span>
+<span class="sd">   circular_graph</span>
+<span class="sd">   condensation_graph</span>
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_generation&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphView</span><span class="p">,</span> <span class="n">_check_prop_scalar</span><span class="p">,</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">_limit_args</span><span class="p">,</span> \
+    <span class="n">_gt_type</span><span class="p">,</span> <span class="n">_get_rng</span><span class="p">,</span> <span class="n">_c_str</span><span class="p">,</span> <span class="n">libcore</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">stats</span> <span class="kn">import</span> <span class="nn">label_parallel_edges</span><span class="o">,</span> <span class="nn">label_self_loops</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">numpy.random</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;random_graph&quot;</span><span class="p">,</span> <span class="s2">&quot;random_rewire&quot;</span><span class="p">,</span> <span class="s2">&quot;generate_sbm&quot;</span><span class="p">,</span> <span class="s2">&quot;predecessor_tree&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;line_graph&quot;</span><span class="p">,</span> <span class="s2">&quot;graph_union&quot;</span><span class="p">,</span> <span class="s2">&quot;triangulation&quot;</span><span class="p">,</span> <span class="s2">&quot;lattice&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;geometric_graph&quot;</span><span class="p">,</span> <span class="s2">&quot;price_network&quot;</span><span class="p">,</span> <span class="s2">&quot;complete_graph&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;circular_graph&quot;</span><span class="p">,</span> <span class="s2">&quot;condensation_graph&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="random_graph"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.random_graph">[docs]</a><span class="k">def</span> <span class="nf">random_graph</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">deg_sampler</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">parallel_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">block_membership</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">block_type</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="n">degree_block</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">random</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a random graph, with a given degree distribution and (optionally)</span>
+<span class="sd">    vertex-vertex correlation.</span>
+
+<span class="sd">    The graph will be randomized via the :func:`~graph_tool.generation.random_rewire`</span>
+<span class="sd">    function, and any remaining parameters will be passed to that function.</span>
+<span class="sd">    Please read its documentation for all the options regarding the different</span>
+<span class="sd">    statistical models which can be chosen.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of vertices in the graph.</span>
+<span class="sd">    deg_sampler : function</span>
+<span class="sd">        A degree sampler function which is called without arguments, and returns</span>
+<span class="sd">        a tuple of ints representing the in and out-degree of a given vertex (or</span>
+<span class="sd">        a single int for undirected graphs, representing the out-degree). This</span>
+<span class="sd">        function is called once per vertex, but may be called more times, if the</span>
+<span class="sd">        degree sequence cannot be used to build a graph.</span>
+
+<span class="sd">        Optionally, you can also pass a function which receives one or two</span>
+<span class="sd">        arguments. If ``block_membership is None``, the single argument passed</span>
+<span class="sd">        will be the index of the vertex which will receive the degree.  If</span>
+<span class="sd">        ``block_membership is not None``, the first value passed will be the vertex</span>
+<span class="sd">        index, and the second will be the block value of the vertex.</span>
+<span class="sd">    directed : bool (optional, default: ``True``)</span>
+<span class="sd">        Whether the generated graph should be directed.</span>
+<span class="sd">    parallel_edges : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, parallel edges are allowed.</span>
+<span class="sd">    self_loops : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, self-loops are allowed.</span>
+<span class="sd">    block_membership : list or :class:`~numpy.ndarray` or function (optional, default: ``None``)</span>
+<span class="sd">        If supplied, the graph will be sampled from a stochastic blockmodel</span>
+<span class="sd">        ensemble, and this parameter specifies the block membership of the</span>
+<span class="sd">        vertices, which will be passed to the</span>
+<span class="sd">        :func:`~graph_tool.generation.random_rewire` function.</span>
+
+<span class="sd">        If the value is a list or a :class:`~numpy.ndarray`, it must have</span>
+<span class="sd">        ``len(block_membership) == N``, and the values will define to which</span>
+<span class="sd">        block each vertex belongs.</span>
+
+<span class="sd">        If this value is a function, it will be used to sample the block</span>
+<span class="sd">        types. It must be callable either with no arguments or with a single</span>
+<span class="sd">        argument which will be the vertex index. In either case it must return</span>
+<span class="sd">        a type compatible with the ``block_type`` parameter.</span>
+
+<span class="sd">        See the documentation for the ``vertex_corr`` parameter of the</span>
+<span class="sd">        :func:`~graph_tool.generation.random_rewire` function which specifies</span>
+<span class="sd">        the correlation matrix.</span>
+<span class="sd">    block_type : string (optional, default: ``&quot;int&quot;``)</span>
+<span class="sd">        Value type of block labels. Valid only if ``block_membership is not None``.</span>
+<span class="sd">    degree_block : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the degree of each vertex will be appended to block labels</span>
+<span class="sd">        when constructing the blockmodel, such that the resulting block type</span>
+<span class="sd">        will be a pair :math:`(r, k)`, where :math:`r` is the original block</span>
+<span class="sd">        label.</span>
+<span class="sd">    random : bool (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, the returned graph is randomized. Otherwise a deterministic</span>
+<span class="sd">        placement of the edges will be used.</span>
+<span class="sd">    verbose : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, verbose information is displayed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    random_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The generated graph.</span>
+<span class="sd">    blocks : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the block values. This is only returned if</span>
+<span class="sd">        ``block_membership is not None``.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    random_rewire: in-place graph shuffling</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The algorithm makes sure the degree sequence is graphical (i.e. realizable)</span>
+<span class="sd">    and keeps re-sampling the degrees if is not. With a valid degree sequence,</span>
+<span class="sd">    the edges are placed deterministically, and later the graph is shuffled with</span>
+<span class="sd">    the :func:`~graph_tool.generation.random_rewire` function, with all</span>
+<span class="sd">    remaining parameters passed to it.</span>
+
+<span class="sd">    The complexity is :math:`O(V + E)` if parallel edges are allowed, and</span>
+<span class="sd">    :math:`O(V + E \times\text{n-iter})` if parallel edges are not allowed.</span>
+
+
+<span class="sd">    .. note ::</span>
+
+<span class="sd">        If ``parallel_edges == False`` this algorithm only guarantees that the</span>
+<span class="sd">        returned graph will be a random sample from the desired ensemble if</span>
+<span class="sd">        ``n_iter`` is sufficiently large. The algorithm implements an</span>
+<span class="sd">        efficient Markov chain based on edge swaps, with a mixing time which</span>
+<span class="sd">        depends on the degree distribution and correlations desired. If degree</span>
+<span class="sd">        correlations are provided, the mixing time tends to be larger.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       import numpy.random</span>
+<span class="sd">       from pylab import *</span>
+<span class="sd">       np.random.seed(43)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    This is a degree sampler which uses rejection sampling to sample from the</span>
+<span class="sd">    distribution :math:`P(k)\propto 1/k`, up to a maximum.</span>
+
+<span class="sd">    &gt;&gt;&gt; def sample_k(max):</span>
+<span class="sd">    ...     accept = False</span>
+<span class="sd">    ...     while not accept:</span>
+<span class="sd">    ...         k = np.random.randint(1,max+1)</span>
+<span class="sd">    ...         accept = np.random.random() &lt; 1.0/k</span>
+<span class="sd">    ...     return k</span>
+<span class="sd">    ...</span>
+
+<span class="sd">    The following generates a random undirected graph with degree distribution</span>
+<span class="sd">    :math:`P(k)\propto 1/k` (with k_max=40) and an *assortative* degree</span>
+<span class="sd">    correlation of the form:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P(i,k) \propto \frac{1}{1+|i-k|}</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: sample_k(40), model=&quot;probabilistic-configuration&quot;,</span>
+<span class="sd">    ...                     edge_probs=lambda i, k: 1.0 / (1 + abs(i - k)), directed=False,</span>
+<span class="sd">    ...                     n_iter=100)</span>
+
+<span class="sd">    The following samples an in,out-degree pair from the joint distribution:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        p(j,k) = \frac{1}{2}\frac{e^{-m_1}m_1^j}{j!}\frac{e^{-m_1}m_1^k}{k!} +</span>
+<span class="sd">                 \frac{1}{2}\frac{e^{-m_2}m_2^j}{j!}\frac{e^{-m_2}m_2^k}{k!}</span>
+
+<span class="sd">    with :math:`m_1 = 4` and :math:`m_2 = 20`.</span>
+
+<span class="sd">    &gt;&gt;&gt; def deg_sample():</span>
+<span class="sd">    ...    if random() &gt; 0.5:</span>
+<span class="sd">    ...        return np.random.poisson(4), np.random.poisson(4)</span>
+<span class="sd">    ...    else:</span>
+<span class="sd">    ...        return np.random.poisson(20), np.random.poisson(20)</span>
+<span class="sd">    ...</span>
+
+<span class="sd">    The following generates a random directed graph with this distribution, and</span>
+<span class="sd">    plots the combined degree correlation.</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(20000, deg_sample)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; hist = gt.combined_corr_hist(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; figure()</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; imshow(hist[0].T, interpolation=&quot;nearest&quot;, origin=&quot;lower&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; colorbar()</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; xlabel(&quot;in-degree&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; ylabel(&quot;out-degree&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; savefig(&quot;combined-deg-hist.svg&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;combined-deg-hist.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: combined-deg-hist.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Combined degree histogram.</span>
+
+<span class="sd">    A correlated directed graph can be build as follows. Consider the following</span>
+<span class="sd">    degree correlation:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">         P(j&#39;,k&#39;|j,k)=\frac{e^{-k}k^{j&#39;}}{j&#39;!}</span>
+<span class="sd">         \frac{e^{-(20-j)}(20-j)^{k&#39;}}{k&#39;!}</span>
+
+<span class="sd">    i.e., the in-&gt;out correlation is &quot;disassortative&quot;, the out-&gt;in correlation</span>
+<span class="sd">    is &quot;assortative&quot;, and everything else is uncorrelated.</span>
+<span class="sd">    We will use a flat degree distribution in the range [1,20).</span>
+
+<span class="sd">    &gt;&gt;&gt; p = scipy.stats.poisson</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(20000, lambda: (sample_k(19), sample_k(19)),</span>
+<span class="sd">    ...                     model=&quot;probabilistic-configuration&quot;,</span>
+<span class="sd">    ...                     edge_probs=lambda a,b: (p.pmf(a[0], b[1]) *</span>
+<span class="sd">    ...                                             p.pmf(a[1], 20 - b[0])),</span>
+<span class="sd">    ...                     n_iter=100)</span>
+
+<span class="sd">    Lets plot the average degree correlations to check.</span>
+
+<span class="sd">    &gt;&gt;&gt; figure(figsize=(6,3))</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;in&quot;, &quot;in&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...         label=r&quot;$\left&lt;\text{in}\right&gt;$ vs in&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...         label=r&quot;$\left&lt;\text{out}\right&gt;$ vs in&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;in&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{in}\right&gt;$ vs out&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{out}\right&gt;$ vs out&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; legend(loc=&#39;center left&#39;, bbox_to_anchor=(1, 0.5))</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; xlabel(&quot;Source degree&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; ylabel(&quot;Average target degree&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; box = gca().get_position()</span>
+<span class="sd">    &gt;&gt;&gt; gca().set_position([box.x0, box.y0, box.width * 0.7, box.height])</span>
+<span class="sd">    &gt;&gt;&gt; savefig(&quot;deg-corr-dir.svg&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;deg-corr-dir.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: deg-corr-dir.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Average nearest neighbor correlations.</span>
+
+
+<span class="sd">    **Stochastic blockmodels**</span>
+
+
+<span class="sd">    The following example shows how a stochastic blockmodel</span>
+<span class="sd">    [holland-stochastic-1983]_ [karrer-stochastic-2011]_ can be generated. We</span>
+<span class="sd">    will consider a system of 10 blocks, which form communities. The connection</span>
+<span class="sd">    probability will be given by</span>
+
+<span class="sd">    &gt;&gt;&gt; def prob(a, b):</span>
+<span class="sd">    ...    if a == b:</span>
+<span class="sd">    ...        return 0.999</span>
+<span class="sd">    ...    else:</span>
+<span class="sd">    ...        return 0.001</span>
+
+<span class="sd">    The blockmodel can be generated as follows.</span>
+
+<span class="sd">    &gt;&gt;&gt; g, bm = gt.random_graph(2000, lambda: poisson(10), directed=False,</span>
+<span class="sd">    ...                         model=&quot;blockmodel&quot;,</span>
+<span class="sd">    ...                         block_membership=lambda: randint(10),</span>
+<span class="sd">    ...                         edge_probs=prob)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, vertex_fill_color=bm, edge_color=&quot;black&quot;, output=&quot;blockmodel.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, vertex_fill_color=bm, edge_color=&quot;black&quot;, output=&quot;blockmodel.png&quot;)</span>
+
+<span class="sd">    .. figure:: blockmodel.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Simple blockmodel with 10 blocks.</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [metropolis-equations-1953]  Metropolis, N.; Rosenbluth, A.W.;</span>
+<span class="sd">       Rosenbluth, M.N.; Teller, A.H.; Teller, E. &quot;Equations of State</span>
+<span class="sd">       Calculations by Fast Computing Machines&quot;. Journal of Chemical Physics 21</span>
+<span class="sd">       (6): 1087-1092 (1953). :doi:`10.1063/1.1699114`</span>
+<span class="sd">    .. [hastings-monte-carlo-1970] Hastings, W.K. &quot;Monte Carlo Sampling Methods</span>
+<span class="sd">       Using Markov Chains and Their Applications&quot;. Biometrika 57 (1): 97-109 (1970).</span>
+<span class="sd">       :doi:`10.1093/biomet/57.1.97`</span>
+<span class="sd">    .. [holland-stochastic-1983] Paul W. Holland, Kathryn Blackmond Laskey, and</span>
+<span class="sd">       Samuel Leinhardt, &quot;Stochastic blockmodels: First steps,&quot; Social Networks</span>
+<span class="sd">       5, no. 2: 109-13 (1983) :doi:`10.1016/0378-8733(83)90021-7`</span>
+<span class="sd">    .. [karrer-stochastic-2011] Brian Karrer and M. E. J. Newman, &quot;Stochastic</span>
+<span class="sd">       blockmodels and community structure in networks,&quot; Physical Review E 83,</span>
+<span class="sd">       no. 1: 016107 (2011) :doi:`10.1103/PhysRevE.83.016107` :arxiv:`1008.3926`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">block_membership</span><span class="p">)</span> <span class="ow">is</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span> <span class="ow">or</span>
+        <span class="nb">type</span><span class="p">(</span><span class="n">block_membership</span><span class="p">)</span> <span class="ow">is</span> <span class="n">types</span><span class="o">.</span><span class="n">LambdaType</span><span class="p">):</span>
+        <span class="n">btype</span> <span class="o">=</span> <span class="n">block_type</span>
+        <span class="n">bm</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">block_membership</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                <span class="n">bm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block_membership</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                <span class="n">bm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block_membership</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">block_membership</span> <span class="o">=</span> <span class="n">bm</span>
+    <span class="k">elif</span> <span class="n">block_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">btype</span> <span class="o">=</span> <span class="n">_gt_type</span><span class="p">(</span><span class="n">block_membership</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">deg_sampler</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">block_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sampler</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">deg_sampler</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">block_membership</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sampler</span> <span class="o">=</span> <span class="n">deg_sampler</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sampler</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">deg_sampler</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">directed</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">sampler_wrap</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">sampler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;degree value not understood: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">sampler_wrap</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">sampler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;(in,out)-degree value pair not understood: &quot;</span> <span class="o">+</span>
+                                 <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">gen_graph</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">sampler_wrap</span><span class="p">,</span>
+                                       <span class="ow">not</span> <span class="n">parallel_edges</span><span class="p">,</span>
+                                       <span class="ow">not</span> <span class="n">self_loops</span><span class="p">,</span> <span class="ow">not</span> <span class="n">directed</span><span class="p">,</span>
+                                       <span class="n">_get_rng</span><span class="p">(),</span> <span class="n">verbose</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">set_directed</span><span class="p">(</span><span class="n">directed</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">degree_block</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;vector&quot;</span> <span class="ow">in</span> <span class="n">btype</span><span class="p">:</span>
+            <span class="n">btype</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span>
+        <span class="k">elif</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;int32_t&quot;</span><span class="p">,</span> <span class="s2">&quot;bool&quot;</span><span class="p">]:</span>
+            <span class="n">btype</span> <span class="o">=</span> <span class="s2">&quot;vector&lt;int32_t&gt;&quot;</span>
+        <span class="k">elif</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">,</span> <span class="s2">&quot;int64_t&quot;</span><span class="p">]:</span>
+            <span class="n">btype</span> <span class="o">=</span> <span class="s2">&quot;vector&lt;int64_t&gt;&quot;</span>
+        <span class="k">elif</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;double&quot;</span><span class="p">]:</span>
+            <span class="n">btype</span> <span class="o">=</span> <span class="s2">&quot;vector&lt;double&gt;&quot;</span>
+        <span class="k">elif</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;long double&quot;</span><span class="p">]:</span>
+            <span class="n">btype</span> <span class="o">=</span> <span class="s2">&quot;vector&lt;long double&gt;&quot;</span>
+
+    <span class="k">if</span> <span class="n">block_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bm</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">btype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">btype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;vector&quot;</span> <span class="ow">in</span> <span class="n">btype</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">degree_block</span><span class="p">:</span>
+                    <span class="n">bm</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">block_membership</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+                        <span class="n">bm</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">block_membership</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)],</span> <span class="n">v</span><span class="o">.</span><span class="n">in_degree</span><span class="p">(),</span>
+                                 <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">())</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">bm</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">block_membership</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)],</span> <span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">bm</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">block_membership</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">bm</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+                    <span class="n">bm</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">block_membership</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bm</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">random</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_fast_edge_removal</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">parallel_edges</span><span class="o">=</span><span class="n">parallel_edges</span><span class="p">,</span>
+                      <span class="n">self_loops</span><span class="o">=</span><span class="n">self_loops</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                      <span class="n">block_membership</span><span class="o">=</span><span class="n">bm</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_fast_edge_removal</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">g</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">g</span><span class="p">,</span> <span class="n">bm</span></div>
+
+
+<div class="viewcode-block" id="random_rewire"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.random_rewire">[docs]</a><span class="nd">@_limit_args</span><span class="p">({</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;erdos&quot;</span><span class="p">,</span> <span class="s2">&quot;configuration&quot;</span><span class="p">,</span> <span class="s2">&quot;constrained-configuration&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;probabilistic-configuration&quot;</span><span class="p">,</span> <span class="s2">&quot;blockmodel-degree&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;blockmodel&quot;</span><span class="p">,</span> <span class="s2">&quot;blockmodel-micro&quot;</span><span class="p">]})</span>
+<span class="k">def</span> <span class="nf">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;configuration&quot;</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_sweep</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">parallel_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">edge_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">block_membership</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache_probs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ret_fail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Shuffle the graph in-place, following a variety of possible statistical</span>
+<span class="sd">    models, chosen via the parameter ``model``.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be shuffled. The graph will be modified.</span>
+<span class="sd">    model : string (optional, default: ``&quot;configuration&quot;``)</span>
+<span class="sd">        The following statistical models can be chosen, which determine how the</span>
+<span class="sd">        edges are rewired.</span>
+
+<span class="sd">        ``erdos``</span>
+<span class="sd">           The edges will be rewired entirely randomly, and the resulting graph</span>
+<span class="sd">           will correspond to the :math:`G(N,E)` Erdős–Rényi model.</span>
+<span class="sd">        ``configuration``</span>
+<span class="sd">           The edges will be rewired randomly, but the degree sequence of the</span>
+<span class="sd">           graph will remain unmodified.</span>
+<span class="sd">        ``constrained-configuration``</span>
+<span class="sd">           The edges will be rewired randomly, but both the degree sequence of</span>
+<span class="sd">           the graph and the *vertex-vertex (in,out)-degree correlations* will</span>
+<span class="sd">           remain exactly preserved. If the ``block_membership`` parameter is</span>
+<span class="sd">           passed, the block variables at the endpoints of the edges will be</span>
+<span class="sd">           preserved, instead of the degree-degree correlation.</span>
+<span class="sd">        ``probabilistic-configuration``</span>
+<span class="sd">           This is similar to ``constrained-configuration``, but the</span>
+<span class="sd">           vertex-vertex correlations are not preserved, but are instead sampled</span>
+<span class="sd">           from an arbitrary degree-based probabilistic model specified via the</span>
+<span class="sd">           ``edge_probs`` parameter. The degree-sequence is preserved.</span>
+<span class="sd">        ``blockmodel-degree``</span>
+<span class="sd">           This is just like ``probabilistic-configuration``, but the values</span>
+<span class="sd">           passed to the ``edge_probs`` function will correspond to the block</span>
+<span class="sd">           membership values specified by the ``block_membership`` parameter.</span>
+<span class="sd">        ``blockmodel``</span>
+<span class="sd">           This is just like ``blockmodel-degree``, but the degree sequence *is</span>
+<span class="sd">           not* preserved during rewiring.</span>
+<span class="sd">        ``blockmodel-micro``</span>
+<span class="sd">           This is like ``blockmodel``, but the exact number of edges between</span>
+<span class="sd">           groups is preserved as well.</span>
+<span class="sd">    n_iter : int (optional, default: ``1``)</span>
+<span class="sd">        Number of iterations. If ``edge_sweep == True``, each iteration</span>
+<span class="sd">        corresponds to an entire &quot;sweep&quot; over all edges. Otherwise this</span>
+<span class="sd">        corresponds to the total number of edges which are randomly chosen for a</span>
+<span class="sd">        swap attempt (which may repeat).</span>
+<span class="sd">    edge_sweep : bool (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, each iteration will perform an entire &quot;sweep&quot; over the</span>
+<span class="sd">        edges, where each edge is visited once in random order, and a edge swap</span>
+<span class="sd">        is attempted.</span>
+<span class="sd">    parallel_edges : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, parallel edges are allowed.</span>
+<span class="sd">    self_loops : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, self-loops are allowed.</span>
+<span class="sd">    configuration : bool (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, graphs are sampled from the corresponding maximum-entropy</span>
+<span class="sd">        ensemble of configurations (i.e. distinguishable half-edge pairings),</span>
+<span class="sd">        otherwise they are sampled from the maximum-entropy ensemble of graphs</span>
+<span class="sd">        (i.e. indistinguishable half-edge pairings). The distinction is only</span>
+<span class="sd">        relevant if parallel edges are allowed.</span>
+<span class="sd">    edge_probs : function or sequence of triples (optional, default: ``None``)</span>
+<span class="sd">        A function which determines the edge probabilities in the graph. In</span>
+<span class="sd">        general it should have the following signature:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">            def prob(r, s):</span>
+<span class="sd">                ...</span>
+<span class="sd">                return p</span>
+
+<span class="sd">        where the return value should be a non-negative scalar.</span>
+
+<span class="sd">        Alternatively, this parameter can be a list of triples of the form ``(r,</span>
+<span class="sd">        s, p)``, with the same meaning as the ``r``, ``s`` and ``p`` values</span>
+<span class="sd">        above. If a given ``(r, s)`` combination is not present in this list,</span>
+<span class="sd">        the corresponding value of ``p`` is assumed to be zero. If the same</span>
+<span class="sd">        ``(r, s)`` combination appears more than once, their ``p`` values will</span>
+<span class="sd">        be summed together. This is useful when the correlation matrix is</span>
+<span class="sd">        sparse, i.e. most entries are zero.</span>
+
+<span class="sd">        If ``model == probabilistic-configuration`` the parameters ``r`` and</span>
+<span class="sd">        ``s`` correspond respectively to the (in, out)-degree pair of the source</span>
+<span class="sd">        vertex of an edge, and the (in,out)-degree pair of the target of the</span>
+<span class="sd">        same edge (for undirected graphs, both parameters are scalars</span>
+<span class="sd">        instead). The value of ``p`` should be a number proportional to the</span>
+<span class="sd">        probability of such an edge existing in the generated graph.</span>
+
+<span class="sd">        If ``model == blockmodel-degree`` or ``model == blockmodel``, the ``r``</span>
+<span class="sd">        and ``s`` values passed to the function will be the block values of the</span>
+<span class="sd">        respective vertices, as specified via the ``block_membership``</span>
+<span class="sd">        parameter. The value of ``p`` should be a number proportional to the</span>
+<span class="sd">        probability of such an edge existing in the generated graph.</span>
+<span class="sd">    block_membership : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        If supplied, the graph will be rewired to conform to a blockmodel</span>
+<span class="sd">        ensemble. The value must be a vertex property map which defines the</span>
+<span class="sd">        block of each vertex.</span>
+<span class="sd">    cache_probs : bool (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, the probabilities returned by the ``edge_probs`` parameter</span>
+<span class="sd">        will be cached internally. This is crucial for good performance, since</span>
+<span class="sd">        in this case the supplied python function is called only a few times,</span>
+<span class="sd">        and not at every attempted edge rewire move. However, in the case were</span>
+<span class="sd">        the different parameter combinations to the probability function is very</span>
+<span class="sd">        large, the memory and time requirements to keep the cache may not be</span>
+<span class="sd">        worthwhile.</span>
+<span class="sd">    persist : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, an edge swap which is rejected will be attempted again</span>
+<span class="sd">        until it succeeds. This may improve the quality of the shuffling for</span>
+<span class="sd">        some probabilistic models, and should be sufficiently fast for sparse</span>
+<span class="sd">        graphs, but otherwise it may result in many repeated attempts for</span>
+<span class="sd">        certain corner-cases in which edges are difficult to swap.</span>
+<span class="sd">    pin : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        Edge property map which, if provided, specifies which edges are allowed</span>
+<span class="sd">        to be rewired. Edges for which the property value is ``1`` (or ``True``)</span>
+<span class="sd">        will be left unmodified in the graph.</span>
+<span class="sd">    verbose : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, verbose information is displayed.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rejection_count : int</span>
+<span class="sd">        Number of rejected edge moves (due to parallel edges or self-loops, or</span>
+<span class="sd">        the probabilistic model used).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    random_graph: random graph generation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This algorithm iterates through all the edges in the network and tries to</span>
+<span class="sd">    swap its target or source with the target or source of another edge. The</span>
+<span class="sd">    selected canditate swaps are chosen according to the ``model`` parameter.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        If ``parallel_edges = False``, parallel edges are not placed during</span>
+<span class="sd">        rewiring. In this case, the returned graph will be a uncorrelated sample</span>
+<span class="sd">        from the desired ensemble only if ``n_iter`` is sufficiently large. The</span>
+<span class="sd">        algorithm implements an efficient Markov chain based on edge swaps, with</span>
+<span class="sd">        a mixing time which depends on the degree distribution and correlations</span>
+<span class="sd">        desired. If degree probabilistic correlations are provided, the mixing</span>
+<span class="sd">        time tends to be larger.</span>
+
+<span class="sd">        If ``model`` is either &quot;probabilistic-configuration&quot;, &quot;blockmodel&quot; or</span>
+<span class="sd">        &quot;blockmodel-degree&quot;, the Markov chain still needs to be mixed, even if</span>
+<span class="sd">        parallel edges and self-loops are allowed. In this case the Markov chain</span>
+<span class="sd">        is implemented using the Metropolis-Hastings</span>
+<span class="sd">        [metropolis-equations-1953]_ [hastings-monte-carlo-1970]_</span>
+<span class="sd">        acceptance/rejection algorithm. It will eventually converge to the</span>
+<span class="sd">        desired probabilities for sufficiently large values of ``n_iter``.</span>
+
+
+<span class="sd">    Each edge is tentatively swapped once per iteration, so the overall</span>
+<span class="sd">    complexity is :math:`O(V + E \times \text{n-iter})`. If ``edge_sweep ==</span>
+<span class="sd">    False``, the complexity becomes :math:`O(V + E + \text{n-iter})`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Some small graphs for visualization.</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       from numpy.random import random, seed</span>
+<span class="sd">       from pylab import *</span>
+<span class="sd">       seed(43)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g, pos = gt.triangulation(np.random.random((1000,2)))</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.arf_layout(g)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output=&quot;rewire_orig.pdf&quot;, output_size=(300, 300))</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output=&quot;rewire_orig.png&quot;, output_size=(300, 300))</span>
+
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g, &quot;constrained-configuration&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.arf_layout(g)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output=&quot;rewire_corr.pdf&quot;, output_size=(300, 300))</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output=&quot;rewire_corr.png&quot;, output_size=(300, 300))</span>
+
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.arf_layout(g)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output=&quot;rewire_uncorr.pdf&quot;, output_size=(300, 300))</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output=&quot;rewire_uncorr.png&quot;, output_size=(300, 300))</span>
+
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g, &quot;erdos&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.arf_layout(g)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output=&quot;rewire_erdos.pdf&quot;, output_size=(300, 300))</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output=&quot;rewire_erdos.png&quot;, output_size=(300, 300))</span>
+
+<span class="sd">    Some `ridiculograms &lt;http://www.youtube.com/watch?v=YS-asmU3p_4&gt;`_ :</span>
+
+<span class="sd">    .. image:: rewire_orig.*</span>
+<span class="sd">    .. image:: rewire_corr.*</span>
+<span class="sd">    .. image:: rewire_uncorr.*</span>
+<span class="sd">    .. image:: rewire_erdos.*</span>
+
+<span class="sd">    **From left to right**: Original graph; Shuffled graph, with degree correlations;</span>
+<span class="sd">    Shuffled graph, without degree correlations; Shuffled graph, with random degrees.</span>
+
+<span class="sd">    We can try with larger graphs to get better statistics, as follows.</span>
+
+<span class="sd">    &gt;&gt;&gt; figure(figsize=(6,3))</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(30000, lambda: sample_k(20), model=&quot;probabilistic-configuration&quot;,</span>
+<span class="sd">    ...                     edge_probs=lambda i, j: exp(abs(i-j)), directed=False,</span>
+<span class="sd">    ...                     n_iter=100)</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;, label=&quot;Original&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g, &quot;constrained-configuration&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;*&quot;, label=&quot;Correlated&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g)</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;, label=&quot;Uncorrelated&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g, &quot;erdos&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;, label=r&quot;Erd\H{o}s&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; xlabel(&quot;$k$&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; ylabel(r&quot;$\left&lt;k_{nn}\right&gt;$&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; legend(loc=&#39;center left&#39;, bbox_to_anchor=(1, 0.5))</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; box = gca().get_position()</span>
+<span class="sd">    &gt;&gt;&gt; gca().set_position([box.x0, box.y0, box.width * 0.7, box.height])</span>
+<span class="sd">    &gt;&gt;&gt; savefig(&quot;shuffled-stats.svg&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;shuffled-stats.pdf&quot;)</span>
+
+
+<span class="sd">    .. figure:: shuffled-stats.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Average degree correlations for the different shuffled and non-shuffled</span>
+<span class="sd">        graphs. The shuffled graph with correlations displays exactly the same</span>
+<span class="sd">        correlation as the original graph.</span>
+
+<span class="sd">    Now let&#39;s do it for a directed graph. See</span>
+<span class="sd">    :func:`~graph_tool.generation.random_graph` for more details.</span>
+
+<span class="sd">    &gt;&gt;&gt; p = scipy.stats.poisson</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(20000, lambda: (sample_k(19), sample_k(19)),</span>
+<span class="sd">    ...                     model=&quot;probabilistic-configuration&quot;,</span>
+<span class="sd">    ...                     edge_probs=lambda a, b: (p.pmf(a[0], b[1]) * p.pmf(a[1], 20 - b[0])),</span>
+<span class="sd">    ...                     n_iter=100)</span>
+<span class="sd">    &gt;&gt;&gt; figure(figsize=(6,3))</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{o}\right&gt;$ vs i&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;in&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{i}\right&gt;$ vs o&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g, &quot;constrained-configuration&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{o}\right&gt;$ vs i, corr.&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;in&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{i}\right&gt;$ vs o, corr.&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ret = gt.random_rewire(g, &quot;configuration&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{o}\right&gt;$ vs i, uncorr.&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; corr = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;in&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; errorbar(corr[2][:-1], corr[0], yerr=corr[1], fmt=&quot;o-&quot;,</span>
+<span class="sd">    ...          label=r&quot;$\left&lt;\text{i}\right&gt;$ vs o, uncorr.&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; legend(loc=&#39;center left&#39;, bbox_to_anchor=(1, 0.5))</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; xlabel(&quot;Source degree&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; ylabel(&quot;Average target degree&quot;)</span>
+<span class="sd">    Text(...)</span>
+<span class="sd">    &gt;&gt;&gt; tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; box = gca().get_position()</span>
+<span class="sd">    &gt;&gt;&gt; gca().set_position([box.x0, box.y0, box.width * 0.55, box.height])</span>
+<span class="sd">    &gt;&gt;&gt; savefig(&quot;shuffled-deg-corr-dir.svg&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;shuffled-deg-corr-dir.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: shuffled-deg-corr-dir.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Average degree correlations for the different shuffled and non-shuffled</span>
+<span class="sd">        directed graphs. The shuffled graph with correlations displays exactly</span>
+<span class="sd">        the same correlation as the original graph.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [metropolis-equations-1953]  Metropolis, N.; Rosenbluth, A.W.;</span>
+<span class="sd">       Rosenbluth, M.N.; Teller, A.H.; Teller, E. &quot;Equations of State</span>
+<span class="sd">       Calculations by Fast Computing Machines&quot;. Journal of Chemical Physics 21</span>
+<span class="sd">       (6): 1087-1092 (1953). :doi:`10.1063/1.1699114`</span>
+<span class="sd">    .. [hastings-monte-carlo-1970] Hastings, W.K. &quot;Monte Carlo Sampling Methods</span>
+<span class="sd">       Using Markov Chains and Their Applications&quot;. Biometrika 57 (1): 97-109 (1970).</span>
+<span class="sd">       :doi:`10.1093/biomet/57.1.97`</span>
+<span class="sd">    .. [holland-stochastic-1983] Paul W. Holland, Kathryn Blackmond Laskey, and</span>
+<span class="sd">       Samuel Leinhardt, &quot;Stochastic blockmodels: First steps,&quot; Social Networks</span>
+<span class="sd">       5, no. 2: 109-13 (1983) :doi:`10.1016/0378-8733(83)90021-7`</span>
+<span class="sd">    .. [karrer-stochastic-2011] Brian Karrer and M. E. J. Newman, &quot;Stochastic</span>
+<span class="sd">       blockmodels and community structure in networks,&quot; Physical Review E 83,</span>
+<span class="sd">       no. 1: 016107 (2011) :doi:`10.1103/PhysRevE.83.016107` :arxiv:`1008.3926`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">edge_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">())</span> <span class="ow">and</span> <span class="s2">&quot;blockmodel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model</span><span class="p">:</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">edge_probs</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="n">edge_probs</span>
+
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;probabilistic-configuration&quot;</span><span class="p">,</span> <span class="s2">&quot;blockmodel&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;blockmodel-degree&quot;</span><span class="p">]:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="nb">reversed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">edge_probs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A function must be supplied as the &#39;edge_probs&#39; parameter&quot;</span><span class="p">)</span>
+
+    <span class="n">traditional</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">micro</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="s2">&quot;blockmodel-degree&quot;</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;blockmodel&quot;</span>
+        <span class="n">traditional</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="s2">&quot;blockmodel-micro&quot;</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;blockmodel&quot;</span>
+        <span class="n">micro</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">pin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pin</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pin</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;bool&quot;</span><span class="p">:</span>
+        <span class="n">pin</span> <span class="o">=</span> <span class="n">pin</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">value_type</span><span class="o">=</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+
+    <span class="n">fast</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_fast_edge_removal</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fast</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_fast_edge_removal</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pcount</span> <span class="o">=</span> <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                    <span class="n">_c_str</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+                                                    <span class="n">n_iter</span><span class="p">,</span> <span class="ow">not</span> <span class="n">edge_sweep</span><span class="p">,</span>
+                                                    <span class="n">self_loops</span><span class="p">,</span> <span class="n">parallel_edges</span><span class="p">,</span>
+                                                    <span class="n">configuration</span><span class="p">,</span>
+                                                    <span class="n">traditional</span><span class="p">,</span> <span class="n">micro</span><span class="p">,</span> <span class="n">persist</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pin</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">block_membership</span><span class="p">),</span>
+                                                    <span class="n">cache_probs</span><span class="p">,</span>
+                                                    <span class="n">_get_rng</span><span class="p">(),</span> <span class="n">verbose</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fast</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_fast_edge_removal</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pcount</span></div>
+
+<div class="viewcode-block" id="generate_sbm"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.generate_sbm">[docs]</a><span class="k">def</span> <span class="nf">generate_sbm</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">probs</span><span class="p">,</span> <span class="n">out_degs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">in_degs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">micro_ers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">micro_degs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate a random graph by sampling from the Poisson or microcanonical</span>
+<span class="sd">    stochastic block model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    b : iterable or :class:`numpy.ndarray`</span>
+<span class="sd">        Group membership for each node.</span>
+<span class="sd">    probs : two-dimensional :class:`numpy.ndarray` or :class:`scipy.sparse.spmatrix`</span>
+<span class="sd">        Matrix with edge propensities between groups. The value ``probs[r,s]``</span>
+<span class="sd">        corresponds to the average number of edges between groups ``r`` and</span>
+<span class="sd">        ``s`` (or twice the average number if ``r == s`` and the graph is</span>
+<span class="sd">        undirected).</span>
+<span class="sd">    out_degs : iterable or :class:`numpy.ndarray` (optional, default: ``None``)</span>
+<span class="sd">        Out-degree propensity for each node. If not provided, a constant value</span>
+<span class="sd">        will be used. Note that the values will be normalized inside each group,</span>
+<span class="sd">        if they are not already so.</span>
+<span class="sd">    in_degs : iterable or :class:`numpy.ndarray` (optional, default: ``None``)</span>
+<span class="sd">        In-degree propensity for each node. If not provided, a constant value</span>
+<span class="sd">        will be used. Note that the values will be normalized inside each group,</span>
+<span class="sd">        if they are not already so.</span>
+<span class="sd">    directed : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        Whether the graph is directed.</span>
+<span class="sd">    micro_ers : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If true, the `microcanonical` version of the model will be evoked, where</span>
+<span class="sd">        the numbers of edges between groups will be given `exactly` by the</span>
+<span class="sd">        parameter ``probs``, and this will not fluctuate between samples.</span>
+<span class="sd">    micro_degs : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If true, the `microcanonical` version of the degree-corrected model will</span>
+<span class="sd">        be evoked, where the degrees of nodes will be given `exactly` by the</span>
+<span class="sd">        parameters ``out_degs`` and ``in_degs``, and they will not fluctuate</span>
+<span class="sd">        between samples. (If ``micro_degs == True`` it implies ``micro_ers ==</span>
+<span class="sd">        True``.)</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The generated graph.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    random_graph: random graph generation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The algorithm generates multigraphs with self-loops, according to the</span>
+<span class="sd">    Poisson degree-corrected stochastic block model (SBM), which includes the</span>
+<span class="sd">    traditional SBM as a special case.</span>
+
+<span class="sd">    The multigraphs are generated with probability</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P({\boldsymbol A}|{\boldsymbol \theta},{\boldsymbol \lambda},{\boldsymbol b})</span>
+<span class="sd">            = \prod_{i&lt;j}\frac{e^{-\lambda_{b_ib_j}\theta_i\theta_j}(\lambda_{b_ib_j}\theta_i\theta_j)^{A_{ij}}}{A_{ij}!}</span>
+<span class="sd">              \times\prod_i\frac{e^{-\lambda_{b_ib_i}\theta_i^2/2}(\lambda_{b_ib_i}\theta_i^2/2)^{A_{ij}/2}}{(A_{ij}/2)!},</span>
+
+<span class="sd">    where :math:`\lambda_{rs}` is the edge propensity between groups :math:`r`</span>
+<span class="sd">    and :math:`s`, and :math:`\theta_i` is the propensity of node i to receive</span>
+<span class="sd">    edges, which is proportional to its expected degree. Note that in the</span>
+<span class="sd">    algorithm it is assumed that the node propensities are normalized for each</span>
+<span class="sd">    group,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \sum_i\theta_i\delta_{b_i,r} = 1,</span>
+
+<span class="sd">    such that the value :math:`\lambda_{rs}` will correspond to the average</span>
+<span class="sd">    number of edges between groups :math:`r` and :math:`s` (or twice that if</span>
+<span class="sd">    :math:`r = s`). If the supplied values of :math:`\theta_i` are not</span>
+<span class="sd">    normalized as above, they will be normalized prior to the generation of the</span>
+<span class="sd">    graph.</span>
+
+<span class="sd">    For directed graphs, the probability is analogous, with :math:`\lambda_{rs}`</span>
+<span class="sd">    being in general asymmetric:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P({\boldsymbol A}|{\boldsymbol \theta},{\boldsymbol \lambda},{\boldsymbol b})</span>
+<span class="sd">            = \prod_{ij}\frac{e^{-\lambda_{b_ib_j}\theta^+_i\theta^-_j}(\lambda_{b_ib_j}\theta^+_i\theta^-_j)^{A_{ij}}}{A_{ij}!}.</span>
+
+<span class="sd">    Again, the same normalization is assumed:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \sum_i\theta_i^+\delta_{b_i,r} = \sum_i\theta_i^-\delta_{b_i,r} = 1,</span>
+
+<span class="sd">    such that the value :math:`\lambda_{rs}` will correspond to the average</span>
+<span class="sd">    number of directed edges between groups :math:`r` and :math:`s`.</span>
+
+<span class="sd">    The traditional (i.e. non-degree-corrected) SBM is recovered from the above</span>
+<span class="sd">    model by setting :math:`\theta_i=1/n_{b_i}` (or</span>
+<span class="sd">    :math:`\theta^+_i=\theta^-_i=1/n_{b_i}` in the directed case), which is done</span>
+<span class="sd">    automatically if ``out_degs`` and ``in_degs`` are not specified.</span>
+
+<span class="sd">    In case the parameter ``micro_degs == True`` is passed, a `microcanical</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/Microcanonical_ensemble&gt;`_ model is used</span>
+<span class="sd">    instead, where both the number of edges between groups as well as the</span>
+<span class="sd">    degrees of the nodes are preserved `exactly`, instead of only on</span>
+<span class="sd">    expectation. In this case, the parameters are interpreted as</span>
+<span class="sd">    :math:`{\boldsymbol\lambda}\equiv{\boldsymbol e}` and</span>
+<span class="sd">    :math:`{\boldsymbol\theta}\equiv{\boldsymbol k}`, where :math:`e_{rs}` is</span>
+<span class="sd">    the number of edges between groups :math:`r` and :math:`s` (or twice that if</span>
+<span class="sd">    :math:`r=s` in the undirected case), and :math:`k_i` is the degree of node</span>
+<span class="sd">    :math:`i`. This model is a generalization of the configuration model, where</span>
+<span class="sd">    multigraphs are sampled with probability</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P({\boldsymbol A}|{\boldsymbol k},{\boldsymbol e},{\boldsymbol b}) =</span>
+<span class="sd">        \frac{\prod_{r&lt;s}e_{rs}!\prod_re_{rr}!!\prod_ik_i!}{\prod_re_r!\prod_{i&lt;j}A_{ij}!\prod_iA_{ii}!!}.</span>
+
+<span class="sd">    and in the directed case with probability</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P({\boldsymbol A}|{\boldsymbol k}^+,{\boldsymbol k}^-,{\boldsymbol e},{\boldsymbol b}) =</span>
+<span class="sd">        \frac{\prod_{rs}e_{rs}!\prod_ik^+_i!k^-_i!}{\prod_re^+_r!e^-_r!\prod_{ij}A_{ij}!}.</span>
+
+<span class="sd">    where :math:`e^+_r = \sum_se_{rs}`, :math:`e^-_r = \sum_se_{sr}`,</span>
+<span class="sd">    :math:`k^+_i = \sum_jA_{ij}` and :math:`k^-_i = \sum_jA_{ji}`.</span>
+
+<span class="sd">    In the non-degree-corrected case, if ``micro_ers == True``, the</span>
+<span class="sd">    microcanonical model corresponds to</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P({\boldsymbol A}|{\boldsymbol e},{\boldsymbol b}) =</span>
+<span class="sd">        \frac{\prod_{r&lt;s}e_{rs}!\prod_re_{rr}!!}{\prod_rn_r^{e_r}\prod_{i&lt;j}A_{ij}!\prod_iA_{ii}!!},</span>
+
+<span class="sd">    and in the directed case to</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P({\boldsymbol A}|{\boldsymbol e},{\boldsymbol b}) =</span>
+<span class="sd">        \frac{\prod_{rs}e_{rs}!}{\prod_rn_r^{e_r^+ + e_r^-}\prod_{ij}A_{ij}!}.</span>
+
+<span class="sd">    In every case above, the final graph is generated in time :math:`O(V + E +</span>
+<span class="sd">    B)`, where :math:`B` is the number of groups.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.collection.data[&quot;polblogs&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.GraphView(g, vfilt=gt.label_largest_component(g))</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.Graph(g, prune=True)</span>
+<span class="sd">    &gt;&gt;&gt; state = gt.minimize_blockmodel_dl(g)</span>
+<span class="sd">    &gt;&gt;&gt; u = gt.generate_sbm(state.b.a, gt.adjacency(state.get_bg(),</span>
+<span class="sd">    ...                                             state.get_ers()).T,</span>
+<span class="sd">    ...                     g.degree_property_map(&quot;out&quot;).a,</span>
+<span class="sd">    ...                     g.degree_property_map(&quot;in&quot;).a, directed=True)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, g.vp.pos, output=&quot;polblogs-sbm.png&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(u, u.own_property(g.vp.pos), output=&quot;polblogs-sbm-generated.png&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. image:: polblogs-sbm.*</span>
+<span class="sd">        :width: 40%</span>
+<span class="sd">    .. image:: polblogs-sbm-generated.*</span>
+<span class="sd">        :width: 40%</span>
+
+<span class="sd">    *Left:* Political blogs network. *Right:* Sample from the degree-corrected</span>
+<span class="sd">    SBM fitted to the original network.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [karrer-stochastic-2011] Brian Karrer and M. E. J. Newman, &quot;Stochastic</span>
+<span class="sd">       blockmodels and community structure in networks,&quot; Physical Review E 83,</span>
+<span class="sd">       no. 1: 016107 (2011) :doi:`10.1103/PhysRevE.83.016107` :arxiv:`1008.3926`</span>
+<span class="sd">    .. [peixoto-nonparametric-2017] Tiago P. Peixoto, &quot;Nonparametric Bayesian</span>
+<span class="sd">       inference of the microcanonical stochastic block model&quot;, Phys. Rev. E 95</span>
+<span class="sd">       012317 (2017). :doi:`10.1103/PhysRevE.95.012317`, :arxiv:`1610.02703`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="n">deg_type</span> <span class="o">=</span> <span class="s2">&quot;double&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">micro_degs</span> <span class="k">else</span> <span class="s2">&quot;int64_t&quot;</span>
+    <span class="n">p_type</span> <span class="o">=</span> <span class="s2">&quot;double&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">micro_degs</span> <span class="k">else</span> <span class="s2">&quot;uint64&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">directed</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">out_degs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out_degs</span> <span class="o">=</span> <span class="n">in_degs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="n">deg_type</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out_degs</span> <span class="o">=</span> <span class="n">in_degs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="n">deg_type</span><span class="p">,</span> <span class="n">out_degs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">out_degs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out_degs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="n">deg_type</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out_degs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="n">deg_type</span><span class="p">,</span> <span class="n">out_degs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">in_degs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">in_degs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="n">deg_type</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">in_degs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vp</span><span class="p">(</span><span class="n">deg_type</span><span class="p">,</span> <span class="n">in_degs</span><span class="p">)</span>
+
+    <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">directed</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="n">s</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># B == 1 special case</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">])</span>
+
+    <span class="n">g</span><span class="o">.</span><span class="n">set_directed</span><span class="p">(</span><span class="n">directed</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">gen_sbm</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span>
+                                     <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">),</span>
+                                     <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">),</span>
+                                     <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">p_type</span><span class="p">),</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">in_degs</span><span class="p">),</span>
+                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">out_degs</span><span class="p">),</span>
+                                     <span class="n">micro_ers</span><span class="p">,</span>
+                                     <span class="n">micro_degs</span><span class="p">,</span>
+                                     <span class="n">_get_rng</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+<div class="viewcode-block" id="predecessor_tree"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.predecessor_tree">[docs]</a><span class="k">def</span> <span class="nf">predecessor_tree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pred_map</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a graph from a list of predecessors given by the ``pred_map`` vertex property.&quot;&quot;&quot;</span>
+
+    <span class="n">_check_prop_scalar</span><span class="p">(</span><span class="n">pred_map</span><span class="p">,</span> <span class="s2">&quot;pred_map&quot;</span><span class="p">)</span>
+    <span class="n">pg</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">predecessor_graph</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                               <span class="n">pg</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pred_map</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pg</span></div>
+
+
+<div class="viewcode-block" id="line_graph"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.line_graph">[docs]</a><span class="k">def</span> <span class="nf">line_graph</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the line graph of the given graph `g`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Given an undirected graph G, its line graph L(G) is a graph such that</span>
+
+<span class="sd">        * each vertex of L(G) represents an edge of G; and</span>
+<span class="sd">        * two vertices of L(G) are adjacent if and only if their corresponding</span>
+<span class="sd">          edges share a common endpoint (&quot;are adjacent&quot;) in G.</span>
+
+<span class="sd">    For a directed graph, the second criterion becomes:</span>
+
+<span class="sd">       * Two vertices representing directed edges from u to v and from w to x in</span>
+<span class="sd">         G are connected by an edge from uv to wx in the line digraph when v =</span>
+<span class="sd">         w.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.collection.data[&quot;lesmis&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; lg, vmap = gt.line_graph(g)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.graph_draw(lg, output_size=(300, 300), output=&quot;lesmis-lg.pdf&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(lg, pos=pos, output_size=(300, 300), output=&quot;lesmis-lg.png&quot;)</span>
+
+
+
+<span class="sd">    .. figure:: lesmis-lg.png</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Line graph of the coappearance of characters in Victor Hugo&#39;s novel &quot;Les</span>
+<span class="sd">       Misérables&quot;.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [line-wiki] http://en.wikipedia.org/wiki/Line_graph</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lg</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">())</span>
+
+    <span class="n">vertex_map</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">line_graph</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                        <span class="n">lg</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                        <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">lg</span><span class="p">,</span> <span class="n">vertex_map</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">lg</span><span class="p">,</span> <span class="n">vertex_map</span></div>
+
+
+<div class="viewcode-block" id="graph_union"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.graph_union">[docs]</a><span class="k">def</span> <span class="nf">graph_union</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">intersection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">props</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">internal_props</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the union of graphs ``g1`` and ``g2``, composed of all edges and</span>
+<span class="sd">    vertices of ``g1`` and ``g2``, without overlap (if ``intersection ==</span>
+<span class="sd">    None``).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g1 : :class:`~graph_tool.Graph`</span>
+<span class="sd">       First graph in the union.</span>
+<span class="sd">    g2 : :class:`~graph_tool.Graph`</span>
+<span class="sd">       Second graph in the union.</span>
+<span class="sd">    intersection : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">       Vertex property map owned by `g2` which maps each of its vertices</span>
+<span class="sd">       to vertex indexes belonging to `g1`. Negative values mean no mapping</span>
+<span class="sd">       exists, and thus both vertices in `g1` and `g2` will be present in the</span>
+<span class="sd">       union graph.</span>
+<span class="sd">    props : list of tuples of :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">       Each element in this list must be a tuple of two PropertyMap objects. The</span>
+<span class="sd">       first element must be a property of `g1`, and the second of `g2`. If either</span>
+<span class="sd">       value is ``None``, an empty map is created. The values of the property</span>
+<span class="sd">       maps are propagated into the union graph, and returned.</span>
+<span class="sd">    include : bool (optional, default: ``False``)</span>
+<span class="sd">       If ``True``, graph `g2` is inserted into `g1` which is modified. If false, a</span>
+<span class="sd">       new graph is created, and both graphs remain unmodified.</span>
+<span class="sd">    internal_props : bool (optional, default: ``False``)</span>
+<span class="sd">       If ``True``, all internal property maps are propagated, in addition</span>
+<span class="sd">       to ``props``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ug : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The union graph</span>
+<span class="sd">    props : list of :class:`~graph_tool.PropertyMap` objects</span>
+<span class="sd">        List of propagated properties.  This is only returned if `props` is not</span>
+<span class="sd">        empty.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       from numpy.random import random, seed</span>
+<span class="sd">       from pylab import *</span>
+<span class="sd">       seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.triangulation(random((300,2)))[0]</span>
+<span class="sd">    &gt;&gt;&gt; ug = gt.graph_union(g, g)</span>
+<span class="sd">    &gt;&gt;&gt; uug = gt.graph_union(g, ug)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(g)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;graph_original.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;graph_original.png&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(ug)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(ug, pos=pos, output_size=(300,300), output=&quot;graph_union.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(ug, pos=pos, output_size=(300,300), output=&quot;graph_union.png&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(uug)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(uug, pos=pos, output_size=(300,300), output=&quot;graph_union2.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(uug, pos=pos, output_size=(300,300), output=&quot;graph_union2.png&quot;)</span>
+
+
+<span class="sd">    .. image:: graph_original.*</span>
+<span class="sd">    .. image:: graph_union.*</span>
+<span class="sd">    .. image:: graph_union2.*</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pnames</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">props</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">internal_props</span><span class="p">:</span>
+        <span class="n">pnames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">p1</span> <span class="ow">in</span> <span class="n">g1</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span>
+            <span class="n">pnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">g2</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g1</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span>
+            <span class="n">pnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">gprops</span> <span class="o">=</span> <span class="p">[[(</span><span class="n">name</span><span class="p">,</span> <span class="n">g1</span><span class="o">.</span><span class="n">properties</span><span class="p">[(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">g1</span><span class="o">.</span><span class="n">graph_properties</span><span class="o">.</span><span class="n">keys</span><span class="p">()],</span>
+                  <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">g2</span><span class="o">.</span><span class="n">properties</span><span class="p">[(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">g2</span><span class="o">.</span><span class="n">graph_properties</span><span class="o">.</span><span class="n">keys</span><span class="p">()]]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">include</span><span class="p">:</span>
+        <span class="n">g1</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">skip_properties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">p1s</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">props</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">key_type</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;v&quot;</span><span class="p">:</span>
+                <span class="n">g1</span><span class="o">.</span><span class="n">vp</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">p1</span>
+            <span class="k">elif</span> <span class="n">p1</span><span class="o">.</span><span class="n">key_type</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;e&quot;</span><span class="p">:</span>
+                <span class="n">g1</span><span class="o">.</span><span class="n">ep</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">p1</span>
+
+        <span class="n">g1</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">prune</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">props</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g1</span><span class="o">.</span><span class="n">vp</span><span class="p">:</span>
+                <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">vp</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)],</span> <span class="n">p2</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">g1</span><span class="o">.</span><span class="n">vp</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">ep</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)],</span> <span class="n">p2</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">g1</span><span class="o">.</span><span class="n">ep</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">emask</span><span class="p">,</span> <span class="n">emask_flip</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">get_edge_filter</span><span class="p">()</span>
+        <span class="n">emask_flipped</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">emask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">emask_flip</span><span class="p">:</span>
+            <span class="n">emask</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">emask</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">g1</span><span class="o">.</span><span class="n">set_edge_filter</span><span class="p">(</span><span class="n">emask</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">emask_flipped</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">vmask</span><span class="p">,</span> <span class="n">vmask_flip</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">get_vertex_filter</span><span class="p">()</span>
+        <span class="n">vmask_flipped</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">vmask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">vmask_flip</span><span class="p">:</span>
+            <span class="n">vmask</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">vmask</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">g1</span><span class="o">.</span><span class="n">set_vertex_filter</span><span class="p">(</span><span class="n">vmask</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">vmask_flipped</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">intersection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">intersection</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">intersection</span> <span class="o">=</span> <span class="n">intersection</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">)</span>
+
+    <span class="n">u1</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">skip_properties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">u2</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">skip_properties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">vmap</span><span class="p">,</span> <span class="n">emap</span> <span class="o">=</span> <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">graph_union</span><span class="p">(</span><span class="n">u1</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                      <span class="n">u2</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                      <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span>
+                                                            <span class="n">intersection</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">include</span><span class="p">:</span>
+        <span class="n">emask</span><span class="p">,</span> <span class="n">emask_flip</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">get_edge_filter</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">emask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">emask_flipped</span><span class="p">:</span>
+            <span class="n">emask</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">emask</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">g1</span><span class="o">.</span><span class="n">set_edge_filter</span><span class="p">(</span><span class="n">emask</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">vmask</span><span class="p">,</span> <span class="n">vmask_flip</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">get_vertex_filter</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">vmask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">vmask_flipped</span><span class="p">:</span>
+            <span class="n">vmask</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">vmask</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">g1</span><span class="o">.</span><span class="n">set_vertex_filter</span><span class="p">(</span><span class="n">vmask</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">n_props</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">props</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">new_property</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">p2</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">u1</span><span class="o">.</span><span class="n">own_property</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">new_property</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">p1</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">u2</span><span class="o">.</span><span class="n">own_property</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">include</span><span class="p">:</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p2</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="n">p1</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">g2</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">value_type</span><span class="o">=</span><span class="n">p1</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">key_type</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;v&#39;</span><span class="p">:</span>
+            <span class="n">libgraph_tool_generation</span><span class="o">.</span>\
+                  <span class="n">vertex_property_union</span><span class="p">(</span><span class="n">u1</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">u2</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                        <span class="n">vmap</span><span class="p">,</span> <span class="n">emap</span><span class="p">,</span>
+                                        <span class="n">_prop</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">g1</span><span class="p">,</span> <span class="n">p1</span><span class="p">),</span>
+                                        <span class="n">_prop</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">g2</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">libgraph_tool_generation</span><span class="o">.</span>\
+                  <span class="n">edge_property_union</span><span class="p">(</span><span class="n">u1</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">u2</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                      <span class="n">vmap</span><span class="p">,</span> <span class="n">emap</span><span class="p">,</span>
+                                      <span class="n">_prop</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">g1</span><span class="p">,</span> <span class="n">p1</span><span class="p">),</span>
+                                      <span class="n">_prop</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">g2</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span>
+        <span class="n">n_props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pnames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pnames</span><span class="p">,</span> <span class="n">n_props</span><span class="p">):</span>
+            <span class="n">g1</span><span class="o">.</span><span class="n">properties</span><span class="p">[(</span><span class="n">p</span><span class="o">.</span><span class="n">key_type</span><span class="p">(),</span> <span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">include</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gprops</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">g1</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">own_property</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gprops</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">g1</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">:</span>
+                <span class="n">g1</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">g1</span><span class="o">.</span><span class="n">own_property</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="n">n_props</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_props</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">g1</span><span class="p">,</span> <span class="n">n_props</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">g1</span></div>
+
+
+<div class="viewcode-block" id="triangulation"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.triangulation">[docs]</a><span class="nd">@_limit_args</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;simple&quot;</span><span class="p">,</span> <span class="s2">&quot;delaunay&quot;</span><span class="p">]})</span>
+<span class="k">def</span> <span class="nf">triangulation</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;simple&quot;</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a 2D or 3D triangulation graph from a given point set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    points : :class:`~numpy.ndarray`</span>
+<span class="sd">        Point set for the triangulation. It may be either a N x d array, where N</span>
+<span class="sd">        is the number of points, and d is the space dimension (either 2 or 3).</span>
+<span class="sd">    type : string (optional, default: ``&#39;simple&#39;``)</span>
+<span class="sd">        Type of triangulation. May be either &#39;simple&#39; or &#39;delaunay&#39;.</span>
+<span class="sd">    periodic : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, periodic boundary conditions will be used. This is</span>
+<span class="sd">        parameter is valid only for type=&quot;delaunay&quot;, and is otherwise ignored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    triangulation_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The generated graph.</span>
+<span class="sd">    pos : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Vertex property map with the Cartesian coordinates.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    random_graph: random graph generation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    A triangulation [cgal-triang]_ is a division of the convex hull of a point</span>
+<span class="sd">    set into triangles, using only that set as triangle vertices.</span>
+
+<span class="sd">    In simple triangulations (`type=&quot;simple&quot;`), the insertion of a point is done</span>
+<span class="sd">    by locating a face that contains the point, and splitting this face into</span>
+<span class="sd">    three new faces (the order of insertion is therefore important). If the</span>
+<span class="sd">    point falls outside the convex hull, the triangulation is restored by</span>
+<span class="sd">    flips. Apart from the location, insertion takes a time O(1). This bound is</span>
+<span class="sd">    only an amortized bound for points located outside the convex hull.</span>
+
+<span class="sd">    Delaunay triangulations (`type=&quot;delaunay&quot;`) have the specific empty sphere</span>
+<span class="sd">    property, that is, the circumscribing sphere of each cell of such a</span>
+<span class="sd">    triangulation does not contain any other vertex of the triangulation in its</span>
+<span class="sd">    interior. These triangulations are uniquely defined except in degenerate</span>
+<span class="sd">    cases where five points are co-spherical. Note however that the CGAL</span>
+<span class="sd">    implementation computes a unique triangulation even in these cases.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       from numpy.random import random, seed</span>
+<span class="sd">       from pylab import *</span>
+<span class="sd">       seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; points = random((500, 2)) * 4</span>
+<span class="sd">    &gt;&gt;&gt; g, pos = gt.triangulation(points)</span>
+<span class="sd">    &gt;&gt;&gt; weight = g.new_edge_property(&quot;double&quot;) # Edge weights corresponding to</span>
+<span class="sd">    ...                                        # Euclidean distances</span>
+<span class="sd">    &gt;&gt;&gt; for e in g.edges():</span>
+<span class="sd">    ...    weight[e] = sqrt(sum((array(pos[e.source()]) -</span>
+<span class="sd">    ...                          array(pos[e.target()]))**2))</span>
+<span class="sd">    &gt;&gt;&gt; b = gt.betweenness(g, weight=weight)</span>
+<span class="sd">    &gt;&gt;&gt; b[1].a *= 100</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), vertex_fill_color=b[0],</span>
+<span class="sd">    ...               edge_pen_width=b[1], output=&quot;triang.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), vertex_fill_color=b[0],</span>
+<span class="sd">                     edge_pen_width=b[1], output=&quot;triang.png&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; g, pos = gt.triangulation(points, type=&quot;delaunay&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; weight = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; for e in g.edges():</span>
+<span class="sd">    ...    weight[e] = sqrt(sum((array(pos[e.source()]) -</span>
+<span class="sd">    ...                          array(pos[e.target()]))**2))</span>
+<span class="sd">    &gt;&gt;&gt; b = gt.betweenness(g, weight=weight)</span>
+<span class="sd">    &gt;&gt;&gt; b[1].a *= 120</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), vertex_fill_color=b[0],</span>
+<span class="sd">    ...               edge_pen_width=b[1], output=&quot;triang-delaunay.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), vertex_fill_color=b[0],</span>
+<span class="sd">                     edge_pen_width=b[1], output=&quot;triang-delaunay.png&quot;)</span>
+
+
+<span class="sd">    2D triangulation of random points:</span>
+
+<span class="sd">    .. image:: triang.*</span>
+<span class="sd">    .. image:: triang-delaunay.*</span>
+
+<span class="sd">    *Left:* Simple triangulation. *Right:* Delaunay triangulation. The vertex</span>
+<span class="sd">    colors and the edge thickness correspond to the weighted betweenness</span>
+<span class="sd">    centrality.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [cgal-triang] http://www.cgal.org/Manual/last/doc_html/cgal_manual/Triangulation_3/Chapter_main.html</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points array must have shape N x d, with d either 2 or 3.&quot;</span><span class="p">)</span>
+    <span class="c1"># copy points to ensure continuity and correct data type</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">npoints</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">npoints</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">npoints</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;vector&lt;double&gt;&quot;</span><span class="p">)</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span>
+                                           <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="p">),</span> <span class="n">_c_str</span><span class="p">(</span><span class="nb">type</span><span class="p">),</span>
+                                           <span class="n">periodic</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span><span class="p">,</span> <span class="n">pos</span></div>
+
+
+<div class="viewcode-block" id="lattice"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.lattice">[docs]</a><span class="k">def</span> <span class="nf">lattice</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a N-dimensional square lattice.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape : list or :class:`~numpy.ndarray`</span>
+<span class="sd">        List of sizes in each dimension.</span>
+<span class="sd">    periodic : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, periodic boundary conditions will be used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lattice_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The generated graph.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    triangulation: 2D or 3D triangulation</span>
+<span class="sd">    random_graph: random graph generation</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.lattice([10,10])</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(g, cooling_step=0.95, epsilon=1e-2)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;lattice.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;lattice.png&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.lattice([10,20], periodic=True)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(g, cooling_step=0.95, epsilon=1e-2)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;lattice_periodic.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;lattice_periodic.png&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.lattice([10,10,10])</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(g, cooling_step=0.95, epsilon=1e-2)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;lattice_3d.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;lattice_3d.png&quot;)</span>
+
+
+<span class="sd">    .. image:: lattice.*</span>
+<span class="sd">    .. image:: lattice_periodic.*</span>
+<span class="sd">    .. image:: lattice_3d.*</span>
+
+<span class="sd">    *Left:* 10x10 2D lattice. *Middle:* 10x20 2D periodic lattice (torus).</span>
+<span class="sd">    *Right:* 10x10x10 3D lattice.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [lattice] http://en.wikipedia.org/wiki/Square_lattice</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">lattice</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">periodic</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+<div class="viewcode-block" id="complete_graph"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.complete_graph">[docs]</a><span class="k">def</span> <span class="nf">complete_graph</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate complete graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : ``int``</span>
+<span class="sd">        Number of vertices.</span>
+<span class="sd">    self_loops : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, self-loops are included.</span>
+<span class="sd">    directed : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a directed graph is generated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    complete_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        A complete graph.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.complete_graph(30)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(g, cooling_step=0.95, epsilon=1e-2)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;complete.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;complete.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: complete.*</span>
+
+<span class="sd">       A complete graph with :math:`N=30` vertices.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [complete] http://en.wikipedia.org/wiki/Complete_graph</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">)</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">directed</span><span class="p">,</span> <span class="n">self_loops</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+<div class="viewcode-block" id="circular_graph"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.circular_graph">[docs]</a><span class="k">def</span> <span class="nf">circular_graph</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a circular graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : ``int``</span>
+<span class="sd">        Number of vertices.</span>
+<span class="sd">    k : ``int`` (optional, default: ``True``)</span>
+<span class="sd">        Number of nearest neighbors to be connected.</span>
+<span class="sd">    self_loops : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, self-loops are included.</span>
+<span class="sd">    directed : bool (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a directed graph is generated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    circular_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        A circular graph.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.circular_graph(30, 2)</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.sfdp_layout(g, cooling_step=0.95)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;circular.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;circular.png&quot;)</span>
+
+<span class="sd">    .. figure:: circular.*</span>
+
+<span class="sd">       A circular graph with :math:`N=30` vertices, and :math:`k=2`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">)</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">circular</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">directed</span><span class="p">,</span> <span class="n">self_loops</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+
+<div class="viewcode-block" id="geometric_graph"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.geometric_graph">[docs]</a><span class="k">def</span> <span class="nf">geometric_graph</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">ranges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a geometric network form a set of N-dimensional points.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    points : list or :class:`~numpy.ndarray`</span>
+<span class="sd">        List of points. This must be a two-dimensional array, where the rows are</span>
+<span class="sd">        coordinates in a N-dimensional space.</span>
+<span class="sd">    radius : float</span>
+<span class="sd">        Pairs of points with an euclidean distance lower than this parameters</span>
+<span class="sd">        will be connected.</span>
+<span class="sd">    ranges : list or :class:`~numpy.ndarray` (optional, default: ``None``)</span>
+<span class="sd">        If provided, periodic boundary conditions will be assumed, and the</span>
+<span class="sd">        values of this parameter it will be used as the ranges in all</span>
+<span class="sd">        dimensions. It must be a two-dimensional array, where each row will</span>
+<span class="sd">        cointain the lower and upper bound of each dimension.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    geometric_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The generated graph.</span>
+<span class="sd">    pos : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the position of each vertex.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    A geometric graph [geometric-graph]_ is generated by connecting points</span>
+<span class="sd">    embedded in a N-dimensional euclidean space which are at a distance equal to</span>
+<span class="sd">    or smaller than a given radius.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    triangulation: 2D or 3D triangulation</span>
+<span class="sd">    random_graph: random graph generation</span>
+<span class="sd">    lattice : N-dimensional square lattice</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       from numpy.random import random, seed</span>
+<span class="sd">       from pylab import *</span>
+<span class="sd">       seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; points = random((500, 2)) * 4</span>
+<span class="sd">    &gt;&gt;&gt; g, pos = gt.geometric_graph(points, 0.3)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;geometric.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;geometric.png&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; g, pos = gt.geometric_graph(points, 0.3, [(0,4), (0,4)])</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.graph_draw(g, output_size=(300,300), output=&quot;geometric_periodic.pdf&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300,300), output=&quot;geometric_periodic.png&quot;)</span>
+
+
+<span class="sd">    .. image:: geometric.*</span>
+<span class="sd">    .. image:: geometric_periodic.*</span>
+
+<span class="sd">    *Left:* Geometric network with random points. *Right:* Same network, but</span>
+<span class="sd">     with periodic boundary conditions.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [geometric-graph] Jesper Dall and Michael Christensen, &quot;Random geometric</span>
+<span class="sd">       graphs&quot;, Phys. Rev. E 66, 016121 (2002), :doi:`10.1103/PhysRevE.66.016121`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;vector&lt;double&gt;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">!=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points list must be a two-dimensional array!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ranges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">periodic</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ranges</span><span class="p">)</span> <span class="o">!=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="n">ranges</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ranges</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ranges</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">ranges</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">periodic</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">radius</span><span class="p">),</span>
+                                       <span class="n">ranges</span><span class="p">,</span> <span class="n">periodic</span><span class="p">,</span>
+                                       <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">g</span><span class="p">,</span> <span class="n">pos</span></div>
+
+
+<div class="viewcode-block" id="price_network"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.price_network">[docs]</a><span class="k">def</span> <span class="nf">price_network</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed_graph</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A generalized version of Price&#39;s -- or Barabási-Albert if undirected -- preferential attachment network model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Size of the network.</span>
+<span class="sd">    m : int (optional, default: ``1``)</span>
+<span class="sd">        Out-degree of newly added vertices.</span>
+<span class="sd">    c : float (optional, default: ``1 if directed == True else 0``)</span>
+<span class="sd">        Constant factor added to the probability of a vertex receiving an edge</span>
+<span class="sd">        (see notes below).</span>
+<span class="sd">    gamma : float (optional, default: ``1``)</span>
+<span class="sd">        Preferential attachment power (see notes below).</span>
+<span class="sd">    directed : bool (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, a Price network is generated. If ``False``, a</span>
+<span class="sd">        Barabási-Albert network is generated.</span>
+<span class="sd">    seed_graph : :class:`~graph_tool.Graph` (optional, default: ``None``)</span>
+<span class="sd">        If provided, this graph will be used as the starting point of the</span>
+<span class="sd">        algorithm.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    price_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The generated graph.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The (generalized) [price]_ network is either a directed or undirected graph</span>
+<span class="sd">    (the latter is called a Barabási-Albert network), generated dynamically by</span>
+<span class="sd">    at each step adding a new vertex, and connecting it to :math:`m` other</span>
+<span class="sd">    vertices, chosen with probability :math:`\pi` defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \pi \propto k^\gamma + c</span>
+
+<span class="sd">    where :math:`k` is the in-degree of the vertex (or simply the degree in the</span>
+<span class="sd">    undirected case). If :math:`\gamma=1`, the tail of resulting in-degree</span>
+<span class="sd">    distribution of the directed case is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P_{k_\text{in}} \sim k_\text{in}^{-(2 + c/m)},</span>
+
+<span class="sd">    or for the undirected case</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        P_{k} \sim k^{-(3 + c/m)}.</span>
+
+<span class="sd">    However, if :math:`\gamma \ne 1`, the in-degree distribution is not</span>
+<span class="sd">    scale-free (see [dorogovtsev-evolution]_ for details).</span>
+
+<span class="sd">    Note that if `seed_graph` is not given, the algorithm will *always* start</span>
+<span class="sd">    with one node if :math:`c &gt; 0`, or with two nodes with a link between them</span>
+<span class="sd">    otherwise. If :math:`m &gt; 1`, the degree of the newly added vertices will be</span>
+<span class="sd">    vary dynamically as :math:`m&#39;(t) = \min(m, V(t))`, where :math:`V(t)` is the</span>
+<span class="sd">    number of vertices added so far. If this behaviour is undesired, a proper</span>
+<span class="sd">    seed graph with :math:`V \ge m` vertices must be provided.</span>
+
+<span class="sd">    This algorithm runs in :math:`O(V\log V)` time.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    triangulation: 2D or 3D triangulation</span>
+<span class="sd">    random_graph: random graph generation</span>
+<span class="sd">    lattice : N-dimensional square lattice</span>
+<span class="sd">    geometric_graph : N-dimensional geometric network</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.price_network(20000)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=gt.sfdp_layout(g, cooling_step=0.99),</span>
+<span class="sd">    ...               vertex_fill_color=g.vertex_index, vertex_size=2,</span>
+<span class="sd">    ...               edge_pen_width=1, output=&quot;price-network.png&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.price_network(20000, c=0.1)</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=gt.sfdp_layout(g, cooling_step=0.99),</span>
+<span class="sd">    ...               vertex_fill_color=g.vertex_index, vertex_size=2,</span>
+<span class="sd">    ...               edge_pen_width=1, output=&quot;price-network-broader.png&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. figure:: price-network.png</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Price network with :math:`N=2\times 10^4` nodes and :math:`c=1`.  The colors</span>
+<span class="sd">        represent the order in which vertices were added.</span>
+
+<span class="sd">    .. figure:: price-network-broader.png</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Price network with :math:`N=2\times 10^4` nodes and :math:`c=0.1`.  The colors</span>
+<span class="sd">        represent the order in which vertices were added.</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [yule] Yule, G. U. &quot;A Mathematical Theory of Evolution, based on the</span>
+<span class="sd">       Conclusions of Dr. J. C. Willis, F.R.S.&quot;. Philosophical Transactions of</span>
+<span class="sd">       the Royal Society of London, Ser. B 213: 21-87, 1925,</span>
+<span class="sd">       :doi:`10.1098/rstb.1925.0002`</span>
+<span class="sd">    .. [price] Derek De Solla Price, &quot;A general theory of bibliometric and other</span>
+<span class="sd">       cumulative advantage processes&quot;, Journal of the American Society for</span>
+<span class="sd">       Information Science, Volume 27, Issue 5, pages 292-306, September 1976,</span>
+<span class="sd">       :doi:`10.1002/asi.4630270505`</span>
+<span class="sd">    .. [barabasi-albert] Barabási, A.-L., and Albert, R., &quot;Emergence of</span>
+<span class="sd">       scaling in random networks&quot;, Science, 286, 509, 1999,</span>
+<span class="sd">       :doi:`10.1126/science.286.5439.509`</span>
+<span class="sd">    .. [dorogovtsev-evolution] S. N. Dorogovtsev and J. F. F. Mendes, &quot;Evolution</span>
+<span class="sd">       of networks&quot;, Advances in Physics, 2002, Vol. 51, No. 4, 1079-1187,</span>
+<span class="sd">       :doi:`10.1080/00018730110112519`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">directed</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">seed_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">N</span> <span class="o">-=</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">seed_graph</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">price</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">_get_rng</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+<div class="viewcode-block" id="condensation_graph"><a class="viewcode-back" href="../../../../doc/generation.html#graph_tool.generation.condensation_graph">[docs]</a><span class="k">def</span> <span class="nf">condensation_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">vweight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eweight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">avprops</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">aeprops</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parallel_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the condensation graph, where each vertex with the same &#39;prop&#39; value</span>
+<span class="sd">    is condensed in one vertex.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be modelled.</span>
+<span class="sd">    prop : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Vertex property map with the community partition.</span>
+<span class="sd">    vweight : :class:`~graph_tool.PropertyMap` (optional, default: None)</span>
+<span class="sd">        Vertex property map with the optional vertex weights.</span>
+<span class="sd">    eweight : :class:`~graph_tool.PropertyMap` (optional, default: None)</span>
+<span class="sd">        Edge property map with the optional edge weights.</span>
+<span class="sd">    avprops : list of :class:`~graph_tool.PropertyMap` (optional, default: None)</span>
+<span class="sd">        If provided, the sum of each property map in this list for</span>
+<span class="sd">        each vertex in the condensed graph will be computed and returned.</span>
+<span class="sd">    aeprops : list of :class:`~graph_tool.PropertyMap` (optional, default: None)</span>
+<span class="sd">        If provided, the sum of each property map in this list for</span>
+<span class="sd">        each edge in the condensed graph will be computed and returned.</span>
+<span class="sd">    self_loops : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, self-loops due to intra-block edges are also included in</span>
+<span class="sd">        the condensation graph.</span>
+<span class="sd">    parallel_edges : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, parallel edges will be included in the condensation graph,</span>
+<span class="sd">        such that the total number of edges will be the same as in the original</span>
+<span class="sd">        graph.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    condensation_graph : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The community network</span>
+<span class="sd">    prop : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        The community values.</span>
+<span class="sd">    vcount : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the vertex count for each community.</span>
+<span class="sd">    ecount : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        An edge property map with the inter-community edge count for each edge.</span>
+<span class="sd">    va : list of :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A list of vertex property maps with summed values of the properties</span>
+<span class="sd">        passed via the ``avprops`` parameter.</span>
+<span class="sd">    ea : list of :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A list of edge property maps with summed values of the properties</span>
+<span class="sd">        passed via the ``avprops`` parameter.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Each vertex in the condensation graph represents one community in the</span>
+<span class="sd">    original graph (vertices with the same &#39;prop&#39; value), and the edges</span>
+<span class="sd">    represent existent edges between vertices of the respective communities in</span>
+<span class="sd">    the original graph.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: condensation_graph</span>
+
+<span class="sd">       gt.seed_rng(43)</span>
+<span class="sd">       np.random.seed(42)</span>
+
+<span class="sd">    Let&#39;s first obtain the best block partition with ``B=5``.</span>
+
+<span class="sd">    .. doctest:: condensation_graph</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polbooks&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; # fit a SBM with 5 groups</span>
+<span class="sd">       &gt;&gt;&gt; state = gt.BlockState(g, B=5, deg_corr=True)</span>
+<span class="sd">       &gt;&gt;&gt; gt.mcmc_equilibrate(state, wait=1000)</span>
+<span class="sd">       (...)</span>
+<span class="sd">       &gt;&gt;&gt; b = state.get_blocks()</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=b, vertex_shape=b,</span>
+<span class="sd">       ...               output=&quot;polbooks_blocks_B5.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    Now we get the condensation graph:</span>
+
+<span class="sd">    .. doctest:: condensation_graph</span>
+
+<span class="sd">       &gt;&gt;&gt; bg, bb, vcount, ecount, avp, aep = \</span>
+<span class="sd">       ...     gt.condensation_graph(g, b, avprops=[g.vp[&quot;pos&quot;]],</span>
+<span class="sd">       ...                           self_loops=True)</span>
+<span class="sd">       &gt;&gt;&gt; pos = avp[0]</span>
+<span class="sd">       &gt;&gt;&gt; for v in bg.vertices():</span>
+<span class="sd">       ...     pos[v].a /= vcount[v]</span>
+<span class="sd">       &gt;&gt;&gt; gt.graph_draw(bg, pos=avp[0], vertex_fill_color=bb, vertex_shape=bb,</span>
+<span class="sd">       ...               vertex_size=gt.prop_to_size(vcount, mi=40, ma=100),</span>
+<span class="sd">       ...               edge_pen_width=gt.prop_to_size(ecount, mi=2, ma=10),</span>
+<span class="sd">       ...               output=&quot;polbooks_blocks_B5_cond.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcleanup:: condensation_graph</span>
+
+<span class="sd">       gt.graph_draw(g, pos=g.vp[&quot;pos&quot;], vertex_fill_color=b, vertex_shape=b,</span>
+<span class="sd">                     output=&quot;polbooks_blocks_B5.png&quot;)</span>
+<span class="sd">       gt.graph_draw(bg, pos=avp[0], vertex_fill_color=bb, vertex_shape=bb,</span>
+<span class="sd">                     vertex_size=gt.prop_to_size(vcount, mi=40, ma=100),</span>
+<span class="sd">                     edge_pen_width=gt.prop_to_size(ecount, mi=2, ma=10),</span>
+<span class="sd">                     output=&quot;polbooks_blocks_B5_cond.png&quot;)</span>
+
+<span class="sd">    .. figure:: polbooks_blocks_B5.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Block partition of a political books network with :math:`B=5`.</span>
+
+<span class="sd">    .. figure:: polbooks_blocks_B5_cond.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Condensation graph of the obtained block partition.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gp</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">vweight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vcount</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int32_t&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">vcount</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">vweight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">eweight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ecount</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;int32_t&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ecount</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">eweight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">:</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">value_type</span><span class="o">=</span><span class="s2">&quot;int32_t&quot;</span><span class="p">)</span>
+    <span class="n">cprop</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">avprops</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">avprops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">avp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">r_avp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">avprops</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">value_type</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;string&quot;</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot compute sum of string properties!&quot;</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="n">cp</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="n">avp</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">temp</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">cp</span><span class="p">)))</span>
+        <span class="n">r_avp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">aeprops</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">aeprops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">aep</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">r_aep</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">aeprops</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_index</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">value_type</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;string&quot;</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot compute sum of string properties!&quot;</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="n">cp</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+        <span class="n">aep</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">temp</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">cp</span><span class="p">)))</span>
+        <span class="n">r_aep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">community_network</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                               <span class="n">gp</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">),</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">cprop</span><span class="p">),</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">vcount</span><span class="p">),</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">ecount</span><span class="p">),</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vweight</span><span class="p">),</span>
+                                               <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eweight</span><span class="p">),</span>
+                                               <span class="n">self_loops</span><span class="p">,</span>
+                                               <span class="n">parallel_edges</span><span class="p">)</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">reversed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">community_network_vavg</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                    <span class="n">gp</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">cprop</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">vweight</span><span class="p">),</span>
+                                                    <span class="n">avp</span><span class="p">)</span>
+
+    <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">community_network_eavg</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                    <span class="n">gp</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">gp</span><span class="p">,</span> <span class="n">cprop</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">eweight</span><span class="p">),</span>
+                                                    <span class="n">aep</span><span class="p">,</span> <span class="n">self_loops</span><span class="p">,</span>
+                                                    <span class="n">parallel_edges</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gp</span><span class="p">,</span> <span class="n">cprop</span><span class="p">,</span> <span class="n">vcount</span><span class="p">,</span> <span class="n">ecount</span><span class="p">,</span> <span class="n">r_avp</span><span class="p">,</span> <span class="n">r_aep</span></div>
+
+<span class="k">class</span> <span class="nc">Sampler</span><span class="p">(</span><span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">Sampler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">probs</span><span class="p">):</span>
+        <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">Sampler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">Sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_get_rng</span><span class="p">())</span>
+
+<span class="k">class</span> <span class="nc">DynamicSampler</span><span class="p">(</span><span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">DynamicSampler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">probs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">DynamicSampler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">libgraph_tool_generation</span><span class="o">.</span><span class="n">DynamicSampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_get_rng</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

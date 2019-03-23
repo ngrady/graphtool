@@ -1,0 +1,847 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.inference.mcmc &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.inference.mcmc</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Vector_size_t</span><span class="p">,</span> <span class="n">Vector_double</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">nested_blockmodel</span> <span class="kn">import</span> <span class="nn">NestedBlockState</span>
+
+<div class="viewcode-block" id="mcmc_equilibrate"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.mcmc_equilibrate">[docs]</a><span class="k">def</span> <span class="nf">mcmc_equilibrate</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">nbreaks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_niter</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                     <span class="n">force_niter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gibbs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">multiflip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">mcmc_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">entropy_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Equilibrate a MCMC with a given starting state.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    state : Any state class (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        Initial state. This state will be modified during the algorithm.</span>
+<span class="sd">    wait : ``int`` (optional, default: ``1000``)</span>
+<span class="sd">        Number of iterations to wait for a record-breaking event.</span>
+<span class="sd">    nbreaks : ``int`` (optional, default: ``2``)</span>
+<span class="sd">        Number of iteration intervals (of size ``wait``) without record-breaking</span>
+<span class="sd">        events necessary to stop the algorithm.</span>
+<span class="sd">    max_niter : ``int`` (optional, default: ``numpy.inf``)</span>
+<span class="sd">        Maximum number of iterations.</span>
+<span class="sd">    force_niter : ``int`` (optional, default: ``None``)</span>
+<span class="sd">        If given, will force the algorithm to run this exact number of</span>
+<span class="sd">        iterations.</span>
+<span class="sd">    epsilon : ``float`` (optional, default: ``0``)</span>
+<span class="sd">        Relative changes in entropy smaller than epsilon will not be considered</span>
+<span class="sd">        as record-breaking.</span>
+<span class="sd">    gibbs : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, each step will call ``state.gibbs_sweep`` instead of</span>
+<span class="sd">        ``state.mcmc_sweep``.</span>
+<span class="sd">    multiflip : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, each step will call ``state.multiflip_mcmc_sweep`` instead of</span>
+<span class="sd">        ``state.mcmc_sweep``.</span>
+<span class="sd">    mcmc_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to ``state.mcmc_sweep`` (or ``state.gibbs_sweep``).</span>
+<span class="sd">    history : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a list of tuples of the form ``(nattempts, nmoves,</span>
+<span class="sd">        entropy)`` will be kept and returned, where ``entropy`` is the current</span>
+<span class="sd">        entropy and ``nmoves`` is the number of vertices moved.</span>
+<span class="sd">    callback : ``function`` (optional, default: ``None``)</span>
+<span class="sd">        If given, this function will be called after each iteration. The</span>
+<span class="sd">        function must accept the current state as an argument, and its return</span>
+<span class="sd">        value must be either `None` or a (possibly empty) list of values that</span>
+<span class="sd">        will be append to the history, if ``history == True``.</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The MCMC equilibration is attempted by keeping track of the maximum and</span>
+<span class="sd">    minimum values, and waiting sufficiently long without a record-breaking</span>
+<span class="sd">    event.</span>
+
+<span class="sd">    This function calls ``state.mcmc_sweep`` (or ``state.gibbs_sweep``) at each</span>
+<span class="sd">    iteration (e.g. :meth:`graph_tool.inference.blockmodel.BlockState.mcmc_sweep` and</span>
+<span class="sd">    :meth:`graph_tool.inference.blockmodel.BlockState.gibbs_sweep`), and keeps track of</span>
+<span class="sd">    the value of ``state.entropy(**args)`` with ``args`` corresponding to</span>
+<span class="sd">    ``mcmc_args[&quot;entropy_args&quot;]``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    history : list of tuples of the form ``(nattempts, nmoves, entropy)``</span>
+<span class="sd">        Summary of the MCMC run. This is returned only if ``history == True``.</span>
+<span class="sd">    entropy : ``float``</span>
+<span class="sd">        Current entropy value after run. This is returned only if ``history ==</span>
+<span class="sd">        False``.</span>
+<span class="sd">    nattempts : ``int``</span>
+<span class="sd">        Number of node move attempts.</span>
+<span class="sd">    nmoves : ``int``</span>
+<span class="sd">        Number of node moves.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [peixoto-efficient-2014] Tiago P. Peixoto, &quot;Efficient Monte Carlo and</span>
+<span class="sd">       greedy heuristic for the inference of stochastic block models&quot;, Phys.</span>
+<span class="sd">       Rev. E 89, 012804 (2014), :doi:`10.1103/PhysRevE.89.012804`,</span>
+<span class="sd">       :arxiv:`1310.4378`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">break_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">niter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_nmoves</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_nattempts</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="o">**</span><span class="n">mcmc_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+    <span class="n">min_S</span> <span class="o">=</span> <span class="n">max_S</span> <span class="o">=</span> <span class="n">S</span>
+    <span class="n">m_eps</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">wait</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gibbs</span><span class="p">:</span>
+            <span class="n">delta</span><span class="p">,</span> <span class="n">nattempts</span><span class="p">,</span> <span class="n">nmoves</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">gibbs_sweep</span><span class="p">(</span><span class="o">**</span><span class="n">mcmc_args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">multiflip</span><span class="p">:</span>
+            <span class="n">delta</span><span class="p">,</span> <span class="n">nattempts</span><span class="p">,</span> <span class="n">nmoves</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">multiflip_mcmc_sweep</span><span class="p">(</span><span class="o">**</span><span class="n">mcmc_args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delta</span><span class="p">,</span> <span class="n">nattempts</span><span class="p">,</span> <span class="n">nmoves</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">mcmc_sweep</span><span class="p">(</span><span class="o">**</span><span class="n">mcmc_args</span><span class="p">)</span>
+
+        <span class="n">S</span> <span class="o">+=</span> <span class="n">delta</span>
+        <span class="n">niter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">total_nmoves</span> <span class="o">+=</span> <span class="n">nmoves</span>
+        <span class="n">total_nattempts</span> <span class="o">+=</span> <span class="n">nattempts</span>
+
+        <span class="k">if</span> <span class="n">force_niter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">niter</span> <span class="o">&gt;=</span> <span class="n">force_niter</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">S</span> <span class="o">-</span> <span class="n">delta</span><span class="p">)</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">S</span> <span class="o">&gt;</span> <span class="n">max_S</span> <span class="o">+</span> <span class="n">m_eps</span><span class="p">:</span>
+                    <span class="n">max_S</span> <span class="o">=</span> <span class="n">S</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">elif</span> <span class="n">S</span> <span class="o">&lt;</span> <span class="n">min_S</span> <span class="o">-</span> <span class="n">m_eps</span><span class="p">:</span>
+                    <span class="n">min_S</span> <span class="o">=</span> <span class="n">S</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">wait</span><span class="p">:</span>
+                <span class="n">break_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">break_count</span> <span class="o">&lt;</span> <span class="n">nbreaks</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">min_S</span> <span class="o">=</span> <span class="n">max_S</span> <span class="o">=</span> <span class="n">S</span>
+
+        <span class="n">extra</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="n">callback</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">extra</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">extra</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">((</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="sa">u</span><span class="s2">&quot;niter: </span><span class="si">%5d</span><span class="s2">  count: </span><span class="si">%4d</span><span class="s2">  breaks: </span><span class="si">%2d</span><span class="s2">  min_S: </span><span class="si">%#8.8g</span><span class="s2">  &quot;</span> <span class="o">+</span>
+                   <span class="sa">u</span><span class="s2">&quot;max_S: </span><span class="si">%#8.8g</span><span class="s2">  S: </span><span class="si">%#8.8g</span><span class="s2">  ΔS: </span><span class="si">%#12.6g</span><span class="s2">  moves: </span><span class="si">%5d</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span>
+                   <span class="p">(</span><span class="n">niter</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">break_count</span><span class="p">,</span> <span class="n">min_S</span><span class="p">,</span> <span class="n">max_S</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">nmoves</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">history</span><span class="p">:</span>
+            <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">([</span><span class="n">nattempts</span><span class="p">,</span> <span class="n">nmoves</span><span class="p">,</span> <span class="n">S</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">niter</span> <span class="o">&gt;=</span> <span class="n">max_niter</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">history</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hist</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">total_nattempts</span><span class="p">,</span> <span class="n">total_nmoves</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="mcmc_anneal"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.mcmc_anneal">[docs]</a><span class="k">def</span> <span class="nf">mcmc_anneal</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">beta_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span> <span class="n">niter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Equilibrate a MCMC at a specified target temperature by performing simulated</span>
+<span class="sd">    annealing.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    state : Any state class (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        Initial state. This state will be modified during the algorithm.</span>
+<span class="sd">    beta_range : ``tuple`` of two floats (optional, default: ``(1., 10.)``)</span>
+<span class="sd">        Inverse temperature range.</span>
+<span class="sd">    niter : ``int`` (optional, default: ``100``)</span>
+<span class="sd">        Number of steps (in logspace) from the starting temperature to the final</span>
+<span class="sd">        one.</span>
+<span class="sd">    history : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a list of tuples of the form ``(nattempts, nmoves, beta, entropy)``</span>
+<span class="sd">    mcmc_equilibrate_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_equilibrate`.</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This algorithm employs exponential cooling, where the value of beta is</span>
+<span class="sd">    multiplied by a constant at each iteration, so that starting from</span>
+<span class="sd">    `beta_range[0]` the value of `beta_range[1]` is reached after `niter`</span>
+<span class="sd">    iterations.</span>
+
+<span class="sd">    At each iteration, the function</span>
+<span class="sd">    :func:`~graph_tool.inference.mcmc.mcmc_equilibrate` is called with the current</span>
+<span class="sd">    value of `beta` (via the ``mcmc_args`` parameter).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    history : list of tuples of the form ``(nattempts, nmoves, beta, entropy)``</span>
+<span class="sd">        Summary of the MCMC run. This is returned only if ``history == True``.</span>
+<span class="sd">    entropy : ``float``</span>
+<span class="sd">        Current entropy value after run. This is returned only if ``history ==</span>
+<span class="sd">        False``.</span>
+<span class="sd">    nattempts : ``int``</span>
+<span class="sd">        Number of node move attempts.</span>
+<span class="sd">    nmoves : ``int``</span>
+<span class="sd">        Number of node moves.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [peixoto-efficient-2014] Tiago P. Peixoto, &quot;Efficient Monte Carlo and</span>
+<span class="sd">       greedy heuristic for the inference of stochastic block models&quot;, Phys.</span>
+<span class="sd">       Rev. E 89, 012804 (2014), :doi:`10.1103/PhysRevE.89.012804`,</span>
+<span class="sd">       :arxiv:`1310.4378`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">beta_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[])</span>
+    <span class="n">nattempts</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nmoves</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="n">exp</span><span class="p">((</span><span class="n">log</span><span class="p">(</span><span class="n">beta_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">log</span><span class="p">(</span><span class="n">beta_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">/</span> <span class="n">niter</span><span class="p">)</span>
+    <span class="n">mcmc_args</span> <span class="o">=</span> <span class="n">mcmc_equilibrate_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mcmc_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">while</span> <span class="n">beta</span> <span class="o">&lt;</span> <span class="n">beta_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">speed</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">mcmc_equilibrate</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                               <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                                      <span class="n">mcmc_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_args</span><span class="p">,</span>
+                                                     <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">),</span>
+                                      <span class="n">history</span><span class="o">=</span><span class="n">history</span><span class="p">,</span>
+                                      <span class="n">verbose</span><span class="o">=</span><span class="n">verbose_push</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span>
+                                                           <span class="p">(</span><span class="s2">&quot;β: </span><span class="si">%#8.6g</span><span class="s2">  &quot;</span> <span class="o">%</span>
+                                                            <span class="n">beta</span><span class="p">))))</span>
+        <span class="k">if</span> <span class="n">history</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">ret</span><span class="p">))</span>
+            <span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">hist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">hist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">beta</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">hist</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">attempts</span> <span class="o">+=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">nmoves</span> <span class="o">+=</span> <span class="n">ret</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="n">beta</span> <span class="o">*=</span> <span class="n">speed</span>
+
+    <span class="k">if</span> <span class="n">history</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">hist</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">S</span><span class="p">,</span> <span class="n">nattempts</span><span class="p">,</span> <span class="n">nmoves</span></div>
+
+
+<div class="viewcode-block" id="mcmc_multilevel"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.mcmc_multilevel">[docs]</a><span class="k">def</span> <span class="nf">mcmc_multilevel</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b_cache</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">anneal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">anneal_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">shrink_args</span><span class="o">=</span><span class="p">{},</span>
+                    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Equilibrate a MCMC from a starting state with a higher order, by performing</span>
+<span class="sd">    successive agglomerative initializations and equilibrations until the</span>
+<span class="sd">    desired order is reached, such that metastable states are avoided.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    state : Any state class (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        Initial state. This state will **not** be modified during the algorithm.</span>
+<span class="sd">    B : ``int``</span>
+<span class="sd">        Desired model order (i.e. number of groups).</span>
+<span class="sd">    r : ``int`` (optional, default: ``2``)</span>
+<span class="sd">        Greediness of agglomeration. At each iteration, the state order will be</span>
+<span class="sd">        reduced by a factor ``r``.</span>
+<span class="sd">    b_cache : ``dict`` (optional, default: ``None``)</span>
+<span class="sd">        If specified, this should be a dictionary with key-value pairs of the</span>
+<span class="sd">        form ``(B, state)`` that contain pre-computed states of the specified</span>
+<span class="sd">        order. This dictionary will be modified during the algorithm.</span>
+<span class="sd">    anneal : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the equilibration steps will use simulated annealing, by</span>
+<span class="sd">        calling :func:`~graph_tool.inference.mcmc.mcmc_anneal`, instead of</span>
+<span class="sd">        :func:`~graph_tool.inference.mcmc.mcmc_equilibrate`.</span>
+<span class="sd">    mcmc_equilibrate_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_equilibrate`.</span>
+<span class="sd">    mcmc_anneal_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_anneal`.</span>
+<span class="sd">    shrink_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to ``state.shrink``</span>
+<span class="sd">        (e.g. :meth:`graph_tool.inference.blockmodel.BlockState.shrink`).</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This algorithm alternates between equilibrating the MCMC state and reducing</span>
+<span class="sd">    the state order (via calls to ``state.shrink``,</span>
+<span class="sd">    e.g. :meth:`graph_tool.inference.blockmodel.BlockState.shrink`).</span>
+
+<span class="sd">    This greatly reduces the changes of getting trapped in metastable states if</span>
+<span class="sd">    the starting point if far away from equilibrium, as discussed in</span>
+<span class="sd">    [peixoto-efficient-2014]_.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    state : The same type as parameter ``state``</span>
+<span class="sd">        This is the final state after the MCMC run.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [peixoto-efficient-2014] Tiago P. Peixoto, &quot;Efficient Monte Carlo and</span>
+<span class="sd">       greedy heuristic for the inference of stochastic block models&quot;, Phys.</span>
+<span class="sd">       Rev. E 89, 012804 (2014), :doi:`10.1103/PhysRevE.89.012804`,</span>
+<span class="sd">       :arxiv:`1310.4378`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;mcmc_equilibrate_args&quot;</span> <span class="ow">in</span> <span class="n">anneal_args</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;mcmc_equilibrate_args&#39; should be passed directly &quot;</span> <span class="o">+</span>
+                         <span class="s2">&quot;to mcmc_multilevel(), not via &#39;anneal_args&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">mcmc_args</span> <span class="o">=</span> <span class="n">mcmc_equilibrate_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mcmc_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mcmc_equilibrate_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gibbs&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">mcmc_args</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mcmc_args</span><span class="p">[</span><span class="s2">&quot;allow_new_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">mcmc_equilibrate_args</span><span class="p">[</span><span class="s2">&quot;mcmc_args&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcmc_args</span>
+
+    <span class="k">while</span> <span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">B</span><span class="p">:</span>
+        <span class="n">B_next</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()</span> <span class="o">/</span> <span class="n">r</span><span class="p">)),</span>
+                         <span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">B</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">b_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">B_next</span> <span class="ow">in</span> <span class="n">b_cache</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span>
+                      <span class="s2">&quot;shrinking </span><span class="si">%d</span><span class="s2"> -&gt; </span><span class="si">%d</span><span class="s2"> (cached)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">(),</span>
+                                                       <span class="n">B_next</span><span class="p">))</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">B_next</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span>
+                  <span class="s2">&quot;shrinking </span><span class="si">%d</span><span class="s2"> -&gt; </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">(),</span> <span class="n">B_next</span><span class="p">))</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">shrink</span><span class="p">(</span><span class="n">B</span><span class="o">=</span><span class="n">B_next</span><span class="p">,</span> <span class="o">**</span><span class="n">shrink_args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">anneal</span><span class="p">:</span>
+            <span class="n">mcmc_anneal</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                        <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">anneal_args</span><span class="p">,</span>
+                               <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                               <span class="n">verbose</span><span class="o">=</span><span class="n">verbose_push</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span>
+                                                    <span class="s2">&quot;B=</span><span class="si">%d</span><span class="s2">  &quot;</span> <span class="o">%</span> <span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">())))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mcmc_equilibrate</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                             <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                                    <span class="n">verbose</span><span class="o">=</span><span class="n">verbose_push</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span>
+                                                         <span class="p">(</span><span class="s2">&quot;B=</span><span class="si">%d</span><span class="s2">  &quot;</span> <span class="o">%</span>
+                                                          <span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()))))</span>
+        <span class="k">if</span> <span class="n">b_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mcmc_args</span> <span class="o">=</span> <span class="n">mcmc_equilibrate_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mcmc_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">entropy_args</span> <span class="o">=</span> <span class="n">mcmc_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">b_cache</span><span class="p">[</span><span class="n">B_next</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="o">**</span><span class="n">entropy_args</span><span class="p">),</span> <span class="n">state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">state</span></div>
+
+
+<div class="viewcode-block" id="MulticanonicalState"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState">[docs]</a><span class="k">class</span> <span class="nc">MulticanonicalState</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The density of states of a multicanonical Monte Carlo algorithm. It is used</span>
+<span class="sd">    by :func:`graph_tool.inference.mcmc.multicanonical_equilibrate`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be modelled.</span>
+<span class="sd">    S_min : ``float``</span>
+<span class="sd">        Minimum energy.</span>
+<span class="sd">    S_max : ``float``</span>
+<span class="sd">        Maximum energy.</span>
+<span class="sd">    nbins : ``int`` (optional, default: ``1000``)</span>
+<span class="sd">        Number of bins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">S_min</span><span class="p">,</span> <span class="n">S_max</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_g</span> <span class="o">=</span> <span class="n">g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_N</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span> <span class="o">=</span> <span class="n">S_min</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_S_max</span> <span class="o">=</span> <span class="n">S_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_density</span> <span class="o">=</span> <span class="n">Vector_double</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_density</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">nbins</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span> <span class="o">=</span> <span class="n">Vector_size_t</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">nbins</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nbins</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_max</span><span class="p">,</span>
+                 <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_density</span><span class="o">.</span><span class="n">a</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span><span class="p">),</span>
+                 <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">g</span><span class="p">,</span> <span class="n">S_min</span><span class="p">,</span> <span class="n">S_max</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">phist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">S_min</span><span class="p">,</span> <span class="n">S_max</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hist</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_density</span><span class="o">.</span><span class="n">a</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">density</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">hist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">phist</span>
+
+<div class="viewcode-block" id="MulticanonicalState.get_energies"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_energies">[docs]</a>    <span class="k">def</span> <span class="nf">get_energies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Get energy bounds.&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_max</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.get_allowed_energies"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_allowed_energies">[docs]</a>    <span class="k">def</span> <span class="nf">get_allowed_energies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Get allowed energy bounds.&quot;</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">h</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span>
+        <span class="n">Ss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_range</span><span class="p">()</span>
+        <span class="n">Ss</span> <span class="o">=</span> <span class="n">Ss</span><span class="p">[</span><span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Ss</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Ss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.get_range"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_range">[docs]</a>    <span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Get energy range.&quot;</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_max</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.get_density"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_density">[docs]</a>    <span class="k">def</span> <span class="nf">get_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get density of states, normalized so that total sum is :math:`B^N`, where</span>
+<span class="sd">        :math:`B` is the number of groups, and :math:`N` is the number of</span>
+<span class="sd">        nodes. If not supplied :math:`B=N` is assumed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_density</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">-=</span> <span class="n">r</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">r</span> <span class="o">-=</span> <span class="n">log</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">r</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+    <span class="k">def</span> <span class="nf">get_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_density</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bin</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">S</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span><span class="p">)</span> <span class="o">/</span>
+                                                  <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_S_max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span><span class="p">))))</span>
+
+<div class="viewcode-block" id="MulticanonicalState.get_hist"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_hist">[docs]</a>    <span class="k">def</span> <span class="nf">get_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Get energy histogram.&quot;</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.get_perm_hist"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_perm_hist">[docs]</a>    <span class="k">def</span> <span class="nf">get_perm_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Get permanent energy histogram.&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.get_flatness"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_flatness">[docs]</a>    <span class="k">def</span> <span class="nf">get_flatness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allow_gaps</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="s2">&quot;Get energy histogram flatness.&quot;</span>
+        <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span>
+        <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">allow_gaps</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Ss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_range</span><span class="p">()</span>
+            <span class="n">S_min</span><span class="p">,</span> <span class="n">S_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_allowed_energies</span><span class="p">()</span>
+            <span class="n">idx</span> <span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">Ss</span> <span class="o">&gt;=</span> <span class="n">S_min</span><span class="p">,</span> <span class="n">Ss</span> <span class="o">&lt;=</span> <span class="n">S_max</span><span class="p">)</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1e-6</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+
+        <span class="n">h_mean</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">/</span> <span class="n">h_mean</span><span class="p">,</span>
+                   <span class="n">h_mean</span> <span class="o">/</span> <span class="n">h</span><span class="o">.</span><span class="n">max</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.get_posterior"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.get_posterior">[docs]</a>    <span class="k">def</span> <span class="nf">get_posterior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="s2">&quot;Get posterior probability.&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_density</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">Ss</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_S_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_S_max</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">Ss</span> <span class="o">+</span> <span class="n">r</span>
+        <span class="n">y_max</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">-=</span> <span class="n">y_max</span>
+        <span class="k">return</span> <span class="n">y_max</span> <span class="o">+</span> <span class="n">log</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="MulticanonicalState.reset_hist"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.MulticanonicalState.reset_hist">[docs]</a>    <span class="k">def</span> <span class="nf">reset_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Reset energy histogram.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perm_hist</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span></div></div>
+
+<div class="viewcode-block" id="multicanonical_equilibrate"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.multicanonical_equilibrate">[docs]</a><span class="k">def</span> <span class="nf">multicanonical_equilibrate</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">m_state</span><span class="p">,</span> <span class="n">f_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                               <span class="n">flatness</span><span class="o">=.</span><span class="mi">95</span><span class="p">,</span> <span class="n">allow_gaps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">multicanonical_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Equilibrate a multicanonical Monte Carlo sampling using the Wang-Landau</span>
+<span class="sd">    algorithm.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    state : Any state class (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        Initial state. This state will be modified during the algorithm.</span>
+<span class="sd">    m_state :  :class:`~graph_tool.inference.mcmc.MulticanonicalState`</span>
+<span class="sd">        Initial multicanonical state, where the state density will be stored.</span>
+<span class="sd">    f_range : ``tuple`` of two floats (optional, default: ``(1., 1e-6)``)</span>
+<span class="sd">        Range of density updates.</span>
+<span class="sd">    r : ``float`` (optional, default: ``2.``)</span>
+<span class="sd">        Greediness of convergence. At each iteration, the density updates will</span>
+<span class="sd">        be reduced by a factor ``r``.</span>
+<span class="sd">    flatness : ``float`` (optional, default: ``.95``)</span>
+<span class="sd">        Sufficient histogram flatness threshold used to continue the algorithm.</span>
+<span class="sd">    allow_gaps : ``bool`` (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, gaps in the histogram (regions with zero count) will be</span>
+<span class="sd">        ignored when computing the flatness.</span>
+<span class="sd">    callback : ``function`` (optional, default: ``None``)</span>
+<span class="sd">        If given, this function will be called after each iteration. The</span>
+<span class="sd">        function must accept the current ``state`` and ``m_state`` as arguments.</span>
+<span class="sd">    multicanonical_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to ``state.multicanonical_sweep`` (e.g.</span>
+<span class="sd">        :meth:`graph_tool.inference.blockmodel.BlockState.multicanonical_sweep`).</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    niter : ``int``</span>
+<span class="sd">        Number of iterations required for convergence.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [wang-efficient-2001] Fugao Wang, D. P. Landau, &quot;An efficient, multiple</span>
+<span class="sd">       range random walk algorithm to calculate the density of states&quot;, Phys.</span>
+<span class="sd">       Rev. Lett. 86, 2050 (2001), :doi:`10.1103/PhysRevLett.86.2050`,</span>
+<span class="sd">       :arxiv:`cond-mat/0011174`</span>
+<span class="sd">    .. [belardinelli-wang-2007] R. E. Belardinelli, V. D. Pereyra,</span>
+<span class="sd">       &quot;Wang-Landau algorithm: A theoretical analysis of the saturation of</span>
+<span class="sd">       the error&quot;, J. Chem. Phys. 127, 184105 (2007),</span>
+<span class="sd">       :doi:`10.1063/1.2803061`, :arxiv:`cond-mat/0702414`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">m_state</span><span class="o">.</span><span class="n">_f</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m_state</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="n">f_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">m_state</span><span class="o">.</span><span class="n">_f</span> <span class="o">&gt;=</span> <span class="n">f_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">multicanonical_sweep</span><span class="p">(</span><span class="n">m_state</span><span class="p">,</span> <span class="o">**</span><span class="n">multicanonical_args</span><span class="p">)</span>
+        <span class="n">hf</span> <span class="o">=</span> <span class="n">m_state</span><span class="o">.</span><span class="n">get_flatness</span><span class="p">(</span><span class="n">allow_gaps</span><span class="o">=</span><span class="n">allow_gaps</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">callback</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">m_state</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="o">+</span>
+                  <span class="s2">&quot;count: </span><span class="si">%d</span><span class="s2">  f: </span><span class="si">%#8.8g</span><span class="s2">  flatness: </span><span class="si">%#8.8g</span><span class="s2">  nonempty bins: </span><span class="si">%d</span><span class="s2">  S: </span><span class="si">%#8.8g</span><span class="s2">  B: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> \
+                  <span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">m_state</span><span class="o">.</span><span class="n">_f</span><span class="p">,</span> <span class="n">hf</span><span class="p">,</span> <span class="p">(</span><span class="n">m_state</span><span class="o">.</span><span class="n">_hist</span><span class="o">.</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+                   <span class="n">state</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="o">**</span><span class="n">multicanonical_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{})),</span>
+                   <span class="n">state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()))</span>
+
+        <span class="k">if</span> <span class="n">hf</span> <span class="o">&gt;</span> <span class="n">flatness</span><span class="p">:</span>
+            <span class="n">m_state</span><span class="o">.</span><span class="n">_f</span> <span class="o">/=</span> <span class="n">r</span>
+            <span class="k">if</span> <span class="n">m_state</span><span class="o">.</span><span class="n">_f</span> <span class="o">&gt;=</span> <span class="n">f_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">m_state</span><span class="o">.</span><span class="n">reset_hist</span><span class="p">()</span>
+
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="TemperingState"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState">[docs]</a><span class="k">class</span> <span class="nc">TemperingState</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class aggregates several state classes and corresponding</span>
+<span class="sd">    inverse-temperature values to implement `parallel tempering MCMC</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/Parallel_tempering&gt;`_.</span>
+
+<span class="sd">    This is meant to be used with :func:`~graph_tool.inference.mcmc.mcmc_equilibrate`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    states : list of state objects (e.g. :class:`~graph_tool.inference.blockmodel.BlockState`)</span>
+<span class="sd">        Initial parallel states.</span>
+<span class="sd">    betas : list of floats</span>
+<span class="sd">        Inverse temperature values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">betas</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">betas</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;states and betas must be of the same size&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="o">=</span> <span class="n">states</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">betas</span> <span class="o">=</span> <span class="n">betas</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">betas</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="TemperingState.entropy"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.entropy">[docs]</a>    <span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the sum of the entropy of the parallel states. All keyword</span>
+<span class="sd">        arguments are propagated to the individual states&#39; `entropy()`</span>
+<span class="sd">        method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">beta_dl</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">beta</span> <span class="ow">in</span>
+                   <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">betas</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TemperingState.entropies"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.entropies">[docs]</a>    <span class="k">def</span> <span class="nf">entropies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the entropies of the parallel states. All keyword</span>
+<span class="sd">        arguments are propagated to the individual states&#39; `entropy()`</span>
+<span class="sd">        method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">beta_dl</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">beta</span> <span class="ow">in</span>
+                <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">betas</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="TemperingState.states_swap"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.states_swap">[docs]</a>    <span class="k">def</span> <span class="nf">states_swap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adjacent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform a full sweep of the parallel states, where swaps are attempted. All</span>
+<span class="sd">        relevant keyword arguments are propagated to the individual states&#39;</span>
+<span class="sd">        `entropy()` method.&quot;&quot;&quot;</span>
+
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">eargs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">if</span> <span class="n">adjacent</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">))</span>
+        <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">nswaps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dS</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">adjacent</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">while</span> <span class="n">j</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+
+            <span class="n">s1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">s2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">b1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">betas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">b2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">betas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+            <span class="n">P1_f</span> <span class="o">=</span> <span class="o">-</span><span class="n">s1</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">beta_dl</span><span class="o">=</span><span class="n">b2</span><span class="p">,</span> <span class="o">**</span><span class="n">eargs</span><span class="p">)</span>
+            <span class="n">P2_f</span> <span class="o">=</span> <span class="o">-</span><span class="n">s2</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">beta_dl</span><span class="o">=</span><span class="n">b1</span><span class="p">,</span> <span class="o">**</span><span class="n">eargs</span><span class="p">)</span>
+
+            <span class="n">P1_b</span> <span class="o">=</span> <span class="o">-</span><span class="n">s1</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">beta_dl</span><span class="o">=</span><span class="n">b1</span><span class="p">,</span> <span class="o">**</span><span class="n">eargs</span><span class="p">)</span>
+            <span class="n">P2_b</span> <span class="o">=</span> <span class="o">-</span><span class="n">s2</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">beta_dl</span><span class="o">=</span><span class="n">b2</span><span class="p">,</span> <span class="o">**</span><span class="n">eargs</span><span class="p">)</span>
+
+            <span class="n">ddS</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">P1_f</span> <span class="o">+</span> <span class="n">P2_f</span> <span class="o">-</span> <span class="n">P1_b</span> <span class="o">-</span> <span class="n">P2_b</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">ddS</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">ddS</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                            <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">nswaps</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">dS</span> <span class="o">+=</span> <span class="n">ddS</span>
+                <span class="k">if</span> <span class="n">check_verbose</span><span class="p">(</span><span class="n">verbose</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">verbose_pad</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span>
+                          <span class="o">+</span> <span class="sa">u</span><span class="s2">&quot;swapped states: </span><span class="si">%d</span><span class="s2"> [β = </span><span class="si">%g</span><span class="s2">] &lt;-&gt; </span><span class="si">%d</span><span class="s2"> [β = </span><span class="si">%g</span><span class="s2">], a: </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> \
+                            <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dS</span><span class="p">,</span> <span class="n">nswaps</span></div>
+
+<div class="viewcode-block" id="TemperingState.states_move"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.states_move">[docs]</a>    <span class="k">def</span> <span class="nf">states_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep_algo</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform a full sweep of the parallel states, where state moves are</span>
+<span class="sd">        attempted by calling `sweep_algo(state, beta=beta, **kwargs)`.&quot;&quot;&quot;</span>
+        <span class="n">algo_states</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">NestedBlockState</span><span class="p">):</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">levels</span><span class="p">))))</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ls_shuffle&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ls</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ls_shuffle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">beta</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">betas</span><span class="p">):</span>
+            <span class="n">entropy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">algo_state</span> <span class="o">=</span> <span class="n">sweep_algo</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">state</span><span class="p">,</span>
+                                       <span class="n">dispatch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span>
+                                              <span class="n">entropy_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">entropy_args</span><span class="p">,</span>
+                                                                <span class="n">beta_dl</span><span class="o">=</span><span class="n">beta</span><span class="p">)))</span>
+            <span class="n">algo_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">algo_state</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">sweep_algo</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="n">algo_states</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algo</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">adjacent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">states_swap</span><span class="p">(</span><span class="n">adjacent</span><span class="o">=</span><span class="n">adjacent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">states_move</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TemperingState.mcmc_sweep"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.mcmc_sweep">[docs]</a>    <span class="k">def</span> <span class="nf">mcmc_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform a full mcmc sweep of the parallel states, where swap or moves are</span>
+<span class="sd">        chosen randomly. It accepts an keyword argument ``r`` (default: ``0.1``)</span>
+<span class="sd">        specifying the relative probability with which state swaps is performed</span>
+<span class="sd">        with respect to node moves.  All remaining keyword arguments are</span>
+<span class="sd">        propagated to the individual states&#39; `mcmc_sweep()` method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">algo</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">mcmc_sweep</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">states</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">_mcmc_sweep_parallel_dispatch</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sweep</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TemperingState.multiflip_mcmc_sweep"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.multiflip_mcmc_sweep">[docs]</a>    <span class="k">def</span> <span class="nf">multiflip_mcmc_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform a full mcmc sweep of the parallel states, where swap or moves are</span>
+<span class="sd">        chosen randomly. It accepts an keyword argument ``r`` (default: ``0.1``)</span>
+<span class="sd">        specifying the relative probability with which state swaps is performed</span>
+<span class="sd">        with respect to node moves.  All remaining keyword arguments are</span>
+<span class="sd">        propagated to the individual states&#39; `mcmc_sweep()` method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">algo</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">multiflip_mcmc_sweep</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">states</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">_multiflip_mcmc_sweep_parallel_dispatch</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sweep</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TemperingState.gibbs_sweep"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.mcmc.TemperingState.gibbs_sweep">[docs]</a>    <span class="k">def</span> <span class="nf">gibbs_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform a full Gibbs mcmc sweep of the parallel states, where swap or moves</span>
+<span class="sd">        are chosen randomly. It accepts an keyword argument ``r`` (default:</span>
+<span class="sd">        ``0.1``) specifying the relative probability with which state swaps is</span>
+<span class="sd">        performed with respect to node moves.  All remaining keyword arguments</span>
+<span class="sd">        are propagated to the individual states&#39; `gibbs_sweep()` method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">algo</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">gibbs_sweep</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">states</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">_gibbs_sweep_parallel_dispatch</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sweep</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

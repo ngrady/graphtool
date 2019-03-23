@@ -1,0 +1,608 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.flow - Maximum flow algorithms &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <link rel="next" title="graph_tool.generation - Random graph generation" href="generation.html" />
+    <link rel="prev" title="graph_tool.draw - Graph drawing and layout" href="draw.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="generation.html" title="graph_tool.generation - Random graph generation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="draw.html" title="graph_tool.draw - Graph drawing and layout"
+             accesskey="P">previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../static/doc/modules.html" >Module documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="https://graph-tool.skewed.de/static/doc/graph_tool.html" accesskey="U">graph_tool - efficient graph analysis and manipulation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-graph_tool.flow"></span><div class="section" id="graph-tool-flow-maximum-flow-algorithms">
+<h1><code class="docutils literal notranslate"><span class="pre">graph_tool.flow</span></code> - Maximum flow algorithms<a class="headerlink" href="flow.html#graph-tool-flow-maximum-flow-algorithms" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="flow.html#summary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="flow.html#graph_tool.flow.edmonds_karp_max_flow" title="graph_tool.flow.edmonds_karp_max_flow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">edmonds_karp_max_flow</span></code></a></td>
+<td>Calculate maximum flow on the graph with the Edmonds-Karp algorithm.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="flow.html#graph_tool.flow.push_relabel_max_flow" title="graph_tool.flow.push_relabel_max_flow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">push_relabel_max_flow</span></code></a></td>
+<td>Calculate maximum flow on the graph with the push-relabel algorithm.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="flow.html#graph_tool.flow.boykov_kolmogorov_max_flow" title="graph_tool.flow.boykov_kolmogorov_max_flow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">boykov_kolmogorov_max_flow</span></code></a></td>
+<td>Calculate maximum flow on the graph with the Boykov-Kolmogorov algorithm.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="flow.html#graph_tool.flow.min_st_cut" title="graph_tool.flow.min_st_cut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_st_cut</span></code></a></td>
+<td>Get the minimum source-target cut, given the residual capacity of the edges.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="flow.html#graph_tool.flow.min_cut" title="graph_tool.flow.min_cut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_cut</span></code></a></td>
+<td>Get the minimum cut of an undirected graph, given the weight of the edges.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="flow.html#contents" title="Permalink to this headline">¶</a></h2>
+<p>The following network will be used as an example throughout the documentation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span><span class="p">,</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="n">gt</span><span class="o">.</span><span class="n">seed_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">random</span><span class="p">((</span><span class="mi">400</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;delaunay&quot;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_directed</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+<span class="c1"># reciprocate edges</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+   <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">(),</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">())</span>
+<span class="c1"># The capacity will be defined as the inverse euclidean distance</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+    <span class="n">cap</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()]</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()]</span><span class="o">.</span><span class="n">a</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;cap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cap</span>
+<span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+<span class="n">g</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;flow-example.xml.gz&quot;</span><span class="p">)</span>
+<span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">cap</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+              <span class="n">output</span><span class="o">=</span><span class="s2">&quot;flow-example.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id18">
+<img alt="_images/flow-example.png" src="../static/doc/_images/flow-example.png" />
+<p class="caption"><span class="caption-text">Example network used in the documentation below. The edge capacities are
+represented by the edge width.</span></p>
+</div>
+<dl class="function">
+<dt id="graph_tool.flow.edmonds_karp_max_flow">
+<code class="descclassname">graph_tool.flow.</code><code class="descname">edmonds_karp_max_flow</code><span class="sig-paren">(</span><em>g</em>, <em>source</em>, <em>target</em>, <em>capacity</em>, <em>residual=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/flow.html#edmonds_karp_max_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="flow.html#graph_tool.flow.edmonds_karp_max_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate maximum flow on the graph with the Edmonds-Karp algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>source</strong> : Vertex</p>
+<blockquote>
+<div><p>The source vertex.</p>
+</div></blockquote>
+<p><strong>target</strong> : Vertex</p>
+<blockquote>
+<div><p>The target (or “sink”) vertex.</p>
+</div></blockquote>
+<p><strong>capacity</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map with the edge capacities.</p>
+</div></blockquote>
+<p><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: none)</p>
+<blockquote>
+<div><p>Edge property map where the residuals should be stored.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Edge property map with the residual capacities (capacity - flow).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The algorithm is due to <a class="reference internal" href="flow.html#edmonds-theoretical-197286" id="id1">[edmonds-theoretical-197286]</a>, though we are using the
+variation called the “labeling algorithm” described in
+<a class="reference internal" href="flow.html#ravindra-network-199386" id="id2">[ravindra-network-199386]</a>.</p>
+<p>This algorithm provides a very simple and easy to implement solution to the
+maximum flow problem. However, there are several reasons why this algorithm
+is not as good as the push_relabel_max_flow() or the
+boykov_kolmogorov_max_flow() algorithm.</p>
+<ul class="simple">
+<li>In the non-integer capacity case, the time complexity is <span class="math">\(O(VE^2)\)</span>
+which is worse than the time complexity of the push-relabel algorithm
+<span class="math">\(O(V^2E^{1/2})\)</span> for all but the sparsest of graphs.</li>
+<li>In the integer capacity case, if the capacity bound U is very large then
+the algorithm will take a long time.</li>
+</ul>
+<p>The time complexity is <span class="math">\(O(VE^2)\)</span> in the general case or <span class="math">\(O(VEU)\)</span>
+if capacity values are integers bounded by some constant <span class="math">\(U\)</span>.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="boost-edmonds-karp86" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="flow.html#id3">[boost-edmonds-karp86]</a></td><td><a class="reference external" href="http://www.boost.org/libs/graph/doc/edmonds_karp_max_flow.html">http://www.boost.org/libs/graph/doc/edmonds_karp_max_flow.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="edmonds-theoretical-197286" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[edmonds-theoretical-197286]</td><td><em>(<a class="fn-backref" href="flow.html#id1">1</a>, <a class="fn-backref" href="flow.html#id4">2</a>)</em> Jack Edmonds and Richard M. Karp, “Theoretical
+improvements in the algorithmic efficiency for network flow problems.
+Journal of the ACM”, 19:248-264, 1972 <a class="reference external" href="https://dx.doi.org/10.1145/321694.321699">DOI: 10.1145/321694.321699</a> [<a class="reference external" href="https://sci-hub.tw/10.1145/321694.321699">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1145/321694.321699">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ravindra-network-199386" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[ravindra-network-199386]</td><td><em>(<a class="fn-backref" href="flow.html#id2">1</a>, <a class="fn-backref" href="flow.html#id5">2</a>)</em> Ravindra K. Ahuja and Thomas L. Magnanti and
+James B. Orlin,”Network Flows: Theory, Algorithms, and Applications”.
+Prentice Hall, 1993.</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">load_graph</span><span class="p">(</span><span class="s2">&quot;flow-example.xml.gz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cap</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;cap&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">edmonds_karp_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">a</span>  <span class="c1"># the actual flow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_flow</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">tgt</span><span class="o">.</span><span class="n">in_edges</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">max_flow</span><span class="p">)</span>
+<span class="go">44.8905957841...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;example-edmonds-karp.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id19">
+<img alt="_images/example-edmonds-karp.png" src="../static/doc/_images/example-edmonds-karp.png" />
+<p class="caption"><span class="caption-text">Edge flows obtained with the Edmonds-Karp algorithm. The source and
+target are on the upper left and lower right corners, respectively. The
+edge flows are represented by the edge width.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.flow.push_relabel_max_flow">
+<code class="descclassname">graph_tool.flow.</code><code class="descname">push_relabel_max_flow</code><span class="sig-paren">(</span><em>g</em>, <em>source</em>, <em>target</em>, <em>capacity</em>, <em>residual=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/flow.html#push_relabel_max_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="flow.html#graph_tool.flow.push_relabel_max_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate maximum flow on the graph with the push-relabel algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>source</strong> : Vertex</p>
+<blockquote>
+<div><p>The source vertex.</p>
+</div></blockquote>
+<p><strong>target</strong> : Vertex</p>
+<blockquote>
+<div><p>The target (or “sink”) vertex.</p>
+</div></blockquote>
+<p><strong>capacity</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map with the edge capacities.</p>
+</div></blockquote>
+<p><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: none)</p>
+<blockquote>
+<div><p>Edge property map where the residuals should be stored.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Edge property map with the residual capacities (capacity - flow).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The algorithm is defined in <a class="reference internal" href="flow.html#goldberg-new-198589" id="id6">[goldberg-new-198589]</a>. The complexity is
+<span class="math">\(O(V^3)\)</span>.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="boost-push-relabel89" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="flow.html#id7">[boost-push-relabel89]</a></td><td><a class="reference external" href="http://www.boost.org/libs/graph/doc/push_relabel_max_flow.html">http://www.boost.org/libs/graph/doc/push_relabel_max_flow.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="goldberg-new-198589" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[goldberg-new-198589]</td><td><em>(<a class="fn-backref" href="flow.html#id6">1</a>, <a class="fn-backref" href="flow.html#id8">2</a>)</em> A. V. Goldberg, “A New Max-Flow Algorithm”,  MIT
+Tehnical report MIT/LCS/TM-291, 1985.</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">load_graph</span><span class="p">(</span><span class="s2">&quot;flow-example.xml.gz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cap</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;cap&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">push_relabel_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">a</span>  <span class="c1"># the actual flow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_flow</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">tgt</span><span class="o">.</span><span class="n">in_edges</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">max_flow</span><span class="p">)</span>
+<span class="go">44.8905957841...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;example-push-relabel.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id20">
+<img alt="_images/example-push-relabel.png" src="https://graph-tool.skewed.de/static/doc/_images/example-push-relabel.png" />
+<p class="caption"><span class="caption-text">Edge flows obtained with the push-relabel algorithm. The source and
+target are on the upper left and lower right corners, respectively. The
+edge flows are represented by the edge width.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.flow.boykov_kolmogorov_max_flow">
+<code class="descclassname">graph_tool.flow.</code><code class="descname">boykov_kolmogorov_max_flow</code><span class="sig-paren">(</span><em>g</em>, <em>source</em>, <em>target</em>, <em>capacity</em>, <em>residual=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/flow.html#boykov_kolmogorov_max_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="flow.html#graph_tool.flow.boykov_kolmogorov_max_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate maximum flow on the graph with the Boykov-Kolmogorov algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>source</strong> : Vertex</p>
+<blockquote>
+<div><p>The source vertex.</p>
+</div></blockquote>
+<p><strong>target</strong> : Vertex</p>
+<blockquote>
+<div><p>The target (or “sink”) vertex.</p>
+</div></blockquote>
+<p><strong>capacity</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map with the edge capacities.</p>
+</div></blockquote>
+<p><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: none)</p>
+<blockquote>
+<div><p>Edge property map where the residuals should be stored.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Edge property map with the residual capacities (capacity - flow).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The algorithm is defined in <a class="reference internal" href="flow.html#kolmogorov-graph-200391" id="id9">[kolmogorov-graph-200391]</a> and
+<a class="reference internal" href="flow.html#boykov-experimental-200491" id="id10">[boykov-experimental-200491]</a>. The worst case complexity is
+<span class="math">\(O(EV^2|C|)\)</span>, where <span class="math">\(|C|\)</span> is the minimum cut (but typically
+performs much better).</p>
+<p>For a more detailed description, see <a class="reference internal" href="flow.html#boost-kolmogorov91" id="id11">[boost-kolmogorov91]</a>.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="boost-kolmogorov91" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[boost-kolmogorov91]</td><td><em>(<a class="fn-backref" href="flow.html#id11">1</a>, <a class="fn-backref" href="flow.html#id12">2</a>)</em> <a class="reference external" href="http://www.boost.org/libs/graph/doc/boykov_kolmogorov_max_flow.html">http://www.boost.org/libs/graph/doc/boykov_kolmogorov_max_flow.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="kolmogorov-graph-200391" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[kolmogorov-graph-200391]</td><td><em>(<a class="fn-backref" href="flow.html#id9">1</a>, <a class="fn-backref" href="flow.html#id13">2</a>)</em> Vladimir Kolmogorov, “Graph Based Algorithms for
+Scene Reconstruction from Two or More Views”, PhD thesis, Cornell
+University, September 2003.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="boykov-experimental-200491" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[boykov-experimental-200491]</td><td><em>(<a class="fn-backref" href="flow.html#id10">1</a>, <a class="fn-backref" href="flow.html#id14">2</a>)</em> Yuri Boykov and Vladimir Kolmogorov, “An
+Experimental Comparison of Min-Cut/Max-Flow Algorithms for Energy
+Minimization in Vision”, IEEE Transactions on Pattern Analysis and
+Machine Intelligence, vol. 26, no. 9, pp. 1124-1137, Sept. 2004.
+<a class="reference external" href="https://dx.doi.org/10.1109/TPAMI.2004.60">DOI: 10.1109/TPAMI.2004.60</a> [<a class="reference external" href="https://sci-hub.tw/10.1109/TPAMI.2004.60">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1109/TPAMI.2004.60">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">load_graph</span><span class="p">(</span><span class="s2">&quot;flow-example.xml.gz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cap</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;cap&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">boykov_kolmogorov_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">a</span>  <span class="c1"># the actual flow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_flow</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">tgt</span><span class="o">.</span><span class="n">in_edges</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">max_flow</span><span class="p">)</span>
+<span class="go">44.8905957841...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;example-kolmogorov.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id21">
+<img alt="_images/example-kolmogorov.png" src="../static/doc/_images/example-kolmogorov.png" />
+<p class="caption"><span class="caption-text">Edge flows obtained with the Boykov-Kolmogorov algorithm. The source and
+target are on the upper left and lower right corners, respectively. The
+edge flows are represented by the edge width.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.flow.min_st_cut">
+<code class="descclassname">graph_tool.flow.</code><code class="descname">min_st_cut</code><span class="sig-paren">(</span><em>g</em>, <em>source</em>, <em>capacity</em>, <em>residual</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/flow.html#min_st_cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="flow.html#graph_tool.flow.min_st_cut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the minimum source-target cut, given the residual capacity of the edges.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>source</strong> : Vertex</p>
+<blockquote>
+<div><p>The source vertex.</p>
+</div></blockquote>
+<p><strong>capacity</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map with the edge capacities.</p>
+</div></blockquote>
+<p><strong>residual</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map with the residual capacities (capacity - flow).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>partition</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Boolean-valued vertex property map with the cut partition. Vertices with
+value <cite>True</cite> belong to the source side of the cut.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The source-side of the cut set is obtained by following all vertices which
+are reachable from the source in the residual graph (i.e. via edges
+with nonzero residual capacity, and reversed edges with nonzero flow).</p>
+<p>This algorithm runs in <span class="math">\(O(V+E)\)</span> time.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="max-flow-min-cut94" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="flow.html#id15">[max-flow-min-cut94]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Max-flow_min-cut_theorem">http://en.wikipedia.org/wiki/Max-flow_min-cut_theorem</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">load_graph</span><span class="p">(</span><span class="s2">&quot;mincut-st-example.xml.gz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cap</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">boykov_kolmogorov_max_flow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">part</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">min_st_cut</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">cap</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">-</span> <span class="n">res</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span> <span class="k">if</span> <span class="n">part</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()]</span> <span class="o">!=</span> <span class="n">part</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">a</span>  <span class="c1"># the actual flow</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">cap</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="gp">... </span>              <span class="n">edge_text</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">part</span><span class="p">,</span> <span class="n">vertex_text</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">vertex_font_size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">edge_font_size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;example-min-st-cut.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id22">
+<img alt="_images/example-min-st-cut.png" src="../static/doc/_images/example-min-st-cut.png" />
+<p class="caption"><span class="caption-text">Edge flows obtained with the Boykov-Kolmogorov algorithm. The source and
+target are labeled <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">7</span></code>, respectively. The edge capacities are
+represented by the edge width, and the maximum flow by the edge labels.
+Vertices of the same color are on the same side the minimum cut.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.flow.min_cut">
+<code class="descclassname">graph_tool.flow.</code><code class="descname">min_cut</code><span class="sig-paren">(</span><em>g</em>, <em>weight</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/flow.html#min_cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="flow.html#graph_tool.flow.min_cut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the minimum cut of an undirected graph, given the weight of the edges.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be used.</p>
+</div></blockquote>
+<p><strong>weight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map with the edge weights.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>min_cut</strong> : float</p>
+<blockquote>
+<div><p>The value of the minimum cut.</p>
+</div></blockquote>
+<p><strong>partition</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Boolean-valued vertex property map with the cut partition.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The algorithm is defined in <a class="reference internal" href="flow.html#stoer-simple-199795" id="id16">[stoer_simple_199795]</a>.</p>
+<p>The time complexity is <span class="math">\(O(VE + V^2 \log V)\)</span>.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="stoer-simple-199795" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[stoer_simple_199795]</td><td><em>(<a class="fn-backref" href="flow.html#id16">1</a>, <a class="fn-backref" href="flow.html#id17">2</a>)</em> Stoer, Mechthild and Frank Wagner, “A simple min-cut
+algorithm”. Journal of the ACM 44 (4), 585-591, 1997. <a class="reference external" href="https://dx.doi.org/10.1145/263867.263872">DOI: 10.1145/263867.263872</a> [<a class="reference external" href="https://sci-hub.tw/10.1145/263867.263872">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1145/263867.263872">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">load_graph</span><span class="p">(</span><span class="s2">&quot;mincut-example.xml.gz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weight</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_properties</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mc</span><span class="p">,</span> <span class="n">part</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">min_cut</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
+<span class="go">4.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">part</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">output</span><span class="o">=</span><span class="s2">&quot;example-min-cut.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id23">
+<img alt="_images/example-min-cut.png" src="../static/doc/_images/example-min-cut.png" />
+<p class="caption"><span class="caption-text">Vertices of the same color are on the same side of a minimum cut. The
+edge weights are represented by the edge width.</span></p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../doc">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="flow.html#"><code class="docutils literal notranslate"><span class="pre">graph_tool.flow</span></code> - Maximum flow algorithms</a><ul>
+<li><a class="reference internal" href="flow.html#summary">Summary</a></li>
+<li><a class="reference internal" href="flow.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="draw.html"
+                        title="previous chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.draw</span></code> - Graph drawing and layout</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generation.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.generation</span></code> - Random graph generation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../static/doc/_sources/flow.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="generation.html" title="graph_tool.generation - Random graph generation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="draw.html" title="graph_tool.draw - Graph drawing and layout"
+             >previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../static/doc/modules.html" >Module documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="https://graph-tool.skewed.de/static/doc/graph_tool.html" >graph_tool - efficient graph analysis and manipulation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

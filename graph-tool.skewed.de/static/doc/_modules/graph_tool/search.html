@@ -1,0 +1,2095 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.search &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.search</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.search`` - Search algorithms</span>
+<span class="sd">-----------------------------------------</span>
+
+<span class="sd">This module includes several search algorithms, which are customizable to</span>
+<span class="sd">arbitrary purposes. It is mostly a wrapper around the Visitor interface of the</span>
+<span class="sd">`Boost Graph Library &lt;http://www.boost.org/doc/libs/release/libs/graph/doc/visitor_concepts.html&gt;`_,</span>
+<span class="sd">and the respective search functions.</span>
+
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   bfs_search</span>
+<span class="sd">   bfs_iterator</span>
+<span class="sd">   dfs_search</span>
+<span class="sd">   dfs_iterator</span>
+<span class="sd">   dijkstra_search</span>
+<span class="sd">   dijkstra_iterator</span>
+<span class="sd">   astar_search</span>
+<span class="sd">   astar_iterator</span>
+<span class="sd">   bellman_ford_search</span>
+<span class="sd">   BFSVisitor</span>
+<span class="sd">   DFSVisitor</span>
+<span class="sd">   DijkstraVisitor</span>
+<span class="sd">   BellmanFordVisitor</span>
+<span class="sd">   AStarVisitor</span>
+<span class="sd">   StopSearch</span>
+
+<span class="sd">Examples</span>
+<span class="sd">++++++++</span>
+
+<span class="sd">In this module, most documentation examples will make use of the network</span>
+<span class="sd">:download:`search_example.xml &lt;search_example.xml&gt;`, shown below.</span>
+
+<span class="sd">&gt;&gt;&gt; g = gt.load_graph(&quot;search_example.xml&quot;)</span>
+<span class="sd">&gt;&gt;&gt; name = g.vp[&quot;name&quot;]</span>
+<span class="sd">&gt;&gt;&gt; weight = g.ep[&quot;weight&quot;]</span>
+<span class="sd">&gt;&gt;&gt; pos = g.vp[&quot;pos&quot;]</span>
+<span class="sd">&gt;&gt;&gt; gt.graph_draw(g, pos, vertex_text=name, vertex_font_size=12, vertex_shape=&quot;double_circle&quot;,</span>
+<span class="sd">...               vertex_fill_color=&quot;#729fcf&quot;, vertex_pen_width=3,</span>
+<span class="sd">...               edge_pen_width=weight, output=&quot;search_example.pdf&quot;)</span>
+<span class="sd">&lt;...&gt;</span>
+
+<span class="sd">.. testcode::</span>
+<span class="sd">   :hide:</span>
+
+<span class="sd">   gt.graph_draw(g, pos=pos, vertex_text=name, vertex_font_size=12, vertex_shape=&quot;double_circle&quot;,</span>
+<span class="sd">                 vertex_fill_color=&quot;#729fcf&quot;, vertex_pen_width=3,</span>
+<span class="sd">                 edge_pen_width=weight, output=&quot;search_example.png&quot;)</span>
+
+<span class="sd">.. figure:: search_example.*</span>
+<span class="sd">   :alt: search example</span>
+<span class="sd">   :align: center</span>
+
+<span class="sd">   This is the network used in the examples below. The width of the edges</span>
+<span class="sd">   correspond to the values of the &quot;weight&quot; property map.</span>
+
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_search&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">_python_type</span><span class="p">,</span> <span class="n">_get_null_vertex</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bfs_search&quot;</span><span class="p">,</span> <span class="s2">&quot;bfs_iterator&quot;</span><span class="p">,</span> <span class="s2">&quot;BFSVisitor&quot;</span><span class="p">,</span> <span class="s2">&quot;dfs_search&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;dfs_iterator&quot;</span><span class="p">,</span> <span class="s2">&quot;DFSVisitor&quot;</span><span class="p">,</span> <span class="s2">&quot;dijkstra_search&quot;</span><span class="p">,</span> <span class="s2">&quot;dijkstra_iterator&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;DijkstraVisitor&quot;</span><span class="p">,</span> <span class="s2">&quot;bellman_ford_search&quot;</span><span class="p">,</span> <span class="s2">&quot;BellmanFordVisitor&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;astar_search&quot;</span><span class="p">,</span> <span class="s2">&quot;astar_iterator&quot;</span><span class="p">,</span> <span class="s2">&quot;AStarVisitor&quot;</span><span class="p">,</span> <span class="s2">&quot;StopSearch&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="BFSVisitor"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor">[docs]</a><span class="k">class</span> <span class="nc">BFSVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A visitor object that is invoked at the event-points inside the</span>
+<span class="sd">    :func:`~graph_tool.search.bfs_search` algorithm. By default, it performs no</span>
+<span class="sd">    action, and should be used as a base class in order to be useful.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BFSVisitor.initialize_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.initialize_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on every vertex of the graph before the start of the</span>
+<span class="sd">        graph search. &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.discover_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.discover_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">discover_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked when a vertex is encountered for the first time.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.examine_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.examine_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">examine_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on a vertex as it is popped from the queue. This</span>
+<span class="sd">        happens immediately before examine_edge() is invoked on each of the</span>
+<span class="sd">        out-edges of vertex u.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.examine_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.examine_edge">[docs]</a>    <span class="k">def</span> <span class="nf">examine_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on every out-edge of each vertex after it is</span>
+<span class="sd">        discovered.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.tree_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.tree_edge">[docs]</a>    <span class="k">def</span> <span class="nf">tree_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on each edge as it becomes a member of the edges that</span>
+<span class="sd">        form the search tree.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.non_tree_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.non_tree_edge">[docs]</a>    <span class="k">def</span> <span class="nf">non_tree_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on back or cross edges for directed graphs and cross</span>
+<span class="sd">        edges for undirected graphs. &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.gray_target"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.gray_target">[docs]</a>    <span class="k">def</span> <span class="nf">gray_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on the subset of non-tree edges whose target vertex</span>
+<span class="sd">        is colored gray at the time of examination. The color gray indicates</span>
+<span class="sd">        that the vertex is currently in the queue.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.black_target"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.black_target">[docs]</a>    <span class="k">def</span> <span class="nf">black_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked on the subset of non-tree edges whose target vertex</span>
+<span class="sd">        is colored black at the time of examination. The color black indicates</span>
+<span class="sd">        that the vertex has been removed from the queue.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BFSVisitor.finish_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BFSVisitor.finish_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">finish_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This invoked on a vertex after all of its out edges have been added</span>
+<span class="sd">        to the search tree and all of the adjacent vertices have been discovered</span>
+<span class="sd">        (but before the out-edges of the adjacent vertices have been examined).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="bfs_search"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.bfs_search">[docs]</a><span class="k">def</span> <span class="nf">bfs_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">visitor</span><span class="o">=</span><span class="n">BFSVisitor</span><span class="p">()):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Breadth-first traversal of a directed or undirected graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: ``None``)</span>
+<span class="sd">        Source vertex. If unspecified, all vertices will be traversed, by</span>
+<span class="sd">        iterating over starting vertices according to their index in increasing</span>
+<span class="sd">        order.</span>
+<span class="sd">    visitor : :class:`~graph_tool.search.BFSVisitor` (optional, default: ``BFSVisitor()``)</span>
+<span class="sd">        A visitor object that is invoked at the event points inside the</span>
+<span class="sd">        algorithm. This should be a subclass of</span>
+<span class="sd">        :class:`~graph_tool.search.BFSVisitor`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    dfs_search: Depth-first search</span>
+<span class="sd">    dijkstra_search: Dijkstra&#39;s search algorithm</span>
+<span class="sd">    astar_search: :math:`A^*` heuristic search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    A breadth-first traversal visits vertices that are closer to the source</span>
+<span class="sd">    before visiting vertices that are further away. In this context &quot;distance&quot;</span>
+<span class="sd">    is defined as the number of edges in the shortest path from the source</span>
+<span class="sd">    vertex.</span>
+
+<span class="sd">    The time complexity is :math:`O(V + E)`.</span>
+
+<span class="sd">    The pseudo-code for the BFS algorithm is listed below, with the annotated</span>
+<span class="sd">    event points, for which the given visitor object will be called with the</span>
+<span class="sd">    appropriate method.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        BFS(G, source)</span>
+<span class="sd">         for each vertex u in V[G]       initialize vertex u</span>
+<span class="sd">           color[u] := WHITE</span>
+<span class="sd">           d[u] := infinity</span>
+<span class="sd">         end for</span>
+<span class="sd">         color[source] := GRAY</span>
+<span class="sd">         d[source] := 0</span>
+<span class="sd">         ENQUEUE(Q, source)              discover vertex source</span>
+<span class="sd">         while (Q != Ø)</span>
+<span class="sd">           u := DEQUEUE(Q)               examine vertex u</span>
+<span class="sd">           for each vertex v in Adj[u]   examine edge (u,v)</span>
+<span class="sd">             if (color[v] = WHITE)       (u,v) is a tree edge</span>
+<span class="sd">               color[v] := GRAY</span>
+<span class="sd">               ENQUEUE(Q, v)             discover vertex v</span>
+<span class="sd">             else                        (u,v) is a non-tree edge</span>
+<span class="sd">               if (color[v] = GRAY)</span>
+<span class="sd">                 ...                     (u,v) has a gray target</span>
+<span class="sd">               else</span>
+<span class="sd">                 ...                     (u,v) has a black target</span>
+<span class="sd">           end for</span>
+<span class="sd">           color[u] := BLACK             finish vertex u</span>
+<span class="sd">         end while</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    We must define what should be done during the search by subclassing</span>
+<span class="sd">    :class:`~graph_tool.search.BFSVisitor`, and specializing the appropriate</span>
+<span class="sd">    methods. In the following we will keep track of the distance from the root,</span>
+<span class="sd">    and the predecessor tree.</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        class VisitorExample(gt.BFSVisitor):</span>
+
+<span class="sd">            def __init__(self, name, pred, dist):</span>
+<span class="sd">                self.name = name</span>
+<span class="sd">                self.pred = pred</span>
+<span class="sd">                self.dist = dist</span>
+
+<span class="sd">            def discover_vertex(self, u):</span>
+<span class="sd">                print(&quot;--&gt;&quot;, self.name[u], &quot;has been discovered!&quot;)</span>
+
+<span class="sd">            def examine_vertex(self, u):</span>
+<span class="sd">                print(self.name[u], &quot;has been examined...&quot;)</span>
+
+<span class="sd">            def tree_edge(self, e):</span>
+<span class="sd">                self.pred[e.target()] = int(e.source())</span>
+<span class="sd">                self.dist[e.target()] = self.dist[e.source()] + 1</span>
+
+<span class="sd">    With the above class defined, we can perform the BFS search as follows.</span>
+
+<span class="sd">    &gt;&gt;&gt; dist = g.new_vertex_property(&quot;int&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pred = g.new_vertex_property(&quot;int64_t&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; gt.bfs_search(g, g.vertex(0), VisitorExample(name, pred, dist))</span>
+<span class="sd">    --&gt; Bob has been discovered!</span>
+<span class="sd">    Bob has been examined...</span>
+<span class="sd">    --&gt; Eve has been discovered!</span>
+<span class="sd">    --&gt; Chuck has been discovered!</span>
+<span class="sd">    --&gt; Carlos has been discovered!</span>
+<span class="sd">    --&gt; Isaac has been discovered!</span>
+<span class="sd">    Eve has been examined...</span>
+<span class="sd">    --&gt; Imothep has been discovered!</span>
+<span class="sd">    --&gt; Carol has been discovered!</span>
+<span class="sd">    Chuck has been examined...</span>
+<span class="sd">    Carlos has been examined...</span>
+<span class="sd">    --&gt; Alice has been discovered!</span>
+<span class="sd">    Isaac has been examined...</span>
+<span class="sd">    Imothep has been examined...</span>
+<span class="sd">    Carol has been examined...</span>
+<span class="sd">    Alice has been examined...</span>
+<span class="sd">    --&gt; Oscar has been discovered!</span>
+<span class="sd">    --&gt; Dave has been discovered!</span>
+<span class="sd">    Oscar has been examined...</span>
+<span class="sd">    Dave has been examined...</span>
+<span class="sd">    &gt;&gt;&gt; print(dist.a)</span>
+<span class="sd">    [0 2 2 1 1 3 1 1 3 2]</span>
+<span class="sd">    &gt;&gt;&gt; print(pred.a)</span>
+<span class="sd">    [0 3 6 0 0 1 0 0 1 6]</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [bfs] Edward Moore, &quot;The shortest path through a maze&quot;, International</span>
+<span class="sd">             Symposium on the Theory of Switching, 1959</span>
+<span class="sd">    .. [bfs-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/breadth_first_search.html</span>
+<span class="sd">    .. [bfs-wikipedia] http://en.wikipedia.org/wiki/Breadth-first_search</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">_get_null_vertex</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">bfs_search</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                        <span class="n">source</span><span class="p">,</span> <span class="n">visitor</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">StopSearch</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="bfs_iterator"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.bfs_iterator">[docs]</a><span class="k">def</span> <span class="nf">bfs_iterator</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">array</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return an iterator of the edges corresponding to a breath-first traversal of</span>
+<span class="sd">    the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: ``None``)</span>
+<span class="sd">        Source vertex. If unspecified, all vertices will be traversed, by</span>
+<span class="sd">        iterating over starting vertices according to their index in increasing</span>
+<span class="sd">        order.</span>
+<span class="sd">    array : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a :class:`numpy.ndarray` will the edge endpoints be</span>
+<span class="sd">        returned instead.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bfs_iterator : Iterator or :class:`numpy.ndarray`</span>
+<span class="sd">        An iterator over the edges in breath-first order. If ``array == True``,</span>
+<span class="sd">        this will be a :class:`numpy.ndarray` instead, of shape ``(E,2)``,</span>
+<span class="sd">        containing the edge endpoints.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    dfs_iterator: Depth-first search</span>
+<span class="sd">    dijkstra_iterator: Dijkstra&#39;s search algorithm</span>
+<span class="sd">    astar_iterator: :math:`A^*` heuristic search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    See :func:`~graph_tool.search.bfs_search` for an explanation of the</span>
+<span class="sd">    algorithm.</span>
+
+<span class="sd">    The time complexity is :math:`O(1)` to create the generator and</span>
+<span class="sd">    :math:`O(V + E)` to traverse it completely.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; for e in gt.bfs_iterator(g, g.vertex(0)):</span>
+<span class="sd">    ...    print(name[e.source()], &quot;-&gt;&quot;, name[e.target()])</span>
+<span class="sd">    Bob -&gt; Eve</span>
+<span class="sd">    Bob -&gt; Chuck</span>
+<span class="sd">    Bob -&gt; Carlos</span>
+<span class="sd">    Bob -&gt; Isaac</span>
+<span class="sd">    Eve -&gt; Imothep</span>
+<span class="sd">    Eve -&gt; Carol</span>
+<span class="sd">    Carlos -&gt; Alice</span>
+<span class="sd">    Alice -&gt; Oscar</span>
+<span class="sd">    Alice -&gt; Dave</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [bfs] Edward Moore, &quot;The shortest path through a maze&quot;, International</span>
+<span class="sd">             Symposium on the Theory of Switching, 1959</span>
+<span class="sd">    .. [bfs-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/breadth_first_search.html</span>
+<span class="sd">    .. [bfs-wikipedia] http://en.wikipedia.org/wiki/Breadth-first_search</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">_get_null_vertex</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">array</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">bfs_search_generator</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">bfs_search_array</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DFSVisitor"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor">[docs]</a><span class="k">class</span> <span class="nc">DFSVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A visitor object that is invoked at the event-points inside the</span>
+<span class="sd">    :func:`~graph_tool.search.dfs_search` algorithm. By default, it performs no</span>
+<span class="sd">    action, and should be used as a base class in order to be useful.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DFSVisitor.initialize_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.initialize_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every vertex of the graph before the start of the</span>
+<span class="sd">        graph search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.start_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.start_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">start_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on the source vertex once before the start of the</span>
+<span class="sd">        search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.discover_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.discover_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">discover_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked when a vertex is encountered for the first time.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.examine_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.examine_edge">[docs]</a>    <span class="k">def</span> <span class="nf">examine_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every out-edge of each vertex after it is discovered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.tree_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.tree_edge">[docs]</a>    <span class="k">def</span> <span class="nf">tree_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on each edge as it becomes a member of the edges that</span>
+<span class="sd">        form the search tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.back_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.back_edge">[docs]</a>    <span class="k">def</span> <span class="nf">back_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on the back edges in the graph. For an undirected graph</span>
+<span class="sd">        there is some ambiguity between tree edges and back edges since the edge</span>
+<span class="sd">        (u,v) and (v,u) are the same edge, but both the</span>
+<span class="sd">        :meth:`~graph_tool.search.DFSVisitor.tree_edge` and</span>
+<span class="sd">        :meth:`~graph_tool.search.DFSVisitor.back_edge` functions will be</span>
+<span class="sd">        invoked. One way to resolve this ambiguity is to record the tree edges,</span>
+<span class="sd">        and then disregard the back-edges that are already marked as tree</span>
+<span class="sd">        edges. An easy way to record tree edges is to record predecessors at the</span>
+<span class="sd">        tree_edge event point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.forward_or_cross_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.forward_or_cross_edge">[docs]</a>    <span class="k">def</span> <span class="nf">forward_or_cross_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on forward or cross edges in the graph. In an undirected</span>
+<span class="sd">        graph this method is never called.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DFSVisitor.finish_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DFSVisitor.finish_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">finish_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on vertex u after finish_vertex has been called for all</span>
+<span class="sd">        the vertices in the DFS-tree rooted at vertex u. If vertex u is a leaf</span>
+<span class="sd">        in the DFS-tree, then the</span>
+<span class="sd">        :meth:`~graph_tool.search.DFSVisitor.finish_vertex` function is called</span>
+<span class="sd">        on u after all the out-edges of u have been examined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="dfs_search"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.dfs_search">[docs]</a><span class="k">def</span> <span class="nf">dfs_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">visitor</span><span class="o">=</span><span class="n">DFSVisitor</span><span class="p">()):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Depth-first traversal of a directed or undirected graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: ``None``)</span>
+<span class="sd">        Source vertex. If unspecified, all vertices will be traversed, by</span>
+<span class="sd">        iterating over starting vertices according to their index in increasing</span>
+<span class="sd">        order.</span>
+<span class="sd">    visitor : :class:`~graph_tool.search.DFSVisitor` (optional, default: ``DFSVisitor()``)</span>
+<span class="sd">        A visitor object that is invoked at the event points inside the</span>
+<span class="sd">        algorithm. This should be a subclass of</span>
+<span class="sd">        :class:`~graph_tool.search.DFSVisitor`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_search: Breadth-first search</span>
+<span class="sd">    dijkstra_search: Dijkstra&#39;s search algorithm</span>
+<span class="sd">    astar_search: :math:`A^*` heuristic search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    When possible, a depth-first traversal chooses a vertex adjacent to the</span>
+<span class="sd">    current vertex to visit next. If all adjacent vertices have already been</span>
+<span class="sd">    discovered, or there are no adjacent vertices, then the algorithm backtracks</span>
+<span class="sd">    to the last vertex that had undiscovered neighbors. Once all reachable</span>
+<span class="sd">    vertices have been visited, the algorithm selects from any remaining</span>
+<span class="sd">    undiscovered vertices and continues the traversal. The algorithm finishes</span>
+<span class="sd">    when all vertices have been visited.</span>
+
+<span class="sd">    The time complexity is :math:`O(V + E)`.</span>
+
+<span class="sd">    The pseudo-code for the DFS algorithm is listed below, with the annotated</span>
+<span class="sd">    event points, for which the given visitor object will be called with the</span>
+<span class="sd">    appropriate method.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        DFS(G)</span>
+<span class="sd">          for each vertex u in V</span>
+<span class="sd">            color[u] := WHITE                 initialize vertex u</span>
+<span class="sd">          end for</span>
+<span class="sd">          time := 0</span>
+<span class="sd">          call DFS-VISIT(G, source)           start vertex s</span>
+
+<span class="sd">        DFS-VISIT(G, u)</span>
+<span class="sd">          color[u] := GRAY                    discover vertex u</span>
+<span class="sd">          for each v in Adj[u]                examine edge (u,v)</span>
+<span class="sd">            if (color[v] = WHITE)             (u,v) is a tree edge</span>
+<span class="sd">              call DFS-VISIT(G, v)</span>
+<span class="sd">            else if (color[v] = GRAY)         (u,v) is a back edge</span>
+<span class="sd">              ...</span>
+<span class="sd">            else if (color[v] = BLACK)        (u,v) is a cross or forward edge</span>
+<span class="sd">              ...</span>
+<span class="sd">          end for</span>
+<span class="sd">          color[u] := BLACK                   finish vertex u</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    We must define what should be done during the search by subclassing</span>
+<span class="sd">    :class:`~graph_tool.search.DFSVisitor`, and specializing the appropriate</span>
+<span class="sd">    methods. In the following we will keep track of the discover time, and the</span>
+<span class="sd">    predecessor tree.</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        class VisitorExample(gt.DFSVisitor):</span>
+
+<span class="sd">            def __init__(self, name, pred, time):</span>
+<span class="sd">                self.name = name</span>
+<span class="sd">                self.pred = pred</span>
+<span class="sd">                self.time = time</span>
+<span class="sd">                self.last_time = 0</span>
+
+<span class="sd">            def discover_vertex(self, u):</span>
+<span class="sd">                print(&quot;--&gt;&quot;, self.name[u], &quot;has been discovered!&quot;)</span>
+<span class="sd">                self.time[u] = self.last_time</span>
+<span class="sd">                self.last_time += 1</span>
+
+<span class="sd">            def examine_edge(self, e):</span>
+<span class="sd">                print(&quot;edge (%s, %s) has been examined...&quot; % \</span>
+<span class="sd">                    (self.name[e.source()], self.name[e.target()]))</span>
+
+<span class="sd">            def tree_edge(self, e):</span>
+<span class="sd">                self.pred[e.target()] = int(e.source())</span>
+
+
+<span class="sd">    With the above class defined, we can perform the DFS search as follows.</span>
+
+<span class="sd">    &gt;&gt;&gt; time = g.new_vertex_property(&quot;int&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pred = g.new_vertex_property(&quot;int64_t&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; gt.dfs_search(g, g.vertex(0), VisitorExample(name, pred, time))</span>
+<span class="sd">    --&gt; Bob has been discovered!</span>
+<span class="sd">    edge (Bob, Eve) has been examined...</span>
+<span class="sd">    --&gt; Eve has been discovered!</span>
+<span class="sd">    edge (Eve, Isaac) has been examined...</span>
+<span class="sd">    --&gt; Isaac has been discovered!</span>
+<span class="sd">    edge (Isaac, Bob) has been examined...</span>
+<span class="sd">    edge (Isaac, Chuck) has been examined...</span>
+<span class="sd">    --&gt; Chuck has been discovered!</span>
+<span class="sd">    edge (Chuck, Eve) has been examined...</span>
+<span class="sd">    edge (Chuck, Isaac) has been examined...</span>
+<span class="sd">    edge (Chuck, Imothep) has been examined...</span>
+<span class="sd">    --&gt; Imothep has been discovered!</span>
+<span class="sd">    edge (Imothep, Carol) has been examined...</span>
+<span class="sd">    --&gt; Carol has been discovered!</span>
+<span class="sd">    edge (Carol, Eve) has been examined...</span>
+<span class="sd">    edge (Carol, Imothep) has been examined...</span>
+<span class="sd">    edge (Imothep, Carlos) has been examined...</span>
+<span class="sd">    --&gt; Carlos has been discovered!</span>
+<span class="sd">    edge (Carlos, Eve) has been examined...</span>
+<span class="sd">    edge (Carlos, Imothep) has been examined...</span>
+<span class="sd">    edge (Carlos, Bob) has been examined...</span>
+<span class="sd">    edge (Carlos, Alice) has been examined...</span>
+<span class="sd">    --&gt; Alice has been discovered!</span>
+<span class="sd">    edge (Alice, Oscar) has been examined...</span>
+<span class="sd">    --&gt; Oscar has been discovered!</span>
+<span class="sd">    edge (Oscar, Alice) has been examined...</span>
+<span class="sd">    edge (Oscar, Dave) has been examined...</span>
+<span class="sd">    --&gt; Dave has been discovered!</span>
+<span class="sd">    edge (Dave, Oscar) has been examined...</span>
+<span class="sd">    edge (Dave, Alice) has been examined...</span>
+<span class="sd">    edge (Alice, Dave) has been examined...</span>
+<span class="sd">    edge (Alice, Carlos) has been examined...</span>
+<span class="sd">    edge (Imothep, Chuck) has been examined...</span>
+<span class="sd">    edge (Imothep, Eve) has been examined...</span>
+<span class="sd">    edge (Chuck, Bob) has been examined...</span>
+<span class="sd">    edge (Isaac, Eve) has been examined...</span>
+<span class="sd">    edge (Eve, Imothep) has been examined...</span>
+<span class="sd">    edge (Eve, Carlos) has been examined...</span>
+<span class="sd">    edge (Eve, Chuck) has been examined...</span>
+<span class="sd">    edge (Eve, Bob) has been examined...</span>
+<span class="sd">    edge (Eve, Carol) has been examined...</span>
+<span class="sd">    edge (Bob, Chuck) has been examined...</span>
+<span class="sd">    edge (Bob, Carlos) has been examined...</span>
+<span class="sd">    edge (Bob, Isaac) has been examined...</span>
+<span class="sd">    &gt;&gt;&gt; print(time.a)</span>
+<span class="sd">    [0 7 5 6 3 9 1 2 8 4]</span>
+<span class="sd">    &gt;&gt;&gt; print(pred.a)</span>
+<span class="sd">    [0 3 9 9 7 8 0 6 1 4]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [dfs-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/depth_first_search.html</span>
+<span class="sd">    .. [dfs-wikipedia] http://en.wikipedia.org/wiki/Depth-first_search</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">_get_null_vertex</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dfs_search</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                        <span class="n">source</span><span class="p">,</span> <span class="n">visitor</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">StopSearch</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="dfs_iterator"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.dfs_iterator">[docs]</a><span class="k">def</span> <span class="nf">dfs_iterator</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">array</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return an iterator of the edges corresponding to a depth-first traversal of</span>
+<span class="sd">    the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: ``None``)</span>
+<span class="sd">        Source vertex. If unspecified, all vertices will be traversed, by</span>
+<span class="sd">        iterating over starting vertices according to their index in increasing</span>
+<span class="sd">        order.</span>
+<span class="sd">    array : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a :class:`numpy.ndarray` will the edge endpoints be</span>
+<span class="sd">        returned instead.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dfs_iterator : Iterator or :class:`numpy.ndarray`</span>
+<span class="sd">        An iterator over the edges in depth-first order. If ``array == True``,</span>
+<span class="sd">        this will be a :class:`numpy.ndarray` instead, of shape ``(E,2)``,</span>
+<span class="sd">        containing the edge endpoints.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_iterator: Breadth-first search</span>
+<span class="sd">    dijkstra_iterator: Dijkstra&#39;s search algorithm</span>
+<span class="sd">    astar_iterator: :math:`A^*` heuristic search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    See :func:`~graph_tool.search.dfs_search` for an explanation of the</span>
+<span class="sd">    algorithm.</span>
+
+<span class="sd">    The time complexity is :math:`O(1)` to create the generator and</span>
+<span class="sd">    :math:`O(V + E)` to traverse it completely.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; for e in gt.dfs_iterator(g, g.vertex(0)):</span>
+<span class="sd">    ...    print(name[e.source()], &quot;-&gt;&quot;, name[e.target()])</span>
+<span class="sd">    Bob -&gt; Eve</span>
+<span class="sd">    Eve -&gt; Isaac</span>
+<span class="sd">    Isaac -&gt; Chuck</span>
+<span class="sd">    Chuck -&gt; Imothep</span>
+<span class="sd">    Imothep -&gt; Carol</span>
+<span class="sd">    Imothep -&gt; Carlos</span>
+<span class="sd">    Carlos -&gt; Alice</span>
+<span class="sd">    Alice -&gt; Oscar</span>
+<span class="sd">    Oscar -&gt; Dave</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [dfs-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/depth_first_search.html</span>
+<span class="sd">    .. [dfs-wikipedia] http://en.wikipedia.org/wiki/Depth-first_search</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">_get_null_vertex</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">array</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dfs_search_generator</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dfs_search_array</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor">[docs]</a><span class="k">class</span> <span class="nc">DijkstraVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A visitor object that is invoked at the event-points inside the</span>
+<span class="sd">    :func:`~graph_tool.search.dijkstra_search` algorithm. By default, it</span>
+<span class="sd">    performs no action, and should be used as a base class in order to be</span>
+<span class="sd">    useful.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DijkstraVisitor.initialize_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.initialize_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every vertex of the graph before the start of the</span>
+<span class="sd">        graph search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor.examine_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.examine_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">examine_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on a vertex as it is popped from the queue. This happens</span>
+<span class="sd">        immediately before</span>
+<span class="sd">        :meth:`~graph_tool.search.DijkstraVisitor.examine_edge` is invoked on</span>
+<span class="sd">        each of the out-edges of vertex u.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor.examine_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.examine_edge">[docs]</a>    <span class="k">def</span> <span class="nf">examine_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every out-edge of each vertex after it is discovered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor.discover_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.discover_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">discover_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is invoked when a vertex is encountered for the first time.&quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor.edge_relaxed"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.edge_relaxed">[docs]</a>    <span class="k">def</span> <span class="nf">edge_relaxed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Upon examination, if the following condition holds then the edge is</span>
+<span class="sd">        relaxed (its distance is reduced), and this method is invoked.</span>
+
+<span class="sd">        ::</span>
+
+<span class="sd">            (u, v) = tuple(e)</span>
+<span class="sd">            assert(compare(combine(d[u], weight[e]), d[v]))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor.edge_not_relaxed"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.edge_not_relaxed">[docs]</a>    <span class="k">def</span> <span class="nf">edge_not_relaxed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Upon examination, if the edge is not relaxed (see</span>
+<span class="sd">        :meth:`~graph_tool.search.DijkstraVisitor.edge_relaxed`) then this</span>
+<span class="sd">        method is invoked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="DijkstraVisitor.finish_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.DijkstraVisitor.finish_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">finish_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This invoked on a vertex after all of its out edges have been added to</span>
+<span class="sd">        the search tree and all of the adjacent vertices have been discovered</span>
+<span class="sd">        (but before their out-edges have been examined).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="dijkstra_search"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.dijkstra_search">[docs]</a><span class="k">def</span> <span class="nf">dijkstra_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">visitor</span><span class="o">=</span><span class="n">DijkstraVisitor</span><span class="p">(),</span> <span class="n">dist_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">pred_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span>
+                    <span class="n">compare</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">infinity</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Dijkstra traversal of a directed or undirected graph, with non-negative weights.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with weight values.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: ``None``)</span>
+<span class="sd">        Source vertex. If unspecified, all vertices will be traversed, by</span>
+<span class="sd">        iterating over starting vertices according to their index in increasing</span>
+<span class="sd">        order.</span>
+<span class="sd">    visitor : :class:`~graph_tool.search.DijkstraVisitor` (optional, default: ``DijkstraVisitor()``)</span>
+<span class="sd">        A visitor object that is invoked at the event points inside the</span>
+<span class="sd">        algorithm. This should be a subclass of</span>
+<span class="sd">        :class:`~graph_tool.search.DijkstraVisitor`.</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the distances from the source will be</span>
+<span class="sd">        stored.</span>
+<span class="sd">    pred_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the predecessor map will be</span>
+<span class="sd">        stored (must have value type &quot;int64_t&quot;).</span>
+<span class="sd">    combine : binary function (optional, default: ``lambda a, b: a + b``)</span>
+<span class="sd">        This function is used to combine distances to compute the distance of a</span>
+<span class="sd">        path.</span>
+<span class="sd">    compare : binary function (optional, default: ``lambda a, b: a &lt; b``)</span>
+<span class="sd">        This function is use to compare distances to determine which vertex is</span>
+<span class="sd">        closer to the source vertex.</span>
+<span class="sd">    zero : int or float (optional, default: ``0``)</span>
+<span class="sd">         Value assumed to correspond to a distance of zero by the combine and</span>
+<span class="sd">         compare functions.</span>
+<span class="sd">    infinity : int or float (optional, default: ``numpy.inf``)</span>
+<span class="sd">         Value assumed to correspond to a distance of infinity by the combine and</span>
+<span class="sd">         compare functions.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the computed distances from the source.</span>
+<span class="sd">    pred_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the predecessor tree.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_search: Breadth-first search</span>
+<span class="sd">    dfs_search: Depth-first search</span>
+<span class="sd">    astar_search: :math:`A^*` heuristic search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Dijkstra&#39;s algorithm finds all the shortest paths from the source vertex to</span>
+<span class="sd">    every other vertex by iteratively &quot;growing&quot; the set of vertices S to which</span>
+<span class="sd">    it knows the shortest path. At each step of the algorithm, the next vertex</span>
+<span class="sd">    added to S is determined by a priority queue. The queue contains the</span>
+<span class="sd">    vertices in V - S prioritized by their distance label, which is the length</span>
+<span class="sd">    of the shortest path seen so far for each vertex. The vertex u at the top of</span>
+<span class="sd">    the priority queue is then added to S, and each of its out-edges is relaxed:</span>
+<span class="sd">    if the distance to u plus the weight of the out-edge (u,v) is less than the</span>
+<span class="sd">    distance label for v then the estimated distance for vertex v is</span>
+<span class="sd">    reduced. The algorithm then loops back, processing the next vertex at the</span>
+<span class="sd">    top of the priority queue. The algorithm finishes when the priority queue is</span>
+<span class="sd">    empty.</span>
+
+<span class="sd">    The time complexity is :math:`O(E + V \log V)`.</span>
+
+<span class="sd">    The pseudo-code for Dijkstra&#39;s algorithm is listed below, with the annotated</span>
+<span class="sd">    event points, for which the given visitor object will be called with the</span>
+<span class="sd">    appropriate method.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        DIJKSTRA(G, source, weight)</span>
+<span class="sd">          for each vertex u in V                      initialize vertex u</span>
+<span class="sd">            d[u] := infinity</span>
+<span class="sd">            p[u] := u</span>
+<span class="sd">          end for</span>
+<span class="sd">          d[source] := 0</span>
+<span class="sd">          INSERT(Q, source)                           discover vertex s</span>
+<span class="sd">          while (Q != Ø)</span>
+<span class="sd">            u := EXTRACT-MIN(Q)                       examine vertex u</span>
+<span class="sd">            for each vertex v in Adj[u]               examine edge (u,v)</span>
+<span class="sd">              if (weight[(u,v)] + d[u] &lt; d[v])        edge (u,v) relaxed</span>
+<span class="sd">                d[v] := weight[(u,v)] + d[u]</span>
+<span class="sd">                p[v] := u</span>
+<span class="sd">                DECREASE-KEY(Q, v)</span>
+<span class="sd">              else                                    edge (u,v) not relaxed</span>
+<span class="sd">                ...</span>
+<span class="sd">              if (d[v] was originally infinity)</span>
+<span class="sd">                INSERT(Q, v)                          discover vertex v</span>
+<span class="sd">            end for                                   finish vertex u</span>
+<span class="sd">          end while</span>
+<span class="sd">          return d</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    We must define what should be done during the search by subclassing</span>
+<span class="sd">    :class:`~graph_tool.search.DijkstraVisitor`, and specializing the</span>
+<span class="sd">    appropriate methods. In the following we will keep track of the discover</span>
+<span class="sd">    time, and the predecessor tree.</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        class VisitorExample(gt.DijkstraVisitor):</span>
+
+<span class="sd">            def __init__(self, name, time):</span>
+<span class="sd">                self.name = name</span>
+<span class="sd">                self.time = time</span>
+<span class="sd">                self.last_time = 0</span>
+
+<span class="sd">            def discover_vertex(self, u):</span>
+<span class="sd">                print(&quot;--&gt;&quot;, self.name[u], &quot;has been discovered!&quot;)</span>
+<span class="sd">                self.time[u] = self.last_time</span>
+<span class="sd">                self.last_time += 1</span>
+
+<span class="sd">            def examine_edge(self, e):</span>
+<span class="sd">                print(&quot;edge (%s, %s) has been examined...&quot; % \</span>
+<span class="sd">                    (self.name[e.source()], self.name[e.target()]))</span>
+
+<span class="sd">            def edge_relaxed(self, e):</span>
+<span class="sd">                print(&quot;edge (%s, %s) has been relaxed...&quot; % \</span>
+<span class="sd">                    (self.name[e.source()], self.name[e.target()]))</span>
+
+
+<span class="sd">    With the above class defined, we can perform the Dijkstra search as follows.</span>
+
+<span class="sd">    &gt;&gt;&gt; time = g.new_vertex_property(&quot;int&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; dist, pred = gt.dijkstra_search(g, weight, g.vertex(0), VisitorExample(name, time))</span>
+<span class="sd">    --&gt; Bob has been discovered!</span>
+<span class="sd">    edge (Bob, Eve) has been examined...</span>
+<span class="sd">    edge (Bob, Eve) has been relaxed...</span>
+<span class="sd">    --&gt; Eve has been discovered!</span>
+<span class="sd">    edge (Bob, Chuck) has been examined...</span>
+<span class="sd">    edge (Bob, Chuck) has been relaxed...</span>
+<span class="sd">    --&gt; Chuck has been discovered!</span>
+<span class="sd">    edge (Bob, Carlos) has been examined...</span>
+<span class="sd">    edge (Bob, Carlos) has been relaxed...</span>
+<span class="sd">    --&gt; Carlos has been discovered!</span>
+<span class="sd">    edge (Bob, Isaac) has been examined...</span>
+<span class="sd">    edge (Bob, Isaac) has been relaxed...</span>
+<span class="sd">    --&gt; Isaac has been discovered!</span>
+<span class="sd">    edge (Eve, Isaac) has been examined...</span>
+<span class="sd">    edge (Eve, Imothep) has been examined...</span>
+<span class="sd">    edge (Eve, Imothep) has been relaxed...</span>
+<span class="sd">    --&gt; Imothep has been discovered!</span>
+<span class="sd">    edge (Eve, Carlos) has been examined...</span>
+<span class="sd">    edge (Eve, Chuck) has been examined...</span>
+<span class="sd">    edge (Eve, Bob) has been examined...</span>
+<span class="sd">    edge (Eve, Carol) has been examined...</span>
+<span class="sd">    edge (Eve, Carol) has been relaxed...</span>
+<span class="sd">    --&gt; Carol has been discovered!</span>
+<span class="sd">    edge (Isaac, Bob) has been examined...</span>
+<span class="sd">    edge (Isaac, Chuck) has been examined...</span>
+<span class="sd">    edge (Isaac, Eve) has been examined...</span>
+<span class="sd">    edge (Chuck, Eve) has been examined...</span>
+<span class="sd">    edge (Chuck, Isaac) has been examined...</span>
+<span class="sd">    edge (Chuck, Imothep) has been examined...</span>
+<span class="sd">    edge (Chuck, Bob) has been examined...</span>
+<span class="sd">    edge (Carlos, Eve) has been examined...</span>
+<span class="sd">    edge (Carlos, Imothep) has been examined...</span>
+<span class="sd">    edge (Carlos, Bob) has been examined...</span>
+<span class="sd">    edge (Carlos, Alice) has been examined...</span>
+<span class="sd">    edge (Carlos, Alice) has been relaxed...</span>
+<span class="sd">    --&gt; Alice has been discovered!</span>
+<span class="sd">    edge (Imothep, Carol) has been examined...</span>
+<span class="sd">    edge (Imothep, Carlos) has been examined...</span>
+<span class="sd">    edge (Imothep, Chuck) has been examined...</span>
+<span class="sd">    edge (Imothep, Eve) has been examined...</span>
+<span class="sd">    edge (Alice, Oscar) has been examined...</span>
+<span class="sd">    edge (Alice, Oscar) has been relaxed...</span>
+<span class="sd">    --&gt; Oscar has been discovered!</span>
+<span class="sd">    edge (Alice, Dave) has been examined...</span>
+<span class="sd">    edge (Alice, Dave) has been relaxed...</span>
+<span class="sd">    --&gt; Dave has been discovered!</span>
+<span class="sd">    edge (Alice, Carlos) has been examined...</span>
+<span class="sd">    edge (Carol, Eve) has been examined...</span>
+<span class="sd">    edge (Carol, Imothep) has been examined...</span>
+<span class="sd">    edge (Oscar, Alice) has been examined...</span>
+<span class="sd">    edge (Oscar, Dave) has been examined...</span>
+<span class="sd">    edge (Dave, Oscar) has been examined...</span>
+<span class="sd">    edge (Dave, Alice) has been examined...</span>
+<span class="sd">    &gt;&gt;&gt; print(time.a)</span>
+<span class="sd">    [0 7 6 3 2 9 1 4 8 5]</span>
+<span class="sd">    &gt;&gt;&gt; print(pred.a)</span>
+<span class="sd">    [0 3 6 0 0 1 0 0 1 6]</span>
+<span class="sd">    &gt;&gt;&gt; print(dist.a)</span>
+<span class="sd">    [ 0.          8.91915887  9.27141329  4.29277116  4.02118246 12.23513866</span>
+<span class="sd">      3.23790211  3.45487436 11.04391549  7.74858396]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [dijkstra] E. Dijkstra, &quot;A note on two problems in connexion with</span>
+<span class="sd">        graphs&quot;, Numerische Mathematik, 1:269-271, 1959.</span>
+<span class="sd">    .. [dijkstra-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/dijkstra_shortest_paths_no_color_map.html</span>
+<span class="sd">    .. [dijkstra-wikipedia] http://en.wikipedia.org/wiki/Dijkstra&#39;s_algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">visitor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">visitor</span> <span class="o">=</span> <span class="n">DijkstraVisitor</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">dist_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dist_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">pred_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pred_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pred_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;int64_t&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pred_map must be of value type &#39;int64_t&#39;, not &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> \
+                             <span class="n">pred_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">_get_null_vertex</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dijkstra_search</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                             <span class="n">source</span><span class="p">,</span>
+                                             <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                             <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pred_map</span><span class="p">),</span>
+                                             <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span> <span class="n">visitor</span><span class="p">,</span>
+                                             <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">StopSearch</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">pred_map</span></div>
+
+<div class="viewcode-block" id="dijkstra_iterator"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.dijkstra_iterator">[docs]</a><span class="k">def</span> <span class="nf">dijkstra_iterator</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dist_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">compare</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">infinity</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">array</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return an iterator of the edges corresponding to a Dijkstra traversal of</span>
+<span class="sd">    the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with weight values.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex` (optional, default: ``None``)</span>
+<span class="sd">        Source vertex. If unspecified, all vertices will be traversed, by</span>
+<span class="sd">        iterating over starting vertices according to their index in increasing</span>
+<span class="sd">        order.</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the distances from the source will be</span>
+<span class="sd">        stored.</span>
+<span class="sd">    combine : binary function (optional, default: ``lambda a, b: a + b``)</span>
+<span class="sd">        This function is used to combine distances to compute the distance of a</span>
+<span class="sd">        path.</span>
+<span class="sd">    compare : binary function (optional, default: ``lambda a, b: a &lt; b``)</span>
+<span class="sd">        This function is use to compare distances to determine which vertex is</span>
+<span class="sd">        closer to the source vertex.</span>
+<span class="sd">    zero : int or float (optional, default: ``0``)</span>
+<span class="sd">         Value assumed to correspond to a distance of zero by the combine and</span>
+<span class="sd">         compare functions.</span>
+<span class="sd">    infinity : int or float (optional, default: ``numpy.inf``)</span>
+<span class="sd">         Value assumed to correspond to a distance of infinity by the combine</span>
+<span class="sd">         and compare functions.</span>
+<span class="sd">    array : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a :class:`numpy.ndarray` will the edge endpoints be</span>
+<span class="sd">        returned instead.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dfs_iterator : Iterator or :class:`numpy.ndarray`</span>
+<span class="sd">        An iterator over the edges in Dijkstra order. If ``array == True``,</span>
+<span class="sd">        this will be a :class:`numpy.ndarray` instead, of shape ``(E,2)``,</span>
+<span class="sd">        containing the edge endpoints.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_iterator: Breadth-first search</span>
+<span class="sd">    dfs_iterator: Depth-first search</span>
+<span class="sd">    astar_iterator: :math:`A^*` heuristic search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    See :func:`~graph_tool.search.dijkstra_search` for an explanation of the</span>
+<span class="sd">    algorithm.</span>
+
+<span class="sd">    The time complexity is :math:`O(1)` to create the generator and</span>
+<span class="sd">    :math:`O(E + V\log V)` to traverse it completely.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; for e in gt.dijkstra_iterator(g, weight, g.vertex(0)):</span>
+<span class="sd">    ...    print(name[e.source()], &quot;-&gt;&quot;, name[e.target()])</span>
+<span class="sd">    Bob -&gt; Eve</span>
+<span class="sd">    Bob -&gt; Chuck</span>
+<span class="sd">    Bob -&gt; Carlos</span>
+<span class="sd">    Bob -&gt; Isaac</span>
+<span class="sd">    Eve -&gt; Imothep</span>
+<span class="sd">    Eve -&gt; Carol</span>
+<span class="sd">    Carlos -&gt; Alice</span>
+<span class="sd">    Alice -&gt; Oscar</span>
+<span class="sd">    Alice -&gt; Dave</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [dijkstra] E. Dijkstra, &quot;A note on two problems in connexion with</span>
+<span class="sd">        graphs&quot;, Numerische Mathematik, 1:269-271, 1959.</span>
+<span class="sd">    .. [dijkstra-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/dijkstra_shortest_paths_no_color_map.html</span>
+<span class="sd">    .. [dijkstra-wikipedia] http://en.wikipedia.org/wiki/Dijkstra&#39;s_algorithm</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dist_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dist_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">_get_null_vertex</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">compare</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">combine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">array</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dijkstra_generator_fast</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                                <span class="n">source</span><span class="p">,</span>
+                                                                <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                                <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                                <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dijkstra_array_fast</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                            <span class="n">source</span><span class="p">,</span>
+                                                            <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                            <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                            <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">compare</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">compare</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span>
+        <span class="k">if</span> <span class="n">combine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">combine</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">array</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dijkstra_generator</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                           <span class="n">source</span><span class="p">,</span>
+                                                           <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                           <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                           <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span>
+                                                           <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">dijkstra_array</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                       <span class="n">source</span><span class="p">,</span>
+                                                       <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                       <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                       <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span>
+                                                       <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BellmanFordVisitor"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BellmanFordVisitor">[docs]</a><span class="k">class</span> <span class="nc">BellmanFordVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A visitor object that is invoked at the event-points inside the</span>
+<span class="sd">    :func:`~graph_tool.search.bellman_ford_search` algorithm. By default, it</span>
+<span class="sd">    performs no action, and should be used as a base class in order to be</span>
+<span class="sd">    useful.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BellmanFordVisitor.examine_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BellmanFordVisitor.examine_edge">[docs]</a>    <span class="k">def</span> <span class="nf">examine_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every edge in the graph ``|V|`` times.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BellmanFordVisitor.edge_relaxed"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BellmanFordVisitor.edge_relaxed">[docs]</a>    <span class="k">def</span> <span class="nf">edge_relaxed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked when the distance label for the target vertex is</span>
+<span class="sd">        decreased. The edge (u,v) that participated in the last relaxation for</span>
+<span class="sd">        vertex v is an edge in the shortest paths tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BellmanFordVisitor.edge_not_relaxed"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BellmanFordVisitor.edge_not_relaxed">[docs]</a>    <span class="k">def</span> <span class="nf">edge_not_relaxed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked if the distance label for the target vertex is not</span>
+<span class="sd">        decreased.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BellmanFordVisitor.edge_minimized"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BellmanFordVisitor.edge_minimized">[docs]</a>    <span class="k">def</span> <span class="nf">edge_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked during the second stage of the algorithm, during the</span>
+<span class="sd">        test of whether each edge was minimized. If the edge is minimized then</span>
+<span class="sd">        this function is invoked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="BellmanFordVisitor.edge_not_minimized"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.BellmanFordVisitor.edge_not_minimized">[docs]</a>    <span class="k">def</span> <span class="nf">edge_not_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked during the second stage of the algorithm, during the</span>
+<span class="sd">        test of whether each edge was minimized. If the edge was not minimized,</span>
+<span class="sd">        this function is invoked. This happens when there is a negative cycle in</span>
+<span class="sd">        the graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="bellman_ford_search"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.bellman_ford_search">[docs]</a><span class="k">def</span> <span class="nf">bellman_ford_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">visitor</span><span class="o">=</span><span class="n">BellmanFordVisitor</span><span class="p">(),</span>
+                        <span class="n">dist_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pred_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">combine</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span>
+                        <span class="n">compare</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">infinity</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Bellman-Ford traversal of a directed or undirected graph, with negative weights.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex`</span>
+<span class="sd">        Source vertex.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with weight values.</span>
+<span class="sd">    visitor : :class:`~graph_tool.search.DijkstraVisitor` (optional, default: ``DijkstraVisitor()``)</span>
+<span class="sd">        A visitor object that is invoked at the event points inside the</span>
+<span class="sd">        algorithm. This should be a subclass of</span>
+<span class="sd">        :class:`~graph_tool.search.DijkstraVisitor`.</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the distances from the source will be</span>
+<span class="sd">        stored.</span>
+<span class="sd">    pred_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the predecessor map will be</span>
+<span class="sd">        stored (must have value type &quot;int64_t&quot;).</span>
+<span class="sd">    combine : binary function (optional, default: ``lambda a, b: a + b``)</span>
+<span class="sd">        This function is used to combine distances to compute the distance of a</span>
+<span class="sd">        path.</span>
+<span class="sd">    compare : binary function (optional, default: ``lambda a, b: a &lt; b``)</span>
+<span class="sd">        This function is use to compare distances to determine which vertex is</span>
+<span class="sd">        closer to the source vertex.</span>
+<span class="sd">    zero : int or float (optional, default: ``0``)</span>
+<span class="sd">         Value assumed to correspond to a distance of zero by the combine and</span>
+<span class="sd">         compare functions.</span>
+<span class="sd">    infinity : int or float (optional, default: ``float(&#39;inf&#39;)``)</span>
+<span class="sd">         Value assumed to correspond to a distance of infinity by the combine and</span>
+<span class="sd">         compare functions.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    minimized : bool</span>
+<span class="sd">        True if all edges were successfully minimized, or False if there is a</span>
+<span class="sd">        negative loop in the graph.</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the computed distances from the source.</span>
+<span class="sd">    pred_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the predecessor tree.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_search: Breadth-first search</span>
+<span class="sd">    dfs_search: Depth-first search</span>
+<span class="sd">    dijkstra_search: Dijkstra search</span>
+<span class="sd">    astar_search: :math:`A^*` heuristic search</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The Bellman-Ford algorithm [bellman-ford]_ solves the single-source shortest</span>
+<span class="sd">    paths problem for a graph with both positive and negative edge weights. If</span>
+<span class="sd">    you only need to solve the shortest paths problem for positive edge weights,</span>
+<span class="sd">    :func:`~graph_tool.search.dijkstra_search` provides a more efficient</span>
+<span class="sd">    alternative. If all the edge weights are all equal, then</span>
+<span class="sd">    :func:`~graph_tool.search.bfs_search` provides an even more efficient</span>
+<span class="sd">    alternative.</span>
+
+<span class="sd">    The Bellman-Ford algorithm proceeds by looping through all of the edges in</span>
+<span class="sd">    the graph, applying the relaxation operation to each edge. In the following</span>
+<span class="sd">    pseudo-code, ``v`` is a vertex adjacent to ``u``, ``w`` maps edges to their</span>
+<span class="sd">    weight, and ``d`` is a distance map that records the length of the shortest</span>
+<span class="sd">    path to each vertex seen so far. ``p`` is a predecessor map which records</span>
+<span class="sd">    the parent of each vertex, which will ultimately be the parent in the</span>
+<span class="sd">    shortest paths tree</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        RELAX(u, v, w, d, p)</span>
+<span class="sd">          if (w(u,v) + d[u] &lt; d[v])</span>
+<span class="sd">            d[v] := w(u,v) + d[u]       relax edge (u,v)</span>
+<span class="sd">            p[v] := u</span>
+<span class="sd">          else</span>
+<span class="sd">            ...                         edge (u,v) is not relaxed</span>
+
+
+<span class="sd">    The algorithm repeats this loop ``|V|`` times after which it is guaranteed</span>
+<span class="sd">    that the distances to each vertex have been reduced to the minimum possible</span>
+<span class="sd">    unless there is a negative cycle in the graph. If there is a negative cycle,</span>
+<span class="sd">    then there will be edges in the graph that were not properly minimized. That</span>
+<span class="sd">    is, there will be edges ``(u,v)`` such that ``w(u,v) + d[u] &lt; d[v]``. The</span>
+<span class="sd">    algorithm loops over the edges in the graph one final time to check if all</span>
+<span class="sd">    the edges were minimized, returning true if they were and returning false</span>
+<span class="sd">    otherwise.</span>
+
+<span class="sd">    ::</span>
+
+
+<span class="sd">        BELLMAN-FORD(G)</span>
+<span class="sd">          for each vertex u in V</span>
+<span class="sd">            d[u] := infinity</span>
+<span class="sd">            p[u] := u</span>
+<span class="sd">          end for</span>
+<span class="sd">          for i := 1 to |V|-1</span>
+<span class="sd">            for each edge (u,v) in E          examine edge (u,v)</span>
+<span class="sd">              RELAX(u, v, w, d, p)</span>
+<span class="sd">            end for</span>
+<span class="sd">          end for</span>
+<span class="sd">          for each edge (u,v) in E</span>
+<span class="sd">            if (w(u,v) + d[u] &lt; d[v])</span>
+<span class="sd">              return (false, , )              edge (u,v) was not minimized</span>
+<span class="sd">            else</span>
+<span class="sd">              ...                             edge (u,v) was minimized</span>
+<span class="sd">          end for</span>
+<span class="sd">          return (true, p, d)</span>
+
+<span class="sd">    The time complexity is :math:`O(V E)`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    We must define what should be done during the search by subclassing</span>
+<span class="sd">    :class:`~graph_tool.search.BellmanFordVisitor`, and specializing the</span>
+<span class="sd">    appropriate methods. In the following we will keep track of the edge</span>
+<span class="sd">    minimizations.</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        class VisitorExample(gt.BellmanFordVisitor):</span>
+
+<span class="sd">            def __init__(self, name):</span>
+<span class="sd">                self.name = name</span>
+
+<span class="sd">            def edge_minimized(self, e):</span>
+<span class="sd">                print(&quot;edge (%s, %s) has been minimized...&quot; % \</span>
+<span class="sd">                      (self.name[e.source()], self.name[e.target()]))</span>
+
+<span class="sd">            def edge_not_minimized(self, e):</span>
+<span class="sd">                print(&quot;edge (%s, %s) has not been minimized...&quot; % \</span>
+<span class="sd">                      (self.name[e.source()], self.name[e.target()]))</span>
+
+
+<span class="sd">    With the above class defined, we can perform the Bellman-Ford search as</span>
+<span class="sd">    follows.</span>
+
+<span class="sd">    &gt;&gt;&gt; nweight = g.copy_property(weight)</span>
+<span class="sd">    &gt;&gt;&gt; nweight.a[6] *= -1   # include negative weight in edge (Carlos, Alice)</span>
+<span class="sd">    &gt;&gt;&gt; minimized, dist, pred = gt.bellman_ford_search(g, g.vertex(0), nweight, VisitorExample(name))</span>
+<span class="sd">    edge (Bob, Eve) has been minimized...</span>
+<span class="sd">    edge (Bob, Chuck) has been minimized...</span>
+<span class="sd">    edge (Bob, Carlos) has been minimized...</span>
+<span class="sd">    edge (Bob, Isaac) has been minimized...</span>
+<span class="sd">    edge (Alice, Oscar) has been minimized...</span>
+<span class="sd">    edge (Alice, Dave) has been minimized...</span>
+<span class="sd">    edge (Alice, Carlos) has been minimized...</span>
+<span class="sd">    edge (Carol, Eve) has been minimized...</span>
+<span class="sd">    edge (Carol, Imothep) has been minimized...</span>
+<span class="sd">    edge (Carlos, Eve) has been minimized...</span>
+<span class="sd">    edge (Carlos, Imothep) has been minimized...</span>
+<span class="sd">    edge (Chuck, Eve) has been minimized...</span>
+<span class="sd">    edge (Chuck, Isaac) has been minimized...</span>
+<span class="sd">    edge (Chuck, Imothep) has been minimized...</span>
+<span class="sd">    edge (Dave, Oscar) has been minimized...</span>
+<span class="sd">    edge (Eve, Isaac) has been minimized...</span>
+<span class="sd">    edge (Eve, Imothep) has been minimized...</span>
+<span class="sd">    &gt;&gt;&gt; print(minimized)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; print(pred.a)</span>
+<span class="sd">    [3 3 9 1 6 1 3 6 1 3]</span>
+<span class="sd">    &gt;&gt;&gt; print(dist.a)</span>
+<span class="sd">    [-28.42555934 -37.34471821 -25.20438243 -41.97110592 -35.20316571</span>
+<span class="sd">     -34.02873843 -36.58860946 -33.55645565 -35.2199616  -36.0029274 ]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [bellman-ford] R. Bellman, &quot;On a routing problem&quot;, Quarterly of Applied</span>
+<span class="sd">       Mathematics, 16(1):87-90, 1958.</span>
+<span class="sd">    .. [bellman-ford-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/bellman_ford_shortest.html</span>
+<span class="sd">    .. [bellman-ford-wikipedia] http://en.wikipedia.org/wiki/Bellman-Ford_algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dist_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dist_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">pred_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pred_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pred_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;int64_t&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pred_map must be of value type &#39;int64_t&#39;, not &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> \
+                             <span class="n">pred_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+
+    <span class="n">minimized</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">minimized</span> <span class="o">=</span> \
+            <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">bellman_ford_search</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                     <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+                                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pred_map</span><span class="p">),</span>
+                                                     <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                     <span class="n">visitor</span><span class="p">,</span> <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span>
+                                                     <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">StopSearch</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">minimized</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">pred_map</span></div>
+
+
+<div class="viewcode-block" id="AStarVisitor"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor">[docs]</a><span class="k">class</span> <span class="nc">AStarVisitor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A visitor object that is invoked at the event-points inside the</span>
+<span class="sd">    :func:`~graph_tool.search.astar_search` algorithm. By default, it</span>
+<span class="sd">    performs no action, and should be used as a base class in order to be</span>
+<span class="sd">    useful.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AStarVisitor.initialize_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.initialize_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every vertex of the graph before the start of the</span>
+<span class="sd">        graph search.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.examine_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.examine_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">examine_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This is invoked on a vertex as it is popped from the queue (i.e. it</span>
+<span class="sd">        has the lowest cost on the ``OPEN`` list). This happens immediately</span>
+<span class="sd">        before examine_edge() is invoked on each of the out-edges of vertex u.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.examine_edge"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.examine_edge">[docs]</a>    <span class="k">def</span> <span class="nf">examine_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on every out-edge of each vertex after it is examined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.discover_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.discover_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">discover_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked when a vertex is first discovered and is added to the</span>
+<span class="sd">        ``OPEN`` list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.edge_relaxed"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.edge_relaxed">[docs]</a>    <span class="k">def</span> <span class="nf">edge_relaxed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Upon examination, if the following condition holds then the edge is</span>
+<span class="sd">        relaxed (its distance is reduced), and this method is invoked.</span>
+
+<span class="sd">        ::</span>
+
+<span class="sd">            (u, v) = tuple(e)</span>
+<span class="sd">            assert(compare(combine(d[u], weight[e]), d[v]))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.edge_not_relaxed"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.edge_not_relaxed">[docs]</a>    <span class="k">def</span> <span class="nf">edge_not_relaxed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Upon examination, if the edge is not relaxed (see</span>
+<span class="sd">        :meth:`~graph_tool.search.AStarVisitor.edge_relaxed`) then this</span>
+<span class="sd">        method is invoked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.black_target"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.black_target">[docs]</a>    <span class="k">def</span> <span class="nf">black_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This is invoked when a vertex that is on the ``CLOSED`` list is</span>
+<span class="sd">        &quot;rediscovered&quot; via a more efficient path, and is re-added to the</span>
+<span class="sd">        ``OPEN`` list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="AStarVisitor.finish_vertex"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.AStarVisitor.finish_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">finish_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is invoked on a vertex when it is added to the CLOSED list,</span>
+<span class="sd">        which happens after all of its out edges have been examined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div></div>
+
+
+<div class="viewcode-block" id="astar_search"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.astar_search">[docs]</a><span class="k">def</span> <span class="nf">astar_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">visitor</span><span class="o">=</span><span class="n">AStarVisitor</span><span class="p">(),</span>
+                 <span class="n">heuristic</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dist_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pred_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">cost_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span>
+                 <span class="n">compare</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">infinity</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="n">implicit</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Heuristic :math:`A^*` search on a weighted, directed or undirected graph for the case where all edge weights are non-negative.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex`</span>
+<span class="sd">        Source vertex.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with weight values.</span>
+<span class="sd">    visitor : :class:`~graph_tool.search.AStarVisitor` (optional, default: ``AStarVisitor()``)</span>
+<span class="sd">        A visitor object that is invoked at the event points inside the</span>
+<span class="sd">        algorithm. This should be a subclass of</span>
+<span class="sd">        :class:`~graph_tool.search.AStarVisitor`.</span>
+<span class="sd">    heuristic : unary function (optional, default: ``lambda v: 1``)</span>
+<span class="sd">        The heuristic function that guides the search. It should take a single</span>
+<span class="sd">        argument which is a :class:`~graph_tool.Vertex`, and output an estimated</span>
+<span class="sd">        distance from the supplied vertex to the target vertex.</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the distances from the source will be</span>
+<span class="sd">        stored.</span>
+<span class="sd">    pred_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the predecessor map will be</span>
+<span class="sd">        stored (must have value type &quot;int64_t&quot;).</span>
+<span class="sd">    cost_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the vertex costs will be stored. It must</span>
+<span class="sd">        have the same value type as ``dist_map``. This parameter is only used if</span>
+<span class="sd">        ``implicit`` is True.</span>
+<span class="sd">    combine : binary function (optional, default: ``lambda a, b: a + b``)</span>
+<span class="sd">        This function is used to combine distances to compute the distance of a</span>
+<span class="sd">        path.</span>
+<span class="sd">    compare : binary function (optional, default: ``lambda a, b: a &lt; b``)</span>
+<span class="sd">        This function is use to compare distances to determine which vertex is</span>
+<span class="sd">        closer to the source vertex.</span>
+<span class="sd">    implicit : bool (optional, default: ``False``)</span>
+<span class="sd">        If true, the underlying graph will be assumed to be implicit</span>
+<span class="sd">        (i.e. constructed during the search).</span>
+<span class="sd">    zero : int or float (optional, default: ``0``)</span>
+<span class="sd">         Value assumed to correspond to a distance of zero by the combine and</span>
+<span class="sd">         compare functions.</span>
+<span class="sd">    infinity : int or float (optional, default: ``float(&#39;inf&#39;)``)</span>
+<span class="sd">         Value assumed to correspond to a distance of infinity by the combine and</span>
+<span class="sd">         compare functions.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the computed distances from the source.</span>
+<span class="sd">    pred_map : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        A vertex property map with the predecessor tree.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_search: Breadth-first search</span>
+<span class="sd">    dfs_search: Depth-first search</span>
+<span class="sd">    dijkstra_search: Dijkstra&#39;s search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The :math:`A^*` algorithm is a heuristic graph search algorithm: an</span>
+<span class="sd">    :math:`A^*` search is &quot;guided&quot; by a heuristic function. A heuristic function</span>
+<span class="sd">    :math:`h(v)` is one which estimates the cost from a non-goal state (v) in</span>
+<span class="sd">    the graph to some goal state, t. Intuitively, :math:`A^*` follows paths</span>
+<span class="sd">    (through the graph) to the goal that are estimated by the heuristic function</span>
+<span class="sd">    to be the best paths. Unlike best-first search, :math:`A^*` takes into</span>
+<span class="sd">    account the known cost from the start of the search to v; the paths</span>
+<span class="sd">    :math:`A^*` takes are guided by a function :math:`f(v) = g(v) + h(v)`, where</span>
+<span class="sd">    :math:`h(v)` is the heuristic function, and :math:`g(v)` (sometimes denoted</span>
+<span class="sd">    :math:`c(s, v)`) is the known cost from the start to v. Clearly, the</span>
+<span class="sd">    efficiency of :math:`A^*` is highly dependent on the heuristic function with</span>
+<span class="sd">    which it is used.</span>
+
+<span class="sd">    The time complexity is :math:`O((E + V)\log V)`.</span>
+
+<span class="sd">    The pseudo-code for the :math:`A^*` algorithm is listed below, with the</span>
+<span class="sd">    annotated event points, for which the given visitor object will be called</span>
+<span class="sd">    with the appropriate method.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        A*(G, source, h)</span>
+<span class="sd">          for each vertex u in V                 initialize vertex u</span>
+<span class="sd">            d[u] := f[u] := infinity</span>
+<span class="sd">            color[u] := WHITE</span>
+<span class="sd">          end for</span>
+<span class="sd">          color[s] := GRAY</span>
+<span class="sd">          d[s] := 0</span>
+<span class="sd">          f[s] := h(source)</span>
+<span class="sd">          INSERT(Q, source)                      discover vertex source</span>
+<span class="sd">          while (Q != Ø)</span>
+<span class="sd">            u := EXTRACT-MIN(Q)                  examine vertex u</span>
+<span class="sd">            for each vertex v in Adj[u]          examine edge (u,v)</span>
+<span class="sd">              if (w(u,v) + d[u] &lt; d[v])</span>
+<span class="sd">                d[v] := w(u,v) + d[u]            edge (u,v) relaxed</span>
+<span class="sd">                f[v] := d[v] + h(v)</span>
+<span class="sd">                if (color[v] = WHITE)</span>
+<span class="sd">                  color[v] := GRAY</span>
+<span class="sd">                  INSERT(Q, v)                   discover vertex v</span>
+<span class="sd">                else if (color[v] = BLACK)</span>
+<span class="sd">                  color[v] := GRAY</span>
+<span class="sd">                  INSERT(Q, v)                   reopen vertex v</span>
+<span class="sd">                end if</span>
+<span class="sd">              else</span>
+<span class="sd">                ...                              edge (u,v) not relaxed</span>
+<span class="sd">            end for</span>
+<span class="sd">            color[u] := BLACK                    finish vertex u</span>
+<span class="sd">          end while</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    We will use an irregular two-dimensional lattice as an example, where the</span>
+<span class="sd">    heuristic function will be based on the euclidean distance to the target.</span>
+
+<span class="sd">    The heuristic function will be defined as:</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        def h(v, target, pos):</span>
+<span class="sd">            return sqrt(sum((pos[v].a - pos[target].a) ** 2))</span>
+
+<span class="sd">    where ``pos`` is the vertex position in the plane.</span>
+
+<span class="sd">    We must define what should be done during the search by subclassing</span>
+<span class="sd">    :class:`~graph_tool.search.AStarVisitor`, and specializing the appropriate</span>
+<span class="sd">    methods. In the following we will keep track of the discovered vertices, and</span>
+<span class="sd">    which edges were examined, as well as the predecessor tree. We will also</span>
+<span class="sd">    abort the search when a given target vertex is found, by raising the</span>
+<span class="sd">    :class:`~graph_tool.search.StopSearch` exception.</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        class VisitorExample(gt.AStarVisitor):</span>
+
+<span class="sd">            def __init__(self, touched_v, touched_e, target):</span>
+<span class="sd">                self.touched_v = touched_v</span>
+<span class="sd">                self.touched_e = touched_e</span>
+<span class="sd">                self.target = target</span>
+
+<span class="sd">            def discover_vertex(self, u):</span>
+<span class="sd">                self.touched_v[u] = True</span>
+
+<span class="sd">            def examine_edge(self, e):</span>
+<span class="sd">                self.touched_e[e] = True</span>
+
+<span class="sd">            def edge_relaxed(self, e):</span>
+<span class="sd">                if e.target() == self.target:</span>
+<span class="sd">                    raise gt.StopSearch()</span>
+
+
+<span class="sd">    With the above class defined, we can perform the :math:`A^*` search as</span>
+<span class="sd">    follows.</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">        from numpy.random import seed, random</span>
+<span class="sd">        import matplotlib.cm</span>
+<span class="sd">        seed(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; points = random((500, 2)) * 4</span>
+<span class="sd">    &gt;&gt;&gt; points[0] = [-0.01, 0.01]</span>
+<span class="sd">    &gt;&gt;&gt; points[1] = [4.01, 4.01]</span>
+<span class="sd">    &gt;&gt;&gt; g, pos = gt.triangulation(points, type=&quot;delaunay&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; weight = g.new_edge_property(&quot;double&quot;) # Edge weights corresponding to</span>
+<span class="sd">    ...                                        # Euclidean distances</span>
+<span class="sd">    &gt;&gt;&gt; for e in g.edges():</span>
+<span class="sd">    ...    weight[e] = sqrt(sum((pos[e.source()].a -</span>
+<span class="sd">    ...                          pos[e.target()].a) ** 2))</span>
+<span class="sd">    &gt;&gt;&gt; touch_v = g.new_vertex_property(&quot;bool&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; touch_e = g.new_edge_property(&quot;bool&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; target = g.vertex(1)</span>
+<span class="sd">    &gt;&gt;&gt; dist, pred = gt.astar_search(g, g.vertex(0), weight,</span>
+<span class="sd">    ...                              VisitorExample(touch_v, touch_e, target),</span>
+<span class="sd">    ...                              heuristic=lambda v: h(v, target, pos))</span>
+
+<span class="sd">    We can now observe the best path found, and how many vertices and edges were</span>
+<span class="sd">    visited in the process.</span>
+
+<span class="sd">    &gt;&gt;&gt; ecolor = g.new_edge_property(&quot;string&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ewidth = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ewidth.a = 1</span>
+<span class="sd">    &gt;&gt;&gt; for e in g.edges():</span>
+<span class="sd">    ...    ecolor[e] = &quot;#3465a4&quot; if touch_e[e] else &quot;#d3d7cf&quot;</span>
+<span class="sd">    &gt;&gt;&gt; v = target</span>
+<span class="sd">    &gt;&gt;&gt; while v != g.vertex(0):</span>
+<span class="sd">    ...     p = g.vertex(pred[v])</span>
+<span class="sd">    ...     for e in v.out_edges():</span>
+<span class="sd">    ...         if e.target() == p:</span>
+<span class="sd">    ...             ecolor[e] = &quot;#a40000&quot;</span>
+<span class="sd">    ...             ewidth[e] = 3</span>
+<span class="sd">    ...     v = p</span>
+<span class="sd">    &gt;&gt;&gt; gt.graph_draw(g, pos=pos, output_size=(300, 300), vertex_fill_color=touch_v,</span>
+<span class="sd">    ...               vcmap=matplotlib.cm.binary, edge_color=ecolor,</span>
+<span class="sd">    ...               edge_pen_width=ewidth, output=&quot;astar-delaunay.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300, 300), vertex_fill_color=touch_v,</span>
+<span class="sd">                     vcmap=matplotlib.cm.binary, edge_color=ecolor,</span>
+<span class="sd">                     edge_pen_width=ewidth, output=&quot;astar-delaunay.png&quot;)</span>
+
+<span class="sd">    .. figure:: astar-delaunay.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       The shortest path is shown in red. The visited edges are shown in blue,</span>
+<span class="sd">       and the visited vertices in black.</span>
+
+
+<span class="sd">    The :math:`A^*` algorithm is very useful for searching *implicit* graphs,</span>
+<span class="sd">    i.e. graphs which are not entirely stored in memory and are generated</span>
+<span class="sd">    &quot;on-the-fly&quot; during the search. In the following example we will carry out a</span>
+<span class="sd">    search in a hamming hypercube of 10 bits witch has random weights on its</span>
+<span class="sd">    edges in the range :math:`[0,1]`. The vertices of the hypercube will be</span>
+<span class="sd">    created during the search.</span>
+
+<span class="sd">    The heuristic function will use the Hamming distance between vertices:</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        def h(v, target, state):</span>
+<span class="sd">            return sum(abs(state[v].a - target)) / 2</span>
+
+
+<span class="sd">    In the following visitor we will keep growing the graph on-the-fly, and</span>
+<span class="sd">    abort the search when a given target vertex is found, by raising the</span>
+<span class="sd">    :class:`~graph_tool.search.StopSearch` exception.</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        from numpy.random import random</span>
+
+<span class="sd">        class HammingVisitor(gt.AStarVisitor):</span>
+
+<span class="sd">            def __init__(self, g, target, state, weight, dist, cost):</span>
+<span class="sd">                self.g = g</span>
+<span class="sd">                self.state = state</span>
+<span class="sd">                self.target = target</span>
+<span class="sd">                self.weight = weight</span>
+<span class="sd">                self.dist = dist</span>
+<span class="sd">                self.cost = cost</span>
+<span class="sd">                self.visited = {}</span>
+
+<span class="sd">            def examine_vertex(self, u):</span>
+<span class="sd">                for i in range(len(self.state[u])):</span>
+<span class="sd">                    nstate = list(self.state[u])</span>
+<span class="sd">                    nstate[i] ^= 1</span>
+<span class="sd">                    if tuple(nstate) in self.visited:</span>
+<span class="sd">                        v = self.visited[tuple(nstate)]</span>
+<span class="sd">                    else:</span>
+<span class="sd">                        v = self.g.add_vertex()</span>
+<span class="sd">                        self.visited[tuple(nstate)] = v</span>
+<span class="sd">                        self.state[v] = nstate</span>
+<span class="sd">                        self.dist[v] = self.cost[v] = float(&#39;inf&#39;)</span>
+<span class="sd">                    for e in u.out_edges():</span>
+<span class="sd">                        if e.target() == v:</span>
+<span class="sd">                            break</span>
+<span class="sd">                    else:</span>
+<span class="sd">                        e = self.g.add_edge(u, v)</span>
+<span class="sd">                        self.weight[e] = random()</span>
+<span class="sd">                self.visited[tuple(self.state[u])] = u</span>
+
+<span class="sd">            def edge_relaxed(self, e):</span>
+<span class="sd">                if self.state[e.target()] == self.target:</span>
+<span class="sd">                    self.visited[tuple(self.target)] = e.target()</span>
+<span class="sd">                    raise gt.StopSearch()</span>
+
+<span class="sd">    With the above class defined, we can perform the :math:`A^*` search as</span>
+<span class="sd">    follows.</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">        from numpy.random import seed, random</span>
+<span class="sd">        seed(42)</span>
+<span class="sd">        gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.Graph(directed=False)</span>
+<span class="sd">    &gt;&gt;&gt; state = g.new_vertex_property(&quot;vector&lt;bool&gt;&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; v = g.add_vertex()</span>
+<span class="sd">    &gt;&gt;&gt; state[v] = [0] * 10</span>
+<span class="sd">    &gt;&gt;&gt; target = [1] * 10</span>
+<span class="sd">    &gt;&gt;&gt; weight = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; dist = g.new_vertex_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cost = g.new_vertex_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; visitor = HammingVisitor(g, target, state, weight, dist, cost)</span>
+<span class="sd">    &gt;&gt;&gt; dist, pred = gt.astar_search(g, g.vertex(0), weight, visitor, dist_map=dist,</span>
+<span class="sd">    ...                              cost_map=cost, heuristic=lambda v: h(v, array(target), state),</span>
+<span class="sd">    ...                              implicit=True)</span>
+
+<span class="sd">    We can now observe the best path found, and how many vertices and edges were</span>
+<span class="sd">    visited in the process.</span>
+
+<span class="sd">    &gt;&gt;&gt; ecolor = g.new_edge_property(&quot;string&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; vcolor = g.new_vertex_property(&quot;string&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ewidth = g.new_edge_property(&quot;double&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ewidth.a = 1</span>
+<span class="sd">    &gt;&gt;&gt; for e in g.edges():</span>
+<span class="sd">    ...    ecolor[e] = &quot;black&quot;</span>
+<span class="sd">    &gt;&gt;&gt; for v in g.vertices():</span>
+<span class="sd">    ...    vcolor[v] = &quot;white&quot;</span>
+<span class="sd">    &gt;&gt;&gt; v = visitor.visited[tuple(target)]</span>
+<span class="sd">    &gt;&gt;&gt; while v != g.vertex(0):</span>
+<span class="sd">    ...     vcolor[v] = &quot;black&quot;</span>
+<span class="sd">    ...     p = g.vertex(pred[v])</span>
+<span class="sd">    ...     for e in v.out_edges():</span>
+<span class="sd">    ...         if e.target() == p:</span>
+<span class="sd">    ...             ecolor[e] = &quot;#a40000&quot;</span>
+<span class="sd">    ...             ewidth[e] = 3</span>
+<span class="sd">    ...     v = p</span>
+<span class="sd">    &gt;&gt;&gt; vcolor[v] = &quot;black&quot;</span>
+<span class="sd">    &gt;&gt;&gt; pos = gt.graph_draw(g, output_size=(300, 300), vertex_fill_color=vcolor, edge_color=ecolor,</span>
+<span class="sd">    ...                     edge_pen_width=ewidth, output=&quot;astar-implicit.pdf&quot;)</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graph_draw(g, pos=pos, output_size=(300, 300), vertex_fill_color=vcolor,</span>
+<span class="sd">                     edge_color=ecolor, edge_pen_width=ewidth,</span>
+<span class="sd">                     output=&quot;astar-implicit.png&quot;)</span>
+
+
+<span class="sd">    .. figure:: astar-implicit.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       The shortest path is shown in red, and the vertices which belong to it</span>
+<span class="sd">       are in black. Note that the number of vertices visited is much smaller</span>
+<span class="sd">       than the total number :math:`2^{10} = 1024`.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [astar] Hart, P. E.; Nilsson, N. J.; Raphael, B. &quot;A Formal Basis for the</span>
+<span class="sd">       Heuristic Determination of Minimum Cost Paths&quot;. IEEE Transactions on</span>
+<span class="sd">       Systems Science and Cybernetics SSC4 4 (2): 100-107, 1968.</span>
+<span class="sd">       :doi:`10.1109/TSSC.1968.300136`</span>
+<span class="sd">    .. [astar-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/astar_search.html</span>
+<span class="sd">    .. [astar-wikipedia] http://en.wikipedia.org/wiki/A*_search_algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dist_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dist_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">pred_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pred_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pred_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;int64_t&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pred_map must be of value type &#39;int64_t&#39;, not &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> \
+                             <span class="n">pred_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="n">dist_type</span> <span class="o">=</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">python_value_type</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">dist_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">dist_type</span><span class="p">(</span><span class="n">heuristic</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">heuristic</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">implicit</span><span class="p">:</span>
+            <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">astar_search</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                              <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                              <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pred_map</span><span class="p">),</span>
+                                              <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span> <span class="n">visitor</span><span class="p">,</span>
+                                              <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">,</span>
+                                              <span class="n">h</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cost_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cost_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">cost_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The cost_map value type must be the same as&quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot; dist_map.&quot;</span><span class="p">)</span>
+            <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">astar_search_implicit</span>\
+                <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+                 <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">pred_map</span><span class="p">),</span>
+                 <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">cost_map</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span> <span class="n">visitor</span><span class="p">,</span>
+                 <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">StopSearch</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">pred_map</span></div>
+
+
+<div class="viewcode-block" id="astar_iterator"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.astar_iterator">[docs]</a><span class="k">def</span> <span class="nf">astar_iterator</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">heuristic</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dist_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">combine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compare</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">infinity</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                   <span class="n">array</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return an iterator of the edges corresponding to an :math:`A^*` traversal of</span>
+<span class="sd">    the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    source : :class:`~graph_tool.Vertex`</span>
+<span class="sd">        Source vertex.</span>
+<span class="sd">    weight : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Edge property map with weight values.</span>
+<span class="sd">    heuristic : unary function (optional, default: ``lambda v: 1``)</span>
+<span class="sd">        The heuristic function that guides the search. It should take a single</span>
+<span class="sd">        argument which is a :class:`~graph_tool.Vertex`, and output an estimated</span>
+<span class="sd">        distance from the supplied vertex to the target vertex.</span>
+<span class="sd">    dist_map : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        A vertex property map where the distances from the source will be</span>
+<span class="sd">        stored.</span>
+<span class="sd">    combine : binary function (optional, default: ``lambda a, b: a + b``)</span>
+<span class="sd">        This function is used to combine distances to compute the distance of a</span>
+<span class="sd">        path.</span>
+<span class="sd">    compare : binary function (optional, default: ``lambda a, b: a &lt; b``)</span>
+<span class="sd">        This function is use to compare distances to determine which vertex is</span>
+<span class="sd">        closer to the source vertex.</span>
+<span class="sd">    zero : int or float (optional, default: ``0``)</span>
+<span class="sd">         Value assumed to correspond to a distance of zero by the combine and</span>
+<span class="sd">         compare functions.</span>
+<span class="sd">    infinity : int or float (optional, default: ``numpy.inf``)</span>
+<span class="sd">         Value assumed to correspond to a distance of infinity by the combine</span>
+<span class="sd">         and compare functions.</span>
+<span class="sd">    array : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, a :class:`numpy.ndarray` will the edge endpoints be</span>
+<span class="sd">        returned instead.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    astar_iterator : Iterator or :class:`numpy.ndarray`</span>
+<span class="sd">        An iterator over the edges in :math:`A^*` order. If ``array == True``,</span>
+<span class="sd">        this will be a :class:`numpy.ndarray` instead, of shape ``(E,2)``,</span>
+<span class="sd">        containing the edge endpoints.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    bfs_iterator: Breadth-first search</span>
+<span class="sd">    dfs_iterator: Depth-first search</span>
+<span class="sd">    dijkstra_iterator: Dijkstra search algorithm</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    See :func:`~graph_tool.search.astar_search` for an explanation of the</span>
+<span class="sd">    algorithm.</span>
+
+<span class="sd">    The time complexity is :math:`O(1)` to create the generator and</span>
+<span class="sd">    :math:`O((E + V)\log V)` to traverse it completely.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.load_graph(&quot;search_example.xml&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; name = g.vp[&quot;name&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; weight = g.ep[&quot;weight&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; for e in gt.astar_iterator(g, g.vertex(0), weight):</span>
+<span class="sd">    ...    print(name[e.source()], &quot;-&gt;&quot;, name[e.target()])</span>
+<span class="sd">    Bob -&gt; Eve</span>
+<span class="sd">    Bob -&gt; Chuck</span>
+<span class="sd">    Bob -&gt; Carlos</span>
+<span class="sd">    Bob -&gt; Isaac</span>
+<span class="sd">    Eve -&gt; Imothep</span>
+<span class="sd">    Eve -&gt; Carol</span>
+<span class="sd">    Carlos -&gt; Alice</span>
+<span class="sd">    Alice -&gt; Oscar</span>
+<span class="sd">    Alice -&gt; Dave</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [astar] Hart, P. E.; Nilsson, N. J.; Raphael, B. &quot;A Formal Basis for the</span>
+<span class="sd">       Heuristic Determination of Minimum Cost Paths&quot;. IEEE Transactions on</span>
+<span class="sd">       Systems Science and Cybernetics SSC4 4 (2): 100-107, 1968.</span>
+<span class="sd">       :doi:`10.1109/TSSC.1968.300136`</span>
+<span class="sd">    .. [astar-bgl] http://www.boost.org/doc/libs/release/libs/graph/doc/astar_search.html</span>
+<span class="sd">    .. [astar-wikipedia] http://en.wikipedia.org/wiki/A*_search_algorithm</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dist_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dist_map</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">value_type</span><span class="p">())</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">zero</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;python::object&quot;</span><span class="p">:</span>
+            <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+        <span class="n">infinity</span> <span class="o">=</span> <span class="n">_python_type</span><span class="p">(</span><span class="n">dist_map</span><span class="o">.</span><span class="n">value_type</span><span class="p">())(</span><span class="n">infinity</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">compare</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">combine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">array</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">astar_generator_fast</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                             <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+                                                             <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                             <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                             <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">,</span> <span class="n">heuristic</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">astar_array_fast</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                         <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+                                                         <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                         <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                         <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">,</span> <span class="n">heuristic</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">compare</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">compare</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span>
+        <span class="k">if</span> <span class="n">combine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">combine</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">array</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">astar_generator</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                        <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+                                                        <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                        <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                        <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span>
+                                                        <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">,</span> <span class="n">heuristic</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">libgraph_tool_search</span><span class="o">.</span><span class="n">astar_array</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                    <span class="nb">int</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">),</span>
+                                                    <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                                    <span class="n">compare</span><span class="p">,</span> <span class="n">combine</span><span class="p">,</span>
+                                                    <span class="n">zero</span><span class="p">,</span> <span class="n">infinity</span><span class="p">,</span> <span class="n">heuristic</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StopSearch"><a class="viewcode-back" href="../../../../doc/search_module.html#graph_tool.search.StopSearch">[docs]</a><span class="k">class</span> <span class="nc">StopSearch</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;If this exception is raised from inside any search visitor object, the search is aborted.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,710 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.draw.graphviz_draw &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" >graph_tool</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../draw.html" accesskey="U">graph_tool.draw</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.draw.graphviz_draw</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">unicode</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">ctypes.util</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">PropertyMap</span><span class="p">,</span> <span class="n">group_vector_property</span><span class="p">,</span> <span class="n">ungroup_vector_property</span><span class="p">,</span> <span class="n">_c_str</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">numpy.random</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">draw</span> <span class="kn">import</span> <span class="nn">arf_layout</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.cm</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.colors</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Error importing matplotlib module... graphviz_draw() will not work&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+    <span class="k">raise</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">libname</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="n">libc</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">libc</span><span class="p">,</span> <span class="s2">&quot;open_memstream&quot;</span><span class="p">):</span>
+        <span class="n">libc</span><span class="o">.</span><span class="n">open_memstream</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Error importing C standard library... graphviz_draw() will not work.&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+    <span class="k">pass</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">libname</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="s2">&quot;gvc&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">libname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">()</span>
+    <span class="n">libgv</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">libname</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
+    <span class="c1"># properly set the return types of certain functions</span>
+    <span class="n">ptype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span><span class="p">)</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">gvContext</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ptype</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">agopen</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ptype</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ptype</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">agedge</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ptype</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">agget</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ptype</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">agstrdup_html</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ptype</span>
+    <span class="c1"># create a context to use the whole time (if we keep freeing and recreating</span>
+    <span class="c1"># it, we will hit a memory leak in graphviz)</span>
+    <span class="n">gvc</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">gvContext</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gv_new_api</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">libgv_directed</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">Agdirected</span>
+        <span class="n">libgv_undirected</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">Agundirected</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">gv_new_api</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">libgv_directed</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">libgv_undirected</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Error importing graphviz C library (libgvc)... graphviz_draw() will not work.&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">htmlize</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">and</span> <span class="n">val</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">string_at</span><span class="p">(</span><span class="n">libgv</span><span class="o">.</span><span class="n">agstrdup_html</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">val</span>
+
+
+<span class="k">def</span> <span class="nf">aset</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">htmlize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+    <span class="n">libgv</span><span class="o">.</span><span class="n">agsafeset</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">aget</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">string_at</span><span class="p">(</span><span class="n">libgv</span><span class="o">.</span><span class="n">agget</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span>
+                                     <span class="nb">str</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="graphviz_draw"><a class="viewcode-back" href="../../../../../doc/draw.html#graph_tool.draw.graphviz_draw">[docs]</a><span class="k">def</span> <span class="nf">graphviz_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">pin</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">maxiter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">splines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vsize</span><span class="o">=</span><span class="mf">0.105</span><span class="p">,</span> <span class="n">penwidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">elen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">gprops</span><span class="o">=</span><span class="p">{},</span> <span class="n">vprops</span><span class="o">=</span><span class="p">{},</span> <span class="n">eprops</span><span class="o">=</span><span class="p">{},</span> <span class="n">vcolor</span><span class="o">=</span><span class="s2">&quot;#a40000&quot;</span><span class="p">,</span>
+                  <span class="n">ecolor</span><span class="o">=</span><span class="s2">&quot;#2e3436&quot;</span><span class="p">,</span> <span class="n">vcmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vnorm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ecmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">enorm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vorder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eorder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                  <span class="n">output_format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_string</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Draw a graph using graphviz.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be drawn.</span>
+<span class="sd">    pos : :class:`~graph_tool.PropertyMap` or tuple of :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        Vertex property maps containing the x and y coordinates of the vertices.</span>
+<span class="sd">    size : tuple of scalars (optional, default: ``(15,15)``)</span>
+<span class="sd">        Size (in centimeters) of the canvas.</span>
+<span class="sd">    pin : bool or :class:`~graph_tool.PropertyMap` (default: ``False``)</span>
+<span class="sd">        If ``True``, the vertices are not moved from their initial position. If</span>
+<span class="sd">        a :class:`~graph_tool.PropertyMap` is passed, it is used to pin nodes</span>
+<span class="sd">        individually.</span>
+<span class="sd">    layout : string (default: ``&quot;neato&quot; if g.num_vertices() &lt;= 1000 else &quot;sfdp&quot;``)</span>
+<span class="sd">        Layout engine to be used. Possible values are ``&quot;neato&quot;``, ``&quot;fdp&quot;``,</span>
+<span class="sd">        ``&quot;dot&quot;``, ``&quot;circo&quot;``, ``&quot;twopi&quot;`` and ``&quot;arf&quot;``.</span>
+<span class="sd">    maxiter : int (default: ``None``)</span>
+<span class="sd">        If specified, limits the maximum number of iterations.</span>
+<span class="sd">    ratio : string or float (default: ``&quot;fill&quot;``)</span>
+<span class="sd">        Sets the aspect ratio (drawing height/drawing width) for the</span>
+<span class="sd">        drawing. Note that this is adjusted before the ``size`` attribute</span>
+<span class="sd">        constraints are enforced.</span>
+
+<span class="sd">        If ``ratio`` is numeric, it is taken as the desired aspect ratio. Then,</span>
+<span class="sd">        if the actual aspect ratio is less than the desired ratio, the drawing</span>
+<span class="sd">        height is scaled up to achieve the desired ratio; if the actual ratio is</span>
+<span class="sd">        greater than that desired ratio, the drawing width is scaled up.</span>
+
+<span class="sd">        If ``ratio == &quot;fill&quot;`` and the size attribute is set, node positions are</span>
+<span class="sd">        scaled, separately in both x and y, so that the final drawing exactly</span>
+<span class="sd">        fills the specified size.</span>
+
+<span class="sd">        If ``ratio == &quot;compress&quot;`` and the size attribute is set, dot attempts</span>
+<span class="sd">        to compress the initial layout to fit in the given size. This achieves a</span>
+<span class="sd">        tighter packing of nodes but reduces the balance and symmetry.  This</span>
+<span class="sd">        feature only works in dot.</span>
+
+<span class="sd">        If ``ratio == &quot;expand&quot;``, the size attribute is set, and both the width</span>
+<span class="sd">        and the height of the graph are less than the value in size, node</span>
+<span class="sd">        positions are scaled uniformly until at least one dimension fits size</span>
+<span class="sd">        exactly.  Note that this is distinct from using size as the desired</span>
+<span class="sd">        size, as here the drawing is expanded before edges are generated and all</span>
+<span class="sd">        node and text sizes remain unchanged.</span>
+
+<span class="sd">        If ``ratio == &quot;auto&quot;``, the page attribute is set and the graph cannot</span>
+<span class="sd">        be drawn on a single page, then size is set to an &quot;ideal&quot; value. In</span>
+<span class="sd">        particular, the size in a given dimension will be the smallest integral</span>
+<span class="sd">        multiple of the page size in that dimension which is at least half the</span>
+<span class="sd">        current size. The two dimensions are then scaled independently to the</span>
+<span class="sd">        new size. This feature only works in dot.</span>
+<span class="sd">    overlap : bool or string (default: ``&quot;prism&quot;``)</span>
+<span class="sd">        Determines if and how node overlaps should be removed. Nodes are first</span>
+<span class="sd">        enlarged using the sep attribute. If ``True``, overlaps are retained. If</span>
+<span class="sd">        the value is ``&quot;scale&quot;``, overlaps are removed by uniformly scaling in x</span>
+<span class="sd">        and y. If the value is ``False``, node overlaps are removed by a</span>
+<span class="sd">        Voronoi-based technique. If the value is ``&quot;scalexy&quot;``, x and y are</span>
+<span class="sd">        separately scaled to remove overlaps.</span>
+
+<span class="sd">        If sfdp is available, one can set overlap to ``&quot;prism&quot;`` to use a</span>
+<span class="sd">        proximity graph-based algorithm for overlap removal. This is the</span>
+<span class="sd">        preferred technique, though ``&quot;scale&quot;`` and ``False`` can work well with</span>
+<span class="sd">        small graphs. This technique starts with a small scaling up, controlled</span>
+<span class="sd">        by the overlap_scaling attribute, which can remove a significant portion</span>
+<span class="sd">        of the overlap. The prism option also accepts an optional non-negative</span>
+<span class="sd">        integer suffix. This can be used to control the number of attempts made</span>
+<span class="sd">        at overlap removal. By default, ``overlap == &quot;prism&quot;`` is equivalent to</span>
+<span class="sd">        ``overlap == &quot;prism1000&quot;``. Setting ``overlap == &quot;prism0&quot;`` causes only</span>
+<span class="sd">        the scaling phase to be run.</span>
+
+<span class="sd">        If the value is ``&quot;compress&quot;``, the layout will be scaled down as much</span>
+<span class="sd">        as possible without introducing any overlaps, obviously assuming there</span>
+<span class="sd">        are none to begin with.</span>
+<span class="sd">    sep : float (default: ``None``)</span>
+<span class="sd">        Specifies margin to leave around nodes when removing node overlap. This</span>
+<span class="sd">        guarantees a minimal non-zero distance between nodes.</span>
+<span class="sd">    splines : bool (default: ``False``)</span>
+<span class="sd">        If ``True``, the edges are drawn as splines and routed around the</span>
+<span class="sd">        vertices.</span>
+<span class="sd">    vsize : float, :class:`~graph_tool.PropertyMap`, or tuple (default: ``0.105``)</span>
+<span class="sd">        Default vertex size (width and height). If a tuple is specified, the</span>
+<span class="sd">        first value should be a property map, and the second is a scale factor.</span>
+<span class="sd">    penwidth : float, :class:`~graph_tool.PropertyMap` or tuple (default: ``1.0``)</span>
+<span class="sd">        Specifies the width of the pen, in points, used to draw lines and</span>
+<span class="sd">        curves, including the boundaries of edges and clusters. It has no effect</span>
+<span class="sd">        on text. If a tuple is specified, the first value should be a property</span>
+<span class="sd">        map, and the second is a scale factor.</span>
+<span class="sd">    elen : float or :class:`~graph_tool.PropertyMap` (default: ``None``)</span>
+<span class="sd">        Preferred edge length, in inches.</span>
+<span class="sd">    gprops : dict (default: ``{}``)</span>
+<span class="sd">        Additional graph properties, as a dictionary. The keys are the property</span>
+<span class="sd">        names, and the values must be convertible to string.</span>
+<span class="sd">    vprops : dict (default: ``{}``)</span>
+<span class="sd">        Additional vertex properties, as a dictionary. The keys are the property</span>
+<span class="sd">        names, and the values must be convertible to string, or vertex property</span>
+<span class="sd">        maps, with values convertible to strings.</span>
+<span class="sd">    eprops : dict (default: ``{}``)</span>
+<span class="sd">        Additional edge properties, as a dictionary. The keys are the property</span>
+<span class="sd">        names, and the values must be convertible to string, or edge property</span>
+<span class="sd">        maps, with values convertible to strings.</span>
+<span class="sd">    vcolor : string or :class:`~graph_tool.PropertyMap` (default: ``&quot;#a40000&quot;``)</span>
+<span class="sd">        Drawing color for vertices. If the valued supplied is a property map,</span>
+<span class="sd">        the values must be scalar types, whose color values are obtained from</span>
+<span class="sd">        the ``vcmap`` argument.</span>
+<span class="sd">    ecolor : string or :class:`~graph_tool.PropertyMap` (default: ``&quot;#2e3436&quot;``)</span>
+<span class="sd">        Drawing color for edges. If the valued supplied is a property map,</span>
+<span class="sd">        the values must be scalar types, whose color values are obtained from</span>
+<span class="sd">        the ``ecmap`` argument.</span>
+<span class="sd">    vcmap : :class:`matplotlib.colors.Colormap` (default: :obj:`matplotlib.cm.jet`)</span>
+<span class="sd">        Vertex color map.</span>
+<span class="sd">    vnorm : bool (default: ``True``)</span>
+<span class="sd">        Normalize vertex color values to the [0,1] range.</span>
+<span class="sd">    ecmap : :class:`matplotlib.colors.Colormap` (default: :obj:`matplotlib.cm.jet`)</span>
+<span class="sd">        Edge color map.</span>
+<span class="sd">    enorm : bool (default: ``True``)</span>
+<span class="sd">        Normalize edge color values to the [0,1] range.</span>
+<span class="sd">    vorder : :class:`~graph_tool.PropertyMap` (default: ``None``)</span>
+<span class="sd">        Scalar vertex property map which specifies the order with which vertices</span>
+<span class="sd">        are drawn.</span>
+<span class="sd">    eorder : :class:`~graph_tool.PropertyMap` (default: ``None``)</span>
+<span class="sd">        Scalar edge property map which specifies the order with which edges</span>
+<span class="sd">        are drawn.</span>
+<span class="sd">    output : string (default: ``&quot;&quot;``)</span>
+<span class="sd">        Output file name.</span>
+<span class="sd">    output_format : string (default: ``&quot;auto&quot;``)</span>
+<span class="sd">        Output file format. Possible values are ``&quot;auto&quot;``, ``&quot;xlib&quot;``,</span>
+<span class="sd">        ``&quot;ps&quot;``, ``&quot;svg&quot;``, ``&quot;svgz&quot;``, ``&quot;fig&quot;``, ``&quot;mif&quot;``, ``&quot;hpgl&quot;``,</span>
+<span class="sd">        ``&quot;pcl&quot;``, ``&quot;png&quot;``, ``&quot;gif&quot;``, ``&quot;dia&quot;``, ``&quot;imap&quot;``, ``&quot;cmapx&quot;``. If</span>
+<span class="sd">        the value is ``&quot;auto&quot;``, the format is guessed from the ``output``</span>
+<span class="sd">        parameter, or ``xlib`` if it is empty. If the value is ``None``, no</span>
+<span class="sd">        output is produced.</span>
+<span class="sd">    fork : bool (default: ``False``)</span>
+<span class="sd">        If ``True``, the program is forked before drawing. This is used as a</span>
+<span class="sd">        work-around for a bug in graphviz, where the ``exit()`` function is</span>
+<span class="sd">        called, which would cause the calling program to end. This is always</span>
+<span class="sd">        assumed ``True``, if ``output_format == &#39;xlib&#39;``.</span>
+<span class="sd">    return_string : bool (default: ``False``)</span>
+<span class="sd">        If ``True``, a string containing the rendered graph as binary data is</span>
+<span class="sd">        returned (defaults to png format).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pos : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Vector vertex property map with the x and y coordinates of the vertices.</span>
+<span class="sd">    gv : gv.digraph or gv.graph (optional, only if ``returngv == True``)</span>
+<span class="sd">        Internally used graphviz graph.</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function is a wrapper for the [graphviz]_ routines. Extensive additional</span>
+<span class="sd">    documentation for the graph, vertex and edge properties is available at:</span>
+<span class="sd">    http://www.graphviz.org/doc/info/attrs.html.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+<span class="sd">       from numpy import sqrt</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.price_network(1500)</span>
+<span class="sd">    &gt;&gt;&gt; deg = g.degree_property_map(&quot;in&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; deg.a = 2 * (sqrt(deg.a) * 0.5 + 0.4)</span>
+<span class="sd">    &gt;&gt;&gt; ebet = gt.betweenness(g)[1]</span>
+<span class="sd">    &gt;&gt;&gt; gt.graphviz_draw(g, vcolor=deg, vorder=deg, elen=10,</span>
+<span class="sd">    ...                  ecolor=ebet, eorder=ebet, output=&quot;graphviz-draw.pdf&quot;)</span>
+<span class="sd">    &lt;...&gt;</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       gt.graphviz_draw(g, vcolor=deg, vorder=deg, elen=10,</span>
+<span class="sd">                        ecolor=ebet, eorder=ebet, output=&quot;graphviz-draw.png&quot;)</span>
+
+<span class="sd">    .. figure:: graphviz-draw.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Kamada-Kawai force-directed layout of a Price network with 1500</span>
+<span class="sd">        nodes. The vertex size and color indicate the degree, and the edge color</span>
+<span class="sd">        corresponds to the edge betweenness centrality</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [graphviz] http://www.graphviz.org</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">output</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="c1"># check opening file for writing, since graphviz will bork if it is not</span>
+        <span class="c1"># possible to open file</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> \
+               <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">W_OK</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;cannot write to &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+
+    <span class="n">has_layout</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gv_new_api</span><span class="p">:</span>
+            <span class="n">gvg</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agopen</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span>
+                               <span class="n">libgv_directed</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="k">else</span> <span class="n">libgv_undirected</span><span class="p">,</span>
+                               <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gvg</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agopen</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span>
+                               <span class="n">libgv_directed</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="k">else</span> <span class="n">libgv_undirected</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">layout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pin</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">layout</span> <span class="o">=</span> <span class="s2">&quot;neato&quot;</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1000</span> <span class="k">else</span> <span class="s2">&quot;sfdp&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">layout</span> <span class="o">=</span> <span class="s2">&quot;neato&quot;</span>
+
+        <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="s2">&quot;arf&quot;</span><span class="p">:</span>
+            <span class="n">layout</span> <span class="o">=</span> <span class="s2">&quot;neato&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">arf_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
+            <span class="n">pin</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># copy user-supplied property</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">):</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">ungroup_vector_property</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">g</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">vsize</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">vsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">a</span> <span class="o">*=</span> <span class="n">vsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">vsize</span> <span class="o">=</span> <span class="n">s</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">penwidth</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">copy_property</span><span class="p">(</span><span class="n">penwidth</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">a</span> <span class="o">*=</span> <span class="n">penwidth</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">penwidth</span> <span class="o">=</span> <span class="n">s</span>
+
+        <span class="c1"># main graph properties</span>
+        <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;outputorder&quot;</span><span class="p">,</span> <span class="s2">&quot;edgesfirst&quot;</span><span class="p">)</span>
+        <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;major&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="n">overlap</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span> <span class="k">if</span> <span class="n">overlap</span> <span class="k">else</span> <span class="s2">&quot;false&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">overlap</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span>
+        <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;overlap&quot;</span><span class="p">,</span> <span class="n">overlap</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;sep&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">splines</span><span class="p">:</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;splines&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span>
+        <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)</span>
+        <span class="c1"># size is in centimeters... convert to inches</span>
+        <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%f</span><span class="s2">,</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.54</span><span class="p">,</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.54</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">maxiter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;maxiter&quot;</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">)</span>
+
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span><span class="p">)</span>
+        <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">seed</span><span class="p">)</span>
+
+        <span class="c1"># apply all user supplied graph properties</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">gprops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">):</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span><span class="p">[</span><span class="n">g</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+        <span class="c1"># normalize color properties</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">vcolor</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="n">vcolor</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;string&quot;</span><span class="p">):</span>
+            <span class="n">minmax</span> <span class="o">=</span> <span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">vcolor</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                <span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">vnorm</span><span class="p">:</span>
+                <span class="n">vnorm</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmax</span><span class="o">=</span><span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">vnorm</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ecolor</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="n">ecolor</span><span class="o">.</span><span class="n">value_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;string&quot;</span><span class="p">):</span>
+            <span class="n">minmax</span> <span class="o">=</span> <span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">ecolor</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">enorm</span><span class="p">:</span>
+                <span class="n">enorm</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">minmax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                    <span class="n">vmax</span><span class="o">=</span><span class="n">minmax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">enorm</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+
+        <span class="k">if</span> <span class="n">vcmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vcmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span>
+
+        <span class="k">if</span> <span class="n">ecmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ecmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span>
+
+        <span class="c1"># add nodes</span>
+        <span class="k">if</span> <span class="n">vorder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">(),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">vorder</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gv_new_api</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">vsize</span><span class="p">)</span> <span class="o">==</span> <span class="n">PropertyMap</span><span class="p">:</span>
+                <span class="n">vw</span> <span class="o">=</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">vsize</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">vw</span> <span class="o">=</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">vsize</span>
+
+            <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s2">&quot;circle&quot;</span><span class="p">)</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">vw</span><span class="p">)</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">vh</span><span class="p">)</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="s2">&quot;filled&quot;</span><span class="p">)</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;#2e3436&quot;</span><span class="p">)</span>
+            <span class="c1"># apply color</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vcolor</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">unicode</span><span class="p">)):</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;fillcolor&quot;</span><span class="p">,</span> <span class="n">_c_str</span><span class="p">(</span><span class="n">vcolor</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">vcolor</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">unicode</span><span class="p">)):</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;fillcolor&quot;</span><span class="p">,</span> <span class="n">_c_str</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="mf">255.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">vcmap</span><span class="p">(</span><span class="n">vnorm</span><span class="p">(</span><span class="n">color</span><span class="p">))])</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;fillcolor&quot;</span><span class="p">,</span> <span class="s2">&quot;#</span><span class="si">%.2x%.2x%.2x%.2x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">color</span><span class="p">)</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="c1"># user supplied position</span>
+            <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                    <span class="n">pin_val</span> <span class="o">=</span> <span class="n">pin</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pin_val</span> <span class="o">=</span> <span class="n">pin</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%f</span><span class="s2">,</span><span class="si">%f%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">v</span><span class="p">],</span>
+                                            <span class="s2">&quot;!&quot;</span> <span class="k">if</span> <span class="n">pin_val</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">,</span> <span class="n">pin_val</span><span class="p">)</span>
+
+            <span class="c1"># apply all user supplied properties</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">vprops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">):</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+        <span class="c1"># add edges</span>
+        <span class="k">if</span> <span class="n">eorder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">(),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">eorder</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gv_new_api</span><span class="p">:</span>
+                <span class="n">ge</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agedge</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span>
+                                  <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="kc">False</span><span class="p">),</span>
+                                  <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="kc">False</span><span class="p">),</span>
+                                  <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">edge_index</span><span class="p">[</span><span class="n">e</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ge</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agedge</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span>
+                                  <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)),</span>
+                                  <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)))</span>
+            <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;arrowsize&quot;</span><span class="p">,</span> <span class="s2">&quot;0.3&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;arrowhead&quot;</span><span class="p">,</span> <span class="s2">&quot;vee&quot;</span><span class="p">)</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;dir&quot;</span><span class="p">,</span> <span class="s2">&quot;forward&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;dir&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">)</span>
+
+            <span class="c1"># apply color</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ecolor</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">unicode</span><span class="p">)):</span>
+                <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="n">_c_str</span><span class="p">(</span><span class="n">ecolor</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">ecolor</span><span class="p">[</span><span class="n">e</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">unicode</span><span class="p">)):</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="n">_c_str</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="mf">255.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ecmap</span><span class="p">(</span><span class="n">enorm</span><span class="p">(</span><span class="n">color</span><span class="p">))])</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;#</span><span class="si">%.2x%.2x%.2x%.2x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">color</span><span class="p">)</span>
+
+            <span class="c1"># apply edge length</span>
+            <span class="k">if</span> <span class="n">elen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elen</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">):</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="n">elen</span><span class="p">[</span><span class="n">e</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="n">elen</span><span class="p">)</span>
+
+            <span class="c1"># apply width</span>
+            <span class="k">if</span> <span class="n">penwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">penwidth</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">):</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;penwidth&quot;</span><span class="p">,</span> <span class="n">penwidth</span><span class="p">[</span><span class="n">e</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="s2">&quot;penwidth&quot;</span><span class="p">,</span> <span class="n">penwidth</span><span class="p">)</span>
+
+            <span class="c1"># apply all user supplied properties</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">eprops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">):</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">e</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">aset</span><span class="p">(</span><span class="n">ge</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="n">libgv</span><span class="o">.</span><span class="n">gvLayout</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">,</span> <span class="n">layout</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+        <span class="n">has_layout</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">retv</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">gvRender</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">,</span> <span class="s2">&quot;dot&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># retrieve positions only</span>
+
+        <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">),</span>
+                   <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">libgv</span><span class="o">.</span><span class="n">agnode</span><span class="p">(</span><span class="n">gvg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">aget</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># I don&#39;t get this, but it seems necessary</span>
+        <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="mi">100</span>
+        <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="mi">100</span>
+
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">group_vector_property</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_string</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+                <span class="n">output_format</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">libc</span><span class="p">,</span> <span class="s2">&quot;open_memstream&quot;</span><span class="p">):</span>
+                <span class="n">buf</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">()</span>
+                <span class="n">buf_len</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">()</span>
+                <span class="n">fstream</span> <span class="o">=</span> <span class="n">libc</span><span class="o">.</span><span class="n">open_memstream</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
+                                              <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">buf_len</span><span class="p">))</span>
+                <span class="n">libgv</span><span class="o">.</span><span class="n">gvRender</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">,</span> <span class="n">output_format</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span> <span class="n">fstream</span><span class="p">)</span>
+                <span class="n">libc</span><span class="o">.</span><span class="n">fclose</span><span class="p">(</span><span class="n">fstream</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">string_at</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">buf_len</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+                <span class="n">libc</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># write to temporary file, if open_memstream is not available</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">libgv</span><span class="o">.</span><span class="n">gvRenderFilename</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">,</span> <span class="n">output_format</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span>
+                                       <span class="n">output</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="n">output_format</span> <span class="o">=</span> <span class="s2">&quot;xlib&quot;</span>
+                <span class="k">elif</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">output_format</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># if using xlib we need to fork the process, otherwise good ol&#39;</span>
+            <span class="c1"># graphviz will call exit() when the window is closed</span>
+            <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;xlib&quot;</span> <span class="ow">or</span> <span class="n">fork</span><span class="p">:</span>
+                <span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">libgv</span><span class="o">.</span><span class="n">gvRenderFilename</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">,</span> <span class="n">output_format</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span>
+                                           <span class="n">output</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># since we forked, it&#39;s good to be sure</span>
+                <span class="k">if</span> <span class="n">output_format</span> <span class="o">!=</span> <span class="s2">&quot;xlib&quot;</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">libgv</span><span class="o">.</span><span class="n">gvRenderFilename</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">,</span> <span class="n">output_format</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">),</span>
+                                       <span class="n">output</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">return_string</span><span class="p">:</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">has_layout</span><span class="p">:</span>
+            <span class="n">libgv</span><span class="o">.</span><span class="n">gvFreeLayout</span><span class="p">(</span><span class="n">gvc</span><span class="p">,</span> <span class="n">gvg</span><span class="p">)</span>
+        <span class="n">libgv</span><span class="o">.</span><span class="n">agclose</span><span class="p">(</span><span class="n">gvg</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" >graph_tool</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../draw.html" >graph_tool.draw</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

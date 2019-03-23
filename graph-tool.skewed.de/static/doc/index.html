@@ -1,0 +1,211 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to graph-tool’s documentation! &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick start using graph-tool" href="http://graph-tool.skewed.de/static/doc/quickstart.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="http://graph-tool.skewed.de/static/doc/quickstart.html" title="Quick start using graph-tool"
+             accesskey="N">next</a> |</li>
+    <li><img src="../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="../../index.html">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="index.html#">graph-tool 2.27 documentation</a> &#187;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-graph-tool-s-documentation">
+<h1>Welcome to graph-tool’s documentation!<a class="headerlink" href="index.html#welcome-to-graph-tool-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html">Quick start using <cite>graph-tool</cite></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#creating-and-manipulating-graphs">Creating and manipulating graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#iterating-over-vertices-and-edges">Iterating over vertices and edges</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#property-maps">Property maps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#internal-property-maps">Internal property maps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#graph-i-o">Graph I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#an-example-building-a-price-network">An Example: Building a Price Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#graph-filtering">Graph filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#graph-views">Graph views</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/gt_format.html">The <code class="docutils literal notranslate"><span class="pre">gt</span></code> file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">Cookbook</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="demos/inference/inference.html">Inferring modular network structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#background-nonparametric-statistical-inference">Background: Nonparametric statistical inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#the-stochastic-block-model-sbm">The stochastic block model (SBM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#inferring-the-best-partition">Inferring the best partition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#sampling-from-the-posterior-distribution">Sampling from the posterior distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#edge-weights-and-covariates">Edge weights and covariates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#layered-networks">Layered networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#network-reconstruction">Network reconstruction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/inference/inference.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="demos/animation/animation.html">Animations with graph-tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="demos/animation/animation.html#sirs-epidemics">SIRS epidemics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/animation/animation.html#dynamic-layout">Dynamic layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demos/animation/animation.html#interactive-visualizations">Interactive visualizations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/modules.html">Module documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graph_tool.html">graph_tool - efficient graph analysis and manipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graph_tool.html#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_tool.html#how-to-use-the-documentation">How to use the documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_tool.html#contents">Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graph_tool.html#available-subpackages">Available subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/centrality.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.centrality</span></code> - Centrality measures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/clustering.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.clustering</span></code> - Clustering coefficients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collection.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.collection</span></code> - Dataset collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/correlations.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.correlations</span></code> - Correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="draw.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.draw</span></code> - Graph drawing and layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/flow.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.flow</span></code> - Maximum flow algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/generation.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.generation</span></code> - Random graph generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inference.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.inference</span></code> - Statistical inference of generative network models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/search_module.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.search</span></code> - Search algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/spectral.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.spectral</span></code> - Spectral properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/stats.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.stats</span></code> - Miscellaneous statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/topology.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.topology</span></code> - Assessing graph topology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/util.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.util</span></code> - Graph utilities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/faq.html">Frequently Asked Questions (FAQ)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/faq.html#how-do-i-cite-graph-tool">How do I cite graph-tool?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indexes-and-tables">
+<h1>Indexes and tables<a class="headerlink" href="index.html#indexes-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="index.html#">Welcome to graph-tool’s documentation!</a></li>
+<li><a class="reference internal" href="index.html#indexes-and-tables">Indexes and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="http://graph-tool.skewed.de/static/doc/quickstart.html"
+                        title="next chapter">Quick start using <cite>graph-tool</cite></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="http://graph-tool.skewed.de/static/doc/_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="http://graph-tool.skewed.de/static/doc/quickstart.html" title="Quick start using graph-tool"
+             >next</a> |</li>
+    <li><img src="../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="../../index.html">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="index.html#">graph-tool 2.27 documentation</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

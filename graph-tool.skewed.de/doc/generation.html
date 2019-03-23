@@ -1,0 +1,1741 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.generation - Random graph generation &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <link rel="next" title="graph_tool.inference - Statistical inference of generative network models" href="community.html" />
+    <link rel="prev" title="graph_tool.flow - Maximum flow algorithms" href="flow.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="community.html" title="graph_tool.inference - Statistical inference of generative network models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="flow.html" title="graph_tool.flow - Maximum flow algorithms"
+             accesskey="P">previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../static/doc/modules.html" >Module documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="https://graph-tool.skewed.de/static/doc/graph_tool.html" accesskey="U">graph_tool - efficient graph analysis and manipulation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-graph_tool.generation"></span><div class="section" id="graph-tool-generation-random-graph-generation">
+<h1><code class="docutils literal notranslate"><span class="pre">graph_tool.generation</span></code> - Random graph generation<a class="headerlink" href="generation.html#graph-tool-generation-random-graph-generation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="generation.html#summary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></td>
+<td>Generate a random graph, with a given degree distribution and (optionally) vertex-vertex correlation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generation.html#graph_tool.generation.random_rewire" title="graph_tool.generation.random_rewire"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_rewire</span></code></a></td>
+<td>Shuffle the graph in-place, following a variety of possible statistical models, chosen via the parameter <code class="docutils literal notranslate"><span class="pre">model</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.generate_sbm" title="graph_tool.generation.generate_sbm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_sbm</span></code></a></td>
+<td>Generate a random graph by sampling from the Poisson or microcanonical stochastic block model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generation.html#graph_tool.generation.predecessor_tree" title="graph_tool.generation.predecessor_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predecessor_tree</span></code></a></td>
+<td>Return a graph from a list of predecessors given by the <code class="docutils literal notranslate"><span class="pre">pred_map</span></code> vertex property.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.line_graph" title="graph_tool.generation.line_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line_graph</span></code></a></td>
+<td>Return the line graph of the given graph <cite>g</cite>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generation.html#graph_tool.generation.graph_union" title="graph_tool.generation.graph_union"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_union</span></code></a></td>
+<td>Return the union of graphs <code class="docutils literal notranslate"><span class="pre">g1</span></code> and <code class="docutils literal notranslate"><span class="pre">g2</span></code>, composed of all edges and vertices of <code class="docutils literal notranslate"><span class="pre">g1</span></code> and <code class="docutils literal notranslate"><span class="pre">g2</span></code>, without overlap (if <code class="docutils literal notranslate"><span class="pre">intersection</span> <span class="pre">==</span> <span class="pre">None</span></code>).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.triangulation" title="graph_tool.generation.triangulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangulation</span></code></a></td>
+<td>Generate a 2D or 3D triangulation graph from a given point set.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generation.html#graph_tool.generation.lattice" title="graph_tool.generation.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></td>
+<td>Generate a N-dimensional square lattice.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.geometric_graph" title="graph_tool.generation.geometric_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometric_graph</span></code></a></td>
+<td>Generate a geometric network form a set of N-dimensional points.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generation.html#graph_tool.generation.price_network" title="graph_tool.generation.price_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">price_network</span></code></a></td>
+<td>A generalized version of Price’s – or Barabási-Albert if undirected – preferential attachment network model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.complete_graph" title="graph_tool.generation.complete_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">complete_graph</span></code></a></td>
+<td>Generate complete graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generation.html#graph_tool.generation.circular_graph" title="graph_tool.generation.circular_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular_graph</span></code></a></td>
+<td>Generate a circular graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generation.html#graph_tool.generation.condensation_graph" title="graph_tool.generation.condensation_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">condensation_graph</span></code></a></td>
+<td>Obtain the condensation graph, where each vertex with the same ‘prop’ value is condensed in one vertex.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="generation.html#contents" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="graph_tool.generation.random_graph">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">random_graph</code><span class="sig-paren">(</span><em>N</em>, <em>deg_sampler</em>, <em>directed=True</em>, <em>parallel_edges=False</em>, <em>self_loops=False</em>, <em>block_membership=None</em>, <em>block_type='int'</em>, <em>degree_block=False</em>, <em>random=True</em>, <em>verbose=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#random_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.random_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random graph, with a given degree distribution and (optionally)
+vertex-vertex correlation.</p>
+<p>The graph will be randomized via the <a class="reference internal" href="generation.html#graph_tool.generation.random_rewire" title="graph_tool.generation.random_rewire"><code class="xref py py-func docutils literal notranslate"><span class="pre">random_rewire()</span></code></a>
+function, and any remaining parameters will be passed to that function.
+Please read its documentation for all the options regarding the different
+statistical models which can be chosen.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>N</strong> : int</p>
+<blockquote>
+<div><p>Number of vertices in the graph.</p>
+</div></blockquote>
+<p><strong>deg_sampler</strong> : function</p>
+<blockquote>
+<div><p>A degree sampler function which is called without arguments, and returns
+a tuple of ints representing the in and out-degree of a given vertex (or
+a single int for undirected graphs, representing the out-degree). This
+function is called once per vertex, but may be called more times, if the
+degree sequence cannot be used to build a graph.</p>
+<p>Optionally, you can also pass a function which receives one or two
+arguments. If <code class="docutils literal notranslate"><span class="pre">block_membership</span> <span class="pre">is</span> <span class="pre">None</span></code>, the single argument passed
+will be the index of the vertex which will receive the degree.  If
+<code class="docutils literal notranslate"><span class="pre">block_membership</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code>, the first value passed will be the vertex
+index, and the second will be the block value of the vertex.</p>
+</div></blockquote>
+<p><strong>directed</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>Whether the generated graph should be directed.</p>
+</div></blockquote>
+<p><strong>parallel_edges</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, parallel edges are allowed.</p>
+</div></blockquote>
+<p><strong>self_loops</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, self-loops are allowed.</p>
+</div></blockquote>
+<p><strong>block_membership</strong> : list or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> or function (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>If supplied, the graph will be sampled from a stochastic blockmodel
+ensemble, and this parameter specifies the block membership of the
+vertices, which will be passed to the
+<a class="reference internal" href="generation.html#graph_tool.generation.random_rewire" title="graph_tool.generation.random_rewire"><code class="xref py py-func docutils literal notranslate"><span class="pre">random_rewire()</span></code></a> function.</p>
+<p>If the value is a list or a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, it must have
+<code class="docutils literal notranslate"><span class="pre">len(block_membership)</span> <span class="pre">==</span> <span class="pre">N</span></code>, and the values will define to which
+block each vertex belongs.</p>
+<p>If this value is a function, it will be used to sample the block
+types. It must be callable either with no arguments or with a single
+argument which will be the vertex index. In either case it must return
+a type compatible with the <code class="docutils literal notranslate"><span class="pre">block_type</span></code> parameter.</p>
+<p>See the documentation for the <code class="docutils literal notranslate"><span class="pre">vertex_corr</span></code> parameter of the
+<a class="reference internal" href="generation.html#graph_tool.generation.random_rewire" title="graph_tool.generation.random_rewire"><code class="xref py py-func docutils literal notranslate"><span class="pre">random_rewire()</span></code></a> function which specifies
+the correlation matrix.</p>
+</div></blockquote>
+<p><strong>block_type</strong> : string (optional, default: <code class="docutils literal notranslate"><span class="pre">&quot;int&quot;</span></code>)</p>
+<blockquote>
+<div><p>Value type of block labels. Valid only if <code class="docutils literal notranslate"><span class="pre">block_membership</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code>.</p>
+</div></blockquote>
+<p><strong>degree_block</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the degree of each vertex will be appended to block labels
+when constructing the blockmodel, such that the resulting block type
+will be a pair <span class="math">\((r, k)\)</span>, where <span class="math">\(r\)</span> is the original block
+label.</p>
+</div></blockquote>
+<p><strong>random</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the returned graph is randomized. Otherwise a deterministic
+placement of the edges will be used.</p>
+</div></blockquote>
+<p><strong>verbose</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, verbose information is displayed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>random_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>The generated graph.</p>
+</div></blockquote>
+<p><strong>blocks</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>A vertex property map with the block values. This is only returned if
+<code class="docutils literal notranslate"><span class="pre">block_membership</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_rewire" title="graph_tool.generation.random_rewire"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_rewire</span></code></a></dt>
+<dd>in-place graph shuffling</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The algorithm makes sure the degree sequence is graphical (i.e. realizable)
+and keeps re-sampling the degrees if is not. With a valid degree sequence,
+the edges are placed deterministically, and later the graph is shuffled with
+the <a class="reference internal" href="generation.html#graph_tool.generation.random_rewire" title="graph_tool.generation.random_rewire"><code class="xref py py-func docutils literal notranslate"><span class="pre">random_rewire()</span></code></a> function, with all
+remaining parameters passed to it.</p>
+<p>The complexity is <span class="math">\(O(V + E)\)</span> if parallel edges are allowed, and
+<span class="math">\(O(V + E \times\text{n-iter})\)</span> if parallel edges are not allowed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If <code class="docutils literal notranslate"><span class="pre">parallel_edges</span> <span class="pre">==</span> <span class="pre">False</span></code> this algorithm only guarantees that the
+returned graph will be a random sample from the desired ensemble if
+<code class="docutils literal notranslate"><span class="pre">n_iter</span></code> is sufficiently large. The algorithm implements an
+efficient Markov chain based on edge swaps, with a mixing time which
+depends on the degree distribution and correlations desired. If degree
+correlations are provided, the mixing time tends to be larger.</p>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="metropolis-equations-1953106" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id1">[metropolis-equations-1953106]</a></td><td>Metropolis, N.; Rosenbluth, A.W.;
+Rosenbluth, M.N.; Teller, A.H.; Teller, E. “Equations of State
+Calculations by Fast Computing Machines”. Journal of Chemical Physics 21
+(6): 1087-1092 (1953). <a class="reference external" href="https://dx.doi.org/10.1063/1.1699114">DOI: 10.1063/1.1699114</a> [<a class="reference external" href="https://sci-hub.tw/10.1063/1.1699114">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1063/1.1699114">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="hastings-monte-carlo-1970106" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id2">[hastings-monte-carlo-1970106]</a></td><td>Hastings, W.K. “Monte Carlo Sampling Methods
+Using Markov Chains and Their Applications”. Biometrika 57 (1): 97-109 (1970).
+<a class="reference external" href="https://dx.doi.org/10.1093/biomet/57.1.97">DOI: 10.1093/biomet/57.1.97</a> [<a class="reference external" href="https://sci-hub.tw/10.1093/biomet/57.1.97">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1093/biomet/57.1.97">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="holland-stochastic-1983106" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[holland-stochastic-1983106]</td><td><em>(<a class="fn-backref" href="generation.html#id3">1</a>, <a class="fn-backref" href="generation.html#id5">2</a>)</em> Paul W. Holland, Kathryn Blackmond Laskey, and
+Samuel Leinhardt, “Stochastic blockmodels: First steps,” Social Networks
+5, no. 2: 109-13 (1983) <a class="reference external" href="https://dx.doi.org/10.1016/0378-8733(83)90021-7">DOI: 10.1016/0378-8733(83)90021-7</a> [<a class="reference external" href="https://sci-hub.tw/10.1016/0378-8733(83)90021-7">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1016/0378-8733(83)90021-7">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="karrer-stochastic-2011106" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[karrer-stochastic-2011106]</td><td><em>(<a class="fn-backref" href="generation.html#id4">1</a>, <a class="fn-backref" href="generation.html#id6">2</a>)</em> Brian Karrer and M. E. J. Newman, “Stochastic
+blockmodels and community structure in networks,” Physical Review E 83,
+no. 1: 016107 (2011) <a class="reference external" href="https://dx.doi.org/10.1103/PhysRevE.83.016107">DOI: 10.1103/PhysRevE.83.016107</a> [<a class="reference external" href="https://sci-hub.tw/10.1103/PhysRevE.83.016107">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1103/PhysRevE.83.016107">&#64;tor</a>] <a class="reference external" href="https://arxiv.org/abs/1008.3926">arXiv: 1008.3926</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>This is a degree sampler which uses rejection sampling to sample from the
+distribution <span class="math">\(P(k)\propto 1/k\)</span>, up to a maximum.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">sample_k</span><span class="p">(</span><span class="nb">max</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">accept</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">... </span>    <span class="k">while</span> <span class="ow">not</span> <span class="n">accept</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">accept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">k</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">k</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>The following generates a random undirected graph with degree distribution
+<span class="math">\(P(k)\propto 1/k\)</span> (with k_max=40) and an <em>assortative</em> degree
+correlation of the form:</p>
+<div class="math">
+\[P(i,k) \propto \frac{1}{1+|i-k|}\]</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">sample_k</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;probabilistic-configuration&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">edge_probs</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="p">)),</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following samples an in,out-degree pair from the joint distribution:</p>
+<div class="math">
+\[p(j,k) = \frac{1}{2}\frac{e^{-m_1}m_1^j}{j!}\frac{e^{-m_1}m_1^k}{k!} +
+         \frac{1}{2}\frac{e^{-m_2}m_2^j}{j!}\frac{e^{-m_2}m_2^k}{k!}\]</div>
+<p>with <span class="math">\(m_1 = 4\)</span> and <span class="math">\(m_2 = 20\)</span>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">deg_sample</span><span class="p">():</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>The following generates a random directed graph with this distribution, and
+plots the combined degree correlation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="n">deg_sample</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hist</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">combined_corr_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">()</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imshow</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colorbar</span><span class="p">()</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;in-degree&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;out-degree&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;combined-deg-hist.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id28">
+<img alt="_images/combined-deg-hist.svg" src="../static/doc/_images/combined-deg-hist.svg" /><p class="caption"><span class="caption-text">Combined degree histogram.</span></p>
+</div>
+<p>A correlated directed graph can be build as follows. Consider the following
+degree correlation:</p>
+<div class="math">
+\[P(j',k'|j,k)=\frac{e^{-k}k^{j'}}{j'!}
+\frac{e^{-(20-j)}(20-j)^{k'}}{k'!}\]</div>
+<p>i.e., the in-&gt;out correlation is “disassortative”, the out-&gt;in correlation
+is “assortative”, and everything else is uncorrelated.
+We will use a flat degree distribution in the range [1,20).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">poisson</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="n">sample_k</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span> <span class="n">sample_k</span><span class="p">(</span><span class="mi">19</span><span class="p">)),</span>
+<span class="gp">... </span>                    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;probabilistic-configuration&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">edge_probs</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span>
+<span class="gp">... </span>                                            <span class="n">p</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">20</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+<span class="gp">... </span>                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lets plot the average degree correlations to check.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{in}</span><span class="s2">\right&gt;$ vs in&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{out}</span><span class="s2">\right&gt;$ vs in&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{in}</span><span class="s2">\right&gt;$ vs out&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{out}</span><span class="s2">\right&gt;$ vs out&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Source degree&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Average target degree&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span> <span class="o">=</span> <span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">box</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;deg-corr-dir.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id29">
+<img alt="_images/deg-corr-dir.svg" src="../static/doc/_images/deg-corr-dir.svg" /><p class="caption"><span class="caption-text">Average nearest neighbor correlations.</span></p>
+</div>
+<p><strong>Stochastic blockmodels</strong></p>
+<p>The following example shows how a stochastic blockmodel
+<a class="reference internal" href="generation.html#holland-stochastic-1983106" id="id5">[holland-stochastic-1983106]</a> <a class="reference internal" href="generation.html#karrer-stochastic-2011106" id="id6">[karrer-stochastic-2011106]</a> can be generated. We
+will consider a system of 10 blocks, which form communities. The connection
+probability will be given by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="k">return</span> <span class="mf">0.999</span>
+<span class="gp">... </span>   <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="k">return</span> <span class="mf">0.001</span>
+</pre></div>
+</div>
+<p>The blockmodel can be generated as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">,</span> <span class="n">bm</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">poisson</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;blockmodel&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                        <span class="n">block_membership</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<span class="gp">... </span>                        <span class="n">edge_probs</span><span class="o">=</span><span class="n">prob</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">bm</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;blockmodel.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id30">
+<img alt="_images/blockmodel.png" src="../static/doc/_images/blockmodel.png" />
+<p class="caption"><span class="caption-text">Simple blockmodel with 10 blocks.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.random_rewire">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">random_rewire</code><span class="sig-paren">(</span><em>g</em>, <em>model='configuration'</em>, <em>n_iter=1</em>, <em>edge_sweep=True</em>, <em>parallel_edges=False</em>, <em>self_loops=False</em>, <em>configuration=True</em>, <em>edge_probs=None</em>, <em>block_membership=None</em>, <em>cache_probs=True</em>, <em>persist=False</em>, <em>pin=None</em>, <em>ret_fail=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#random_rewire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.random_rewire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle the graph in-place, following a variety of possible statistical
+models, chosen via the parameter <code class="docutils literal notranslate"><span class="pre">model</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be shuffled. The graph will be modified.</p>
+</div></blockquote>
+<p><strong>model</strong> : string (optional, default: <code class="docutils literal notranslate"><span class="pre">&quot;configuration&quot;</span></code>)</p>
+<blockquote>
+<div><p>The following statistical models can be chosen, which determine how the
+edges are rewired.</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">erdos</span></code></dt>
+<dd><p class="first last">The edges will be rewired entirely randomly, and the resulting graph
+will correspond to the <span class="math">\(G(N,E)\)</span> Erdős–Rényi model.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">configuration</span></code></dt>
+<dd><p class="first last">The edges will be rewired randomly, but the degree sequence of the
+graph will remain unmodified.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">constrained-configuration</span></code></dt>
+<dd><p class="first last">The edges will be rewired randomly, but both the degree sequence of
+the graph and the <em>vertex-vertex (in,out)-degree correlations</em> will
+remain exactly preserved. If the <code class="docutils literal notranslate"><span class="pre">block_membership</span></code> parameter is
+passed, the block variables at the endpoints of the edges will be
+preserved, instead of the degree-degree correlation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">probabilistic-configuration</span></code></dt>
+<dd><p class="first last">This is similar to <code class="docutils literal notranslate"><span class="pre">constrained-configuration</span></code>, but the
+vertex-vertex correlations are not preserved, but are instead sampled
+from an arbitrary degree-based probabilistic model specified via the
+<code class="docutils literal notranslate"><span class="pre">edge_probs</span></code> parameter. The degree-sequence is preserved.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">blockmodel-degree</span></code></dt>
+<dd><p class="first last">This is just like <code class="docutils literal notranslate"><span class="pre">probabilistic-configuration</span></code>, but the values
+passed to the <code class="docutils literal notranslate"><span class="pre">edge_probs</span></code> function will correspond to the block
+membership values specified by the <code class="docutils literal notranslate"><span class="pre">block_membership</span></code> parameter.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">blockmodel</span></code></dt>
+<dd><p class="first last">This is just like <code class="docutils literal notranslate"><span class="pre">blockmodel-degree</span></code>, but the degree sequence <em>is
+not</em> preserved during rewiring.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">blockmodel-micro</span></code></dt>
+<dd><p class="first last">This is like <code class="docutils literal notranslate"><span class="pre">blockmodel</span></code>, but the exact number of edges between
+groups is preserved as well.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>n_iter</strong> : int (optional, default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+<blockquote>
+<div><p>Number of iterations. If <code class="docutils literal notranslate"><span class="pre">edge_sweep</span> <span class="pre">==</span> <span class="pre">True</span></code>, each iteration
+corresponds to an entire “sweep” over all edges. Otherwise this
+corresponds to the total number of edges which are randomly chosen for a
+swap attempt (which may repeat).</p>
+</div></blockquote>
+<p><strong>edge_sweep</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, each iteration will perform an entire “sweep” over the
+edges, where each edge is visited once in random order, and a edge swap
+is attempted.</p>
+</div></blockquote>
+<p><strong>parallel_edges</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, parallel edges are allowed.</p>
+</div></blockquote>
+<p><strong>self_loops</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, self-loops are allowed.</p>
+</div></blockquote>
+<p><strong>configuration</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, graphs are sampled from the corresponding maximum-entropy
+ensemble of configurations (i.e. distinguishable half-edge pairings),
+otherwise they are sampled from the maximum-entropy ensemble of graphs
+(i.e. indistinguishable half-edge pairings). The distinction is only
+relevant if parallel edges are allowed.</p>
+</div></blockquote>
+<p><strong>edge_probs</strong> : function or sequence of triples (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>A function which determines the edge probabilities in the graph. In
+general it should have the following signature:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">p</span>
+</pre></div>
+</div>
+<p>where the return value should be a non-negative scalar.</p>
+<p>Alternatively, this parameter can be a list of triples of the form <code class="docutils literal notranslate"><span class="pre">(r,</span>
+<span class="pre">s,</span> <span class="pre">p)</span></code>, with the same meaning as the <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code> and <code class="docutils literal notranslate"><span class="pre">p</span></code> values
+above. If a given <code class="docutils literal notranslate"><span class="pre">(r,</span> <span class="pre">s)</span></code> combination is not present in this list,
+the corresponding value of <code class="docutils literal notranslate"><span class="pre">p</span></code> is assumed to be zero. If the same
+<code class="docutils literal notranslate"><span class="pre">(r,</span> <span class="pre">s)</span></code> combination appears more than once, their <code class="docutils literal notranslate"><span class="pre">p</span></code> values will
+be summed together. This is useful when the correlation matrix is
+sparse, i.e. most entries are zero.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">==</span> <span class="pre">probabilistic-configuration</span></code> the parameters <code class="docutils literal notranslate"><span class="pre">r</span></code> and
+<code class="docutils literal notranslate"><span class="pre">s</span></code> correspond respectively to the (in, out)-degree pair of the source
+vertex of an edge, and the (in,out)-degree pair of the target of the
+same edge (for undirected graphs, both parameters are scalars
+instead). The value of <code class="docutils literal notranslate"><span class="pre">p</span></code> should be a number proportional to the
+probability of such an edge existing in the generated graph.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">==</span> <span class="pre">blockmodel-degree</span></code> or <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">==</span> <span class="pre">blockmodel</span></code>, the <code class="docutils literal notranslate"><span class="pre">r</span></code>
+and <code class="docutils literal notranslate"><span class="pre">s</span></code> values passed to the function will be the block values of the
+respective vertices, as specified via the <code class="docutils literal notranslate"><span class="pre">block_membership</span></code>
+parameter. The value of <code class="docutils literal notranslate"><span class="pre">p</span></code> should be a number proportional to the
+probability of such an edge existing in the generated graph.</p>
+</div></blockquote>
+<p><strong>block_membership</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>If supplied, the graph will be rewired to conform to a blockmodel
+ensemble. The value must be a vertex property map which defines the
+block of each vertex.</p>
+</div></blockquote>
+<p><strong>cache_probs</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the probabilities returned by the <code class="docutils literal notranslate"><span class="pre">edge_probs</span></code> parameter
+will be cached internally. This is crucial for good performance, since
+in this case the supplied python function is called only a few times,
+and not at every attempted edge rewire move. However, in the case were
+the different parameter combinations to the probability function is very
+large, the memory and time requirements to keep the cache may not be
+worthwhile.</p>
+</div></blockquote>
+<p><strong>persist</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, an edge swap which is rejected will be attempted again
+until it succeeds. This may improve the quality of the shuffling for
+some probabilistic models, and should be sufficiently fast for sparse
+graphs, but otherwise it may result in many repeated attempts for
+certain corner-cases in which edges are difficult to swap.</p>
+</div></blockquote>
+<p><strong>pin</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>Edge property map which, if provided, specifies which edges are allowed
+to be rewired. Edges for which the property value is <code class="docutils literal notranslate"><span class="pre">1</span></code> (or <code class="docutils literal notranslate"><span class="pre">True</span></code>)
+will be left unmodified in the graph.</p>
+</div></blockquote>
+<p><strong>verbose</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, verbose information is displayed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rejection_count</strong> : int</p>
+<blockquote class="last">
+<div><p>Number of rejected edge moves (due to parallel edges or self-loops, or
+the probabilistic model used).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></dt>
+<dd>random graph generation</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This algorithm iterates through all the edges in the network and tries to
+swap its target or source with the target or source of another edge. The
+selected canditate swaps are chosen according to the <code class="docutils literal notranslate"><span class="pre">model</span></code> parameter.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">parallel_edges</span> <span class="pre">=</span> <span class="pre">False</span></code>, parallel edges are not placed during
+rewiring. In this case, the returned graph will be a uncorrelated sample
+from the desired ensemble only if <code class="docutils literal notranslate"><span class="pre">n_iter</span></code> is sufficiently large. The
+algorithm implements an efficient Markov chain based on edge swaps, with
+a mixing time which depends on the degree distribution and correlations
+desired. If degree probabilistic correlations are provided, the mixing
+time tends to be larger.</p>
+<p class="last">If <code class="docutils literal notranslate"><span class="pre">model</span></code> is either “probabilistic-configuration”, “blockmodel” or
+“blockmodel-degree”, the Markov chain still needs to be mixed, even if
+parallel edges and self-loops are allowed. In this case the Markov chain
+is implemented using the Metropolis-Hastings
+<a class="reference internal" href="generation.html#metropolis-equations-1953110" id="id7">[metropolis-equations-1953110]</a> <a class="reference internal" href="generation.html#hastings-monte-carlo-1970110" id="id8">[hastings-monte-carlo-1970110]</a>
+acceptance/rejection algorithm. It will eventually converge to the
+desired probabilities for sufficiently large values of <code class="docutils literal notranslate"><span class="pre">n_iter</span></code>.</p>
+</div>
+<p>Each edge is tentatively swapped once per iteration, so the overall
+complexity is <span class="math">\(O(V + E \times \text{n-iter})\)</span>. If <code class="docutils literal notranslate"><span class="pre">edge_sweep</span> <span class="pre">==</span>
+<span class="pre">False</span></code>, the complexity becomes <span class="math">\(O(V + E + \text{n-iter})\)</span>.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="metropolis-equations-1953110" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[metropolis-equations-1953110]</td><td><em>(<a class="fn-backref" href="generation.html#id7">1</a>, <a class="fn-backref" href="generation.html#id9">2</a>)</em> Metropolis, N.; Rosenbluth, A.W.;
+Rosenbluth, M.N.; Teller, A.H.; Teller, E. “Equations of State
+Calculations by Fast Computing Machines”. Journal of Chemical Physics 21
+(6): 1087-1092 (1953). <a class="reference external" href="https://dx.doi.org/10.1063/1.1699114">DOI: 10.1063/1.1699114</a> [<a class="reference external" href="https://sci-hub.tw/10.1063/1.1699114">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1063/1.1699114">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="hastings-monte-carlo-1970110" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[hastings-monte-carlo-1970110]</td><td><em>(<a class="fn-backref" href="generation.html#id8">1</a>, <a class="fn-backref" href="generation.html#id10">2</a>)</em> Hastings, W.K. “Monte Carlo Sampling Methods
+Using Markov Chains and Their Applications”. Biometrika 57 (1): 97-109 (1970).
+<a class="reference external" href="https://dx.doi.org/10.1093/biomet/57.1.97">DOI: 10.1093/biomet/57.1.97</a> [<a class="reference external" href="https://sci-hub.tw/10.1093/biomet/57.1.97">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1093/biomet/57.1.97">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="holland-stochastic-1983110" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id11">[holland-stochastic-1983110]</a></td><td>Paul W. Holland, Kathryn Blackmond Laskey, and
+Samuel Leinhardt, “Stochastic blockmodels: First steps,” Social Networks
+5, no. 2: 109-13 (1983) <a class="reference external" href="https://dx.doi.org/10.1016/0378-8733(83)90021-7">DOI: 10.1016/0378-8733(83)90021-7</a> [<a class="reference external" href="https://sci-hub.tw/10.1016/0378-8733(83)90021-7">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1016/0378-8733(83)90021-7">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="karrer-stochastic-2011110" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id12">[karrer-stochastic-2011110]</a></td><td>Brian Karrer and M. E. J. Newman, “Stochastic
+blockmodels and community structure in networks,” Physical Review E 83,
+no. 1: 016107 (2011) <a class="reference external" href="https://dx.doi.org/10.1103/PhysRevE.83.016107">DOI: 10.1103/PhysRevE.83.016107</a> [<a class="reference external" href="https://sci-hub.tw/10.1103/PhysRevE.83.016107">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1103/PhysRevE.83.016107">&#64;tor</a>] <a class="reference external" href="https://arxiv.org/abs/1008.3926">arXiv: 1008.3926</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Some small graphs for visualization.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;rewire_orig.pdf&quot;</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;constrained-configuration&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;rewire_corr.pdf&quot;</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;rewire_uncorr.pdf&quot;</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;erdos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;rewire_erdos.pdf&quot;</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<p>Some <a class="reference external" href="http://www.youtube.com/watch?v=YS-asmU3p_4">ridiculograms</a> :</p>
+<img alt="_images/rewire_orig.png" src="https://graph-tool.skewed.de/static/doc/_images/rewire_orig.png" />
+<img alt="_images/rewire_corr.png" src="https://graph-tool.skewed.de/static/doc/_images/rewire_corr.png" />
+<img alt="_images/rewire_uncorr.png" src="../static/doc/_images/rewire_uncorr.png" />
+<img alt="_images/rewire_erdos.png" src="../static/doc/_images/rewire_erdos.png" />
+<p><strong>From left to right</strong>: Original graph; Shuffled graph, with degree correlations;
+Shuffled graph, without degree correlations; Shuffled graph, with random degrees.</p>
+<p>We can try with larger graphs to get better statistics, as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">30000</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">sample_k</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;probabilistic-configuration&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">edge_probs</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">exp</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="p">)),</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;constrained-configuration&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Correlated&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Uncorrelated&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;erdos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Erd\H</span><span class="si">{o}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$k$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;k_</span><span class="si">{nn}</span><span class="s2">\right&gt;$&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span> <span class="o">=</span> <span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">box</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;shuffled-stats.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id31">
+<img alt="_images/shuffled-stats.svg" src="../static/doc/_images/shuffled-stats.svg" /><p class="caption"><span class="caption-text">Average degree correlations for the different shuffled and non-shuffled
+graphs. The shuffled graph with correlations displays exactly the same
+correlation as the original graph.</span></p>
+</div>
+<p>Now let’s do it for a directed graph. See
+<a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">random_graph()</span></code></a> for more details.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">poisson</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="n">sample_k</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span> <span class="n">sample_k</span><span class="p">(</span><span class="mi">19</span><span class="p">)),</span>
+<span class="gp">... </span>                    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;probabilistic-configuration&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">edge_probs</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">20</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+<span class="gp">... </span>                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{o}</span><span class="s2">\right&gt;$ vs i&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{i}</span><span class="s2">\right&gt;$ vs o&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;constrained-configuration&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{o}</span><span class="s2">\right&gt;$ vs i, corr.&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{i}</span><span class="s2">\right&gt;$ vs o, corr.&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_rewire</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;configuration&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{o}</span><span class="s2">\right&gt;$ vs i, uncorr.&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">errorbar</span><span class="p">(</span><span class="n">corr</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">corr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left&lt;\text</span><span class="si">{i}</span><span class="s2">\right&gt;$ vs o, uncorr.&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Source degree&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Average target degree&quot;</span><span class="p">)</span>
+<span class="go">Text(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span> <span class="o">=</span> <span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">box</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.55</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;shuffled-deg-corr-dir.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id32">
+<img alt="_images/shuffled-deg-corr-dir.svg" src="../static/doc/_images/shuffled-deg-corr-dir.svg" /><p class="caption"><span class="caption-text">Average degree correlations for the different shuffled and non-shuffled
+directed graphs. The shuffled graph with correlations displays exactly
+the same correlation as the original graph.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.generate_sbm">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">generate_sbm</code><span class="sig-paren">(</span><em>b</em>, <em>probs</em>, <em>out_degs=None</em>, <em>in_degs=None</em>, <em>directed=False</em>, <em>micro_ers=False</em>, <em>micro_degs=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#generate_sbm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.generate_sbm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random graph by sampling from the Poisson or microcanonical
+stochastic block model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>b</strong> : iterable or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p>
+<blockquote>
+<div><p>Group membership for each node.</p>
+</div></blockquote>
+<p><strong>probs</strong> : two-dimensional <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a></p>
+<blockquote>
+<div><p>Matrix with edge propensities between groups. The value <code class="docutils literal notranslate"><span class="pre">probs[r,s]</span></code>
+corresponds to the average number of edges between groups <code class="docutils literal notranslate"><span class="pre">r</span></code> and
+<code class="docutils literal notranslate"><span class="pre">s</span></code> (or twice the average number if <code class="docutils literal notranslate"><span class="pre">r</span> <span class="pre">==</span> <span class="pre">s</span></code> and the graph is
+undirected).</p>
+</div></blockquote>
+<p><strong>out_degs</strong> : iterable or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>Out-degree propensity for each node. If not provided, a constant value
+will be used. Note that the values will be normalized inside each group,
+if they are not already so.</p>
+</div></blockquote>
+<p><strong>in_degs</strong> : iterable or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>In-degree propensity for each node. If not provided, a constant value
+will be used. Note that the values will be normalized inside each group,
+if they are not already so.</p>
+</div></blockquote>
+<p><strong>directed</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>Whether the graph is directed.</p>
+</div></blockquote>
+<p><strong>micro_ers</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If true, the <cite>microcanonical</cite> version of the model will be evoked, where
+the numbers of edges between groups will be given <cite>exactly</cite> by the
+parameter <code class="docutils literal notranslate"><span class="pre">probs</span></code>, and this will not fluctuate between samples.</p>
+</div></blockquote>
+<p><strong>micro_degs</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If true, the <cite>microcanonical</cite> version of the degree-corrected model will
+be evoked, where the degrees of nodes will be given <cite>exactly</cite> by the
+parameters <code class="docutils literal notranslate"><span class="pre">out_degs</span></code> and <code class="docutils literal notranslate"><span class="pre">in_degs</span></code>, and they will not fluctuate
+between samples. (If <code class="docutils literal notranslate"><span class="pre">micro_degs</span> <span class="pre">==</span> <span class="pre">True</span></code> it implies <code class="docutils literal notranslate"><span class="pre">micro_ers</span> <span class="pre">==</span>
+<span class="pre">True</span></code>.)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote class="last">
+<div><p>The generated graph.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></dt>
+<dd>random graph generation</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The algorithm generates multigraphs with self-loops, according to the
+Poisson degree-corrected stochastic block model (SBM), which includes the
+traditional SBM as a special case.</p>
+<p>The multigraphs are generated with probability</p>
+<div class="math">
+\[\begin{split}P({\boldsymbol A}|{\boldsymbol \theta},{\boldsymbol \lambda},{\boldsymbol b})
+    = \prod_{i&lt;j}\frac{e^{-\lambda_{b_ib_j}\theta_i\theta_j}(\lambda_{b_ib_j}\theta_i\theta_j)^{A_{ij}}}{A_{ij}!}
+      \times\prod_i\frac{e^{-\lambda_{b_ib_i}\theta_i^2/2}(\lambda_{b_ib_i}\theta_i^2/2)^{A_{ij}/2}}{(A_{ij}/2)!},\end{split}\]</div>
+<p>where <span class="math">\(\lambda_{rs}\)</span> is the edge propensity between groups <span class="math">\(r\)</span>
+and <span class="math">\(s\)</span>, and <span class="math">\(\theta_i\)</span> is the propensity of node i to receive
+edges, which is proportional to its expected degree. Note that in the
+algorithm it is assumed that the node propensities are normalized for each
+group,</p>
+<div class="math">
+\[\sum_i\theta_i\delta_{b_i,r} = 1,\]</div>
+<p>such that the value <span class="math">\(\lambda_{rs}\)</span> will correspond to the average
+number of edges between groups <span class="math">\(r\)</span> and <span class="math">\(s\)</span> (or twice that if
+<span class="math">\(r = s\)</span>). If the supplied values of <span class="math">\(\theta_i\)</span> are not
+normalized as above, they will be normalized prior to the generation of the
+graph.</p>
+<p>For directed graphs, the probability is analogous, with <span class="math">\(\lambda_{rs}\)</span>
+being in general asymmetric:</p>
+<div class="math">
+\[P({\boldsymbol A}|{\boldsymbol \theta},{\boldsymbol \lambda},{\boldsymbol b})
+    = \prod_{ij}\frac{e^{-\lambda_{b_ib_j}\theta^+_i\theta^-_j}(\lambda_{b_ib_j}\theta^+_i\theta^-_j)^{A_{ij}}}{A_{ij}!}.\]</div>
+<p>Again, the same normalization is assumed:</p>
+<div class="math">
+\[\sum_i\theta_i^+\delta_{b_i,r} = \sum_i\theta_i^-\delta_{b_i,r} = 1,\]</div>
+<p>such that the value <span class="math">\(\lambda_{rs}\)</span> will correspond to the average
+number of directed edges between groups <span class="math">\(r\)</span> and <span class="math">\(s\)</span>.</p>
+<p>The traditional (i.e. non-degree-corrected) SBM is recovered from the above
+model by setting <span class="math">\(\theta_i=1/n_{b_i}\)</span> (or
+<span class="math">\(\theta^+_i=\theta^-_i=1/n_{b_i}\)</span> in the directed case), which is done
+automatically if <code class="docutils literal notranslate"><span class="pre">out_degs</span></code> and <code class="docutils literal notranslate"><span class="pre">in_degs</span></code> are not specified.</p>
+<p>In case the parameter <code class="docutils literal notranslate"><span class="pre">micro_degs</span> <span class="pre">==</span> <span class="pre">True</span></code> is passed, a <a class="reference external" href="https://en.wikipedia.org/wiki/Microcanonical_ensemble">microcanical</a> model is used
+instead, where both the number of edges between groups as well as the
+degrees of the nodes are preserved <cite>exactly</cite>, instead of only on
+expectation. In this case, the parameters are interpreted as
+<span class="math">\({\boldsymbol\lambda}\equiv{\boldsymbol e}\)</span> and
+<span class="math">\({\boldsymbol\theta}\equiv{\boldsymbol k}\)</span>, where <span class="math">\(e_{rs}\)</span> is
+the number of edges between groups <span class="math">\(r\)</span> and <span class="math">\(s\)</span> (or twice that if
+<span class="math">\(r=s\)</span> in the undirected case), and <span class="math">\(k_i\)</span> is the degree of node
+<span class="math">\(i\)</span>. This model is a generalization of the configuration model, where
+multigraphs are sampled with probability</p>
+<div class="math">
+\[\begin{split}P({\boldsymbol A}|{\boldsymbol k},{\boldsymbol e},{\boldsymbol b}) =
+\frac{\prod_{r&lt;s}e_{rs}!\prod_re_{rr}!!\prod_ik_i!}{\prod_re_r!\prod_{i&lt;j}A_{ij}!\prod_iA_{ii}!!}.\end{split}\]</div>
+<p>and in the directed case with probability</p>
+<div class="math">
+\[P({\boldsymbol A}|{\boldsymbol k}^+,{\boldsymbol k}^-,{\boldsymbol e},{\boldsymbol b}) =
+\frac{\prod_{rs}e_{rs}!\prod_ik^+_i!k^-_i!}{\prod_re^+_r!e^-_r!\prod_{ij}A_{ij}!}.\]</div>
+<p>where <span class="math">\(e^+_r = \sum_se_{rs}\)</span>, <span class="math">\(e^-_r = \sum_se_{sr}\)</span>,
+<span class="math">\(k^+_i = \sum_jA_{ij}\)</span> and <span class="math">\(k^-_i = \sum_jA_{ji}\)</span>.</p>
+<p>In the non-degree-corrected case, if <code class="docutils literal notranslate"><span class="pre">micro_ers</span> <span class="pre">==</span> <span class="pre">True</span></code>, the
+microcanonical model corresponds to</p>
+<div class="math">
+\[\begin{split}P({\boldsymbol A}|{\boldsymbol e},{\boldsymbol b}) =
+\frac{\prod_{r&lt;s}e_{rs}!\prod_re_{rr}!!}{\prod_rn_r^{e_r}\prod_{i&lt;j}A_{ij}!\prod_iA_{ii}!!},\end{split}\]</div>
+<p>and in the directed case to</p>
+<div class="math">
+\[P({\boldsymbol A}|{\boldsymbol e},{\boldsymbol b}) =
+\frac{\prod_{rs}e_{rs}!}{\prod_rn_r^{e_r^+ + e_r^-}\prod_{ij}A_{ij}!}.\]</div>
+<p>In every case above, the final graph is generated in time <span class="math">\(O(V + E +
+B)\)</span>, where <span class="math">\(B\)</span> is the number of groups.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="karrer-stochastic-2011114" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id13">[karrer-stochastic-2011114]</a></td><td>Brian Karrer and M. E. J. Newman, “Stochastic
+blockmodels and community structure in networks,” Physical Review E 83,
+no. 1: 016107 (2011) <a class="reference external" href="https://dx.doi.org/10.1103/PhysRevE.83.016107">DOI: 10.1103/PhysRevE.83.016107</a> [<a class="reference external" href="https://sci-hub.tw/10.1103/PhysRevE.83.016107">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1103/PhysRevE.83.016107">&#64;tor</a>] <a class="reference external" href="https://arxiv.org/abs/1008.3926">arXiv: 1008.3926</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="peixoto-nonparametric-2017114" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id14">[peixoto-nonparametric-2017114]</a></td><td>Tiago P. Peixoto, “Nonparametric Bayesian
+inference of the microcanonical stochastic block model”, Phys. Rev. E 95
+012317 (2017). <a class="reference external" href="https://dx.doi.org/10.1103/PhysRevE.95.012317">DOI: 10.1103/PhysRevE.95.012317</a> [<a class="reference external" href="https://sci-hub.tw/10.1103/PhysRevE.95.012317">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1103/PhysRevE.95.012317">&#64;tor</a>], <a class="reference external" href="https://arxiv.org/abs/1610.02703">arXiv: 1610.02703</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;polblogs&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vfilt</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">label_largest_component</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">prune</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">state</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">minimize_blockmodel_dl</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">generate_sbm</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">gt</span><span class="o">.</span><span class="n">adjacency</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">get_bg</span><span class="p">(),</span>
+<span class="gp">... </span>                                            <span class="n">state</span><span class="o">.</span><span class="n">get_ers</span><span class="p">())</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">g</span><span class="o">.</span><span class="n">degree_property_map</span><span class="p">(</span><span class="s2">&quot;out&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">g</span><span class="o">.</span><span class="n">degree_property_map</span><span class="p">(</span><span class="s2">&quot;in&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;polblogs-sbm.png&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">own_property</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="o">.</span><span class="n">pos</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;polblogs-sbm-generated.png&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../static/doc/_images/polblogs-sbm.png"><img alt="_images/polblogs-sbm.png" src="../static/doc/_images/polblogs-sbm.png" style="width: 40%;" /></a>
+<a class="reference internal image-reference" href="../static/doc/_images/polblogs-sbm-generated.png"><img alt="_images/polblogs-sbm-generated.png" src="../static/doc/_images/polblogs-sbm-generated.png" style="width: 40%;" /></a>
+<p><em>Left:</em> Political blogs network. <em>Right:</em> Sample from the degree-corrected
+SBM fitted to the original network.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.predecessor_tree">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">predecessor_tree</code><span class="sig-paren">(</span><em>g</em>, <em>pred_map</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#predecessor_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.predecessor_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a graph from a list of predecessors given by the <code class="docutils literal notranslate"><span class="pre">pred_map</span></code> vertex property.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.line_graph">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">line_graph</code><span class="sig-paren">(</span><em>g</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#line_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.line_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the line graph of the given graph <cite>g</cite>.</p>
+<p class="rubric">Notes</p>
+<p>Given an undirected graph G, its line graph L(G) is a graph such that</p>
+<blockquote>
+<div><ul class="simple">
+<li>each vertex of L(G) represents an edge of G; and</li>
+<li>two vertices of L(G) are adjacent if and only if their corresponding
+edges share a common endpoint (“are adjacent”) in G.</li>
+</ul>
+</div></blockquote>
+<p>For a directed graph, the second criterion becomes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Two vertices representing directed edges from u to v and from w to x in
+G are connected by an edge from uv to wx in the line digraph when v =
+w.</li>
+</ul>
+</div></blockquote>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="line-wiki116" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id15">[line-wiki116]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Line_graph">http://en.wikipedia.org/wiki/Line_graph</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;lesmis&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span><span class="p">,</span> <span class="n">vmap</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">line_graph</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">lg</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;lesmis-lg.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id33">
+<img alt="_images/lesmis-lg.png" src="../static/doc/_images/lesmis-lg.png" />
+<p class="caption"><span class="caption-text">Line graph of the coappearance of characters in Victor Hugo’s novel “Les
+Misérables”.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.graph_union">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">graph_union</code><span class="sig-paren">(</span><em>g1</em>, <em>g2</em>, <em>intersection=None</em>, <em>props=None</em>, <em>include=False</em>, <em>internal_props=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#graph_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.graph_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the union of graphs <code class="docutils literal notranslate"><span class="pre">g1</span></code> and <code class="docutils literal notranslate"><span class="pre">g2</span></code>, composed of all edges and
+vertices of <code class="docutils literal notranslate"><span class="pre">g1</span></code> and <code class="docutils literal notranslate"><span class="pre">g2</span></code>, without overlap (if <code class="docutils literal notranslate"><span class="pre">intersection</span> <span class="pre">==</span>
+<span class="pre">None</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g1</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>First graph in the union.</p>
+</div></blockquote>
+<p><strong>g2</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Second graph in the union.</p>
+</div></blockquote>
+<p><strong>intersection</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>Vertex property map owned by <cite>g2</cite> which maps each of its vertices
+to vertex indexes belonging to <cite>g1</cite>. Negative values mean no mapping
+exists, and thus both vertices in <cite>g1</cite> and <cite>g2</cite> will be present in the
+union graph.</p>
+</div></blockquote>
+<p><strong>props</strong> : list of tuples of <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>Each element in this list must be a tuple of two PropertyMap objects. The
+first element must be a property of <cite>g1</cite>, and the second of <cite>g2</cite>. If either
+value is <code class="docutils literal notranslate"><span class="pre">None</span></code>, an empty map is created. The values of the property
+maps are propagated into the union graph, and returned.</p>
+</div></blockquote>
+<p><strong>include</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, graph <cite>g2</cite> is inserted into <cite>g1</cite> which is modified. If false, a
+new graph is created, and both graphs remain unmodified.</p>
+</div></blockquote>
+<p><strong>internal_props</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, all internal property maps are propagated, in addition
+to <code class="docutils literal notranslate"><span class="pre">props</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ug</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>The union graph</p>
+</div></blockquote>
+<p><strong>props</strong> : list of <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> objects</p>
+<blockquote class="last">
+<div><p>List of propagated properties.  This is only returned if <cite>props</cite> is not
+empty.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span><span class="n">random</span><span class="p">((</span><span class="mi">300</span><span class="p">,</span><span class="mi">2</span><span class="p">)))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ug</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">graph_union</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uug</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">graph_union</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">ug</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;graph_original.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">ug</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">ug</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;graph_union.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">uug</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">uug</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;graph_union2.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<img alt="_images/graph_original.png" src="../static/doc/_images/graph_original.png" />
+<img alt="_images/graph_union.png" src="../static/doc/_images/graph_union.png" />
+<img alt="_images/graph_union2.png" src="../static/doc/_images/graph_union2.png" />
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.triangulation">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">triangulation</code><span class="sig-paren">(</span><em>points</em>, <em>type='simple'</em>, <em>periodic=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#triangulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.triangulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a 2D or 3D triangulation graph from a given point set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<blockquote>
+<div><p>Point set for the triangulation. It may be either a N x d array, where N
+is the number of points, and d is the space dimension (either 2 or 3).</p>
+</div></blockquote>
+<p><strong>type</strong> : string (optional, default: <code class="docutils literal notranslate"><span class="pre">'simple'</span></code>)</p>
+<blockquote>
+<div><p>Type of triangulation. May be either ‘simple’ or ‘delaunay’.</p>
+</div></blockquote>
+<p><strong>periodic</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, periodic boundary conditions will be used. This is
+parameter is valid only for type=”delaunay”, and is otherwise ignored.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>triangulation_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>The generated graph.</p>
+</div></blockquote>
+<p><strong>pos</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Vertex property map with the Cartesian coordinates.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></dt>
+<dd>random graph generation</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>A triangulation <a class="reference internal" href="generation.html#cgal-triang117" id="id16">[cgal-triang117]</a> is a division of the convex hull of a point
+set into triangles, using only that set as triangle vertices.</p>
+<p>In simple triangulations (<cite>type=”simple”</cite>), the insertion of a point is done
+by locating a face that contains the point, and splitting this face into
+three new faces (the order of insertion is therefore important). If the
+point falls outside the convex hull, the triangulation is restored by
+flips. Apart from the location, insertion takes a time O(1). This bound is
+only an amortized bound for points located outside the convex hull.</p>
+<p>Delaunay triangulations (<cite>type=”delaunay”</cite>) have the specific empty sphere
+property, that is, the circumscribing sphere of each cell of such a
+triangulation does not contain any other vertex of the triangulation in its
+interior. These triangulations are uniquely defined except in degenerate
+cases where five points are co-spherical. Note however that the CGAL
+implementation computes a unique triangulation even in these cases.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="cgal-triang117" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[cgal-triang117]</td><td><em>(<a class="fn-backref" href="generation.html#id16">1</a>, <a class="fn-backref" href="generation.html#id17">2</a>)</em> <a class="reference external" href="http://www.cgal.org/Manual/last/doc_html/cgal_manual/Triangulation_3/Chapter_main.html">http://www.cgal.org/Manual/last/doc_html/cgal_manual/Triangulation_3/Chapter_main.html</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="n">random</span><span class="p">((</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weight</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span> <span class="c1"># Edge weights corresponding to</span>
+<span class="gp">... </span>                                       <span class="c1"># Euclidean distances</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+<span class="gp">... </span>   <span class="n">weight</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">array</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()])</span> <span class="o">-</span>
+<span class="gp">... </span>                         <span class="n">array</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()]))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">betweenness</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">*=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;triang.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;delaunay&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weight</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+<span class="gp">... </span>   <span class="n">weight</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">array</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">()])</span> <span class="o">-</span>
+<span class="gp">... </span>                         <span class="n">array</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">()]))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">betweenness</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">*=</span> <span class="mi">120</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;triang-delaunay.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<p>2D triangulation of random points:</p>
+<img alt="_images/triang.png" src="../static/doc/_images/triang.png" />
+<img alt="_images/triang-delaunay.png" src="../static/doc/_images/triang-delaunay.png" />
+<p><em>Left:</em> Simple triangulation. <em>Right:</em> Delaunay triangulation. The vertex
+colors and the edge thickness correspond to the weighted betweenness
+centrality.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.lattice">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">lattice</code><span class="sig-paren">(</span><em>shape</em>, <em>periodic=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#lattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a N-dimensional square lattice.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>shape</strong> : list or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<blockquote>
+<div><p>List of sizes in each dimension.</p>
+</div></blockquote>
+<p><strong>periodic</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, periodic boundary conditions will be used.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lattice_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote class="last">
+<div><p>The generated graph.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.triangulation" title="graph_tool.generation.triangulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangulation</span></code></a></dt>
+<dd>2D or 3D triangulation</dd>
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></dt>
+<dd>random graph generation</dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="lattice118" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id18">[lattice118]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Square_lattice">http://en.wikipedia.org/wiki/Square_lattice</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">lattice</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;lattice.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">lattice</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;lattice_periodic.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">lattice</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;lattice_3d.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<img alt="_images/lattice.png" src="../static/doc/_images/lattice.png" />
+<img alt="_images/lattice_periodic.png" src="../static/doc/_images/lattice_periodic.png" />
+<img alt="_images/lattice_3d.png" src="../static/doc/_images/lattice_3d.png" />
+<p><em>Left:</em> 10x10 2D lattice. <em>Middle:</em> 10x20 2D periodic lattice (torus).
+<em>Right:</em> 10x10x10 3D lattice.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.complete_graph">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">complete_graph</code><span class="sig-paren">(</span><em>N</em>, <em>self_loops=False</em>, <em>directed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#complete_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.complete_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate complete graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>N</strong> : <code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+<blockquote>
+<div><p>Number of vertices.</p>
+</div></blockquote>
+<p><strong>self_loops</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, self-loops are included.</p>
+</div></blockquote>
+<p><strong>directed</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, a directed graph is generated.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>complete_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote class="last">
+<div><p>A complete graph.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="complete119" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id19">[complete119]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Complete_graph">http://en.wikipedia.org/wiki/Complete_graph</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">complete_graph</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;complete.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure" id="id34">
+<img alt="_images/complete.png" src="../static/doc/_images/complete.png" />
+<p class="caption"><span class="caption-text">A complete graph with <span class="math">\(N=30\)</span> vertices.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.circular_graph">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">circular_graph</code><span class="sig-paren">(</span><em>N</em>, <em>k=1</em>, <em>self_loops=False</em>, <em>directed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#circular_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.circular_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a circular graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>N</strong> : <code class="docutils literal notranslate"><span class="pre">int</span></code></p>
+<blockquote>
+<div><p>Number of vertices.</p>
+</div></blockquote>
+<p><strong>k</strong> : <code class="docutils literal notranslate"><span class="pre">int</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>Number of nearest neighbors to be connected.</p>
+</div></blockquote>
+<p><strong>self_loops</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, self-loops are included.</p>
+</div></blockquote>
+<p><strong>directed</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, a directed graph is generated.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>circular_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote class="last">
+<div><p>A circular graph.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">circular_graph</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;circular.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure" id="id35">
+<img alt="_images/circular.png" src="../static/doc/_images/circular.png" />
+<p class="caption"><span class="caption-text">A circular graph with <span class="math">\(N=30\)</span> vertices, and <span class="math">\(k=2\)</span>.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.geometric_graph">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">geometric_graph</code><span class="sig-paren">(</span><em>points</em>, <em>radius</em>, <em>ranges=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#geometric_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.geometric_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a geometric network form a set of N-dimensional points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : list or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<blockquote>
+<div><p>List of points. This must be a two-dimensional array, where the rows are
+coordinates in a N-dimensional space.</p>
+</div></blockquote>
+<p><strong>radius</strong> : float</p>
+<blockquote>
+<div><p>Pairs of points with an euclidean distance lower than this parameters
+will be connected.</p>
+</div></blockquote>
+<p><strong>ranges</strong> : list or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>If provided, periodic boundary conditions will be assumed, and the
+values of this parameter it will be used as the ranges in all
+dimensions. It must be a two-dimensional array, where each row will
+cointain the lower and upper bound of each dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>geometric_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>The generated graph.</p>
+</div></blockquote>
+<p><strong>pos</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>A vertex property map with the position of each vertex.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.triangulation" title="graph_tool.generation.triangulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangulation</span></code></a></dt>
+<dd>2D or 3D triangulation</dd>
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></dt>
+<dd>random graph generation</dd>
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.lattice" title="graph_tool.generation.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></dt>
+<dd>N-dimensional square lattice</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>A geometric graph <a class="reference internal" href="generation.html#geometric-graph120" id="id20">[geometric-graph120]</a> is generated by connecting points
+embedded in a N-dimensional euclidean space which are at a distance equal to
+or smaller than a given radius.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="geometric-graph120" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[geometric-graph120]</td><td><em>(<a class="fn-backref" href="generation.html#id20">1</a>, <a class="fn-backref" href="generation.html#id21">2</a>)</em> Jesper Dall and Michael Christensen, “Random geometric
+graphs”, Phys. Rev. E 66, 016121 (2002), <a class="reference external" href="https://dx.doi.org/10.1103/PhysRevE.66.016121">DOI: 10.1103/PhysRevE.66.016121</a> [<a class="reference external" href="https://sci-hub.tw/10.1103/PhysRevE.66.016121">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1103/PhysRevE.66.016121">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="n">random</span><span class="p">((</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">geometric_graph</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;geometric.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">geometric_graph</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;geometric_periodic.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/geometric.png" src="../static/doc/_images/geometric.png" />
+<img alt="_images/geometric_periodic.png" src="../static/doc/_images/geometric_periodic.png" />
+<dl class="docutils">
+<dt><em>Left:</em> Geometric network with random points. <em>Right:</em> Same network, but</dt>
+<dd>with periodic boundary conditions.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.price_network">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">price_network</code><span class="sig-paren">(</span><em>N</em>, <em>m=1</em>, <em>c=None</em>, <em>gamma=1</em>, <em>directed=True</em>, <em>seed_graph=None</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#price_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.price_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>A generalized version of Price’s – or Barabási-Albert if undirected – preferential attachment network model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>N</strong> : int</p>
+<blockquote>
+<div><p>Size of the network.</p>
+</div></blockquote>
+<p><strong>m</strong> : int (optional, default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+<blockquote>
+<div><p>Out-degree of newly added vertices.</p>
+</div></blockquote>
+<p><strong>c</strong> : float (optional, default: <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">if</span> <span class="pre">directed</span> <span class="pre">==</span> <span class="pre">True</span> <span class="pre">else</span> <span class="pre">0</span></code>)</p>
+<blockquote>
+<div><p>Constant factor added to the probability of a vertex receiving an edge
+(see notes below).</p>
+</div></blockquote>
+<p><strong>gamma</strong> : float (optional, default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+<blockquote>
+<div><p>Preferential attachment power (see notes below).</p>
+</div></blockquote>
+<p><strong>directed</strong> : bool (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, a Price network is generated. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, a
+Barabási-Albert network is generated.</p>
+</div></blockquote>
+<p><strong>seed_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>If provided, this graph will be used as the starting point of the
+algorithm.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>price_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote class="last">
+<div><p>The generated graph.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.triangulation" title="graph_tool.generation.triangulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangulation</span></code></a></dt>
+<dd>2D or 3D triangulation</dd>
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.random_graph" title="graph_tool.generation.random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_graph</span></code></a></dt>
+<dd>random graph generation</dd>
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.lattice" title="graph_tool.generation.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></dt>
+<dd>N-dimensional square lattice</dd>
+<dt><a class="reference internal" href="generation.html#graph_tool.generation.geometric_graph" title="graph_tool.generation.geometric_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometric_graph</span></code></a></dt>
+<dd>N-dimensional geometric network</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The (generalized) <a class="reference internal" href="generation.html#price121" id="id22">[price121]</a> network is either a directed or undirected graph
+(the latter is called a Barabási-Albert network), generated dynamically by
+at each step adding a new vertex, and connecting it to <span class="math">\(m\)</span> other
+vertices, chosen with probability <span class="math">\(\pi\)</span> defined as:</p>
+<div class="math">
+\[\pi \propto k^\gamma + c\]</div>
+<p>where <span class="math">\(k\)</span> is the in-degree of the vertex (or simply the degree in the
+undirected case). If <span class="math">\(\gamma=1\)</span>, the tail of resulting in-degree
+distribution of the directed case is given by</p>
+<div class="math">
+\[P_{k_\text{in}} \sim k_\text{in}^{-(2 + c/m)},\]</div>
+<p>or for the undirected case</p>
+<div class="math">
+\[P_{k} \sim k^{-(3 + c/m)}.\]</div>
+<p>However, if <span class="math">\(\gamma \ne 1\)</span>, the in-degree distribution is not
+scale-free (see <a class="reference internal" href="generation.html#dorogovtsev-evolution121" id="id23">[dorogovtsev-evolution121]</a> for details).</p>
+<p>Note that if <cite>seed_graph</cite> is not given, the algorithm will <em>always</em> start
+with one node if <span class="math">\(c &gt; 0\)</span>, or with two nodes with a link between them
+otherwise. If <span class="math">\(m &gt; 1\)</span>, the degree of the newly added vertices will be
+vary dynamically as <span class="math">\(m'(t) = \min(m, V(t))\)</span>, where <span class="math">\(V(t)\)</span> is the
+number of vertices added so far. If this behaviour is undesired, a proper
+seed graph with <span class="math">\(V \ge m\)</span> vertices must be provided.</p>
+<p>This algorithm runs in <span class="math">\(O(V\log V)\)</span> time.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="yule121" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id24">[yule121]</a></td><td>Yule, G. U. “A Mathematical Theory of Evolution, based on the
+Conclusions of Dr. J. C. Willis, F.R.S.”. Philosophical Transactions of
+the Royal Society of London, Ser. B 213: 21-87, 1925,
+<a class="reference external" href="https://dx.doi.org/10.1098/rstb.1925.0002">DOI: 10.1098/rstb.1925.0002</a> [<a class="reference external" href="https://sci-hub.tw/10.1098/rstb.1925.0002">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1098/rstb.1925.0002">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="price121" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[price121]</td><td><em>(<a class="fn-backref" href="generation.html#id22">1</a>, <a class="fn-backref" href="generation.html#id25">2</a>)</em> Derek De Solla Price, “A general theory of bibliometric and other
+cumulative advantage processes”, Journal of the American Society for
+Information Science, Volume 27, Issue 5, pages 292-306, September 1976,
+<a class="reference external" href="https://dx.doi.org/10.1002/asi.4630270505">DOI: 10.1002/asi.4630270505</a> [<a class="reference external" href="https://sci-hub.tw/10.1002/asi.4630270505">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1002/asi.4630270505">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="barabasi-albert121" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="generation.html#id26">[barabasi-albert121]</a></td><td>Barabási, A.-L., and Albert, R., “Emergence of
+scaling in random networks”, Science, 286, 509, 1999,
+<a class="reference external" href="https://dx.doi.org/10.1126/science.286.5439.509">DOI: 10.1126/science.286.5439.509</a> [<a class="reference external" href="https://sci-hub.tw/10.1126/science.286.5439.509">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1126/science.286.5439.509">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="dorogovtsev-evolution121" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[dorogovtsev-evolution121]</td><td><em>(<a class="fn-backref" href="generation.html#id23">1</a>, <a class="fn-backref" href="generation.html#id27">2</a>)</em> S. N. Dorogovtsev and J. F. F. Mendes, “Evolution
+of networks”, Advances in Physics, 2002, Vol. 51, No. 4, 1079-1187,
+<a class="reference external" href="https://dx.doi.org/10.1080/00018730110112519">DOI: 10.1080/00018730110112519</a> [<a class="reference external" href="https://sci-hub.tw/10.1080/00018730110112519">sci-hub</a>, <a class="reference external" href="https://scihub22266oqcxt.onion.link/10.1080/00018730110112519">&#64;tor</a>]</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">price_network</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.99</span><span class="p">),</span>
+<span class="gp">... </span>              <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">,</span> <span class="n">vertex_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">edge_pen_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;price-network.png&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">price_network</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">sfdp_layout</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cooling_step</span><span class="o">=</span><span class="mf">0.99</span><span class="p">),</span>
+<span class="gp">... </span>              <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">,</span> <span class="n">vertex_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">edge_pen_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;price-network-broader.png&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id36">
+<img alt="_images/price-network.png" src="../static/doc/_images/price-network.png" />
+<p class="caption"><span class="caption-text">Price network with <span class="math">\(N=2\times 10^4\)</span> nodes and <span class="math">\(c=1\)</span>.  The colors
+represent the order in which vertices were added.</span></p>
+</div>
+<div class="figure align-center" id="id37">
+<img alt="_images/price-network-broader.png" src="https://graph-tool.skewed.de/static/doc/_images/price-network-broader.png" />
+<p class="caption"><span class="caption-text">Price network with <span class="math">\(N=2\times 10^4\)</span> nodes and <span class="math">\(c=0.1\)</span>.  The colors
+represent the order in which vertices were added.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.generation.condensation_graph">
+<code class="descclassname">graph_tool.generation.</code><code class="descname">condensation_graph</code><span class="sig-paren">(</span><em>g</em>, <em>prop</em>, <em>vweight=None</em>, <em>eweight=None</em>, <em>avprops=None</em>, <em>aeprops=None</em>, <em>self_loops=False</em>, <em>parallel_edges=False</em><span class="sig-paren">)</span><a class="reference internal" href="../static/doc/_modules/graph_tool/generation.html#condensation_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="generation.html#graph_tool.generation.condensation_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the condensation graph, where each vertex with the same ‘prop’ value
+is condensed in one vertex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>Graph to be modelled.</p>
+</div></blockquote>
+<p><strong>prop</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Vertex property map with the community partition.</p>
+</div></blockquote>
+<p><strong>vweight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Vertex property map with the optional vertex weights.</p>
+</div></blockquote>
+<p><strong>eweight</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>Edge property map with the optional edge weights.</p>
+</div></blockquote>
+<p><strong>avprops</strong> : list of <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>If provided, the sum of each property map in this list for
+each vertex in the condensed graph will be computed and returned.</p>
+</div></blockquote>
+<p><strong>aeprops</strong> : list of <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>If provided, the sum of each property map in this list for
+each edge in the condensed graph will be computed and returned.</p>
+</div></blockquote>
+<p><strong>self_loops</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, self-loops due to intra-block edges are also included in
+the condensation graph.</p>
+</div></blockquote>
+<p><strong>parallel_edges</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, parallel edges will be included in the condensation graph,
+such that the total number of edges will be the same as in the original
+graph.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>condensation_graph</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote>
+<div><p>The community network</p>
+</div></blockquote>
+<p><strong>prop</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>The community values.</p>
+</div></blockquote>
+<p><strong>vcount</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>A vertex property map with the vertex count for each community.</p>
+</div></blockquote>
+<p><strong>ecount</strong> : <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>An edge property map with the inter-community edge count for each edge.</p>
+</div></blockquote>
+<p><strong>va</strong> : list of <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>A list of vertex property maps with summed values of the properties
+passed via the <code class="docutils literal notranslate"><span class="pre">avprops</span></code> parameter.</p>
+</div></blockquote>
+<p><strong>ea</strong> : list of <a class="reference internal" href="https://graph-tool.skewed.de/static/doc/graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>A list of edge property maps with summed values of the properties
+passed via the <code class="docutils literal notranslate"><span class="pre">avprops</span></code> parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Each vertex in the condensation graph represents one community in the
+original graph (vertices with the same ‘prop’ value), and the edges
+represent existent edges between vertices of the respective communities in
+the original graph.</p>
+<p class="rubric">Examples</p>
+<p>Let’s first obtain the best block partition with <code class="docutils literal notranslate"><span class="pre">B=5</span></code>.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;polbooks&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># fit a SBM with 5 groups</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">state</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">BlockState</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">mcmc_equilibrate</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="go">(...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">get_blocks</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">],</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">vertex_shape</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">output</span><span class="o">=</span><span class="s2">&quot;polbooks_blocks_B5.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<p>Now we get the condensation graph:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bg</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">vcount</span><span class="p">,</span> <span class="n">ecount</span><span class="p">,</span> <span class="n">avp</span><span class="p">,</span> <span class="n">aep</span> <span class="o">=</span> \
+<span class="gp">... </span>    <span class="n">gt</span><span class="o">.</span><span class="n">condensation_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">avprops</span><span class="o">=</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]],</span>
+<span class="gp">... </span>                          <span class="n">self_loops</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">avp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">bg</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">pos</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">/=</span> <span class="n">vcount</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">graph_draw</span><span class="p">(</span><span class="n">bg</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">avp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vertex_fill_color</span><span class="o">=</span><span class="n">bb</span><span class="p">,</span> <span class="n">vertex_shape</span><span class="o">=</span><span class="n">bb</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">vertex_size</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">vcount</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+<span class="gp">... </span>              <span class="n">edge_pen_width</span><span class="o">=</span><span class="n">gt</span><span class="o">.</span><span class="n">prop_to_size</span><span class="p">(</span><span class="n">ecount</span><span class="p">,</span> <span class="n">mi</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ma</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+<span class="gp">... </span>              <span class="n">output</span><span class="o">=</span><span class="s2">&quot;polbooks_blocks_B5_cond.pdf&quot;</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id38">
+<img alt="_images/polbooks_blocks_B5.png" src="https://graph-tool.skewed.de/static/doc/_images/polbooks_blocks_B5.png" />
+<p class="caption"><span class="caption-text">Block partition of a political books network with <span class="math">\(B=5\)</span>.</span></p>
+</div>
+<div class="figure align-center" id="id39">
+<img alt="_images/polbooks_blocks_B5_cond.png" src="../static/doc/_images/polbooks_blocks_B5_cond.png" />
+<p class="caption"><span class="caption-text">Condensation graph of the obtained block partition.</span></p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../doc">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="generation.html#"><code class="docutils literal notranslate"><span class="pre">graph_tool.generation</span></code> - Random graph generation</a><ul>
+<li><a class="reference internal" href="generation.html#summary">Summary</a></li>
+<li><a class="reference internal" href="generation.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="flow.html"
+                        title="previous chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.flow</span></code> - Maximum flow algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="community.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.inference</span></code> - Statistical inference of generative network models</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../static/doc/_sources/generation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="community.html" title="graph_tool.inference - Statistical inference of generative network models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="flow.html" title="graph_tool.flow - Maximum flow algorithms"
+             >previous</a> |</li>
+    <li><img src="../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../static/doc/modules.html" >Module documentation</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="https://graph-tool.skewed.de/static/doc/graph_tool.html" >graph_tool - efficient graph analysis and manipulation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

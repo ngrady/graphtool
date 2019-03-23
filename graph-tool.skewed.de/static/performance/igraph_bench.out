@@ -1,0 +1,74 @@
+Profiling shortest path
+=======================
+
+         2003 function calls in 11.788 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.004    0.004   11.788   11.788 {built-in method exec}
+        1    0.060    0.060   11.784   11.784 <string>:1(<module>)
+     1000   11.721    0.012   11.721    0.012 {method 'shortest_paths' of 'igraph.Graph' objects}
+     1000    0.004    0.000    0.004    0.000 __init__.py:2495(vs)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling PageRank
+==================
+
+         203 function calls in 9.360 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    9.360    9.360 {built-in method exec}
+        1    0.039    0.039    9.360    9.360 <string>:1(<module>)
+      100    0.001    0.000    9.321    0.093 __init__.py:795(pagerank)
+      100    9.320    0.093    9.320    0.093 {method 'personalized_pagerank' of 'igraph.Graph' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling k-core
+================
+
+         1003 function calls in 22.332 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000   22.332   22.332 {built-in method exec}
+        1    0.054    0.054   22.332   22.332 <string>:1(<module>)
+     1000   22.278    0.022   22.278    0.022 {method 'coreness' of 'igraph.Graph' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling minimum spanning tree
+===============================
+
+         2003 function calls in 45.013 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000   45.013   45.013 {built-in method exec}
+        1    1.338    1.338   45.013   45.013 <string>:1(<module>)
+     1000   22.698    0.023   43.675    0.044 __init__.py:835(spanning_tree)
+     1000   20.976    0.021   20.976    0.021 {method 'subgraph_edges' of 'igraph.Graph' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Profiling betweenness
+=====================
+
+         9 function calls in 3902.217 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000 3902.217 3902.217 {built-in method exec}
+        1    0.009    0.009 3902.217 3902.217 <string>:1(<module>)
+        3 2840.270  946.757 2840.270  946.757 {method 'edge_betweenness' of 'igraph.Graph' objects}
+        3 1061.937  353.979 1061.937  353.979 {method 'betweenness' of 'igraph.Graph' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+

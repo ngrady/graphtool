@@ -1,0 +1,76 @@
+body {
+    font-family: "Droid Serif", serif;
+} 
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+.box {
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0px 2px 3px 0px rgb(221, 221, 221);
+    border: 1px solid rgb(187, 187, 187);
+    background-color: rgb(255, 255, 255);
+    padding: 1em;
+    margin-top: 1em;
+}
+
+.code {
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0px 2px 3px 0px rgb(221, 221, 221);
+    border: 1px solid rgb(187, 187, 187);
+    background-color: rgb(255, 255, 255);
+    padding: .5em;
+    margin-top: .2em;
+    margin-bottom: .2em;
+}
+
+#getnow a {
+    text-align: center;
+    font-weight: bold;
+    padding: 0.8em;
+    /* display: block; */
+    background: linear-gradient(to bottom, rgb(46, 46, 46) 0%, rgb(34, 34, 34) 100%) repeat scroll 0% 0% transparent;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 4px 4px 4px 4px;
+    color: rgb(255, 255, 255);
+}
+
+#getnow a:hover {
+    background: linear-gradient(to bottom, rgb(60, 60, 60) 0%, rgb(46, 46, 46) 100%) repeat scroll 0% 0% transparent;
+    text-decoration: none;
+}
+
+.showcase {
+    background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.1);
+    border-top: medium none rgba(0, 0, 0, 0.4);
+    border-bottom: medium none rgba(0, 0, 0, 0.4);
+    padding: 2em 0px 1em;
+}
+
+/* LARGE SCREENS */
+@media screen and (min-width: 960px) {
+    /* your css goes here */
+}
+
+/* MEDIUM SCREENS */
+@media screen and (min-width: 650px) and (max-width: 959px) {
+    /* your css goes here */
+
+    ul.menu.horizontal.black.shadowed {
+	margin-top: 1em;
+	margin-bottom: 1em;
+    }
+
+}
+
+/* SMALL SCREENS */
+@media screen and (max-width: 649px) {
+    /* your css goes here */
+
+    ul.menu.horizontal.black.shadowed {
+	margin-top: 1em;
+	margin-bottom: 1em;
+    }
+
+}

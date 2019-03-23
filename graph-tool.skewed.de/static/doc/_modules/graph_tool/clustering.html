@@ -1,0 +1,702 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.clustering &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.clustering</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.clustering`` - Clustering coefficients</span>
+<span class="sd">---------------------------------------------------</span>
+
+<span class="sd">Provides algorithms for calculation of clustering coefficients,</span>
+<span class="sd">aka. transitivity.</span>
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   local_clustering</span>
+<span class="sd">   global_clustering</span>
+<span class="sd">   extended_clustering</span>
+<span class="sd">   motifs</span>
+<span class="sd">   motif_significance</span>
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_clustering as _gt&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_prop</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphView</span><span class="p">,</span> <span class="n">PropertyMap</span><span class="p">,</span> <span class="n">_get_rng</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">topology</span> <span class="kn">import</span> <span class="nn">isomorphism</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">generation</span> <span class="kn">import</span> <span class="nn">random_rewire</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">stats</span> <span class="kn">import</span> <span class="nn">vertex_hist</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;local_clustering&quot;</span><span class="p">,</span> <span class="s2">&quot;global_clustering&quot;</span><span class="p">,</span> <span class="s2">&quot;extended_clustering&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;motifs&quot;</span><span class="p">,</span> <span class="s2">&quot;motif_significance&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="local_clustering"><a class="viewcode-back" href="../../clustering.html#graph_tool.clustering.local_clustering">[docs]</a><span class="k">def</span> <span class="nf">local_clustering</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">undirected</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the local clustering coefficients for all vertices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    prop : :class:`~graph_tool.PropertyMap` or string, optional</span>
+<span class="sd">        Vertex property map where results will be stored. If specified, this</span>
+<span class="sd">        parameter will also be the return value.</span>
+<span class="sd">    undirected : bool (default: True)</span>
+<span class="sd">        Calculate the *undirected* clustering coefficient, if graph is directed</span>
+<span class="sd">        (this option has no effect if the graph is undirected).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prop : :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        Vertex property containing the clustering coefficients.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    global_clustering: global clustering coefficient</span>
+<span class="sd">    extended_clustering: extended (generalized) clustering coefficient</span>
+<span class="sd">    motifs: motif counting</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The local clustering coefficient [watts-collective-1998]_ :math:`c_i` is</span>
+<span class="sd">    defined as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       c_i = \frac{|\{e_{jk}\}|}{k_i(k_i-1)} :\, v_j,v_k \in N_i,\, e_{jk} \in E</span>
+
+<span class="sd">    where :math:`k_i` is the out-degree of vertex :math:`i`, and</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       N_i = \{v_j : e_{ij} \in E\}</span>
+
+<span class="sd">    is the set of out-neighbors of vertex :math:`i`. For undirected graphs the</span>
+<span class="sd">    value of :math:`c_i` is normalized as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       c&#39;_i = 2c_i.</span>
+
+<span class="sd">    The implemented algorithm runs in :math:`O(|V|\left&lt; k\right&gt;^2)` time,</span>
+<span class="sd">    where :math:`\left&lt; k\right&gt;` is the average out-degree.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (5,5))</span>
+<span class="sd">    &gt;&gt;&gt; clust = gt.local_clustering(g)</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.vertex_average(g, clust))</span>
+<span class="sd">    (0.008177777777777779, 0.00042080229075093...)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [watts-collective-1998] D. J. Watts and Steven Strogatz, &quot;Collective</span>
+<span class="sd">       dynamics of &#39;small-world&#39; networks&quot;, Nature, vol. 393, pp 440-442, 1998.</span>
+<span class="sd">       :doi:`10.1038/30918`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="ow">and</span> <span class="n">undirected</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_properties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_gt</span><span class="o">.</span><span class="n">local_clustering</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">prop</span></div>
+
+
+<div class="viewcode-block" id="global_clustering"><a class="viewcode-back" href="../../clustering.html#graph_tool.clustering.global_clustering">[docs]</a><span class="k">def</span> <span class="nf">global_clustering</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the global clustering coefficient.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    c : tuple of floats</span>
+<span class="sd">        Global clustering coefficient and standard deviation (jacknife method)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    local_clustering: local clustering coefficient</span>
+<span class="sd">    extended_clustering: extended (generalized) clustering coefficient</span>
+<span class="sd">    motifs: motif counting</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The global clustering coefficient [newman-structure-2003]_ :math:`c` is</span>
+<span class="sd">    defined as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       c = 3 \times \frac{\text{number of triangles}}</span>
+<span class="sd">                          {\text{number of connected triples}}</span>
+
+<span class="sd">    The implemented algorithm runs in :math:`O(|V|\left&lt; k\right&gt;^2)` time,</span>
+<span class="sd">    where :math:`\left&lt; k\right&gt;` is the average (total) degree.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (5,5))</span>
+<span class="sd">    &gt;&gt;&gt; print(gt.global_clustering(g))</span>
+<span class="sd">    (0.008177777777777779, 0.0004212235142651...)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [newman-structure-2003] M. E. J. Newman, &quot;The structure and function of</span>
+<span class="sd">       complex networks&quot;, SIAM Review, vol. 45, pp. 167-256, 2003,</span>
+<span class="sd">       :doi:`10.1137/S003614450342480`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_properties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">_gt</span><span class="o">.</span><span class="n">global_clustering</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="extended_clustering"><a class="viewcode-back" href="../../clustering.html#graph_tool.clustering.extended_clustering">[docs]</a><span class="k">def</span> <span class="nf">extended_clustering</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">props</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">undirected</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the extended clustering coefficients for all vertices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    props : list of :class:`~graph_tool.PropertyMap` objects, optional</span>
+<span class="sd">        list of vertex property maps where results will be stored. If specified,</span>
+<span class="sd">        this parameter will also be the return value.</span>
+<span class="sd">    max_depth : int, optional</span>
+<span class="sd">        Maximum clustering order (default: 3).</span>
+<span class="sd">    undirected : bool, optional</span>
+<span class="sd">        Calculate the *undirected* clustering coefficients, if graph is directed</span>
+<span class="sd">        (this option has no effect if the graph is undirected).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prop : list of :class:`~graph_tool.PropertyMap` objects</span>
+<span class="sd">        List of vertex properties containing the clustering coefficients.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    local_clustering: local clustering coefficient</span>
+<span class="sd">    global_clustering: global clustering coefficient</span>
+<span class="sd">    motifs: motif counting</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The extended clustering coefficient :math:`c^d_i` of order :math:`d` is</span>
+<span class="sd">    defined as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       c^d_i = \frac{\left|\right\{ \{u,v\}; u,v \in N_i | d_{G(V\setminus</span>
+<span class="sd">       \{i\})}(u,v) = d \left\}\right|}{{\left|N_i\right| \choose 2}},</span>
+
+<span class="sd">    where :math:`d_G(u,v)` is the shortest distance from vertex :math:`u` to</span>
+<span class="sd">    :math:`v` in graph :math:`G`, and</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       N_i = \{v_j : e_{ij} \in E\}</span>
+
+<span class="sd">    is the set of out-neighbors of :math:`i`. According to the above</span>
+<span class="sd">    definition, we have that the traditional local clustering coefficient is</span>
+<span class="sd">    recovered for :math:`d=1`, i.e., :math:`c^1_i = c_i`.</span>
+
+<span class="sd">    The implemented algorithm runs in</span>
+<span class="sd">    :math:`O(|V|\left&lt;k\right&gt;^{2+\text{max-depth}})` worst time, where</span>
+<span class="sd">    :math:`\left&lt; k\right&gt;` is the average out-degree.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (5,5))</span>
+<span class="sd">    &gt;&gt;&gt; clusts = gt.extended_clustering(g, max_depth=5)</span>
+<span class="sd">    &gt;&gt;&gt; for i in range(0, 5):</span>
+<span class="sd">    ...    print(gt.vertex_average(g, clusts[i]))</span>
+<span class="sd">    ...</span>
+<span class="sd">    (0.0050483333333333335, 0.0004393940240073...)</span>
+<span class="sd">    (0.024593787878787878, 0.0009963004021144...)</span>
+<span class="sd">    (0.11238924242424242, 0.001909615401971...)</span>
+<span class="sd">    (0.40252272727272725, 0.003113987400030...)</span>
+<span class="sd">    (0.43629378787878786, 0.003144159256565...)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [abdo-clustering] A. H. Abdo, A. P. S. de Moura, &quot;Clustering as a</span>
+<span class="sd">       measure of the local topology of networks&quot;, :arxiv:`physics/0605235`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="ow">and</span> <span class="n">undirected</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">props</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">):</span>
+            <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">))</span>
+    <span class="n">_gt</span><span class="o">.</span><span class="n">extended_clustering</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                            <span class="p">[</span><span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">props</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">props</span></div>
+
+
+<div class="viewcode-block" id="motifs"><a class="viewcode-back" href="../../clustering.html#graph_tool.clustering.motifs">[docs]</a><span class="k">def</span> <span class="nf">motifs</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">motif_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_maps</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the occurrence of k-size node-induced subgraphs (motifs). A tuple with</span>
+<span class="sd">    two lists is returned: the list of motifs found, and the list with their</span>
+<span class="sd">    respective counts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    k : int</span>
+<span class="sd">        number of vertices of the motifs</span>
+<span class="sd">    p : float or float list (optional, default: `1.0`)</span>
+<span class="sd">        uniform fraction of the motifs to be sampled. If a float list is</span>
+<span class="sd">        provided, it will be used as the fraction at each depth</span>
+<span class="sd">        :math:`[1,\dots,k]` in the algorithm. See [wernicke-efficient-2006]_ for</span>
+<span class="sd">        more details.</span>
+<span class="sd">    motif_list : list of :class:`~graph_tool.Graph` objects, optional</span>
+<span class="sd">        If supplied, the algorithms will only search for the motifs in this list</span>
+<span class="sd">        (or isomorphisms).</span>
+<span class="sd">    return_maps : bool (optional, default `False`)</span>
+<span class="sd">        If ``True``, a list will be returned, which provides for each motif graph a</span>
+<span class="sd">        list of vertex property maps which map the motif to its location in the</span>
+<span class="sd">        main graph.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    motifs : list of :class:`~graph_tool.Graph` objects</span>
+<span class="sd">        List of motifs of size k found in the Graph. Graphs are grouped</span>
+<span class="sd">        according to their isomorphism class, and only one of each class appears</span>
+<span class="sd">        in this list. The list is sorted according to in-degree sequence,</span>
+<span class="sd">        out-degree-sequence, and number of edges (in this order).</span>
+<span class="sd">    counts : list of ints</span>
+<span class="sd">        The number of times the respective motif in the motifs list was counted</span>
+<span class="sd">    vertex_maps : list of lists of :class:`~graph_tool.PropertyMap` objects</span>
+<span class="sd">        List for each motif graph containing the locations in the main</span>
+<span class="sd">        graph. This is only returned if `return_maps == True`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    motif_significance: significance profile of motifs</span>
+<span class="sd">    local_clustering: local clustering coefficient</span>
+<span class="sd">    global_clustering: global clustering coefficient</span>
+<span class="sd">    extended_clustering: extended (generalized) clustering coefficient</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This functions implements the ESU and RAND-ESU algorithms described in</span>
+<span class="sd">    [wernicke-efficient-2006]_.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testcode::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(1000, lambda: (5,5))</span>
+<span class="sd">    &gt;&gt;&gt; motifs, counts = gt.motifs(gt.GraphView(g, directed=False), 4)</span>
+<span class="sd">    &gt;&gt;&gt; print(len(motifs))</span>
+<span class="sd">    18</span>
+<span class="sd">    &gt;&gt;&gt; print(counts)</span>
+<span class="sd">    [115557, 390005, 627, 700, 1681, 2815, 820, 12, 27, 44, 15, 7, 12, 4, 6, 1, 2, 1]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [wernicke-efficient-2006] S. Wernicke, &quot;Efficient detection of network</span>
+<span class="sd">       motifs&quot;, IEEE/ACM Transactions on Computational Biology and</span>
+<span class="sd">       Bioinformatics (TCBB), Volume 3, Issue 4, Pages 347-359, 2006.</span>
+<span class="sd">       :doi:`10.1109/TCBB.2006.51`</span>
+<span class="sd">    .. [induced-subgraph-isomorphism] http://en.wikipedia.org/wiki/Induced_subgraph_isomorphism_problem</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sub_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">directed_motifs</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">motif_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">directed_motifs</span> <span class="o">=</span> <span class="n">motif_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">motif_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="o">!=</span> <span class="n">directed_motifs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;all motif graphs must be either directed or undirected!&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span> <span class="o">!=</span> <span class="n">k</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;all motifs must have the same number of vertices: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">sub_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">directed_motifs</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;motifs do not have the same directionality as the graph itself!&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">]</span>
+
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">vertex_maps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">was_directed</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span>
+    <span class="n">_gt</span><span class="o">.</span><span class="n">get_motifs</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sub_list</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">vertex_maps</span><span class="p">,</span>
+                   <span class="n">return_maps</span><span class="p">,</span>  <span class="n">pd</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+                   <span class="n">_get_rng</span><span class="p">())</span>
+
+    <span class="c1"># assemble graphs</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sub_list</span><span class="p">:</span>
+        <span class="n">mg</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+        <span class="n">mg</span><span class="o">.</span><span class="n">_Graph__graph</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="n">mg</span><span class="o">.</span><span class="n">reindex_edges</span><span class="p">()</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mg</span><span class="p">)</span>
+    <span class="n">sub_list</span> <span class="o">=</span> <span class="n">temp</span>
+
+    <span class="k">if</span> <span class="n">return_maps</span><span class="p">:</span>
+        <span class="n">list_hist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sub_list</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">vertex_maps</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">list_hist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sub_list</span><span class="p">,</span> <span class="n">hist</span><span class="p">))</span>
+    <span class="c1"># sort according to in-degree sequence</span>
+    <span class="n">list_hist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">in_degree</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">vertices</span><span class="p">()]))</span>
+
+    <span class="c1"># sort according to out-degree sequence</span>
+    <span class="n">list_hist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">vertices</span><span class="p">()]))</span>
+
+    <span class="c1"># sort according to ascending number of edges</span>
+    <span class="n">list_hist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">num_edges</span><span class="p">())</span>
+
+    <span class="n">sub_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">list_hist</span><span class="p">]</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">list_hist</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">return_maps</span><span class="p">:</span>
+        <span class="n">vertex_maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">list_hist</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vlist</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vertex_maps</span><span class="p">):</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">sub_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">vertex_maps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">PropertyMap</span><span class="p">(</span><span class="n">vm</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">vm</span> <span class="ow">in</span> <span class="n">vlist</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sub_list</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">vertex_maps</span>
+    <span class="k">return</span> <span class="n">sub_list</span><span class="p">,</span> <span class="n">hist</span></div>
+
+
+<span class="k">def</span> <span class="nf">_graph_sig</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;return the graph signature, i.e., the in and out degree distribution as</span>
+<span class="sd">    concatenated as a tuple.&quot;&quot;&quot;</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">in_dist</span> <span class="o">=</span> <span class="n">vertex_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">is_directed</span><span class="p">()</span> <span class="k">else</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                          <span class="n">float_count</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">out_dist</span> <span class="o">=</span> <span class="n">vertex_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">float_count</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([(</span><span class="n">in_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">in_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> \
+                 <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">in_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span> <span class="o">+</span>
+                <span class="p">[(</span><span class="n">out_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">out_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span>\
+                 <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))])</span>
+    <span class="k">return</span> <span class="n">sig</span>
+
+
+<div class="viewcode-block" id="motif_significance"><a class="viewcode-back" href="../../clustering.html#graph_tool.clustering.motif_significance">[docs]</a><span class="k">def</span> <span class="nf">motif_significance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">motif_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parallel_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle_model</span><span class="o">=</span><span class="s2">&quot;configuration&quot;</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the motif significance profile, for subgraphs with k vertices. A</span>
+<span class="sd">    tuple with two lists is returned: the list of motifs found, and their</span>
+<span class="sd">    respective z-scores.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Number of vertices of the motifs</span>
+<span class="sd">    n_shuffles : int (optional, default: 100)</span>
+<span class="sd">        Number of shuffled networks to consider for the z-score</span>
+<span class="sd">    p : float or float list (optional, default: 1.0)</span>
+<span class="sd">        Uniform fraction of the motifs to be sampled. If a float list is</span>
+<span class="sd">        provided, it will be used as the fraction at each depth</span>
+<span class="sd">        :math:`[1,\dots,k]` in the algorithm. See [wernicke-efficient-2006]_ for</span>
+<span class="sd">        more details.</span>
+<span class="sd">    motif_list : list of :class:`~graph_tool.Graph` objects (optional, default: None)</span>
+<span class="sd">        If supplied, the algorithms will only search for the motifs in this list</span>
+<span class="sd">        (isomorphisms)</span>
+<span class="sd">    threshold : int (optional, default: 0)</span>
+<span class="sd">        If a given motif count is below this level, it is not considered.</span>
+<span class="sd">    self_loops : bool (optional, default: False)</span>
+<span class="sd">        Whether or not the shuffled graphs are allowed to contain self-loops</span>
+<span class="sd">    parallel_edges : bool (optional, default: False)</span>
+<span class="sd">        Whether or not the shuffled graphs are allowed to contain parallel</span>
+<span class="sd">        edges.</span>
+<span class="sd">    full_output : bool (optional, default: False)</span>
+<span class="sd">        If set to True, three additional lists are returned: the count</span>
+<span class="sd">        of each motif, the average count of each motif in the shuffled networks,</span>
+<span class="sd">        and the standard deviation of the average count of each motif in the</span>
+<span class="sd">        shuffled networks.</span>
+<span class="sd">    shuffle_model : string (optional, default: &quot;configuration&quot;)</span>
+<span class="sd">        Shuffle model to use. See :func:`~graph_tool.generation.random_rewire`</span>
+<span class="sd">        for details.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    motifs : list of :class:`~graph_tool.Graph` objects</span>
+<span class="sd">        List of motifs of size k found in the Graph. Graphs are grouped</span>
+<span class="sd">        according to their isomorphism class, and only one of each class appears</span>
+<span class="sd">        in this list. The list is sorted according to in-degree sequence,</span>
+<span class="sd">        out-degree-sequence, and number of edges (in this order).</span>
+<span class="sd">    z-scores : list of floats</span>
+<span class="sd">        The z-score of the respective motives. See below for the definition of</span>
+<span class="sd">        the z-score.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    motifs: motif counting or sampling</span>
+<span class="sd">    local_clustering: local clustering coefficient</span>
+<span class="sd">    global_clustering: global clustering coefficient</span>
+<span class="sd">    extended_clustering: extended (generalized) clustering coefficient</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The z-score :math:`z_i` of motif i is defined as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">         z_i = \frac{N_i - \left&lt;N^s_i\right&gt;}</span>
+<span class="sd">         {\sqrt{\left&lt;(N^s_i)^2\right&gt; - \left&lt;N^s_i\right&gt;^2}},</span>
+
+<span class="sd">    where :math:`N_i` is the number of times motif i found, and :math:`N^s_i`</span>
+<span class="sd">    is the count of the same motif but on a shuffled network. It measures how</span>
+<span class="sd">    many standard deviations is each motif count, in respect to an ensemble of</span>
+<span class="sd">    randomly shuffled graphs with the same degree sequence.</span>
+
+<span class="sd">    The z-scores values are not normalized.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from numpy import random</span>
+<span class="sd">    &gt;&gt;&gt; random.seed(10)</span>
+<span class="sd">    &gt;&gt;&gt; g = gt.random_graph(100, lambda: (3,3))</span>
+<span class="sd">    &gt;&gt;&gt; motifs, zscores = gt.motif_significance(g, 3)</span>
+<span class="sd">    &gt;&gt;&gt; print(len(motifs))</span>
+<span class="sd">    11</span>
+<span class="sd">    &gt;&gt;&gt; print(zscores)</span>
+<span class="sd">    [0.22728646681107012, 0.21409572051644973, 0.007022040788902111, 0.5872141967123348, -0.37770179603294357, -0.3484733504783734, 0.8861811801325502, -0.08, -0.2, -0.38, -0.2]</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [wernicke-efficient-2006] S. Wernicke, &quot;Efficient detection of network</span>
+<span class="sd">       motifs&quot;, IEEE/ACM Transactions on Computational Biology and</span>
+<span class="sd">       Bioinformatics (TCBB), Volume 3, Issue 4, Pages 347-359, 2006.</span>
+<span class="sd">       :doi:`10.1109/TCBB.2006.51`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">s_ms</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">motifs</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">motif_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">s_ms</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s_ms</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]))</span>
+        <span class="n">s_ms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">s_ms</span><span class="p">)</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+    <span class="n">s_counts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">s_ms</span><span class="p">)</span>
+    <span class="n">s_dev</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">s_ms</span><span class="p">)</span>
+
+    <span class="c1"># group subgraphs by number of edges</span>
+    <span class="n">m_e</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s_ms</span><span class="p">)):</span>
+        <span class="n">m_e</span><span class="p">[</span><span class="n">_graph_sig</span><span class="p">(</span><span class="n">s_ms</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># get samples</span>
+    <span class="n">sg</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_shuffles</span><span class="p">):</span>
+        <span class="n">random_rewire</span><span class="p">(</span><span class="n">sg</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">shuffle_model</span><span class="p">,</span> <span class="n">self_loops</span><span class="o">=</span><span class="n">self_loops</span><span class="p">,</span>
+                      <span class="n">parallel_edges</span><span class="o">=</span><span class="n">parallel_edges</span><span class="p">)</span>
+        <span class="n">m_temp</span><span class="p">,</span> <span class="n">count_temp</span> <span class="o">=</span> <span class="n">motifs</span><span class="p">(</span><span class="n">sg</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">motif_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">m_temp</span><span class="p">,</span> <span class="n">count_temp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">m_temp</span><span class="p">,</span> <span class="n">count_temp</span><span class="p">)</span> \
+                                       <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">m_temp</span><span class="p">)):</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">m_e</span><span class="p">[</span><span class="n">_graph_sig</span><span class="p">(</span><span class="n">m_temp</span><span class="p">[</span><span class="n">j</span><span class="p">])]:</span>
+                <span class="k">if</span> <span class="n">isomorphism</span><span class="p">(</span><span class="n">s_ms</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">m_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">s_counts</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">+=</span> <span class="n">count_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">s_dev</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">+=</span> <span class="n">count_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
+                <span class="n">s_ms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m_temp</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">s_counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_temp</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">s_dev</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">m_e</span><span class="p">[</span><span class="n">_graph_sig</span><span class="p">(</span><span class="n">m_temp</span><span class="p">[</span><span class="n">j</span><span class="p">])]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s_ms</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">s_counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_shuffles</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s_counts</span><span class="p">]</span>
+    <span class="n">s_dev</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_shuffles</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> \
+              <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s_dev</span><span class="p">,</span> <span class="n">s_counts</span><span class="p">)]</span>
+
+    <span class="n">list_hist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">s_ms</span><span class="p">,</span> <span class="n">s_counts</span><span class="p">,</span> <span class="n">s_dev</span><span class="p">))</span>
+    <span class="c1"># sort according to in-degree sequence</span>
+    <span class="n">list_hist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">in_degree</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">vertices</span><span class="p">()])),</span>
+
+    <span class="c1"># sort according to out-degree sequence</span>
+    <span class="n">list_hist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">vertices</span><span class="p">()]))</span>
+
+    <span class="c1"># sort according to ascending number of edges</span>
+    <span class="n">list_hist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">num_edges</span><span class="p">())</span>
+
+    <span class="n">s_ms</span><span class="p">,</span> <span class="n">s_counts</span><span class="p">,</span> <span class="n">s_dev</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">list_hist</span><span class="p">))</span>
+
+    <span class="n">zscore</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">s_counts</span><span class="p">,</span> <span class="n">s_dev</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s_ms</span><span class="p">,</span> <span class="n">zscore</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">s_counts</span><span class="p">,</span> <span class="n">s_dev</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s_ms</span><span class="p">,</span> <span class="n">zscore</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

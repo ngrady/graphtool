@@ -1,0 +1,1929 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool - efficient graph analysis and manipulation &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="graph_tool.centrality - Centrality measures" href="http://graph-tool.skewed.de/static/doc/centrality.html" />
+    <link rel="prev" title="Module documentation" href="http://graph-tool.skewed.de/static/doc/modules.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="http://graph-tool.skewed.de/static/doc/centrality.html" title="graph_tool.centrality - Centrality measures"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="http://graph-tool.skewed.de/static/doc/modules.html" title="Module documentation"
+             accesskey="P">previous</a> |</li>
+    <li><img src="../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="../../index.html">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="index.html">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="http://graph-tool.skewed.de/static/doc/modules.html" accesskey="U">Module documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-graph_tool"></span><div class="section" id="graph-tool-efficient-graph-analysis-and-manipulation">
+<h1>graph_tool - efficient graph analysis and manipulation<a class="headerlink" href="graph_tool.html#graph-tool-efficient-graph-analysis-and-manipulation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="graph_tool.html#summary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graph</span></code></a></td>
+<td>Generic multigraph class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphView</span></code></a></td>
+<td>A view of selected vertices or edges of another graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.Vertex" title="graph_tool.Vertex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vertex</span></code></a></td>
+<td>Vertex descriptor.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.Edge" title="graph_tool.Edge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Edge</span></code></a></td>
+<td>Edge descriptor.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></td>
+<td>This class provides a mapping from vertices, edges or whole graphs to arbitrary properties.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.PropertyArray" title="graph_tool.PropertyArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropertyArray</span></code></a></td>
+<td>This is a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> subclass which keeps a reference of its <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> owner.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.load_graph" title="graph_tool.load_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_graph</span></code></a></td>
+<td>Load a graph from <code class="docutils literal notranslate"><span class="pre">file_name</span></code> (which can be either a string or a file-like object).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.load_graph_from_csv" title="graph_tool.load_graph_from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_graph_from_csv</span></code></a></td>
+<td>Load a graph from a <a class="reference external" href="https://docs.python.org/3/library/csv.html#module-csv" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">csv</span></code></a> file containing a list of edges and edge properties.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.group_vector_property" title="graph_tool.group_vector_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group_vector_property</span></code></a></td>
+<td>Group list of properties <code class="docutils literal notranslate"><span class="pre">props</span></code> into a vector property map of the same type.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.ungroup_vector_property" title="graph_tool.ungroup_vector_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ungroup_vector_property</span></code></a></td>
+<td>Ungroup vector property map <code class="docutils literal notranslate"><span class="pre">vprop</span></code> into a list of individual property maps.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.map_property_values" title="graph_tool.map_property_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_property_values</span></code></a></td>
+<td>Map the values of <code class="docutils literal notranslate"><span class="pre">src_prop</span></code> to <code class="docutils literal notranslate"><span class="pre">tgt_prop</span></code> according to the mapping function <code class="docutils literal notranslate"><span class="pre">map_func</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.infect_vertex_property" title="graph_tool.infect_vertex_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infect_vertex_property</span></code></a></td>
+<td>Propagate the <cite>prop</cite> values of vertices with value <cite>val</cite> to all their out-neighbors.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.edge_endpoint_property" title="graph_tool.edge_endpoint_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_endpoint_property</span></code></a></td>
+<td>Return an edge property map corresponding to the vertex property <cite>prop</cite> of either the target and source of the edge, according to <cite>endpoint</cite>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.incident_edges_op" title="graph_tool.incident_edges_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">incident_edges_op</span></code></a></td>
+<td>Return a vertex property map corresponding to a specific operation (sum, product, min or max) on the edge property <cite>eprop</cite> of incident edges on each vertex, following the direction given by <cite>direction</cite>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.perfect_prop_hash" title="graph_tool.perfect_prop_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">perfect_prop_hash</span></code></a></td>
+<td>Given a list of property maps <cite>props</cite> of the same type, a derived list of property maps with integral type <cite>htype</cite> is returned, where each value is replaced by a perfect (i.e.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.value_types" title="graph_tool.value_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value_types</span></code></a></td>
+<td>Return a list of possible properties value types.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.openmp_enabled" title="graph_tool.openmp_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">openmp_enabled</span></code></a></td>
+<td>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if OpenMP was enabled during compilation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.openmp_get_num_threads" title="graph_tool.openmp_get_num_threads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">openmp_get_num_threads</span></code></a></td>
+<td>Return the number of OpenMP threads.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.openmp_set_num_threads" title="graph_tool.openmp_set_num_threads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">openmp_set_num_threads</span></code></a></td>
+<td>Set the number of OpenMP threads.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.openmp_get_schedule" title="graph_tool.openmp_get_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">openmp_get_schedule</span></code></a></td>
+<td>Return the runtime OpenMP schedule and chunk size.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="graph_tool.html#graph_tool.openmp_set_schedule" title="graph_tool.openmp_set_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">openmp_set_schedule</span></code></a></td>
+<td>Set the runtime OpenMP schedule and chunk size.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="graph_tool.html#graph_tool.show_config" title="graph_tool.show_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_config</span></code></a></td>
+<td>Show <code class="docutils literal notranslate"><span class="pre">graph_tool</span></code> build configuration.</td>
+</tr>
+</tbody>
+</table>
+<p>This module provides:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>A <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> class for graph representation and manipulation</li>
+<li>Property maps for Vertex, Edge or Graph.</li>
+<li>Fast algorithms implemented in C++.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="how-to-use-the-documentation">
+<h2>How to use the documentation<a class="headerlink" href="graph_tool.html#how-to-use-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is available in two forms: docstrings provided
+with the code, and the full documentation available in
+<a class="reference external" href="../../index.html">the graph-tool homepage</a>.</p>
+<p>We recommend exploring the docstrings using <a class="reference external" href="http://ipython.scipy.org">IPython</a>, an advanced Python shell with TAB-completion and
+introspection capabilities.</p>
+<p>The docstring examples assume that <code class="docutils literal notranslate"><span class="pre">graph_tool.all</span></code> has been imported as
+<code class="docutils literal notranslate"><span class="pre">gt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">graph_tool.all</span> <span class="k">as</span> <span class="nn">gt</span>
+</pre></div>
+</div>
+<p>Code snippets are indicated by three greater-than signs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Use the built-in <code class="docutils literal notranslate"><span class="pre">help</span></code> function to view a function’s docstring:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="graph_tool.html#contents" title="Permalink to this headline">¶</a></h2>
+<div class="sec-title docutils container">
+Basic classes</div>
+<dl class="class">
+<dt id="graph_tool.Graph">
+<em class="property">class </em><code class="descclassname">graph_tool.</code><code class="descname">Graph</code><span class="sig-paren">(</span><em>g=None</em>, <em>directed=True</em>, <em>prune=False</em>, <em>vorder=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic multigraph class.</p>
+<p>This class encapsulates either a directed multigraph (default or if
+<code class="docutils literal notranslate"><span class="pre">directed=True</span></code>) or an undirected multigraph (if <code class="docutils literal notranslate"><span class="pre">directed=False</span></code>),
+with optional internal edge, vertex or graph properties.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">g</span></code> is specified, the graph (and its internal properties) will be
+copied.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">prune</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, and <code class="docutils literal notranslate"><span class="pre">g</span></code> is specified, only the filtered
+graph will be copied, and the new graph object will not be
+filtered. Optionally, a tuple of three booleans can be passed as value to
+<code class="docutils literal notranslate"><span class="pre">prune</span></code>, to specify a different behavior to vertex, edge, and reversal
+filters, respectively.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">vorder</span></code> is specified, it should correspond to a vertex
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> specifying the ordering of the vertices in
+the copied graph.</p>
+<p>The graph is implemented as an <a class="reference external" href="http://en.wikipedia.org/wiki/Adjacency_list">adjacency list</a>, where both vertex and edge
+lists are C++ STL vectors.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a deep copy of self. All <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-internal-props"><span class="std std-ref">internal property maps</span></a>
+are also copied.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Iterating over vertices and edges</div>
+<p>See <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-iteration"><span class="std std-ref">Iterating over vertices and edges</span></a> for more documentation and examples.</p>
+<p>Iterator-based interface:</p>
+<dl class="method">
+<dt id="graph_tool.Graph.vertices">
+<code class="descname">vertices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#iterator.__iter__" title="(in Python v3.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iterator</span></code></a> over the vertices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The order of the vertices traversed by the iterator <strong>always</strong>
+corresponds to the vertex index ordering, as given by the
+<a class="reference internal" href="graph_tool.html#graph_tool.Graph.vertex_index" title="graph_tool.Graph.vertex_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vertex_index</span></code></a> property map.</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vlist2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">vlist2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span><span class="p">(</span><span class="n">vlist</span> <span class="o">==</span> <span class="n">vlist2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.edges">
+<code class="descname">edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#iterator.__iter__" title="(in Python v3.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iterator</span></code></a> over the edges.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The order of the edges traversed by the iterator <strong>does not</strong>
+necessarily correspond to the edge index ordering, as given by the
+<a class="reference internal" href="graph_tool.html#graph_tool.Graph.edge_index" title="graph_tool.Graph.edge_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">edge_index</span></code></a> property map. This will only
+happen after <a class="reference internal" href="graph_tool.html#graph_tool.Graph.reindex_edges" title="graph_tool.Graph.reindex_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reindex_edges()</span></code></a> is called, or in
+certain situations such as just after a graph is loaded from a
+file. However, further manipulation of the graph may destroy the
+ordering.</p>
+</div>
+</dd></dl>
+
+<p>Array-based interface:</p>
+<dl class="method">
+<dt id="graph_tool.Graph.get_vertices">
+<code class="descname">get_vertices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> with the vertex indices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The order of the vertices is identical to
+<a class="reference internal" href="graph_tool.html#graph_tool.Graph.vertices" title="graph_tool.Graph.vertices"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vertices()</span></code></a>.</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">()</span>
+<span class="go">array([0, 1, 2, 3, 4], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_edges">
+<code class="descname">get_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the edges. The shape of
+the array will be <code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">3)</span></code>, where <code class="docutils literal notranslate"><span class="pre">E</span></code> is the number of edges, and
+each line will contain the source, target and index of an edge.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The order of the edges is identical to
+<a class="reference internal" href="graph_tool.html#graph_tool.Graph.edges" title="graph_tool.Graph.edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">edges()</span></code></a>.</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_edges</span><span class="p">()</span>
+<span class="go">array([[2, 1, 2],</span>
+<span class="go">       [3, 4, 0],</span>
+<span class="go">       [5, 0, 1]], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_out_edges">
+<code class="descname">get_out_edges</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_out_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_out_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the out-edges of vertex <code class="docutils literal notranslate"><span class="pre">v</span></code>. The
+shape of the array will be <code class="docutils literal notranslate"><span class="pre">(k,</span> <span class="pre">3)</span></code>, where <code class="docutils literal notranslate"><span class="pre">k</span></code> is the out-degree of
+<code class="docutils literal notranslate"><span class="pre">v</span></code>, and each line will contain the source, target and index of an
+edge.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pgp-strong-2009&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_out_edges</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
+<span class="go">array([[   66,    63,  5266],</span>
+<span class="go">       [   66, 20369,  5267],</span>
+<span class="go">       [   66, 13980,  5268],</span>
+<span class="go">       [   66,  8687,  5269],</span>
+<span class="go">       [   66, 38674,  5270]], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_in_edges">
+<code class="descname">get_in_edges</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_in_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_in_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the out-edges of vertex <code class="docutils literal notranslate"><span class="pre">v</span></code>. The
+shape of the array will be <code class="docutils literal notranslate"><span class="pre">(k,</span> <span class="pre">3)</span></code>, where <code class="docutils literal notranslate"><span class="pre">k</span></code> is the out-degree of
+<code class="docutils literal notranslate"><span class="pre">v</span></code>, and each line will contain the source, target and index of an
+edge.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pgp-strong-2009&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_in_edges</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
+<span class="go">array([[  8687,     66, 179681],</span>
+<span class="go">       [ 20369,     66, 255033],</span>
+<span class="go">       [ 38674,     66, 300230]], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_out_neighbors">
+<code class="descname">get_out_neighbors</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_out_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_out_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the out-neighbors of vertex
+<code class="docutils literal notranslate"><span class="pre">v</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pgp-strong-2009&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_out_neighbors</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
+<span class="go">array([   63, 20369, 13980,  8687, 38674], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_in_neighbors">
+<code class="descname">get_in_neighbors</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_in_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_in_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the in-neighbors of vertex <code class="docutils literal notranslate"><span class="pre">v</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pgp-strong-2009&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_in_neighbors</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
+<span class="go">array([ 8687, 20369, 38674], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_out_degrees">
+<code class="descname">get_out_degrees</code><span class="sig-paren">(</span><em>vs</em>, <em>eweight=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_out_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_out_degrees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the out-degrees of vertex list
+<code class="docutils literal notranslate"><span class="pre">vs</span></code>. If supplied, the degrees will be weighted according to the edge
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> <code class="docutils literal notranslate"><span class="pre">eweight</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pgp-strong-2009&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_out_degrees</span><span class="p">([</span><span class="mi">42</span><span class="p">,</span> <span class="mi">666</span><span class="p">])</span>
+<span class="go">array([20, 38], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_in_degrees">
+<code class="descname">get_in_degrees</code><span class="sig-paren">(</span><em>vs</em>, <em>eweight=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_in_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_in_degrees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> containing the in-degrees of vertex list
+<code class="docutils literal notranslate"><span class="pre">vs</span></code>. If supplied, the degrees will be weighted according to the edge
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> <code class="docutils literal notranslate"><span class="pre">eweight</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pgp-strong-2009&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_in_degrees</span><span class="p">([</span><span class="mi">42</span><span class="p">,</span> <span class="mi">666</span><span class="p">])</span>
+<span class="go">array([20, 39], dtype=uint64)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Obtaining vertex and edge descriptors</div>
+<dl class="method">
+<dt id="graph_tool.Graph.vertex">
+<code class="descname">vertex</code><span class="sig-paren">(</span><em>i</em>, <em>use_index=True</em>, <em>add_missing=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the vertex with index <code class="docutils literal notranslate"><span class="pre">i</span></code>. If <code class="docutils literal notranslate"><span class="pre">use_index=False</span></code>, the
+<code class="docutils literal notranslate"><span class="pre">i</span></code>-th vertex is returned (which can differ from the vertex with index
+<code class="docutils literal notranslate"><span class="pre">i</span></code> in case of filtered graphs).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">add_missing</span> <span class="pre">==</span> <span class="pre">True</span></code>, and the vertex does not exist in the graph,
+the necessary number of missing vertices are inserted, and the new
+vertex is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.edge">
+<code class="descname">edge</code><span class="sig-paren">(</span><em>s</em>, <em>t</em>, <em>all_edges=False</em>, <em>add_missing=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the edge from vertex <code class="docutils literal notranslate"><span class="pre">s</span></code> to <code class="docutils literal notranslate"><span class="pre">t</span></code>, if it exists. If
+<code class="docutils literal notranslate"><span class="pre">all_edges=True</span></code> then a list is returned with all the parallel edges
+from <code class="docutils literal notranslate"><span class="pre">s</span></code> to <code class="docutils literal notranslate"><span class="pre">t</span></code>, otherwise only one edge is returned.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">add_missing</span> <span class="pre">==</span> <span class="pre">True</span></code>, a new edge is created and returned, if none
+currently exists.</p>
+<p>This operation will take <span class="math">\(O(min(k(s), k(t)))\)</span> time, where
+<span class="math">\(k(s)\)</span> and <span class="math">\(k(t)\)</span> are the out-degree and in-degree (or
+out-degree if undirected) of vertices <span class="math">\(s\)</span> and <span class="math">\(t\)</span>.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Number of vertices and edges</div>
+<dl class="method">
+<dt id="graph_tool.Graph.num_vertices">
+<code class="descname">num_vertices</code><span class="sig-paren">(</span><em>ignore_filter=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.num_vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.num_vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of vertices.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">ignore_filter</span> <span class="pre">==</span> <span class="pre">True</span></code>, vertex filters are ignored.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the vertices are being filtered, and <code class="docutils literal notranslate"><span class="pre">ignore_filter</span> <span class="pre">==</span> <span class="pre">False</span></code>,
+this operation is <span class="math">\(O(V)\)</span>. Otherwise it is <span class="math">\(O(1)\)</span>.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.num_edges">
+<code class="descname">num_edges</code><span class="sig-paren">(</span><em>ignore_filter=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.num_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.num_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of edges.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">ignore_filter</span> <span class="pre">==</span> <span class="pre">True</span></code>, edge filters are ignored.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the edges are being filtered, and <code class="docutils literal notranslate"><span class="pre">ignore_filter</span> <span class="pre">==</span> <span class="pre">False</span></code>,
+this operation is <span class="math">\(O(E)\)</span>. Otherwise it is <span class="math">\(O(1)\)</span>.</p>
+</div>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Modifying vertices and edges</div>
+<p>The following functions allow for addition and removal of
+vertices in the graph.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.add_vertex">
+<code class="descname">add_vertex</code><span class="sig-paren">(</span><em>n=1</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.add_vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.add_vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a vertex to the graph, and return it. If <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">!=</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">n</span></code>
+vertices are inserted and an iterator over the new vertices is returned.
+This operation is <span class="math">\(O(n)\)</span>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.remove_vertex">
+<code class="descname">remove_vertex</code><span class="sig-paren">(</span><em>vertex</em>, <em>fast=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.remove_vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.remove_vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a vertex from the graph. If <code class="docutils literal notranslate"><span class="pre">vertex</span></code> is an iterable, it
+should correspond to a sequence of vertices to be removed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the option <code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">==</span> <span class="pre">False</span></code> is given, this operation is
+<span class="math">\(O(V + E)\)</span> (this is the default). Otherwise it is
+<span class="math">\(O(k + k_{\text{last}})\)</span>, where <span class="math">\(k\)</span> is the (total)
+degree of the vertex being deleted, and <span class="math">\(k_{\text{last}}\)</span> is
+the (total) degree of the vertex with the largest index.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>This operation may invalidate vertex descriptors. Vertices are always
+indexed contiguously in the range <span class="math">\([0, N-1]\)</span>, hence vertex
+descriptors with an index higher than <code class="docutils literal notranslate"><span class="pre">vertex</span></code> will be invalidated
+after removal (if <code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">==</span> <span class="pre">False</span></code>, otherwise only descriptors
+pointing to vertices with the largest index will be invalidated).</p>
+<p>Because of this, the only safe way to remove more than one vertex at
+once is to sort them in decreasing index order:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># &#39;del_list&#39; is a list of vertex descriptors</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">del_list</span><span class="p">)):</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">remove_vertex</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">Alternatively (and preferably), a list (or iterable) may be passed
+directly as the <code class="docutils literal notranslate"><span class="pre">vertex</span></code> parameter, and the above is performed
+internally (in C++).</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If <code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">==</span> <span class="pre">True</span></code>, the vertex being deleted is ‘swapped’ with the
+last vertex (i.e. with the largest index), which will in turn inherit
+the index of the vertex being deleted. All property maps associated
+with the graph will be properly updated, but the index ordering of
+the graph will no longer be the same.</p>
+</div>
+</dd></dl>
+
+<p>The following functions allow for addition and removal of
+edges in the graph.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.add_edge">
+<code class="descname">add_edge</code><span class="sig-paren">(</span><em>source</em>, <em>target</em>, <em>add_missing=True</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.add_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.add_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new edge from <code class="docutils literal notranslate"><span class="pre">source</span></code> to <code class="docutils literal notranslate"><span class="pre">target</span></code> to the graph, and return
+it. This operation is <span class="math">\(O(1)\)</span>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">add_missing</span> <span class="pre">==</span> <span class="pre">True</span></code>, the source and target vertices are included
+in the graph if they don’t yet exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.remove_edge">
+<code class="descname">remove_edge</code><span class="sig-paren">(</span><em>edge</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.remove_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.remove_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an edge from the graph.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This operation is normally <span class="math">\(O(k_s + k_t)\)</span>, where <span class="math">\(k_s\)</span>
+and <span class="math">\(k_s\)</span> are the total degrees of the source and target
+vertices, respectively. However, if <a class="reference internal" href="graph_tool.html#graph_tool.Graph.set_fast_edge_removal" title="graph_tool.Graph.set_fast_edge_removal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_fast_edge_removal()</span></code></a>
+is set to <cite>True</cite>, this operation becomes <span class="math">\(O(1)\)</span>.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The relative ordering of the remaining edges in the graph is kept
+unchanged, unless <a class="reference internal" href="graph_tool.html#graph_tool.Graph.set_fast_edge_removal" title="graph_tool.Graph.set_fast_edge_removal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_fast_edge_removal()</span></code></a> is set to
+<cite>True</cite>, in which case it can change.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.add_edge_list">
+<code class="descname">add_edge_list</code><span class="sig-paren">(</span><em>edge_list</em>, <em>hashed=False</em>, <em>string_vals=False</em>, <em>eprops=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.add_edge_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.add_edge_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of edges to the graph, given by <code class="docutils literal notranslate"><span class="pre">edge_list</span></code>, which can
+be an iterator of <code class="docutils literal notranslate"><span class="pre">(source,</span> <span class="pre">target)</span></code> pairs where both <code class="docutils literal notranslate"><span class="pre">source</span></code> and
+<code class="docutils literal notranslate"><span class="pre">target</span></code> are vertex indexes, or a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> of shape
+<code class="docutils literal notranslate"><span class="pre">(E,2)</span></code>, where <code class="docutils literal notranslate"><span class="pre">E</span></code> is the number of edges, and each line specifies a 
+<code class="docutils literal notranslate"><span class="pre">(source,</span> <span class="pre">target)</span></code> pair. If the list references vertices which do not
+exist in the graph, they will be created.</p>
+<p>Optionally, if <code class="docutils literal notranslate"><span class="pre">hashed</span> <span class="pre">==</span> <span class="pre">True</span></code>, the vertex values in the edge list
+are not assumed to correspond to vertex indices directly. In this case
+they will be mapped to vertex indices according to the order in which
+they are encountered, and a vertex property map with the vertex values
+is returned. If <code class="docutils literal notranslate"><span class="pre">string_vals</span> <span class="pre">==</span> <span class="pre">True</span></code>, the algorithm assumes that the
+vertex values are strings. Otherwise, they will be assumed to be numeric
+if <code class="docutils literal notranslate"><span class="pre">edge_list</span></code> is a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, or arbitrary python
+objects if it is not.</p>
+<p>If given, <code class="docutils literal notranslate"><span class="pre">eprops</span></code> should specify an iterable containing edge property
+maps that will be filled with the remaining values at each row, if there
+are more than two.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.set_fast_edge_removal">
+<code class="descname">set_fast_edge_removal</code><span class="sig-paren">(</span><em>fast=True</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.set_fast_edge_removal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.set_fast_edge_removal" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">==</span> <span class="pre">True</span></code> the fast <span class="math">\(O(1)\)</span> removal of edges will be
+enabled. This requires an additional data structure of size <span class="math">\(O(E)\)</span>
+to be kept at all times.  If <code class="docutils literal notranslate"><span class="pre">fast</span> <span class="pre">==</span> <span class="pre">False</span></code>, this data structure is
+destroyed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_fast_edge_removal">
+<code class="descname">get_fast_edge_removal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_fast_edge_removal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_fast_edge_removal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the fast <span class="math">\(O(1)\)</span> removal of edges is currently
+enabled.</p>
+</dd></dl>
+
+<p>The following functions allow for easy removal of vertices and
+edges from the graph.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all vertices and edges from the graph.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.clear_vertex">
+<code class="descname">clear_vertex</code><span class="sig-paren">(</span><em>vertex</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.clear_vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.clear_vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all in and out-edges from the given vertex.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.clear_edges">
+<code class="descname">clear_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.clear_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.clear_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all edges from the graph.</p>
+</dd></dl>
+
+<p>After the removal of many edges and/or vertices, the underlying
+containers may have a capacity that significantly exceeds the size
+of the graph. The function below corrects this.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.shrink_to_fit">
+<code class="descname">shrink_to_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.shrink_to_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.shrink_to_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force the physical capacity of the underlying containers to match the graph’s
+actual size, potentially freeing memory back to the system.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Directedness and reversal of edges</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These functions do not actually modify the graph, and are fully
+reversible. They are also very cheap, with an <span class="math">\(O(1)\)</span>
+complexity.</p>
+</div>
+<dl class="method">
+<dt id="graph_tool.Graph.set_directed">
+<code class="descname">set_directed</code><span class="sig-paren">(</span><em>is_directed</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.set_directed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.set_directed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the directedness of the graph.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <span class="math">\(O(1)\)</span> operation that does not modify the storage of
+the graph.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Changing directedness will invalidate existing vertex and edge
+descriptors, which will still point to the original graph.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.is_directed">
+<code class="descname">is_directed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.is_directed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.is_directed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the directedness of the graph.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.set_reversed">
+<code class="descname">set_reversed</code><span class="sig-paren">(</span><em>is_reversed</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.set_reversed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.set_reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverse the direction of the edges, if <code class="docutils literal notranslate"><span class="pre">is_reversed</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+or maintain the original direction otherwise.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <span class="math">\(O(1)\)</span> operation that does not modify the storage of
+the graph.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Reversing the graph will invalidate existing vertex and edge
+descriptors, which will still point to the original graph.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.is_reversed">
+<code class="descname">is_reversed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.is_reversed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.is_reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the edges are reversed, and <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Creation of new property maps</div>
+<dl class="method">
+<dt id="graph_tool.Graph.new_property">
+<code class="descname">new_property</code><span class="sig-paren">(</span><em>key_type</em>, <em>value_type</em>, <em>vals=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.new_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new (uninitialized) vertex property map of key type
+<code class="docutils literal notranslate"><span class="pre">key_type</span></code> (<code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">e</span></code> or <code class="docutils literal notranslate"><span class="pre">g</span></code>), value type <code class="docutils literal notranslate"><span class="pre">value_type</span></code>, and
+return it. If provided, the values will be initialized by <code class="docutils literal notranslate"><span class="pre">vals</span></code>,
+which should be a sequence.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.new_vertex_property">
+<code class="descname">new_vertex_property</code><span class="sig-paren">(</span><em>value_type</em>, <em>vals=None</em>, <em>val=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.new_vertex_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_vertex_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new vertex property map of type <code class="docutils literal notranslate"><span class="pre">value_type</span></code>, and return it. If
+provided, the values will be initialized by <code class="docutils literal notranslate"><span class="pre">vals</span></code>, which should be
+sequence or by <code class="docutils literal notranslate"><span class="pre">val</span></code> which should be  a single value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.new_vp">
+<code class="descname">new_vp</code><span class="sig-paren">(</span><em>value_type</em>, <em>vals=None</em>, <em>val=None</em><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_vp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <a class="reference internal" href="graph_tool.html#graph_tool.Graph.new_vertex_property" title="graph_tool.Graph.new_vertex_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_vertex_property()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.new_edge_property">
+<code class="descname">new_edge_property</code><span class="sig-paren">(</span><em>value_type</em>, <em>vals=None</em>, <em>val=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.new_edge_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_edge_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new edge property map of type <code class="docutils literal notranslate"><span class="pre">value_type</span></code>, and return it. If
+provided, the values will be initialized by <code class="docutils literal notranslate"><span class="pre">vals</span></code>, which should be
+sequence or by <code class="docutils literal notranslate"><span class="pre">val</span></code> which should be a single value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.new_ep">
+<code class="descname">new_ep</code><span class="sig-paren">(</span><em>value_type</em>, <em>vals=None</em>, <em>val=None</em><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_ep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <a class="reference internal" href="graph_tool.html#graph_tool.Graph.new_edge_property" title="graph_tool.Graph.new_edge_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_edge_property()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.new_graph_property">
+<code class="descname">new_graph_property</code><span class="sig-paren">(</span><em>value_type</em>, <em>val=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.new_graph_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_graph_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new graph property map of type <code class="docutils literal notranslate"><span class="pre">value_type</span></code>, and return
+it. If <code class="docutils literal notranslate"><span class="pre">val</span></code> is not None, the property is initialized to its value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.new_gp">
+<code class="descname">new_gp</code><span class="sig-paren">(</span><em>value_type</em>, <em>val=None</em><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Graph.new_gp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <a class="reference internal" href="graph_tool.html#graph_tool.Graph.new_graph_property" title="graph_tool.Graph.new_graph_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_graph_property()</span></code></a>.</p>
+</dd></dl>
+
+<p>New property maps can be created by copying already existing
+ones.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.copy_property">
+<code class="descname">copy_property</code><span class="sig-paren">(</span><em>src</em>, <em>tgt=None</em>, <em>value_type=None</em>, <em>g=None</em>, <em>full=True</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.copy_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.copy_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy contents of <code class="docutils literal notranslate"><span class="pre">src</span></code> property to <code class="docutils literal notranslate"><span class="pre">tgt</span></code> property. If <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is None,
+then a new property map of the same type (or with the type given by the
+optional <code class="docutils literal notranslate"><span class="pre">value_type</span></code> parameter) is created, and returned. The
+optional parameter <code class="docutils literal notranslate"><span class="pre">g</span></code> specifies the source graph to copy properties
+from (defaults to self). If <code class="docutils literal notranslate"><span class="pre">full</span> <span class="pre">==</span> <span class="pre">False</span></code>, in the case of filtered
+graphs only the unmasked values are copied (with the remaining ones
+taking the type-dependent default value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.degree_property_map">
+<code class="descname">degree_property_map</code><span class="sig-paren">(</span><em>deg</em>, <em>weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.degree_property_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.degree_property_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a vertex property map containing the degree type
+given by <code class="docutils literal notranslate"><span class="pre">deg</span></code>, which can be any of <code class="docutils literal notranslate"><span class="pre">&quot;in&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;out&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;total&quot;</span></code>.
+If provided, <code class="docutils literal notranslate"><span class="pre">weight</span></code> should be an edge <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>
+containing the edge weights which should be summed.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Index property maps</div>
+<dl class="attribute">
+<dt id="graph_tool.Graph.vertex_index">
+<code class="descname">vertex_index</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.vertex_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vertex index map.</p>
+<p>It maps for each vertex in the graph an unique
+integer in the range [0, <a class="reference internal" href="graph_tool.html#graph_tool.Graph.num_vertices" title="graph_tool.Graph.num_vertices"><code class="xref py py-meth docutils literal notranslate"><span class="pre">num_vertices()</span></code></a> - 1].</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Like <a class="reference internal" href="graph_tool.html#graph_tool.Graph.edge_index" title="graph_tool.Graph.edge_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">edge_index</span></code></a>, this
+is a special instance of a <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>
+class, which is <strong>immutable</strong>, and cannot be
+accessed as an array.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.edge_index">
+<code class="descname">edge_index</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.edge_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edge index map.</p>
+<p>It maps for each edge in the graph an unique
+integer.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Like <a class="reference internal" href="graph_tool.html#graph_tool.Graph.vertex_index" title="graph_tool.Graph.vertex_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vertex_index</span></code></a>, this
+is a special instance of a <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>
+class, which is <strong>immutable</strong>, and cannot be
+accessed as an array.</p>
+<p class="last">Additionally, the indexes may not necessarily
+lie in the range [0, <a class="reference internal" href="graph_tool.html#graph_tool.Graph.num_edges" title="graph_tool.Graph.num_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">num_edges()</span></code></a> - 1].
+However this will always happen whenever no
+edges are deleted from the graph.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.edge_index_range">
+<code class="descname">edge_index_range</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.edge_index_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of the range of edge indexes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.reindex_edges">
+<code class="descname">reindex_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.reindex_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.reindex_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the edge indexes so that they lie in the [0, <a class="reference internal" href="graph_tool.html#graph_tool.Graph.num_edges" title="graph_tool.Graph.num_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">num_edges()</span></code></a> - 1]
+range. The index ordering will be compatible with the sequence returned
+by the <a class="reference internal" href="graph_tool.html#graph_tool.Graph.edges" title="graph_tool.Graph.edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">edges()</span></code></a> function.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Calling this function will invalidate all existing edge property
+maps, if the index ordering is modified! The property maps will still
+be usable, but their contents will still be tied to the old indexes,
+and thus may become scrambled.</p>
+</div>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Internal property maps</div>
+<p>Internal property maps are just like regular property maps, with
+the only exception that they are saved and loaded to/from files
+together with the graph itself. See <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-internal-props"><span class="std std-ref">internal property maps</span></a>
+for more details.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All dictionaries below are mutable. However, any dictionary
+returned below is only an one-way proxy to the internally-kept
+properties. If you modify this object, the change will be
+propagated to the internal dictionary, but not
+vice-versa. Keep this in mind if you intend to keep a copy of
+the returned object.</p>
+</div>
+<dl class="attribute">
+<dt id="graph_tool.Graph.properties">
+<code class="descname">properties</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of internal properties. Keys must always be a tuple, where the
+first element if a string from the set {‘v’, ‘e’, ‘g’}, representing a
+vertex, edge or graph property, respectively, and the second element is the
+name of the property map.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">properties</span><span class="p">[(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;vector&lt;double&gt;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">g</span><span class="o">.</span><span class="n">properties</span><span class="p">[(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.vertex_properties">
+<code class="descname">vertex_properties</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.vertex_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of internal vertex properties. The keys are the property names.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.vp">
+<code class="descname">vp</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.vp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <a class="reference internal" href="graph_tool.html#graph_tool.Graph.vertex_properties" title="graph_tool.Graph.vertex_properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vertex_properties</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.edge_properties">
+<code class="descname">edge_properties</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.edge_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of internal edge properties. The keys are the property names.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.ep">
+<code class="descname">ep</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.ep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <a class="reference internal" href="graph_tool.html#graph_tool.Graph.edge_properties" title="graph_tool.Graph.edge_properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">edge_properties</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.graph_properties">
+<code class="descname">graph_properties</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.graph_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of internal graph properties. The keys are the property names.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.Graph.gp">
+<code class="descname">gp</code><a class="headerlink" href="graph_tool.html#graph_tool.Graph.gp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <a class="reference internal" href="graph_tool.html#graph_tool.Graph.graph_properties" title="graph_tool.Graph.graph_properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">graph_properties</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.list_properties">
+<code class="descname">list_properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.list_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.list_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a list of all internal properties.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">properties</span><span class="p">[(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_edge_property</span><span class="p">(</span><span class="s2">&quot;vector&lt;double&gt;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">vertex_properties</span><span class="p">[</span><span class="s2">&quot;bar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;python::object&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">graph_properties</span><span class="p">[</span><span class="s2">&quot;gnat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_graph_property</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;hi there!&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">list_properties</span><span class="p">()</span>
+<span class="go">gnat           (graph)   (type: string, val: hi there!)</span>
+<span class="go">bar            (vertex)  (type: python::object)</span>
+<span class="go">foo            (vertex)  (type: double)</span>
+<span class="go">foo            (edge)    (type: vector&lt;double&gt;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Filtering of vertices and edges.</div>
+<p>See <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-graph-filtering"><span class="std std-ref">Graph filtering</span></a> for more details.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These functions do not actually modify the graph, and are fully
+reversible. They are also very cheap, and have an <span class="math">\(O(1)\)</span>
+complexity.</p>
+</div>
+<dl class="method">
+<dt id="graph_tool.Graph.set_filters">
+<code class="descname">set_filters</code><span class="sig-paren">(</span><em>eprop</em>, <em>vprop</em>, <em>inverted_edges=False</em>, <em>inverted_vertices=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.set_filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.set_filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the boolean properties for edge and vertex filters, respectively.  Only
+the vertices and edges with value different than <code class="docutils literal notranslate"><span class="pre">False</span></code> are kept in
+the filtered graph. If either the <code class="docutils literal notranslate"><span class="pre">inverted_edges</span></code> or
+<code class="docutils literal notranslate"><span class="pre">inverted_vertex</span></code> options are supplied with the value <code class="docutils literal notranslate"><span class="pre">True</span></code>, only
+the edges or vertices with value <code class="docutils literal notranslate"><span class="pre">False</span></code> are kept. If any of the
+supplied property is <code class="docutils literal notranslate"><span class="pre">None</span></code>, an empty filter is constructed which
+allows all edges or vertices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <span class="math">\(O(1)\)</span> operation that does not modify the storage of
+the graph.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting vertex or edge filters will invalidate existing vertex and
+edge descriptors, which will still point to the unfiltered graph.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.set_vertex_filter">
+<code class="descname">set_vertex_filter</code><span class="sig-paren">(</span><em>prop</em>, <em>inverted=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.set_vertex_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.set_vertex_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the vertex boolean filter property. Only the vertices with value
+different than <code class="docutils literal notranslate"><span class="pre">False</span></code> are kept in the filtered graph. If the <code class="docutils literal notranslate"><span class="pre">inverted</span></code>
+option is supplied with value <code class="docutils literal notranslate"><span class="pre">True</span></code>, only the vertices with value
+<code class="docutils literal notranslate"><span class="pre">False</span></code> are kept. If the supplied property is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the filter is
+replaced by an uniform filter allowing all vertices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <span class="math">\(O(1)\)</span> operation that does not modify the storage of
+the graph.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting vertex filters will invalidate existing vertex and edge
+descriptors, which will still point to the unfiltered graph.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_vertex_filter">
+<code class="descname">get_vertex_filter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_vertex_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_vertex_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple with the vertex filter property and bool value
+indicating whether or not it is inverted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.set_edge_filter">
+<code class="descname">set_edge_filter</code><span class="sig-paren">(</span><em>prop</em>, <em>inverted=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.set_edge_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.set_edge_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the edge boolean filter property. Only the edges with value
+different than <code class="docutils literal notranslate"><span class="pre">False</span></code> are kept in the filtered graph. If the <code class="docutils literal notranslate"><span class="pre">inverted</span></code>
+option is supplied with value <code class="docutils literal notranslate"><span class="pre">True</span></code>, only the edges with value <code class="docutils literal notranslate"><span class="pre">False</span></code>
+are kept. If the supplied property is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the filter is
+replaced by an uniform filter allowing all edges.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <span class="math">\(O(1)\)</span> operation that does not modify the storage of
+the graph.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting edge filters will invalidate existing vertex and edge
+descriptors, which will still point to the unfiltered graph.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.get_edge_filter">
+<code class="descname">get_edge_filter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.get_edge_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.get_edge_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple with the edge filter property and bool value
+indicating whether or not it is inverted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.clear_filters">
+<code class="descname">clear_filters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.clear_filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.clear_filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove vertex and edge filters, and set the graph to the unfiltered
+state.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <span class="math">\(O(1)\)</span> operation that does not modify the storage of
+the graph.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Clearing vertex and edge filters will invalidate existing vertex and
+edge descriptors.</p>
+</div>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The purge functions below irreversibly remove the filtered
+vertices or edges from the graph. Note that, contrary to the
+functions above, these are <span class="math">\(O(V)\)</span> and <span class="math">\(O(E)\)</span>
+operations, respectively.</p>
+</div>
+<dl class="method">
+<dt id="graph_tool.Graph.purge_vertices">
+<code class="descname">purge_vertices</code><span class="sig-paren">(</span><em>in_place=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.purge_vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.purge_vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all vertices of the graph which are currently being filtered out. This
+operation is not reversible.</p>
+<p>If the option <code class="docutils literal notranslate"><span class="pre">in_place</span> <span class="pre">==</span> <span class="pre">True</span></code> is given, the algorithm will remove
+the filtered vertices and re-index all property maps which are tied with
+the graph. This is a slow operation which has an <span class="math">\(O(V^2)\)</span>
+complexity.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">in_place</span> <span class="pre">==</span> <span class="pre">False</span></code>, the graph and its vertex and edge property
+maps are temporarily copied to a new unfiltered graph, which will
+replace the contents of the original graph. This is a fast operation
+with an <span class="math">\(O(V + E)\)</span> complexity. This is the default behaviour if no
+option is given.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.purge_edges">
+<code class="descname">purge_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.purge_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.purge_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all edges of the graph which are currently being filtered out. This
+operation is not reversible.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+I/O operations</div>
+<p>See <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-graph-io"><span class="std std-ref">Graph I/O</span></a> for more details.</p>
+<dl class="method">
+<dt id="graph_tool.Graph.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>file_name</em>, <em>fmt='auto'</em>, <em>ignore_vp=None</em>, <em>ignore_ep=None</em>, <em>ignore_gp=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load graph from <code class="docutils literal notranslate"><span class="pre">file_name</span></code> (which can be either a string or a file-like
+object). The format is guessed from <code class="docutils literal notranslate"><span class="pre">file_name</span></code>, or can be specified
+by <code class="docutils literal notranslate"><span class="pre">fmt</span></code>, which can be either “gt”, “graphml”, “xml”, “dot” or “gml”.
+(Note that “graphml” and “xml” are synonyms).</p>
+<p>If provided, the parameters <code class="docutils literal notranslate"><span class="pre">ignore_vp</span></code>, <code class="docutils literal notranslate"><span class="pre">ignore_ep</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ignore_gp</span></code>, should contain a list of property names (vertex, edge or
+graph, respectively) which should be ignored when reading the file.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The only file formats which are capable of perfectly preserving the
+internal property maps are “gt” and “graphml”. Because of this,
+they should be preferred over the other formats whenever possible.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Graph.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>file_name</em>, <em>fmt='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#Graph.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.Graph.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save graph to <code class="docutils literal notranslate"><span class="pre">file_name</span></code> (which can be either a string or a file-like
+object). The format is guessed from the <code class="docutils literal notranslate"><span class="pre">file_name</span></code>, or can be
+specified by <code class="docutils literal notranslate"><span class="pre">fmt</span></code>, which can be either “gt”, “graphml”, “xml”, “dot”
+or “gml”.  (Note that “graphml” and “xml” are synonyms).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The only file formats which are capable of perfectly preserving the
+internal property maps are “gt” and “graphml”. Because of this,
+they should be preferred over the other formats whenever possible.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="graph_tool.GraphView">
+<em class="property">class </em><code class="descclassname">graph_tool.</code><code class="descname">GraphView</code><span class="sig-paren">(</span><em>g</em>, <em>vfilt=None</em>, <em>efilt=None</em>, <em>directed=None</em>, <em>reversed=False</em>, <em>skip_properties=False</em>, <em>skip_vfilt=False</em>, <em>skip_efilt=False</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#GraphView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.GraphView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">graph_tool.Graph</span></code></a></p>
+<p>A view of selected vertices or edges of another graph.</p>
+<p>This class uses shared data from another <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a>
+instance, but allows for local filtering of vertices and/or edges, edge
+directionality or reversal. See <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-graph-views"><span class="std std-ref">Graph views</span></a> for more details and
+examples.</p>
+<p>The existence of a <a class="reference internal" href="graph_tool.html#graph_tool.GraphView" title="graph_tool.GraphView"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphView</span></code></a> object does not affect the
+original graph, except if the graph view is modified (addition or removal of
+vertices or edges), in which case the modification is directly reflected in
+the original graph (and vice-versa), since they both point to the same
+underlying data. Because of this, instances of
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> can be used interchangeably with a graph
+and its views.</p>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">g</span></code> must be an instance of a <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a>
+class. If specified, <code class="docutils literal notranslate"><span class="pre">vfilt</span></code> and <code class="docutils literal notranslate"><span class="pre">efilt</span></code> select which vertices and edges
+are filtered, respectively. These parameters can either be a boolean-valued
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> or a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, which specify
+which vertices/edges are selected, or an unary function that returns
+<code class="docutils literal notranslate"><span class="pre">True</span></code> if a given vertex/edge is to be selected, or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<p>The boolean parameter <code class="docutils literal notranslate"><span class="pre">directed</span></code> can be used to set the directionality of
+the graph view. If <code class="docutils literal notranslate"><span class="pre">directed</span> <span class="pre">is</span> <span class="pre">None</span></code>, the directionality is inherited
+from <code class="docutils literal notranslate"><span class="pre">g</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">reversed</span> <span class="pre">==</span> <span class="pre">True</span></code>, the direction of the edges is reversed.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">vfilt</span></code> or <code class="docutils literal notranslate"><span class="pre">efilt</span></code> is anything other than a
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> instance, the instantiation running time is
+<span class="math">\(O(V)\)</span> and <span class="math">\(O(E)\)</span>, respectively. Otherwise, the running time is
+<span class="math">\(O(1)\)</span>.</p>
+<p>If either <code class="docutils literal notranslate"><span class="pre">skip_properties</span></code>, <code class="docutils literal notranslate"><span class="pre">skip_vfilt</span></code> or <code class="docutils literal notranslate"><span class="pre">skip_efilt</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+then the internal properties, vertex filter or edge filter of the original
+graph are ignored, respectively.</p>
+<dl class="attribute">
+<dt id="graph_tool.GraphView.base">
+<code class="descname">base</code><a class="headerlink" href="graph_tool.html#graph_tool.GraphView.base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base graph.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="graph_tool.Vertex">
+<em class="property">class </em><code class="descclassname">graph_tool.</code><code class="descname">Vertex</code><a class="headerlink" href="graph_tool.html#graph_tool.Vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vertex descriptor.</p>
+<p>This class represents a vertex in a <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> instance.</p>
+<p><a class="reference internal" href="graph_tool.html#graph_tool.Vertex" title="graph_tool.Vertex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vertex</span></code></a> instances are hashable, and are convertible to
+integers, corresponding to its index (see <a class="reference internal" href="graph_tool.html#graph_tool.Graph.vertex_index" title="graph_tool.Graph.vertex_index"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vertex_index</span></code></a>).</p>
+<p>Raises an exception
+This class cannot be instantiated from Python</p>
+<dl class="method">
+<dt id="graph_tool.Vertex.all_edges">
+<code class="descname">all_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.all_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator over all edges (both in or out).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.all_neighbors">
+<code class="descname">all_neighbors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.all_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator over all neighbors (both in or out).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.in_degree">
+<code class="descname">in_degree</code><span class="sig-paren">(</span><em>weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.in_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the in-degree of the vertex. If provided, <code class="docutils literal notranslate"><span class="pre">weight</span></code> should be a
+scalar edge <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>, and the in-degree will
+correspond to the sum of the weights of the in-edges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.in_edges">
+<code class="descname">in_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.in_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator over the in-edges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.in_neighbors">
+<code class="descname">in_neighbors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.in_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator over the in-neighbors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.is_valid">
+<code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the descriptor corresponds to an existing vertex in the graph, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.out_degree">
+<code class="descname">out_degree</code><span class="sig-paren">(</span><em>weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.out_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the out-degree of the vertex. If provided, <code class="docutils literal notranslate"><span class="pre">weight</span></code> should be a
+scalar edge <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>, and the out-degree will
+correspond to the sum of the weights of the out-edges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.out_edges">
+<code class="descname">out_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.out_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator over the out-edges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Vertex.out_neighbors">
+<code class="descname">out_neighbors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Vertex.out_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator over the out-neighbors.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="graph_tool.Edge">
+<em class="property">class </em><code class="descclassname">graph_tool.</code><code class="descname">Edge</code><a class="headerlink" href="graph_tool.html#graph_tool.Edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edge descriptor.</p>
+<p>This class represents an edge in a <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a>.</p>
+<p><a class="reference internal" href="graph_tool.html#graph_tool.Edge" title="graph_tool.Edge"><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></a> instances are hashable, iterable and thus are
+convertible to a tuple, which contains the source and target vertices.</p>
+<p>Raises an exception
+This class cannot be instantiated from Python</p>
+<dl class="method">
+<dt id="graph_tool.Edge.is_valid">
+<code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Edge.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the descriptor corresponds to an existing edge in the graph, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Edge.source">
+<code class="descname">source</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Edge.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the source of the edge (a <a class="reference internal" href="graph_tool.html#graph_tool.Vertex" title="graph_tool.Vertex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vertex</span></code></a> instance).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.Edge.target">
+<code class="descname">target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="graph_tool.html#graph_tool.Edge.target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the target of the edge (a <a class="reference internal" href="graph_tool.html#graph_tool.Vertex" title="graph_tool.Vertex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vertex</span></code></a> instance).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="graph_tool.PropertyMap">
+<em class="property">class </em><code class="descclassname">graph_tool.</code><code class="descname">PropertyMap</code><span class="sig-paren">(</span><em>pmap</em>, <em>g</em>, <em>key_type</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class provides a mapping from vertices, edges or whole graphs to
+arbitrary properties.</p>
+<p>See <a class="reference internal" href="http://graph-tool.skewed.de/static/doc/quickstart.html#sec-property-maps"><span class="std std-ref">Property maps</span></a> for more details.</p>
+<p>The possible property value types are listed below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type name</th>
+<th class="head">Alias</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">uint8_t</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">int16_t</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">short</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">int32_t</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">int64_t</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">double</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">float</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">string</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;bool&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;uint8_t&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;int16_t&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">short</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;int32_t&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;int&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;int64_t&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;long&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">vector&lt;long</span> <span class="pre">long&gt;</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;double&gt;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">vector&lt;float&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;long</span> <span class="pre">double&gt;</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">vector&lt;string&gt;</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">python::object</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">object</span></code></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="graph_tool.PropertyMap.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>value_type=None</em>, <em>full=True</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the property map. If <code class="docutils literal notranslate"><span class="pre">value_type</span></code> is specified, the value
+type is converted to the chosen type. If <code class="docutils literal notranslate"><span class="pre">full</span> <span class="pre">==</span> <span class="pre">False</span></code>, in the case
+of filtered graphs only the unmasked values are copied (with the
+remaining ones taking the type-dependent default value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.get_graph">
+<code class="descname">get_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.get_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.get_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the graph class to which the map refers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.key_type">
+<code class="descname">key_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.key_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.key_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the key type of the map. Either ‘g’, ‘v’ or ‘e’.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.value_type">
+<code class="descname">value_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.value_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.value_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value type of the map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.python_value_type">
+<code class="descname">python_value_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.python_value_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.python_value_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the python-compatible value type of the map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.get_array">
+<code class="descname">get_array</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.get_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.get_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> subclass (<a class="reference internal" href="graph_tool.html#graph_tool.PropertyArray" title="graph_tool.PropertyArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyArray</span></code></a>)
+with the property values.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An array is returned <em>only if</em> the value type of the property map is
+a scalar. For vector, string or object types, <code class="docutils literal notranslate"><span class="pre">None</span></code> is returned
+instead. For vector and string objects, indirect array access is
+provided via the <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.get_2d_array" title="graph_tool.PropertyMap.get_2d_array"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_2d_array()</span></code></a> and
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.set_2d_array" title="graph_tool.PropertyMap.set_2d_array"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_2d_array()</span></code></a> member functions.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The returned array does not own the data, which belongs to the
+property map. Therefore, if the graph changes, the array may become
+<em>invalid</em>. Do <strong>not</strong> store the array if the graph is to be modified;
+store a <strong>copy</strong> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.PropertyMap.a">
+<code class="descname">a</code><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut to the <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.get_array" title="graph_tool.PropertyMap.get_array"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_array()</span></code></a> method
+as an attribute. This makes assignments more convenient, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">&lt;...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prop</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>           <span class="c1"># Assignment from array</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.PropertyMap.fa">
+<code class="descname">fa</code><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.fa" title="Permalink to this definition">¶</a></dt>
+<dd><p>The same as the <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.a" title="graph_tool.PropertyMap.a"><code class="xref py py-attr docutils literal notranslate"><span class="pre">a</span></code></a> attribute, but
+instead an <em>indexed</em> array is returned, which contains only
+entries for vertices/edges which are not filtered out. If
+there are no filters in place, the array is not indexed, and
+is identical to the <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.a" title="graph_tool.PropertyMap.a"><code class="xref py py-attr docutils literal notranslate"><span class="pre">a</span></code></a> attribute.</p>
+<p>Note that because advanced indexing is triggered, a <strong>copy</strong>
+of the array is returned, not a view, as for the
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.a" title="graph_tool.PropertyMap.a"><code class="xref py py-attr docutils literal notranslate"><span class="pre">a</span></code></a> attribute. Nevertheless, the assignment
+of values to the <em>whole</em> array at once works as expected.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="graph_tool.PropertyMap.ma">
+<code class="descname">ma</code><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.ma" title="Permalink to this definition">¶</a></dt>
+<dd><p>The same as the <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.a" title="graph_tool.PropertyMap.a"><code class="xref py py-attr docutils literal notranslate"><span class="pre">a</span></code></a> attribute, but
+instead a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/maskedarray.baseclass.html#numpy.ma.MaskedArray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskedArray</span></code></a> object is returned,
+which contains only entries for vertices/edges which are not
+filtered out. If there are no filters in place, a regular
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyArray" title="graph_tool.PropertyArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyArray</span></code></a> is returned, which
+is identical to the <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap.a" title="graph_tool.PropertyMap.a"><code class="xref py py-attr docutils literal notranslate"><span class="pre">a</span></code></a> attribute.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.get_2d_array">
+<code class="descname">get_2d_array</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.get_2d_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.get_2d_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a two-dimensional array with a copy of the entries of the
+vector-valued property map. The parameter <code class="docutils literal notranslate"><span class="pre">pos</span></code> must be a sequence of
+integers which specifies the indexes of the property values which will
+be used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.set_2d_array">
+<code class="descname">set_2d_array</code><span class="sig-paren">(</span><em>a</em>, <em>pos=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.set_2d_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.set_2d_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the entries of the vector-valued property map from a
+two-dimensional array <code class="docutils literal notranslate"><span class="pre">a</span></code>. If given, the parameter <code class="docutils literal notranslate"><span class="pre">pos</span></code> must be a
+sequence of integers which specifies the indexes of the property values
+which will be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.is_writable">
+<code class="descname">is_writable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.is_writable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.is_writable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the property is writable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.set_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.set_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets all values in the property map to <code class="docutils literal notranslate"><span class="pre">val</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.reserve">
+<code class="descname">reserve</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.reserve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.reserve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reserve enough space for <code class="docutils literal notranslate"><span class="pre">size</span></code> elements in underlying container. If the
+original size is already equal or larger, nothing will happen.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.resize">
+<code class="descname">resize</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.resize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize the underlying container to contain exactly <code class="docutils literal notranslate"><span class="pre">size</span></code> elements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.shrink_to_fit">
+<code class="descname">shrink_to_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.shrink_to_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.shrink_to_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shrink size of underlying container to accommodate only the necessary amount,
+and thus potentially freeing memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph_tool.PropertyMap.data_ptr">
+<code class="descname">data_ptr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyMap.data_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyMap.data_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the pointer to memory where the data resides.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="graph_tool.PropertyArray">
+<em class="property">class </em><code class="descclassname">graph_tool.</code><code class="descname">PropertyArray</code><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#PropertyArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.PropertyArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p>
+<p>This is a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> subclass which keeps a reference of its
+<a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> owner.</p>
+<dl class="attribute">
+<dt id="graph_tool.PropertyArray.prop_map">
+<code class="descname">prop_map</code><a class="headerlink" href="graph_tool.html#graph_tool.PropertyArray.prop_map" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> owner instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="sec-title docutils container">
+I/O functions</div>
+<dl class="function">
+<dt id="graph_tool.load_graph">
+<code class="descclassname">graph_tool.</code><code class="descname">load_graph</code><span class="sig-paren">(</span><em>file_name</em>, <em>fmt='auto'</em>, <em>ignore_vp=None</em>, <em>ignore_ep=None</em>, <em>ignore_gp=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#load_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.load_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a graph from <code class="docutils literal notranslate"><span class="pre">file_name</span></code> (which can be either a string or a file-like object).</p>
+<p>The format is guessed from <code class="docutils literal notranslate"><span class="pre">file_name</span></code>, or can be specified by <code class="docutils literal notranslate"><span class="pre">fmt</span></code>,
+which can be either “gt”, “graphml”, “xml”, “dot” or “gml”.  (Note that
+“graphml” and “xml” are synonyms).</p>
+<p>If provided, the parameters <code class="docutils literal notranslate"><span class="pre">ignore_vp</span></code>, <code class="docutils literal notranslate"><span class="pre">ignore_ep</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ignore_gp</span></code>, should contain a list of property names (vertex, edge or
+graph, respectively) which should be ignored when reading the file.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The only file formats which are capable of perfectly preserving the
+internal property maps are “gt” and “graphml”. Because of this,
+they should be preferred over the other formats whenever possible.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.load_graph_from_csv">
+<code class="descclassname">graph_tool.</code><code class="descname">load_graph_from_csv</code><span class="sig-paren">(</span><em>file_name</em>, <em>directed=True</em>, <em>eprop_types=None</em>, <em>eprop_names=None</em>, <em>string_vals=True</em>, <em>hashed=False</em>, <em>skip_first=False</em>, <em>ecols=(0</em>, <em>1)</em>, <em>csv_options={'delimiter': '</em>, <em>'</em>, <em>'quotechar': '&quot;'}</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#load_graph_from_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.load_graph_from_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a graph from a <a class="reference external" href="https://docs.python.org/3/library/csv.html#module-csv" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">csv</span></code></a> file containing a list of edges and edge
+properties.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file_name</strong> : <code class="docutils literal notranslate"><span class="pre">str</span></code> or file-like object</p>
+<blockquote>
+<div><p>File in :mod:<code class="docutils literal notranslate"><span class="pre">csv</span></code> format, with edges given in each row.</p>
+</div></blockquote>
+<p><strong>directed</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>Whether or not the graph is directed.</p>
+</div></blockquote>
+<p><strong>eprop_types</strong> : list of <code class="docutils literal notranslate"><span class="pre">str</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>List of edge property types to be read from remaining columns (if this
+is <code class="docutils literal notranslate"><span class="pre">None</span></code>, all properties will be of type <code class="docutils literal notranslate"><span class="pre">string</span></code>.</p>
+</div></blockquote>
+<p><strong>eprop_names</strong> : list of <code class="docutils literal notranslate"><span class="pre">str</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+<blockquote>
+<div><p>List of edge property names to be used for the remaining columns (if this
+is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the properties will be called “c1, c2, …”).</p>
+</div></blockquote>
+<p><strong>string_vals</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the vertex values are assumed to be arbitrary strings,
+otherwise they will be assumed to correspond to integers.</p>
+</div></blockquote>
+<p><strong>hashed</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">string_vals</span> <span class="pre">==</span> <span class="pre">False</span></code>, the vertex values in the edge
+list are not assumed to correspond to vertex indices directly. In this
+case they will be mapped to vertex indices according to the order in
+which they are encountered, and a vertex property map with the vertex
+values is returned. If <code class="docutils literal notranslate"><span class="pre">string_vals</span> <span class="pre">==</span> <span class="pre">True</span></code>, this automatically means
+<code class="docutils literal notranslate"><span class="pre">hashed</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p>
+</div></blockquote>
+<p><strong>skip_first</strong> : <code class="docutils literal notranslate"><span class="pre">bool</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> the first line of the file will be skipped.</p>
+</div></blockquote>
+<p><strong>ecols</strong> : pair of <code class="docutils literal notranslate"><span class="pre">int</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">(0,1)</span></code>)</p>
+<blockquote>
+<div><p>Line columns used as source and target for the edges.</p>
+</div></blockquote>
+<p><strong>csv_options</strong> : <code class="docutils literal notranslate"><span class="pre">dict</span></code> (optional, default: <code class="docutils literal notranslate"><span class="pre">{&quot;delimiter&quot;:</span> <span class="pre">&quot;,&quot;,</span> <span class="pre">&quot;quotechar&quot;:</span> <span class="pre">'&quot;'}</span></code>)</p>
+<blockquote>
+<div><p>Options to be passed to the <a class="reference external" href="https://docs.python.org/3/library/csv.html#csv.reader" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">csv.reader()</span></code></a> parser.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>g</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.Graph" title="graph_tool.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a></p>
+<blockquote class="last">
+<div><p>The loaded graph. It will contain additional columns in the file as
+internal edge property maps. If <code class="docutils literal notranslate"><span class="pre">hashed</span> <span class="pre">==</span> <span class="pre">True</span></code>, it will also contain
+an internal vertex property map with the vertex names.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Property map operations</div>
+<dl class="function">
+<dt id="graph_tool.group_vector_property">
+<code class="descclassname">graph_tool.</code><code class="descname">group_vector_property</code><span class="sig-paren">(</span><em>props</em>, <em>value_type=None</em>, <em>vprop=None</em>, <em>pos=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#group_vector_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.group_vector_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group list of properties <code class="docutils literal notranslate"><span class="pre">props</span></code> into a vector property map of the same type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>props</strong> : list of <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Properties to be grouped.</p>
+</div></blockquote>
+<p><strong>value_type</strong> : string (optional, default: None)</p>
+<blockquote>
+<div><p>If supplied, defines the value type of the grouped property.</p>
+</div></blockquote>
+<p><strong>vprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: None)</p>
+<blockquote>
+<div><p>If supplied, the properties are grouped into this property map.</p>
+</div></blockquote>
+<p><strong>pos</strong> : list of ints (optional, default: None)</p>
+<blockquote>
+<div><p>If supplied, should contain a list of indexes where each corresponding
+element of <code class="docutils literal notranslate"><span class="pre">props</span></code> should be inserted.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>A vector property map with the grouped values of each property map in
+<code class="docutils literal notranslate"><span class="pre">props</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">seed</span><span class="p">,</span> <span class="n">randint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">seed_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gprop</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">group_vector_property</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">gprop</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[51 25  8]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">props</span><span class="p">]))</span>
+<span class="go">[51 25  8]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.ungroup_vector_property">
+<code class="descclassname">graph_tool.</code><code class="descname">ungroup_vector_property</code><span class="sig-paren">(</span><em>vprop</em>, <em>pos</em>, <em>props=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#ungroup_vector_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.ungroup_vector_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ungroup vector property map <code class="docutils literal notranslate"><span class="pre">vprop</span></code> into a list of individual property maps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Vector property map to be ungrouped.</p>
+</div></blockquote>
+<p><strong>pos</strong> : list of ints</p>
+<blockquote>
+<div><p>A list of indexes corresponding to where each element of <code class="docutils literal notranslate"><span class="pre">vprop</span></code>
+should be inserted into the ungrouped list.</p>
+</div></blockquote>
+<p><strong>props</strong> : list of <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a>  (optional, default: None)</p>
+<blockquote>
+<div><p>If supplied, should contain a list of property maps to which <code class="docutils literal notranslate"><span class="pre">vprop</span></code>
+should be ungroupped.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>props</strong> : list of <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>A list of property maps with the ungrouped values of <code class="docutils literal notranslate"><span class="pre">vprop</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">seed</span><span class="p">,</span> <span class="n">randint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">seed_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;vector&lt;int&gt;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
+<span class="gp">... </span>   <span class="n">prop</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">uprops</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">ungroup_vector_property</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prop</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[51 92 14]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">vertex</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">uprops</span><span class="p">]))</span>
+<span class="go">[51 92 14]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.map_property_values">
+<code class="descclassname">graph_tool.</code><code class="descname">map_property_values</code><span class="sig-paren">(</span><em>src_prop</em>, <em>tgt_prop</em>, <em>map_func</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#map_property_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.map_property_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map the values of <code class="docutils literal notranslate"><span class="pre">src_prop</span></code> to <code class="docutils literal notranslate"><span class="pre">tgt_prop</span></code> according to the mapping
+function <code class="docutils literal notranslate"><span class="pre">map_func</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>src_prop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Source property map.</p>
+</div></blockquote>
+<p><strong>tgt_prop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Target property map.</p>
+</div></blockquote>
+<p><strong>map_func</strong> : function or callable object</p>
+<blockquote>
+<div><p>Function mapping values of <code class="docutils literal notranslate"><span class="pre">src_prop</span></code> to values of <code class="docutils literal notranslate"><span class="pre">tgt_prop</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;lesmis&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">label_len</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">new_vertex_property</span><span class="p">(</span><span class="s2">&quot;int64_t&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">map_property_values</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">vp</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">label_len</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">label_len</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[ 6  8 14 11 12  8 12  8  5  6  7  7 10  6  7  7  9  9  7 11  9  6  7  7</span>
+<span class="go"> 13 10  7  6 12 10  8  8 11  6  5 12  6 10 11  9 12  7  7  6 14  7  9  9</span>
+<span class="go">  8 12  6 16 12 11 14  6  9  6  8 10  9  7 10  7  7  4  9 14  9  5 10 12</span>
+<span class="go">  9  6  6  6 12]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.infect_vertex_property">
+<code class="descclassname">graph_tool.</code><code class="descname">infect_vertex_property</code><span class="sig-paren">(</span><em>g</em>, <em>prop</em>, <em>vals=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#infect_vertex_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.infect_vertex_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate the <cite>prop</cite> values of vertices with value <cite>val</cite> to all their
+out-neighbors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>prop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Property map to be modified.</p>
+</div></blockquote>
+<p><strong>vals</strong> : list (optional, default: <cite>None</cite>)</p>
+<blockquote>
+<div><p>List of values to be propagated. If not provided, all values
+will be propagated.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>None</strong> : <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">seed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">seed_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prop</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s2">&quot;int32_t&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">infect_vertex_property</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">prop</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="mi">10</span><span class="p">))</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.edge_endpoint_property">
+<code class="descclassname">graph_tool.</code><code class="descname">edge_endpoint_property</code><span class="sig-paren">(</span><em>g</em>, <em>prop</em>, <em>endpoint</em>, <em>eprop=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#edge_endpoint_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.edge_endpoint_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an edge property map corresponding to the vertex property <cite>prop</cite> of
+either the target and source of the edge, according to <cite>endpoint</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>prop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Vertex property map to be used to propagated to the edge.</p>
+</div></blockquote>
+<p><strong>endpoint</strong> : <cite>“source”</cite> or <cite>“target”</cite></p>
+<blockquote>
+<div><p>Edge endpoint considered. If the graph is undirected, the source is
+always the vertex with the lowest index.</p>
+</div></blockquote>
+<p><strong>eprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: <cite>None</cite>)</p>
+<blockquote>
+<div><p>If provided, the resulting edge properties will be stored here.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>eprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Propagated edge property.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">seed_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">esource</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">edge_endpoint_property</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">esource</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[ 0  0  0 96 96 96 92 92 92 88 88 88 84 84 84 80 80 80 76 76 76 72 72 72</span>
+<span class="go"> 68 68 68 64 64 64 60 60 60 56 56 56 52 52 52 48 48 48 44 44 44 40 40 40</span>
+<span class="go"> 36 36 36 32 32 32 28 28 28 24 24 24 20 20 20 16 16 16 12 12 12  8  8  8</span>
+<span class="go">  4  4  4 99 99 99  1  1  1  2  2  2  3  3  3  5  5  5  6  6  6  7  7  7</span>
+<span class="go">  9  9  9 10 10 10 14 14 14 19 19 19 25 25 25 30 30 30 35 35 35 41 41 41</span>
+<span class="go"> 46 46 46 51 51 51 57 57 57 62 62 62 67 67 67 73 73 73 78 78 78 83 83 83</span>
+<span class="go"> 89 89 89 94 94 94 11 11 11 98 98 98 97 97 97 95 95 95 93 93 93 91 91 91</span>
+<span class="go"> 90 90 90 87 87 87 86 86 86 85 85 85 82 82 82 81 81 81 79 79 79 77 77 77</span>
+<span class="go"> 75 75 75 74 74 74 71 71 71 69 69 69 61 61 61 54 54 54 47 47 47 39 39 39</span>
+<span class="go"> 33 33 33 26 26 26 18 18 18 70 70 70 13 13 13 15 15 15 17 17 17 21 21 21</span>
+<span class="go"> 22 22 22 23 23 23 27 27 27 29 29 29 31 31 31 34 34 34 37 37 37 38 38 38</span>
+<span class="go"> 42 42 42 43 43 43 45 45 45 49 49 49 50 50 50 53 53 53 55 55 55 58 58 58</span>
+<span class="go"> 59 59 59 63 63 63 65 65 65 66 66 66]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.incident_edges_op">
+<code class="descclassname">graph_tool.</code><code class="descname">incident_edges_op</code><span class="sig-paren">(</span><em>g</em>, <em>direction</em>, <em>op</em>, <em>eprop</em>, <em>vprop=None</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#incident_edges_op"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.incident_edges_op" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a vertex property map corresponding to a specific operation (sum,
+product, min or max) on the edge property <cite>eprop</cite> of incident edges on each
+vertex, following the direction given by <cite>direction</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>direction</strong> : <cite>“in”</cite> or <cite>“out”</cite></p>
+<blockquote>
+<div><p>Direction of the incident edges.</p>
+</div></blockquote>
+<p><strong>op</strong> : <cite>“sum”</cite>, <cite>“prod”</cite>, <cite>“min”</cite> or <cite>“max”</cite></p>
+<blockquote>
+<div><p>Operation performed on incident edges.</p>
+</div></blockquote>
+<p><strong>eprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote>
+<div><p>Edge property map to be summed.</p>
+</div></blockquote>
+<p><strong>vprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a> (optional, default: <cite>None</cite>)</p>
+<blockquote>
+<div><p>If provided, the resulting vertex properties will be stored here.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vprop</strong> : <a class="reference internal" href="graph_tool.html#graph_tool.PropertyMap" title="graph_tool.PropertyMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">PropertyMap</span></code></a></p>
+<blockquote class="last">
+<div><p>Resulting vertex property.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gt</span><span class="o">.</span><span class="n">seed_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">random_graph</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vsum</span> <span class="o">=</span> <span class="n">gt</span><span class="o">.</span><span class="n">incident_edges_op</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">vsum</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[  3 237 246 255 219 264 273 282 210 291 300 453 201 687 309 696 192 705</span>
+<span class="go"> 669 318 183 714 723 732 174 327 660 741 165 750 336 759 156 651 768 345</span>
+<span class="go"> 147 777 786 642 138 354 795 804 129 813 363 633 120 822 831 372 111 840</span>
+<span class="go"> 624 849 102 381 858 867  93 615 390 876  84 885 894 399  75 606 678 597</span>
+<span class="go">  66 408 588 579  57 570 417 561  48 552 543 426  39 534 525 516  30 435</span>
+<span class="go"> 507 498  21 489 444 480  12 471 462 228]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.perfect_prop_hash">
+<code class="descclassname">graph_tool.</code><code class="descname">perfect_prop_hash</code><span class="sig-paren">(</span><em>props</em>, <em>htype='int32_t'</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#perfect_prop_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.perfect_prop_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of property maps <cite>props</cite> of the same type, a derived list of
+property maps with integral type <cite>htype</cite> is returned, where each value is
+replaced by a perfect (i.e. unique) hash value.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The hash value is deterministic, but it will not be necessarily the same
+for different values of <cite>props</cite>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.value_types">
+<code class="descclassname">graph_tool.</code><code class="descname">value_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#value_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.value_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of possible properties value types.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+OpenMP control</div>
+<dl class="function">
+<dt id="graph_tool.openmp_enabled">
+<code class="descclassname">graph_tool.</code><code class="descname">openmp_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#openmp_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.openmp_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if OpenMP was enabled during compilation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.openmp_get_num_threads">
+<code class="descclassname">graph_tool.</code><code class="descname">openmp_get_num_threads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#openmp_get_num_threads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.openmp_get_num_threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of OpenMP threads.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.openmp_set_num_threads">
+<code class="descclassname">graph_tool.</code><code class="descname">openmp_set_num_threads</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#openmp_set_num_threads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.openmp_set_num_threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the number of OpenMP threads.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.openmp_get_schedule">
+<code class="descclassname">graph_tool.</code><code class="descname">openmp_get_schedule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#openmp_get_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.openmp_get_schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the runtime OpenMP schedule and chunk size. The schedule can by
+any of: <code class="docutils literal notranslate"><span class="pre">&quot;static&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;dynamic&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;guided&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graph_tool.openmp_set_schedule">
+<code class="descclassname">graph_tool.</code><code class="descname">openmp_set_schedule</code><span class="sig-paren">(</span><em>schedule</em>, <em>chunk=0</em><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#openmp_set_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.openmp_set_schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the runtime OpenMP schedule and chunk size. The schedule can by
+any of: <code class="docutils literal notranslate"><span class="pre">&quot;static&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;dynamic&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;guided&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>.</p>
+</dd></dl>
+
+<div class="sec-title docutils container">
+Misc</div>
+<dl class="function">
+<dt id="graph_tool.show_config">
+<code class="descclassname">graph_tool.</code><code class="descname">show_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/_modules/graph_tool.html#show_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="graph_tool.html#graph_tool.show_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show <code class="docutils literal notranslate"><span class="pre">graph_tool</span></code> build configuration.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="available-subpackages">
+<h1>Available subpackages<a class="headerlink" href="graph_tool.html#available-subpackages" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/centrality.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.centrality</span></code> - Centrality measures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/clustering.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.clustering</span></code> - Clustering coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collection.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.collection</span></code> - Dataset collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/correlations.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.correlations</span></code> - Correlations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="draw.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.draw</span></code> - Graph drawing and layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/flow.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.flow</span></code> - Maximum flow algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/generation.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.generation</span></code> - Random graph generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.inference</span></code> - Statistical inference of generative network models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/search_module.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.search</span></code> - Search algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/spectral.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.spectral</span></code> - Spectral properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/stats.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.stats</span></code> - Miscellaneous statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/topology.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.topology</span></code> - Assessing graph topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http://graph-tool.skewed.de/static/doc/util.html"><code class="docutils literal notranslate"><span class="pre">graph_tool.util</span></code> - Graph utilities</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="graph_tool.html#">graph_tool - efficient graph analysis and manipulation</a><ul>
+<li><a class="reference internal" href="graph_tool.html#summary">Summary</a></li>
+<li><a class="reference internal" href="graph_tool.html#how-to-use-the-documentation">How to use the documentation</a></li>
+<li><a class="reference internal" href="graph_tool.html#contents">Contents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="graph_tool.html#available-subpackages">Available subpackages</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="http://graph-tool.skewed.de/static/doc/modules.html"
+                        title="previous chapter">Module documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="http://graph-tool.skewed.de/static/doc/centrality.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">graph_tool.centrality</span></code> - Centrality measures</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="http://graph-tool.skewed.de/static/doc/_sources/graph_tool.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="http://graph-tool.skewed.de/static/doc/centrality.html" title="graph_tool.centrality - Centrality measures"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="http://graph-tool.skewed.de/static/doc/modules.html" title="Module documentation"
+             >previous</a> |</li>
+    <li><img src="../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="../../index.html">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="index.html">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="http://graph-tool.skewed.de/static/doc/modules.html" >Module documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

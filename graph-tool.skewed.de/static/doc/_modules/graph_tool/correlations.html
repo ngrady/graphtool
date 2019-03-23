@@ -1,0 +1,687 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.correlations &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.correlations</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">``graph_tool.correlations`` - Correlations</span>
+<span class="sd">------------------------------------------</span>
+
+<span class="sd">Summary</span>
+<span class="sd">+++++++</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :nosignatures:</span>
+
+<span class="sd">   assortativity</span>
+<span class="sd">   scalar_assortativity</span>
+<span class="sd">   corr_hist</span>
+<span class="sd">   combined_corr_hist</span>
+<span class="sd">   avg_neighbor_corr</span>
+<span class="sd">   avg_combined_corr</span>
+
+<span class="sd">Contents</span>
+<span class="sd">++++++++</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">dl_import</span> <span class="kn">import</span> <span class="nn">dl_import</span>
+<span class="n">dl_import</span><span class="p">(</span><span class="s2">&quot;from . import libgraph_tool_correlations&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_prop</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;assortativity&quot;</span><span class="p">,</span> <span class="s2">&quot;scalar_assortativity&quot;</span><span class="p">,</span> <span class="s2">&quot;corr_hist&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;combined_corr_hist&quot;</span><span class="p">,</span> <span class="s2">&quot;avg_neighbor_corr&quot;</span><span class="p">,</span> <span class="s2">&quot;avg_neighbour_corr&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;avg_combined_corr&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="assortativity"><a class="viewcode-back" href="../../correlations.html#graph_tool.correlations.assortativity">[docs]</a><span class="k">def</span> <span class="nf">assortativity</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the assortativity coefficient for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map, which</span>
+<span class="sd">        specifies the vertex types.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    assortativity coefficient : tuple of two floats</span>
+<span class="sd">        The assortativity coefficient, and its variance.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    assortativity: assortativity coefficient</span>
+<span class="sd">    scalar_assortativity: scalar assortativity coefficient</span>
+<span class="sd">    corr_hist: vertex-vertex correlation histogram</span>
+<span class="sd">    combined_corr_hist: combined single-vertex correlation histogram</span>
+<span class="sd">    avg_neighbor_corr: average nearest-neighbor correlation</span>
+<span class="sd">    avg_combined_corr: average combined single-vertex correlation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The assortativity coefficient [newman-mixing-2003]_ tells in a concise</span>
+<span class="sd">    fashion how vertices of different types are preferentially connected amongst</span>
+<span class="sd">    themselves, and is defined by</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        r = \frac{\sum_i e_{ii} - \sum_i a_i b_i}{1-\sum_i a_i b_i}</span>
+
+<span class="sd">    where :math:`a_i=\sum_je_{ij}` and :math:`b_j=\sum_ie_{ij}`, and</span>
+<span class="sd">    :math:`e_{ij}` is the fraction of edges from a vertex of type</span>
+<span class="sd">    i to a vertex of type j.</span>
+
+
+<span class="sd">    The variance is obtained with the `jackknife method`_.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. doctest:: assortativity</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;pgp-strong-2009&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, directed=False)</span>
+<span class="sd">       &gt;&gt;&gt; gt.assortativity(g, &quot;out&quot;)</span>
+<span class="sd">       (0.0240578552..., 0.0003272847...)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [newman-mixing-2003] M. E. J. Newman, &quot;Mixing patterns in networks&quot;,</span>
+<span class="sd">        Phys. Rev. E 67, 026126 (2003), :doi:`10.1103/PhysRevE.67.026126`</span>
+<span class="sd">    .. _jackknife method: http://en.wikipedia.org/wiki/Resampling_%28statistics%29#Jackknife</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">libgraph_tool_correlations</span><span class="o">.</span>\
+           <span class="n">assortativity_coefficient</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="scalar_assortativity"><a class="viewcode-back" href="../../correlations.html#graph_tool.correlations.scalar_assortativity">[docs]</a><span class="k">def</span> <span class="nf">scalar_assortativity</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the scalar assortativity coefficient for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map, which</span>
+<span class="sd">        specifies the vertex types.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    scalar assortativity coefficient : tuple of two floats</span>
+<span class="sd">        The scalar assortativity coefficient, and its variance.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    assortativity: assortativity coefficient</span>
+<span class="sd">    scalar_assortativity: scalar assortativity coefficient</span>
+<span class="sd">    corr_hist: vertex-vertex correlation histogram</span>
+<span class="sd">    combined_corr_hist: combined single-vertex correlation histogram</span>
+<span class="sd">    avg_neighbor_corr: average nearest-neighbor correlation</span>
+<span class="sd">    avg_combined_corr: average combined single-vertex correlation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The scalar assortativity coefficient [newman-mixing-2003]_ tells in a</span>
+<span class="sd">    concise fashion how vertices of different types are preferentially connected</span>
+<span class="sd">    amongst themselves, and is defined by</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        r = \frac{\sum_{xy} xy(e_{xy} - a_x b_y)}{\sigma_a\sigma_b}</span>
+
+<span class="sd">    where :math:`a_x=\sum_ye_{xy}` and :math:`b_y=\sum_xe_{xy}`, and</span>
+<span class="sd">    :math:`e_{xy}` is the fraction of edges from a vertex of type</span>
+<span class="sd">    x to a vertex of type y.</span>
+
+<span class="sd">    The variance is obtained with the `jackknife method`_.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. doctest:: scalar_assortativity</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;pgp-strong-2009&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.GraphView(g, directed=False)</span>
+<span class="sd">       &gt;&gt;&gt; gt.scalar_assortativity(g, &quot;out&quot;)</span>
+<span class="sd">       (0.026384932418..., 0.001213444270...)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [newman-mixing-2003] M. E. J. Newman, &quot;Mixing patterns in networks&quot;,</span>
+<span class="sd">        Phys. Rev. E 67, 026126 (2003), :doi:`10.1103/PhysRevE.67.026126`</span>
+<span class="sd">    .. _jackknife method: http://en.wikipedia.org/wiki/Resampling_%28statistics%29#Jackknife</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">libgraph_tool_correlations</span><span class="o">.</span>\
+           <span class="n">scalar_assortativity_coefficient</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                            <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="corr_hist"><a class="viewcode-back" href="../../correlations.html#graph_tool.correlations.corr_hist">[docs]</a><span class="k">def</span> <span class="nf">corr_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg_source</span><span class="p">,</span> <span class="n">deg_target</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">float_count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the correlation histogram for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg_source : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map for the</span>
+<span class="sd">        source vertex.</span>
+<span class="sd">    deg_target : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map for the</span>
+<span class="sd">        target vertex.</span>
+<span class="sd">    bins : list of lists (optional, default: [[0, 1], [0, 1]])</span>
+<span class="sd">        A list of bin edges to be used for the source and target degrees. If any</span>
+<span class="sd">        list has size 2, it is used to create an automatically generated bin</span>
+<span class="sd">        range starting from the first value, and with constant bin width given</span>
+<span class="sd">        by the second value.</span>
+<span class="sd">    weight : edge property map (optional, default: None)</span>
+<span class="sd">        Weight (multiplicative factor) to be used on each edge.</span>
+<span class="sd">    float_count : bool (optional, default: True)</span>
+<span class="sd">        If True, the bin counts are converted float variables, which is useful</span>
+<span class="sd">        for normalization, and other processing. It False, the bin counts will</span>
+<span class="sd">        be unsigned integers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_counts : :class:`~numpy.ndarray`</span>
+<span class="sd">        Two-dimensional array with the bin counts.</span>
+<span class="sd">    source_bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        Source degree bins</span>
+<span class="sd">    target_bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        Target degree bins</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    assortativity: assortativity coefficient</span>
+<span class="sd">    scalar_assortativity: scalar assortativity coefficient</span>
+<span class="sd">    corr_hist: vertex-vertex correlation histogram</span>
+<span class="sd">    combined_corr_hist: combined single-vertex correlation histogram</span>
+<span class="sd">    avg_neighbor_corr: average nearest-neighbor correlation</span>
+<span class="sd">    avg_combined_corr: average combined single-vertex correlation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The correlation histogram counts, for every vertex with degree (or scalar</span>
+<span class="sd">    property) &#39;source_deg&#39;, the number of out-neighbors with degree (or scalar</span>
+<span class="sd">    property) &#39;target_deg&#39;.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: corr_hist</span>
+
+<span class="sd">       from pylab import *</span>
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    .. doctest:: corr_hist</span>
+
+<span class="sd">       &gt;&gt;&gt; def sample_k(max):</span>
+<span class="sd">       ...     accept = False</span>
+<span class="sd">       ...     while not accept:</span>
+<span class="sd">       ...         k = np.random.randint(1,max+1)</span>
+<span class="sd">       ...         accept = np.random.random() &lt; 1.0/k</span>
+<span class="sd">       ...     return k</span>
+<span class="sd">       ...</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.random_graph(10000, lambda: sample_k(40),</span>
+<span class="sd">       ...                     model=&quot;probabilistic-configuration&quot;,</span>
+<span class="sd">       ...                     edge_probs=lambda i, j: (sin(i / pi) * sin(j / pi) + 1) / 2,</span>
+<span class="sd">       ...                     directed=False, n_iter=100)</span>
+<span class="sd">       &gt;&gt;&gt; h = gt.corr_hist(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; clf()</span>
+<span class="sd">       &gt;&gt;&gt; xlabel(&quot;Source out-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; ylabel(&quot;Target out-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; imshow(h[0].T, interpolation=&quot;nearest&quot;, origin=&quot;lower&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; colorbar()</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; savefig(&quot;corr.svg&quot;)</span>
+
+<span class="sd">    .. testcode:: corr_hist</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;corr.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: corr.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Out/out-degree correlation histogram.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_correlations</span><span class="o">.</span>\
+          <span class="n">vertex_correlation_histogram</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg_source</span><span class="p">),</span>
+                                       <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg_target</span><span class="p">),</span>
+                                       <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                       <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                                       <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">float_count</span> <span class="k">else</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]]</span></div>
+
+
+<div class="viewcode-block" id="combined_corr_hist"><a class="viewcode-back" href="../../correlations.html#graph_tool.correlations.combined_corr_hist">[docs]</a><span class="k">def</span> <span class="nf">combined_corr_hist</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg1</span><span class="p">,</span> <span class="n">deg2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">float_count</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the single-vertex combined correlation histogram for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg1 : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        first degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map.</span>
+<span class="sd">    deg2 : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        second degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map.</span>
+<span class="sd">    bins : list of lists (optional, default: [[0, 1], [0, 1]])</span>
+<span class="sd">        A list of bin edges to be used for the first and second degrees. If any</span>
+<span class="sd">        list has size 2, it is used to create an automatically generated bin</span>
+<span class="sd">        range starting from the first value, and with constant bin width given</span>
+<span class="sd">        by the second value.</span>
+<span class="sd">    float_count : bool (optional, default: True)</span>
+<span class="sd">        If True, the bin counts are converted float variables, which is useful</span>
+<span class="sd">        for normalization, and other processing. It False, the bin counts will</span>
+<span class="sd">        be unsigned integers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_counts : :class:`~numpy.ndarray`</span>
+<span class="sd">        Two-dimensional array with the bin counts.</span>
+<span class="sd">    first_bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        First degree bins</span>
+<span class="sd">    second_bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        Second degree bins</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    assortativity: assortativity coefficient</span>
+<span class="sd">    scalar_assortativity: scalar assortativity coefficient</span>
+<span class="sd">    corr_hist: vertex-vertex correlation histogram</span>
+<span class="sd">    combined_corr_hist: combined single-vertex correlation histogram</span>
+<span class="sd">    avg_neighbor_corr: average nearest-neighbor correlation</span>
+<span class="sd">    avg_combined_corr: average combined single-vertex correlation</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: combined_corr_hist</span>
+
+<span class="sd">       from pylab import *</span>
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+<span class="sd">    .. doctest:: combined_corr_hist</span>
+
+<span class="sd">       &gt;&gt;&gt; def sample_k(max):</span>
+<span class="sd">       ...     accept = False</span>
+<span class="sd">       ...     while not accept:</span>
+<span class="sd">       ...         i = np.random.randint(1, max + 1)</span>
+<span class="sd">       ...         j = np.random.randint(1, max + 1)</span>
+<span class="sd">       ...         accept = np.random.random() &lt; (sin(i / pi) * sin(j / pi) + 1) / 2</span>
+<span class="sd">       ...     return i,j</span>
+<span class="sd">       ...</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.random_graph(10000, lambda: sample_k(40))</span>
+<span class="sd">       &gt;&gt;&gt; h = gt.combined_corr_hist(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; clf()</span>
+<span class="sd">       &gt;&gt;&gt; xlabel(&quot;In-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; ylabel(&quot;Out-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; imshow(h[0].T, interpolation=&quot;nearest&quot;, origin=&quot;lower&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; colorbar()</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; savefig(&quot;combined_corr.svg&quot;)</span>
+
+<span class="sd">    .. testcode:: combined_corr_hist</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;combined_corr.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: combined_corr.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Combined in/out-degree correlation histogram.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_correlations</span><span class="o">.</span>\
+          <span class="n">vertex_combined_correlation_histogram</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span>
+                                                <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg1</span><span class="p">),</span>
+                                                <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg2</span><span class="p">),</span>
+                                                <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                                                <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">float_count</span> <span class="k">else</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]]</span></div>
+
+
+<div class="viewcode-block" id="avg_neighbor_corr"><a class="viewcode-back" href="../../correlations.html#graph_tool.correlations.avg_neighbor_corr">[docs]</a><span class="k">def</span> <span class="nf">avg_neighbor_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg_source</span><span class="p">,</span> <span class="n">deg_target</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the average neighbor-neighbor correlation for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg_source : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map for the</span>
+<span class="sd">        source vertex.</span>
+<span class="sd">    deg_target : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map for the</span>
+<span class="sd">        target vertex.</span>
+<span class="sd">    bins : list (optional, default: [0, 1])</span>
+<span class="sd">        Bins to be used for the source degrees. If the list has size 2, it is</span>
+<span class="sd">        used as the constant width of an automatically generated bin range,</span>
+<span class="sd">        starting from the first value.</span>
+<span class="sd">    weight : edge property map (optional, default: None)</span>
+<span class="sd">        Weight (multiplicative factor) to be used on each edge.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_avg : :class:`~numpy.ndarray`</span>
+<span class="sd">        Array with the deg_target average for the get_source bins.</span>
+<span class="sd">    bin_dev : :class:`~numpy.ndarray`</span>
+<span class="sd">        Array with the standard deviation of the deg_target average for the</span>
+<span class="sd">        get_source bins.</span>
+<span class="sd">    bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        Source degree bins,</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    assortativity: assortativity coefficient</span>
+<span class="sd">    scalar_assortativity: scalar assortativity coefficient</span>
+<span class="sd">    corr_hist: vertex-vertex correlation histogram</span>
+<span class="sd">    combined_corr_hist: combined single-vertex correlation histogram</span>
+<span class="sd">    avg_neighbor_corr: average nearest-neighbor correlation</span>
+<span class="sd">    avg_combined_corr: average combined single-vertex correlation</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The average correlation is the average, for every vertex with degree (or</span>
+<span class="sd">    scalar property) &#39;source_deg&#39;, the of the &#39;target_deg&#39; degree (or</span>
+<span class="sd">    scalar property) of its neighbors.</span>
+
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: avg_neighbor_corr</span>
+
+<span class="sd">       from pylab import *</span>
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+
+<span class="sd">    .. doctest:: avg_neighbor_corr</span>
+
+<span class="sd">       &gt;&gt;&gt; def sample_k(max):</span>
+<span class="sd">       ...     accept = False</span>
+<span class="sd">       ...     while not accept:</span>
+<span class="sd">       ...         k = np.random.randint(1,max+1)</span>
+<span class="sd">       ...         accept = np.random.random() &lt; 1.0 / k</span>
+<span class="sd">       ...     return k</span>
+<span class="sd">       ...</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.random_graph(10000, lambda: sample_k(40),</span>
+<span class="sd">       ...                     model=&quot;probabilistic-configuration&quot;,</span>
+<span class="sd">       ...                     edge_probs=lambda i, j: (sin(i / pi) * sin(j / pi) + 1) / 2,</span>
+<span class="sd">       ...                     directed=False, n_iter=100)</span>
+<span class="sd">       &gt;&gt;&gt; h = gt.avg_neighbor_corr(g, &quot;out&quot;, &quot;out&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; clf()</span>
+<span class="sd">       &gt;&gt;&gt; xlabel(&quot;Source out-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; ylabel(&quot;Target out-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; errorbar(h[2][:-1], h[0], yerr=h[1], fmt=&quot;o&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; savefig(&quot;avg_corr.svg&quot;)</span>
+
+<span class="sd">    .. testcode:: avg_neighbor_corr</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;avg_corr.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: avg_corr.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Average out/out degree correlation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_correlations</span><span class="o">.</span>\
+          <span class="n">vertex_avg_correlation</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg_source</span><span class="p">),</span>
+                                 <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg_target</span><span class="p">),</span> <span class="n">_prop</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">weight</span><span class="p">),</span>
+                                 <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span></div>
+
+<span class="n">avg_neighbour_corr</span> <span class="o">=</span> <span class="n">avg_neighbor_corr</span>
+
+<div class="viewcode-block" id="avg_combined_corr"><a class="viewcode-back" href="../../correlations.html#graph_tool.correlations.avg_combined_corr">[docs]</a><span class="k">def</span> <span class="nf">avg_combined_corr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg1</span><span class="p">,</span> <span class="n">deg2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the single-vertex combined correlation histogram for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        Graph to be used.</span>
+<span class="sd">    deg1 : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        first degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map.</span>
+<span class="sd">    deg2 : string or :class:`~graph_tool.PropertyMap`</span>
+<span class="sd">        second degree type (&quot;in&quot;, &quot;out&quot; or &quot;total&quot;) or vertex property map.</span>
+<span class="sd">    bins : list (optional, default: [0, 1])</span>
+<span class="sd">        Bins to be used for the first degrees. If the list has size 2, it is</span>
+<span class="sd">        used as the constant width of an automatically generated bin range,</span>
+<span class="sd">        starting from the first value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_avg : :class:`~numpy.ndarray`</span>
+<span class="sd">        Array with the deg2 average for the deg1 bins.</span>
+<span class="sd">    bin_dev : :class:`~numpy.ndarray`</span>
+<span class="sd">        Array with the standard deviation of the deg2 average for the deg1 bins.</span>
+<span class="sd">    bins : :class:`~numpy.ndarray`</span>
+<span class="sd">        The deg1 bins.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If enabled during compilation, this algorithm runs in parallel.</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    assortativity: assortativity coefficient</span>
+<span class="sd">    scalar_assortativity: scalar assortativity coefficient</span>
+<span class="sd">    corr_hist: vertex-vertex correlation histogram</span>
+<span class="sd">    combined_corr_hist: combined single-vertex correlation histogram</span>
+<span class="sd">    avg_neighbor_corr: average nearest-neighbor correlation</span>
+<span class="sd">    avg_combined_corr: average combined single-vertex correlation</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: avg_combined_corr</span>
+
+<span class="sd">       from pylab import *</span>
+<span class="sd">       np.random.seed(42)</span>
+<span class="sd">       gt.seed_rng(42)</span>
+
+
+<span class="sd">    .. doctest:: avg_combined_corr</span>
+
+<span class="sd">       &gt;&gt;&gt; def sample_k(max):</span>
+<span class="sd">       ...     accept = False</span>
+<span class="sd">       ...     while not accept:</span>
+<span class="sd">       ...         i = np.random.randint(1,max+1)</span>
+<span class="sd">       ...         j = np.random.randint(1,max+1)</span>
+<span class="sd">       ...         accept = np.random.random() &lt; (sin(i/pi)*sin(j/pi)+1)/2</span>
+<span class="sd">       ...     return i,j</span>
+<span class="sd">       ...</span>
+<span class="sd">       &gt;&gt;&gt; g = gt.random_graph(10000, lambda: sample_k(40))</span>
+<span class="sd">       &gt;&gt;&gt; h = gt.avg_combined_corr(g, &quot;in&quot;, &quot;out&quot;)</span>
+<span class="sd">       &gt;&gt;&gt; clf()</span>
+<span class="sd">       &gt;&gt;&gt; xlabel(&quot;In-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; ylabel(&quot;Out-degree&quot;)</span>
+<span class="sd">       Text(...)</span>
+<span class="sd">       &gt;&gt;&gt; errorbar(h[2][:-1], h[0], yerr=h[1], fmt=&quot;o&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+<span class="sd">       &gt;&gt;&gt; savefig(&quot;combined_avg_corr.svg&quot;)</span>
+
+<span class="sd">    .. testcode:: avg_combined_corr</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       savefig(&quot;combined_avg_corr.pdf&quot;)</span>
+
+<span class="sd">    .. figure:: combined_avg_corr.*</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">        Average combined in/out-degree correlation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">libgraph_tool_correlations</span><span class="o">.</span>\
+          <span class="n">vertex_avg_combined_correlation</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">_Graph__graph</span><span class="p">,</span> <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg1</span><span class="p">),</span>
+                                          <span class="n">_degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">deg2</span><span class="p">),</span>
+                                          <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ret</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

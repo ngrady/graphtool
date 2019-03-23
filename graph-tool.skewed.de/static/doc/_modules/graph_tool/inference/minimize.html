@@ -1,0 +1,637 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>graph_tool.inference.minimize &#8212; graph-tool 2.27 documentation</title>
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/gt_style.css" type="text/css" />
+    <link rel="stylesheet" href="https://graph-tool.skewed.de/static/doc/_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="https://graph-tool.skewed.de/static/doc/_static/documentation_options.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/jquery.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/underscore.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/doctools.js"></script>
+    <script type="text/javascript" src="https://graph-tool.skewed.de/static/doc/_static/MathJax/MathJax.js?config=default"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within graph-tool 2.27 documentation"
+          href="https://graph-tool.skewed.de/static/doc/_static/opensearch.xml"/>
+    <link rel="shortcut icon" href="https://graph-tool.skewed.de/static/doc/_static/graph-icon.ico"/>
+    <link rel="index" title="Index" href="https://graph-tool.skewed.de/static/doc/genindex.html" />
+    <link rel="search" title="Search" href="https://graph-tool.skewed.de/static/doc/search.html" />
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      var pluginUrl =
+        '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-248813-2']);
+      _gaq.push(['_setDomainName', '.skewed.de']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+     
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" accesskey="U">graph_tool</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graph_tool.inference.minimize</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># graph_tool -- a general graph manipulation python module</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2006-2018 Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="n">xrange</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">mcmc</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">bisection</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">blockmodel</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">overlap_blockmodel</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">layered_blockmodel</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="n">nested_blockmodel</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">default_args</span><span class="p">(</span><span class="n">mcmc_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">anneal_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="p">{},</span>
+                 <span class="n">shrink_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">mcmc_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">allow_vacate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">entropy_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">dl</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span> <span class="o">**</span><span class="n">mcmc_args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">overlap</span><span class="p">:</span>
+        <span class="n">mcmc_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_args</span><span class="p">,</span> <span class="n">bundled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">mcmc_equilibrate_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nbreaks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+                                      <span class="n">mcmc_args</span><span class="o">=</span><span class="n">mcmc_args</span><span class="p">),</span>
+                                 <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                                         <span class="p">[</span><span class="s2">&quot;mcmc_args&quot;</span><span class="p">]))</span>
+    <span class="n">shrink_entropy_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_args</span><span class="p">[</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">]),</span>
+                               <span class="o">**</span><span class="n">shrink_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">shrink_entropy_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+         <span class="n">shrink_entropy_args</span><span class="p">[</span><span class="s2">&quot;multigraph&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">shrink_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">entropy_args</span><span class="o">=</span><span class="n">shrink_entropy_args</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+                       <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">shrink_args</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;entropy_args&quot;</span><span class="p">]))</span>
+    <span class="n">mcmc_multilevel_args</span> <span class="o">=</span> \
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">anneal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">shrink_args</span><span class="o">=</span><span class="n">shrink_args</span><span class="p">,</span>
+                      <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                      <span class="n">anneal_args</span><span class="o">=</span><span class="n">anneal_args</span><span class="p">),</span>
+                 <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                         <span class="p">[</span><span class="s2">&quot;shrink_args&quot;</span><span class="p">,</span> <span class="s2">&quot;mcmc_equilibrate_args&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;anneal_args&quot;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">mcmc_multilevel_args</span>
+
+
+<span class="k">def</span> <span class="nf">get_states</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+               <span class="n">overlap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonoverlap_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">state_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="p">{}):</span>
+
+    <span class="k">if</span> <span class="n">B_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">clabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">B_min</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">B_min</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">clabel</span><span class="o">.</span><span class="n">fa</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">b_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">b_min</span> <span class="o">=</span> <span class="n">clabel</span>
+
+    <span class="n">_B_max</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">num_vertices</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">overlap</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nonoverlap_init</span><span class="p">:</span>
+        <span class="n">_B_max</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">num_edges</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">B_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">B_max</span> <span class="o">=</span> <span class="n">_B_max</span>
+        <span class="k">if</span> <span class="n">overlap</span> <span class="ow">and</span> <span class="n">nonoverlap_init</span> <span class="ow">and</span> <span class="n">b_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b_max</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_index</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">layers</span><span class="p">:</span>
+        <span class="n">State</span> <span class="o">=</span> <span class="n">LayeredBlockState</span>
+        <span class="n">state_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">overlap</span><span class="p">:</span>
+        <span class="n">State</span> <span class="o">=</span> <span class="n">OverlapBlockState</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">State</span> <span class="o">=</span> <span class="n">BlockState</span>
+
+    <span class="k">if</span> <span class="n">b_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b_max</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;deg_corr&quot;</span><span class="p">,</span> <span class="s2">&quot;clabel&quot;</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">max_state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">_B_max</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">state_args</span><span class="p">,[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;deg_corr&quot;</span><span class="p">,</span> <span class="s2">&quot;clabel&quot;</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">max_state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">B_max</span><span class="p">:</span>
+        <span class="n">max_state</span> <span class="o">=</span> <span class="n">mcmc_multilevel</span><span class="p">(</span><span class="n">max_state</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B_max</span><span class="p">,</span> <span class="o">**</span><span class="n">mcmc_multilevel_args</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">b_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B_min</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b_min</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;deg_corr&quot;</span><span class="p">,</span> <span class="s2">&quot;clabel&quot;</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="n">B_min</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">min_state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;deg_corr&quot;</span><span class="p">,</span> <span class="s2">&quot;clabel&quot;</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">min_state</span> <span class="o">=</span> <span class="n">max_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">min_state</span><span class="o">.</span><span class="n">get_nonempty_B</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">B_min</span><span class="p">:</span>
+        <span class="n">min_state</span> <span class="o">=</span> <span class="n">mcmc_multilevel</span><span class="p">(</span><span class="n">min_state</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B_min</span><span class="p">,</span> <span class="o">**</span><span class="n">mcmc_multilevel_args</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">min_state</span><span class="p">,</span> <span class="n">max_state</span>
+
+
+<div class="viewcode-block" id="minimize_blockmodel_dl"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.minimize.minimize_blockmodel_dl">[docs]</a><span class="k">def</span> <span class="nf">minimize_blockmodel_dl</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">deg_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonoverlap_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">layers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">state_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">bisection_args</span><span class="o">=</span><span class="p">{},</span>
+                           <span class="n">mcmc_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">anneal_args</span><span class="o">=</span><span class="p">{},</span>
+                           <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">shrink_args</span><span class="o">=</span><span class="p">{},</span>
+                           <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit the stochastic block model, by minimizing its description length using an</span>
+<span class="sd">    agglomerative heuristic.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The graph.</span>
+<span class="sd">    B_min : ``int`` (optional, default: ``None``)</span>
+<span class="sd">        The minimum number of blocks.</span>
+<span class="sd">    B_max : ``int`` (optional, default: ``None``)</span>
+<span class="sd">        The maximum number of blocks.</span>
+<span class="sd">    b_min : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        The partition to be used with the minimum number of blocks.</span>
+<span class="sd">    b_max : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        The partition to be used with the maximum number of blocks.</span>
+<span class="sd">    deg_corr : ``bool`` (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, the degree-corrected version of the model will be used.</span>
+<span class="sd">    overlap : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the overlapping version of the model will be used.</span>
+<span class="sd">    nonoverlap_init : ``bool`` (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, and ``overlap == True`` a non-overlapping initial state</span>
+<span class="sd">        will be used.</span>
+<span class="sd">    layers : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the layered version of the model will be used.</span>
+<span class="sd">    state_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to appropriate state constructor (e.g.</span>
+<span class="sd">        :class:`~graph_tool.inference.blockmodel.BlockState`,</span>
+<span class="sd">        :class:`~graph_tool.inference.overlap_blockmodel.OverlapBlockState` or</span>
+<span class="sd">        :class:`~graph_tool.inference.layered_blockmodel.LayeredBlockState`)</span>
+<span class="sd">    bisection_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.bisection.bisection_minimize`.</span>
+<span class="sd">    mcmc_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :meth:`graph_tool.inference.blockmodel.BlockState.mcmc_sweep`,</span>
+<span class="sd">        :meth:`graph_tool.inference.overlap_blockmodel.OverlapBlockState.mcmc_sweep` or</span>
+<span class="sd">        :meth:`graph_tool.inference.layered_blockmodel.LayeredBlockState.mcmc_sweep`.</span>
+<span class="sd">    mcmc_equilibrate_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_equilibrate`.</span>
+<span class="sd">    shrink_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :meth:`graph_tool.inference.blockmodel.BlockState.shrink`,</span>
+<span class="sd">        :meth:`graph_tool.inference.overlap_blockmodel.OverlapBlockState.shrink` or</span>
+<span class="sd">        :meth:`graph_tool.inference.layered_blockmodel.LayeredBlockState.shrink`.</span>
+<span class="sd">    mcmc_multilevel_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_multilevel`.</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    min_state : :class:`~graph_tool.inference.blockmodel.BlockState` or  :class:`~graph_tool.inference.overlap_blockmodel.OverlapBlockState` or  :class:`~graph_tool.inference.layered_blockmodel.LayeredBlockState`</span>
+<span class="sd">        State with minimal description length.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This function is a convenience wrapper around</span>
+<span class="sd">    :func:`~graph_tool.inference.bisection.bisection_minimize`.</span>
+
+<span class="sd">    See [peixoto-efficient-2014]_ for details on the algorithm.</span>
+
+<span class="sd">    This algorithm has a complexity of :math:`O(V \ln^2 V)`, where :math:`V` is</span>
+<span class="sd">    the number of nodes in the network.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup:: mdl</span>
+
+<span class="sd">       gt.seed_rng(43)</span>
+<span class="sd">       np.random.seed(43)</span>
+
+<span class="sd">    .. doctest:: mdl</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polbooks&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; state = gt.minimize_blockmodel_dl(g)</span>
+<span class="sd">       &gt;&gt;&gt; state.draw(pos=g.vp[&quot;pos&quot;], vertex_shape=state.get_blocks(),</span>
+<span class="sd">       ...            output=&quot;polbooks_blocks_mdl.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcleanup:: mdl</span>
+
+<span class="sd">       state.draw(pos=g.vp[&quot;pos&quot;], vertex_shape=state.get_blocks(),</span>
+<span class="sd">                  output=&quot;polbooks_blocks_mdl.png&quot;)</span>
+
+<span class="sd">    .. figure:: polbooks_blocks_mdl.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Block partition of a political books network, which minimizes the</span>
+<span class="sd">       description length of the network according to the degree-corrected</span>
+<span class="sd">       stochastic blockmodel.</span>
+
+
+<span class="sd">    .. testsetup:: mdl_overlap</span>
+
+<span class="sd">       gt.seed_rng(42)</span>
+<span class="sd">       np.random.seed(42)</span>
+
+<span class="sd">    .. doctest:: mdl_overlap</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;polbooks&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; state = gt.minimize_blockmodel_dl(g, overlap=True)</span>
+<span class="sd">       &gt;&gt;&gt; state.draw(pos=g.vp[&quot;pos&quot;], output=&quot;polbooks_overlap_blocks_mdl.pdf&quot;)</span>
+<span class="sd">       &lt;...&gt;</span>
+
+<span class="sd">    .. testcleanup:: mdl_overlap</span>
+
+<span class="sd">       state.draw(pos=g.vp[&quot;pos&quot;], output=&quot;polbooks_overlap_blocks_mdl.png&quot;)</span>
+
+<span class="sd">    .. figure:: polbooks_overlap_blocks_mdl.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Overlapping partition of a political books network, which minimizes the</span>
+<span class="sd">       description length of the network according to the overlapping</span>
+<span class="sd">       degree-corrected stochastic blockmodel.</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [holland-stochastic-1983] Paul W. Holland, Kathryn Blackmond Laskey,</span>
+<span class="sd">       Samuel Leinhardt, &quot;Stochastic blockmodels: First steps&quot;,</span>
+<span class="sd">       Carnegie-Mellon University, Pittsburgh, PA 15213, U.S.A.,</span>
+<span class="sd">       :doi:`10.1016/0378-8733(83)90021-7`.</span>
+<span class="sd">    .. [faust-blockmodels-1992] Katherine Faust, and Stanley</span>
+<span class="sd">       Wasserman. &quot;Blockmodels: Interpretation and Evaluation.&quot; Social Networks</span>
+<span class="sd">       14, no. 1-2 (1992): 5-61, :doi:`10.1016/0378-8733(92)90013-W`.</span>
+<span class="sd">    .. [karrer-stochastic-2011] Brian Karrer, and M. E. J. Newman. &quot;Stochastic</span>
+<span class="sd">       Blockmodels and Community Structure in Networks.&quot; Physical Review E 83,</span>
+<span class="sd">       no. 1 (2011): 016107, :doi:`10.1103/PhysRevE.83.016107`.</span>
+<span class="sd">    .. [peixoto-entropy-2012] Tiago P. Peixoto &quot;Entropy of Stochastic Blockmodel</span>
+<span class="sd">       Ensembles.&quot; Physical Review E 85, no. 5 (2012): 056122,</span>
+<span class="sd">       :doi:`10.1103/PhysRevE.85.056122`, :arxiv:`1112.6028`.</span>
+<span class="sd">    .. [peixoto-parsimonious-2013] Tiago P. Peixoto, &quot;Parsimonious module</span>
+<span class="sd">       inference in large networks&quot;, Phys. Rev. Lett. 110, 148701 (2013),</span>
+<span class="sd">       :doi:`10.1103/PhysRevLett.110.148701`, :arxiv:`1212.4794`.</span>
+<span class="sd">    .. [peixoto-efficient-2014] Tiago P. Peixoto, &quot;Efficient Monte Carlo and greedy</span>
+<span class="sd">       heuristic for the inference of stochastic block models&quot;, Phys. Rev. E 89,</span>
+<span class="sd">       012804 (2014), :doi:`10.1103/PhysRevE.89.012804`, :arxiv:`1310.4378`.</span>
+<span class="sd">    .. [peixoto-model-2016] Tiago P. Peixoto, &quot;Model selection and hypothesis</span>
+<span class="sd">       testing for large-scale network models with overlapping groups&quot;,</span>
+<span class="sd">       Phys. Rev. X 5, 011033 (2016), :doi:`10.1103/PhysRevX.5.011033`,</span>
+<span class="sd">       :arxiv:`1409.3059`.</span>
+<span class="sd">    .. [peixoto-inferring-2016] Tiago P. Peixoto, &quot;Inferring the mesoscale</span>
+<span class="sd">       structure of layered, edge-valued and time-varying networks&quot;,</span>
+<span class="sd">       Phys. Rev. E 92, 042807 (2015), :doi:`10.1103/PhysRevE.92.042807`,</span>
+<span class="sd">       :arXiv:`1504.02381`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">b_cache</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># keep a global cache</span>
+
+    <span class="n">mcmc_multilevel_args</span> <span class="o">=</span> \
+        <span class="n">default_args</span><span class="p">(</span><span class="n">mcmc_args</span><span class="o">=</span><span class="n">mcmc_args</span><span class="p">,</span>
+                     <span class="n">anneal_args</span><span class="o">=</span><span class="n">anneal_args</span><span class="p">,</span>
+                     <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                     <span class="n">shrink_args</span><span class="o">=</span><span class="n">shrink_args</span><span class="p">,</span>
+                     <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                                               <span class="n">b_cache</span><span class="o">=</span><span class="n">b_cache</span><span class="p">),</span>
+                     <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
+
+    <span class="n">bisection_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                               <span class="n">random_bisection</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                          <span class="o">**</span><span class="n">bisection_args</span><span class="p">)</span>
+
+    <span class="n">clabel</span> <span class="o">=</span> <span class="n">state_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">clabel</span> <span class="o">=</span> <span class="n">state_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pclabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">min_state</span><span class="p">,</span> <span class="n">max_state</span> <span class="o">=</span> <span class="n">get_states</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B_min</span><span class="o">=</span><span class="n">B_min</span><span class="p">,</span> <span class="n">B_max</span><span class="o">=</span><span class="n">B_max</span><span class="p">,</span> <span class="n">b_min</span><span class="o">=</span><span class="n">b_min</span><span class="p">,</span>
+                                      <span class="n">b_max</span><span class="o">=</span><span class="n">b_max</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span>
+                                      <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">,</span>
+                                      <span class="n">nonoverlap_init</span><span class="o">=</span><span class="n">nonoverlap_init</span><span class="p">,</span>
+                                      <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                                      <span class="n">state_args</span><span class="o">=</span><span class="n">state_args</span><span class="p">,</span>
+                                      <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="n">mcmc_multilevel_args</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">B_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">B_min</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">B_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">B_max</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="n">Bs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">b_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">Bs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">B</span> <span class="o">&gt;</span> <span class="n">B_max</span> <span class="ow">or</span> <span class="n">B</span> <span class="o">&lt;</span> <span class="n">B_min</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">b_cache</span><span class="p">[</span><span class="n">B</span><span class="p">]</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="n">bisection_minimize</span><span class="p">([</span><span class="n">min_state</span><span class="p">,</span> <span class="n">max_state</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                               <span class="o">**</span><span class="n">bisection_args</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">state</span></div>
+
+<div class="viewcode-block" id="minimize_nested_blockmodel_dl"><a class="viewcode-back" href="../../../../../doc/community.html#graph_tool.inference.minimize.minimize_nested_blockmodel_dl">[docs]</a><span class="k">def</span> <span class="nf">minimize_nested_blockmodel_dl</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">b_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">deg_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">overlap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonoverlap_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">layers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hierarchy_minimize_args</span><span class="o">=</span><span class="p">{},</span>
+                                  <span class="n">state_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">bisection_args</span><span class="o">=</span><span class="p">{},</span>
+                                  <span class="n">mcmc_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">anneal_args</span><span class="o">=</span><span class="p">{},</span>
+                                  <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">shrink_args</span><span class="o">=</span><span class="p">{},</span>
+                                  <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit the nested stochastic block model, by minimizing its description length</span>
+<span class="sd">    using an agglomerative heuristic.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : :class:`~graph_tool.Graph`</span>
+<span class="sd">        The graph.</span>
+<span class="sd">    B_min : ``int`` (optional, default: ``None``)</span>
+<span class="sd">        The minimum number of blocks.</span>
+<span class="sd">    B_max : ``int`` (optional, default: ``None``)</span>
+<span class="sd">        The maximum number of blocks.</span>
+<span class="sd">    b_min : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        The partition to be used with the minimum number of blocks.</span>
+<span class="sd">    b_max : :class:`~graph_tool.PropertyMap` (optional, default: ``None``)</span>
+<span class="sd">        The partition to be used with the maximum number of blocks.</span>
+<span class="sd">    Bs : ``list`` of ints (optional, default: ``None``)</span>
+<span class="sd">        If provided, it will correspond to the sizes of the initial hierarchy.</span>
+<span class="sd">    bs : ``list`` of integer-valued :class:`numpy.ndarray` objects (optional, default: ``None``)</span>
+<span class="sd">        If provided, it will correspond to the initial hierarchical partition.</span>
+<span class="sd">    deg_corr : ``bool`` (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, the degree-corrected version of the model will be used.</span>
+<span class="sd">    overlap : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the overlapping version of the model will be used.</span>
+<span class="sd">    nonoverlap_init : ``bool`` (optional, default: ``True``)</span>
+<span class="sd">        If ``True``, and ``overlap == True`` a non-overlapping initial state</span>
+<span class="sd">        will be used.</span>
+<span class="sd">    layers : ``bool`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, the layered version of the model will be used.</span>
+<span class="sd">    hierarchy_minimize_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.nested_blockmodel.hierarchy_minimize`.</span>
+<span class="sd">    state_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to appropriate state constructor (e.g.</span>
+<span class="sd">        :class:`~graph_tool.inference.blockmodel.BlockState`,</span>
+<span class="sd">        :class:`~graph_tool.inference.overlap_blockmodel.OverlapBlockState` or</span>
+<span class="sd">        :class:`~graph_tool.inference.layered_blockmodel.LayeredBlockState`)</span>
+<span class="sd">    bisection_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.bisection.bisection_minimize`.</span>
+<span class="sd">    mcmc_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :meth:`graph_tool.inference.blockmodel.BlockState.mcmc_sweep`,</span>
+<span class="sd">        :meth:`graph_tool.inference.overlap_blockmodel.OverlapBlockState.mcmc_sweep` or</span>
+<span class="sd">        :meth:`graph_tool.inference.layered_blockmodel.LayeredBlockState.mcmc_sweep`.</span>
+<span class="sd">    mcmc_equilibrate_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_equilibrate`.</span>
+<span class="sd">    shrink_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :meth:`graph_tool.inference.blockmodel.BlockState.shrink`,</span>
+<span class="sd">        :meth:`graph_tool.inference.overlap_blockmodel.OverlapBlockState.shrink` or</span>
+<span class="sd">        :meth:`graph_tool.inference.layered_blockmodel.LayeredBlockState.shrink`.</span>
+<span class="sd">    mcmc_multilevel_args : ``dict`` (optional, default: ``{}``)</span>
+<span class="sd">        Arguments to be passed to :func:`~graph_tool.inference.mcmc.mcmc_multilevel`.</span>
+<span class="sd">    verbose : ``bool`` or ``tuple`` (optional, default: ``False``)</span>
+<span class="sd">        If ``True``, progress information will be shown. Optionally, this</span>
+<span class="sd">        accepts arguments of the type ``tuple`` of the form ``(level, prefix)``</span>
+<span class="sd">        where ``level`` is a positive integer that specifies the level of</span>
+<span class="sd">        detail, and ``prefix`` is a string that is prepended to the all output</span>
+<span class="sd">        messages.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    min_state : :class:`~graph_tool.inference.nested_blockmodel.NestedBlockState`</span>
+<span class="sd">        Nested state with minimal description length.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This function is a convenience wrapper around</span>
+<span class="sd">    :func:`~graph_tool.inference.nested_blockmodel.hierarchy_minimize`.</span>
+
+<span class="sd">    See [peixoto-hierarchical-2014]_ for details on the algorithm.</span>
+
+<span class="sd">    This algorithm has a complexity of :math:`O(V \ln^2 V)`, where :math:`V` is</span>
+<span class="sd">    the number of nodes in the network.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup:: nested_mdl</span>
+
+<span class="sd">       gt.seed_rng(43)</span>
+<span class="sd">       np.random.seed(43)</span>
+
+<span class="sd">    .. doctest:: nested_mdl</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;power&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; state = gt.minimize_nested_blockmodel_dl(g, deg_corr=True)</span>
+<span class="sd">       &gt;&gt;&gt; state.draw(output=&quot;power_nested_mdl.pdf&quot;)</span>
+<span class="sd">       (...)</span>
+
+<span class="sd">    .. testcleanup:: nested_mdl</span>
+
+<span class="sd">       state.draw(output=&quot;power_nested_mdl.png&quot;)</span>
+
+<span class="sd">    .. figure:: power_nested_mdl.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Hierarchical Block partition of a power-grid network, which minimizes</span>
+<span class="sd">       the description length of the network according to the nested</span>
+<span class="sd">       (degree-corrected) stochastic blockmodel.</span>
+
+
+<span class="sd">    .. doctest:: nested_mdl_overlap</span>
+
+<span class="sd">       &gt;&gt;&gt; g = gt.collection.data[&quot;celegansneural&quot;]</span>
+<span class="sd">       &gt;&gt;&gt; state = gt.minimize_nested_blockmodel_dl(g, deg_corr=True, overlap=True)</span>
+<span class="sd">       &gt;&gt;&gt; state.draw(output=&quot;celegans_nested_mdl_overlap.pdf&quot;)</span>
+<span class="sd">       (...)</span>
+
+<span class="sd">    .. testcleanup:: nested_mdl_overlap</span>
+
+<span class="sd">       state.draw(output=&quot;celegans_nested_mdl_overlap.png&quot;)</span>
+
+<span class="sd">    .. figure:: celegans_nested_mdl_overlap.*</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">       Overlapping block partition of the *C. elegans* neural network, which</span>
+<span class="sd">       minimizes the description length of the network according to the nested</span>
+<span class="sd">       overlapping degree-corrected stochastic blockmodel.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [peixoto-hierarchical-2014] Tiago P. Peixoto, &quot;Hierarchical block</span>
+<span class="sd">       structures and high-resolution model selection in large networks &quot;,</span>
+<span class="sd">       Phys. Rev. X 4, 011047 (2014), :doi:`10.1103/PhysRevX.4.011047`,</span>
+<span class="sd">       :arxiv:`1310.4377`.</span>
+<span class="sd">    .. [peixoto-efficient-2014] Tiago P. Peixoto, &quot;Efficient Monte Carlo and</span>
+<span class="sd">       greedy heuristic for the inference of stochastic block models&quot;,</span>
+<span class="sd">       Phys. Rev. E 89, 012804 (2014), :doi:`10.1103/PhysRevE.89.012804`,</span>
+<span class="sd">       :arxiv:`1310.4378`.</span>
+<span class="sd">    .. [peixoto-model-2016] Tiago P. Peixoto, &quot;Model selection and hypothesis</span>
+<span class="sd">       testing for large-scale network models with overlapping groups&quot;,</span>
+<span class="sd">       Phys. Rev. X 5, 011033 (2016), :doi:`10.1103/PhysRevX.5.011033`,</span>
+<span class="sd">       :arxiv:`1409.3059`.</span>
+<span class="sd">    .. [peixoto-inferring-2016] Tiago P. Peixoto, &quot;Inferring the mesoscale</span>
+<span class="sd">       structure of layered, edge-valued and time-varying networks&quot;,</span>
+<span class="sd">       Phys. Rev. E 92, 042807 (2015), :doi:`10.1103/PhysRevE.92.042807`,</span>
+<span class="sd">       :arXiv:`1504.02381`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mcmc_multilevel_args</span> <span class="o">=</span> \
+            <span class="n">default_args</span><span class="p">(</span><span class="n">mcmc_args</span><span class="o">=</span><span class="n">mcmc_args</span><span class="p">,</span>
+                         <span class="n">anneal_args</span><span class="o">=</span><span class="n">anneal_args</span><span class="p">,</span>
+                         <span class="n">mcmc_equilibrate_args</span><span class="o">=</span><span class="n">mcmc_equilibrate_args</span><span class="p">,</span>
+                         <span class="n">shrink_args</span><span class="o">=</span><span class="n">shrink_args</span><span class="p">,</span>
+                         <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                         <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">clabel</span> <span class="o">=</span> <span class="n">state_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">clabel</span> <span class="o">=</span> <span class="n">state_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pclabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">min_state</span><span class="p">,</span> <span class="n">max_state</span> <span class="o">=</span> <span class="n">get_states</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">B_min</span><span class="o">=</span><span class="n">B_min</span><span class="p">,</span> <span class="n">B_max</span><span class="o">=</span><span class="n">B_max</span><span class="p">,</span>
+                                          <span class="n">b_min</span><span class="o">=</span><span class="n">b_min</span><span class="p">,</span> <span class="n">b_max</span><span class="o">=</span><span class="n">b_max</span><span class="p">,</span>
+                                          <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">,</span>
+                                          <span class="n">nonoverlap_init</span><span class="o">=</span><span class="n">nonoverlap_init</span><span class="p">,</span>
+                                          <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="n">clabel</span><span class="p">,</span>
+                                          <span class="n">state_args</span><span class="o">=</span><span class="n">dmask</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span>
+                                                           <span class="p">[</span><span class="s2">&quot;hstate_args&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;hentropy_args&quot;</span><span class="p">]),</span>
+                                          <span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="n">mcmc_multilevel_args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b_max</span> <span class="o">=</span> <span class="n">max_state</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">fa</span>
+        <span class="k">if</span> <span class="n">b_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b_min</span> <span class="o">=</span> <span class="n">min_state</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">fa</span>
+        <span class="k">if</span> <span class="n">Bs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bs</span> <span class="o">=</span> <span class="p">[</span><span class="n">min_state</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="n">zeros</span><span class="p">(</span><span class="n">min_state</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">fa</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">bstate</span> <span class="o">=</span> <span class="n">max_state</span>
+            <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">Bs</span><span class="p">:</span>
+                <span class="n">bstate</span> <span class="o">=</span> <span class="n">mcmc_multilevel</span><span class="p">(</span><span class="n">bstate</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span>
+                                         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose_push</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span>
+                                                              <span class="p">(</span><span class="s2">&quot;l = </span><span class="si">%d</span><span class="s2"> &quot;</span> <span class="o">%</span>
+                                                               <span class="nb">len</span><span class="p">(</span><span class="n">bs</span><span class="p">))),</span>
+                                         <span class="o">**</span><span class="n">mcmc_multilevel_args</span><span class="p">)</span>
+                <span class="n">bs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bstate</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+                <span class="n">bstate</span> <span class="o">=</span> <span class="n">bstate</span><span class="o">.</span><span class="n">get_block_state</span><span class="p">()</span>
+        <span class="n">State</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">min_state</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">layers</span><span class="p">:</span>
+            <span class="n">State</span> <span class="o">=</span> <span class="n">LayeredBlockState</span>
+            <span class="n">state_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">overlap</span><span class="p">:</span>
+            <span class="n">State</span> <span class="o">=</span> <span class="n">OverlapBlockState</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">State</span> <span class="o">=</span> <span class="n">BlockState</span>
+
+    <span class="k">if</span> <span class="n">layers</span><span class="p">:</span>
+        <span class="n">state_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">)</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="n">NestedBlockState</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span>
+                             <span class="n">base_type</span><span class="o">=</span><span class="n">State</span><span class="p">,</span>
+                             <span class="n">deg_corr</span><span class="o">=</span><span class="n">deg_corr</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">state_args</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;deg_corr&quot;</span><span class="p">]))</span>
+
+    <span class="n">bisection_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">mcmc_multilevel_args</span><span class="o">=</span><span class="n">mcmc_multilevel_args</span><span class="p">,</span>
+                               <span class="n">random_bisection</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                          <span class="o">**</span><span class="n">bisection_args</span><span class="p">)</span>
+
+    <span class="n">hierarchy_minimize</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">B_max</span><span class="o">=</span><span class="n">B_max</span><span class="p">,</span> <span class="n">B_min</span><span class="o">=</span><span class="n">B_min</span><span class="p">,</span> <span class="n">b_max</span><span class="o">=</span><span class="n">b_max</span><span class="p">,</span>
+                       <span class="n">b_min</span><span class="o">=</span><span class="n">b_min</span><span class="p">,</span> <span class="n">bisection_args</span><span class="o">=</span><span class="n">bisection_args</span><span class="p">,</span>
+                       <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">dmask</span><span class="p">(</span><span class="n">hierarchy_minimize_args</span><span class="p">,</span>
+                               <span class="p">[</span><span class="s2">&quot;B_max&quot;</span><span class="p">,</span> <span class="s2">&quot;B_min&quot;</span><span class="p">,</span> <span class="s2">&quot;bisection_args&quot;</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">state</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="https://graph-tool.skewed.de/static/doc/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="https://graph-tool.skewed.de/static/doc/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="https://graph-tool.skewed.de/static/doc/py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+    <li><img src="../../../../../img/graph-icon.png" alt="logo" style="margin-right: 5px; margin-bottom:-2px;" /><a href="https://graph-tool.skewed.de/">Project Homepage</a> &raquo;</li>
+    
+        <li class="nav-item nav-item-0"><a href="../../../../../doc">graph-tool 2.27 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../graph_tool.html" >graph_tool</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Tiago de Paula Peixoto &lt;tiago@skewed.de&gt;.
+      Last updated on Jun 28, 2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.5.
+    </div>
+  </body>
+</html>

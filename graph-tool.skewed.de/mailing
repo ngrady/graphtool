@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta charset="utf-8">
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
+        <title>Mailing List - graph-tool: Efficent network analysis with python</title>
+        <meta name="description" content="graph-tool: Efficent network analysis with python">
+        <meta name="keywords" content="graph, network, python, python module, python library, efficient, metaprogramming" />
+        <meta name="author" content="Tiago de Paula Peixoto <tiago@skewed.de>">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <link rel="shortcut icon" href="img/graph-icon.png" type="image/png" />
+        <link rel="icon" href="img/graph-icon.png" type="image/png" />
+        <link rel="apple-touch-icon-precomposed" href="img/touch-icon.57.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch-icon.72.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch-icon.114.png">
+        <link rel="apple-touch-startup-image" href="img/splash.320x460.png"
+        media="screen and (min-device-width: 200px) and (max-device-width: 320px) and (orientation:portrait)">
+        <link rel="apple-touch-startup-image" href="img/splash.768x1004.png"
+        media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+        <link rel="apple-touch-startup-image" href="img/splash.1024x748.png"
+        media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+        <link rel="stylesheet" type="text/css" href="css/ink.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+        <link href="https://plus.google.com/u/0/b/113703414224138555067/" rel="publisher" />
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono|Droid+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+        <!--[if IE 7 ]>
+            <link rel="stylesheet" href="../css/ink-ie7.css" type="text/css" media="screen" title="no title" charset="utf-8">
+        <![endif]-->
+        
+        <script type="text/javascript" src="js/holder.js"></script>
+        <script type="text/javascript" src="js/ink.min.js"></script>
+        <script type="text/javascript" src="js/ink-ui.min.js"></script>
+        <script type="text/javascript" src="js/autoload.js"></script>
+        <script type="text/javascript" src="js/html5shiv.js"></script>
+        
+        <style type="text/css">
+           body {
+            background: #ededed;
+           }
+           header {
+            padding: 2em 0;
+            margin-bottom: 2em;
+           }
+           header h1 {
+            font-size: 2em;
+           }
+           header h1 small:before  {
+                content: "|";
+                margin: 0 0.5em;
+                font-size: 1.6em;
+           }
+           footer {
+            background: #ccc;
+            color: #0003;
+           }
+           footer p {
+            padding: 0.5em 1em 0.5em 0;
+            margin: 0;        
+           }
+
+           .ink-navigation ul.menu.horizontal iframe {
+            vertical-align: bottom;
+           }
+        </style>
+
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                extensions: ["tex2jax.js", "mml2jax.js"],
+                jax: ["input/TeX", "input/MathML", "output/HTML-CSS"],
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                },
+                "HTML-CSS": { availableFonts: ["TeX"] }
+            });
+        </script>
+        <script type="text/javascript" src="static/doc/_static/MathJax/MathJax.js">
+        </script>
+        
+        
+    </head>
+    
+    <body>
+        <div class="ink-grid">
+            <header>
+              
+                <h1 class="pull-left medium-100 small-100" style="font-weight: normal;">
+                  <span style="white-space:nowrap;"><a href="index.html"><img src="img/logo-simple.png" alt="logo" style="margin-right: 9px" /></a>graph-tool</span><small>Efficient network analysis</small>
+                </h1>
+                <nav class="ink-navigation pull-right medium-100 small-100">
+                    <ul class="menu horizontal black shadowed">
+                        <li class="active"><a href="download">Download</a></li>
+                        <li><a href="http://graph-tool.skewed.de/doc">Documentation</a></li>
+                        <li><a href="mailing">Mailing List</a></li>
+                        <li><a href="git">Git</a></li>
+                        <li><a href="issues">Issues</a></li>
+                    </ul>
+                </nav>             
+              
+            </header>
+
+            
+
+<div class="column-group gutters">
+  <div class="large-20 medium-25 small-100">
+    <nav class="ink-navigation sticky" data-offset-top="70px" data-offset-bottom="350px" id="nav_menu">
+      <ul class="menu vertical rounded black">
+        <li><a href="mailing#mailing">Mailing List</a></li>
+        <li><a href="mailing#nabble">Nabble Interface</a></li>
+        <li><a href="mailing#gmane">Gmane Interface</a></li>
+        <li><a href="mailing#mail archive">The Mail Archive</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="large-80 medium-75 small-100">
+    <section id="mailing" data-spy="true" data-target="#nav_menu">
+      <h1>Mailing list</h1>
+
+      <p>Discussion and communication about the
+        graph-tool project are done through mailing list
+        conversations. Information regarding subscription and archiving
+        is available at
+        the <a href="http://lists.skewed.de/mailman/listinfo/graph-tool">mailing
+        list's webpage.</a>  Alternatively, it may be accessed via
+        its <a href="mailing#nabble">Nabble</a> or <a href="mailing#gmane">Gmane</a>
+        interfaces below.
+    </section>
+
+    <section id="nabble" data-spy="true" data-target="#nav_menu">
+      <h2>Nabble Interface</h2>
+      
+      <a id="nabblelink" href="http://main-discussion-list-for-the-graph-tool-project.982480.n3.nabble.com/">Main discussion list for the graph-tool project</a>
+      <script src="http://main-discussion-list-for-the-graph-tool-project.982480.n3.nabble.com/embed/f2141189"></script>
+    </section>
+
+    <section id="gmane" data-spy="true" data-target="#nav_menu">
+      <h2>Gmane Interface</h2>
+
+      <p>
+      The mailing list is also fully accessible
+      through <a href="http://gmane.org">Gmane</a>, which means you
+      don't have to subscribe to post and receive messages, and you can
+      also access it with a news reader.
+
+      <blockquote>
+          Nested view: <a href="http://news.gmane.org/gmane.comp.science.graph.graph-tool.general">http://news.gmane.org/gmane.comp.science.graph.graph-tool.general</a> <br />
+          Blog-like view: <a href="http://blog.gmane.org/gmane.comp.science.graph.graph-tool.general">http://blog.gmane.org/gmane.comp.science.graph.graph-tool.general</a> <br />
+          NNTP: <a href="nntp://news.gmane.org/gmane.comp.science.graph.graph-tool.general">nntp://news.gmane.org/gmane.comp.science.graph.graph-tool.general</a> <br />
+          Gmane info page (includes RSS feeds): <a href="http://dir.gmane.org/gmane.comp.science.graph.graph-tool.general">http://dir.gmane.org/gmane.comp.science.graph.graph-tool.general</a>
+      </blockquote>
+    </section>    
+
+    <section id="mail archive" data-spy="true" data-target="#nav_menu">
+      <h2>The Mail Archive</h2>
+      
+      <p>An independent archive of the mailing list is also accessible
+      at <a href="http://www.mail-archive.com">the mail archive</a>
+      at <a href="http://www.mail-archive.com/graph-tool@skewed.de">http://www.mail-archive.com/graph-tool@skewed.de</a>.
+    </section>
+
+  </div>
+</div>
+
+
+
+        </div>
+        <footer>
+        
+        <div class="ink-grid">
+            <nav class="ink-navigation push-left medium-100 small-100 small-push-left">
+                <ul class="menu horizontal">
+                    <li class="active"><a href="https://plus.google.com/u/0/b/113703414224138555067/?prsrc=3" style="text-decoration: none; padding-right:1em"><img src="https://ssl.gstatic.com/images/icons/gplus-32.png" width="32" height="32" alt="g+" style="border: 0;"/></a></li>
+                    <li><a href="https://www.python.org"><img src="img/python-powered.png" alt="python powered"></a></li>
+                    <li><a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="img/gplv3-88x31.png" alt="glpv3" /></a></li>
+                    <li><a href="https://validator.w3.org/check?uri=referer"><img src="img/HTML5_Badge_32.png" alt="html5"/></a></li>
+                </ul>
+            </nav>
+            <p class="push-right small-100">by <a href="http://skewed.de/tiago">Tiago P. Peixoto</a></p>
+        </div>
+        
+        </footer>
+    </body>
+</html>
